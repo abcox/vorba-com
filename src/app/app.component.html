@@ -15,10 +15,10 @@
     --vivid-pink: oklch(69.02% 0.277 332.77);
     --hot-red: oklch(61.42% 0.238 15.34);
     --orange-red: oklch(63.32% 0.24 31.68);
-
+/* 
     --gray-900: oklch(19.37% 0.006 300.98);
     --gray-700: oklch(36.98% 0.014 302.71);
-    --gray-400: oklch(70.9% 0.015 304.04);
+    --gray-400: oklch(70.9% 0.015 304.04); */
 
     --red-to-pink-to-purple-vertical-gradient: linear-gradient(
       180deg,
@@ -46,7 +46,7 @@
 
   h1 {
     font-size: 3.125rem;
-    color: var(--gray-900);
+    color: var(--text-color);
     font-weight: 500;
     line-height: 100%;
     letter-spacing: -0.125rem;
@@ -66,7 +66,7 @@
     min-height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     padding: 1rem;
     box-sizing: inherit;
     position: relative;
@@ -96,6 +96,7 @@
     width: 1px;
     background: var(--red-to-pink-to-purple-vertical-gradient);
     margin-inline: 0.5rem;
+    height: 350px;
   }
 
   .pill-group {
@@ -153,15 +154,6 @@
     margin-top: 1.5rem;
   }
 
-  .social-links path {
-    transition: fill 0.3s ease;
-    fill: var(--gray-400);
-  }
-
-  .social-links a:hover svg path {
-    fill: var(--gray-900);
-  }
-
   @media screen and (max-width: 650px) {
     .content {
       flex-direction: column;
@@ -180,7 +172,7 @@
 <main class="main">
   <div class="content">
     <div class="left-side">
-      <svg
+      <!-- <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 982 239"
         fill="none"
@@ -224,13 +216,55 @@
           </linearGradient>
           <clipPath id="a"><path fill="#fff" d="M0 0h982v239H0z" /></clipPath>
         </defs>
+      </svg> -->
+      <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <!-- Background -->
+        <rect width="200" height="200" fill="black"/>
+      
+        <!-- Scaled White "V" Shape, Anchored at the Top and Expanded to the Bottom -->
+        <polygon points="30,10 100,190 170,10" fill="white" />
+      
+        <!-- Mauve Triangle at the Bottom -->
+        <polygon points="85,90 100,120 115,90" fill="#D5C5FB" />
+      
+        <!-- Blue Trapezoid in the Middle -->
+        <polygon points="70,50 130,50 115,90 85,90" fill="#59A1F1" />
+      
+        <!-- Green/Teal Trapezoid at the Top -->
+        <polygon points="55,10 145,10 130,50 70,50" fill="#008378" />
       </svg>
-      <h1>Hello, {{ title }}</h1>
-      <p>Congratulations! Your app is running. 🎉</p>
+      <div>
+        <div class="theme-toggle">
+          <!-- <mat-button-toggle-group
+            name="theme"
+            [(ngModel)]="theme"
+            [hideSingleSelectionIndicator]="true"
+            aria-label="Theme Toggle"
+            (change)="toggleTheme($event)">
+            <mat-button-toggle value="light" aria-label="Light Theme">
+              <mat-icon>light_mode</mat-icon>
+            </mat-button-toggle>
+            <mat-button-toggle value="dark" aria-label="Dark Theme">
+              <mat-icon>dark_mode</mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group> -->
+          <mat-slide-toggle
+            class="theme-toggle"
+            [(ngModel)]="isLightTheme"
+            (change)="toggleTheme($event.checked)">
+            <!-- <mat-icon>{{ isLightTheme ? 'light_mode' : 'dark_mode' }}</mat-icon> -->
+          </mat-slide-toggle>
+        </div>        
+        <!-- <button (click)="toggleTheme($event)">
+          Toggle Theme
+        </button> -->
+      </div>
+      <h1>{{ title }}</h1>
+      <!-- <p>Congratulations! Your app is running. 🎉</p> -->
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
     <div class="right-side">
-      <div class="pill-group">
+      <!-- <div class="pill-group">
         @for (item of [
           { title: 'Explore the Docs', link: 'https://angular.dev' },
           { title: 'Learn with Tutorials', link: 'https://angular.dev/tutorials' },
@@ -258,10 +292,10 @@
             </svg>
           </a>
         }
-      </div>
+      </div> -->
       <div class="social-links">
         <a
-          href="https://github.com/angular/angular"
+          href="https://github.com/abcox"
           aria-label="Github"
           target="_blank"
           rel="noopener"
@@ -280,7 +314,7 @@
           </svg>
         </a>
         <a
-          href="https://twitter.com/angular"
+          href="https://twitter.com/bainton"
           aria-label="Twitter"
           target="_blank"
           rel="noopener"
@@ -299,7 +333,7 @@
           </svg>
         </a>
         <a
-          href="https://www.youtube.com/channel/UCbn1OgGei-DV7aSRo_HaAiw"
+          href="https://www.youtube.com/@adamcox1783"
           aria-label="Youtube"
           target="_blank"
           rel="noopener"
@@ -316,6 +350,25 @@
               fill-rule="evenodd"
               clip-rule="evenodd"
               d="M27.4896 1.52422C27.9301 1.96749 28.2463 2.51866 28.4068 3.12258C29.0004 5.35161 29.0004 10 29.0004 10C29.0004 10 29.0004 14.6484 28.4068 16.8774C28.2463 17.4813 27.9301 18.0325 27.4896 18.4758C27.0492 18.9191 26.5 19.2389 25.8972 19.4032C23.6778 20 14.8068 20 14.8068 20C14.8068 20 5.93586 20 3.71651 19.4032C3.11363 19.2389 2.56449 18.9191 2.12405 18.4758C1.68361 18.0325 1.36732 17.4813 1.20683 16.8774C0.613281 14.6484 0.613281 10 0.613281 10C0.613281 10 0.613281 5.35161 1.20683 3.12258C1.36732 2.51866 1.68361 1.96749 2.12405 1.52422C2.56449 1.08095 3.11363 0.76113 3.71651 0.596774C5.93586 0 14.8068 0 14.8068 0C14.8068 0 23.6778 0 25.8972 0.596774C26.5 0.76113 27.0492 1.08095 27.4896 1.52422ZM19.3229 10L11.9036 5.77905V14.221L19.3229 10Z"
+            />
+          </svg>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/adamcox27/"
+          aria-label="LinkedIn"
+          target="_blank"
+          rel="noopener">          
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 67 67"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xml:space="preserve"
+            fill="none"
+          >
+            <path
+              d="M49.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H49.837z M21.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H21.959z M33,64  C16.432,64,3,50.568,3,34C3,17.431,16.432,4,33,4s30,13.431,30,30C63,50.568,49.568,64,33,64z M25.354,48.137V27.71h-6.789v20.427  H25.354z"
             />
           </svg>
         </a>

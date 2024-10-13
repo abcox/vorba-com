@@ -1,1 +1,100 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Material theme -- BEGIN */
+/* @import "~@angular/material/theming";
+@include mat-core();
+
+$custom-primary: mat-palette($mat-indigo);
+$custom-accent: mat-palette($mat-pink, A200, A100, A400);
+
+$custom-theme: mat-light-theme((
+  color: (
+    primary: $custom-primary,
+    accent: $custom-accent,
+  ),
+));
+
+@include angular-material-theme($custom-theme); */
+
+// Import the prebuilt themes (or create your own)
+//@use '@angular/material' as mat;
+
+// Example of a built-in theme. You can customize this further.
+//@include mat.all-component-themes($primary: mat.define-palette(mat.$indigo-palette));
+
+/* Material theme -- END */
+
+
+:host {
+}
+
+// added by material (ng add @angular/material)
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* theme */
+/* light (default / root) */
+.light-theme {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --primary-color: #1976d2;
+    --background-image: url('assets\\images\\background-blue-1-light.jpeg');
+}
+
+/* dark theme */
+.dark-theme {
+    --background-color: #121212;
+    --text-color: #ffffff;
+    --primary-color: #bb86fc;
+    --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
+}
+
+:root {
+    --background-color: #121212;
+    --text-color: #ffffff;
+    --primary-color: #bb86fc;
+    --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
+    
+    --gray-900: oklch(19.37% 0.006 300.98);
+    --gray-700: oklch(36.98% 0.014 302.71);
+    --gray-400: oklch(70.9% 0.015 304.04);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    background-image: var(--background-image);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.social-links path {
+    transition: fill 0.3s ease;
+    fill: var(--gray-400);
+  }
+
+  .social-links a:hover svg path {
+    fill: var(--gray-700);
+  }
+
+  .light-theme .social-links path {
+    transition: fill 0.3s ease !important;
+    fill: var(--gray-700) !important;
+  }
+
+  .light-theme .social-links a:hover svg path {
+    fill: var(--gray-400) !important;
+  }
+
+  .mat-button-toggle-group {
+    margin: 1rem;
+  
+    .mat-button-toggle-checked {
+      background-color: var(--text-color) !important;
+      color: var(--background-color) !important;
+    }
+  }
