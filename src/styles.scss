@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import './styles.css';
+
 /* Material theme -- BEGIN */
 /* @import "~@angular/material/theming";
 @include mat-core();
@@ -26,6 +28,9 @@ $custom-theme: mat-light-theme((
 
 
 :host {
+  --gray-900: oklch(19.37% 0.006 300.98);
+  --gray-700: oklch(36.98% 0.014 302.71);
+  --gray-400: oklch(70.9% 0.015 304.04);
 }
 
 // added by material (ng add @angular/material)
@@ -37,7 +42,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* light (default / root) */
 .light-theme {
     --background-color: #ffffff;
-    --text-color: #000000;
+    --text-color: var(--gray-700);
     --primary-color: #1976d2;
     --background-image: url('assets\\images\\background-blue-1-light.jpeg');
 }
@@ -51,14 +56,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 :root {
-    --background-color: #121212;
+    --background-color: #070437;
     --text-color: #ffffff;
     --primary-color: #bb86fc;
     --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
     
-    --gray-900: oklch(19.37% 0.006 300.98);
-    --gray-700: oklch(36.98% 0.014 302.71);
-    --gray-400: oklch(70.9% 0.015 304.04);
 }
 
 body {
@@ -98,3 +100,12 @@ button {
       color: var(--background-color) !important;
     }
   }
+
+:root mat-card {
+  background-color: var(--background-color);
+}
+
+p {
+  margin: 0;
+  color: var(--gray-700);
+}
