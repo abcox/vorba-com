@@ -62,7 +62,7 @@
     display: flex;
     justify-content: center;
     /* align-items: center; */
-    padding: 1rem;
+    padding: 2rem;
     box-sizing: inherit;
     position: relative;
   }
@@ -371,160 +371,48 @@
         </div>
       </div>
     </div>
-    <mat-card>
-      <mat-card-header>
-        <h3>Success Story 1: Modernize System</h3>
-      </mat-card-header>
-      <mat-card-content>
-        <h4>Overview</h4>
-        <p>Our customer has a critical part of their main business workflow dependent on a system that was
-          built over 10 years ago.  While they are able to maintain this system, the risk of doing so increases.
-          It is also a barrier to them developing their service offering.  Due to the complexity and technical
-          debt of the current system, our customer's previous attempts to modernize it have failed.
-        </p>
-        <section class="mt-3">
-        <h4>Benefits</h4>
-        <ul>
-          <li>
-            - increase supportability of the system
-          </li>
-          <li>
-            - decrease cost to support
-          </li>
-          <li>
-            - able to extend feature-set while maintaining level of support cost
-          </li>
-        </ul>
-        </section>
-        <section class="mt-3">
-          <h4>Approach</h4>
+    @for(story of stories; track $index) {
+      <mat-card class="mb-8">
+        <mat-card-header>
+          <div class="flex flex-col">
+            <h6>{{ story.title }}:</h6>
+            <h4>{{ story.subtitle }}</h4>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <h6>Overview</h6>
+          <p>
+            {{ story.overview }}
+          </p>
+          <section class="mt-3">
+          <h6>Benefits</h6>
           <ul>
-            <li>
-              - collect and analyse the existing system
-            </li>
-            <li>
-              - collect and analyse the documented (and undocumented) SOPs
-            </li>
-            <li>
-              - document analysis and scope of work
-            </li>
+            @for (item of story.benefits; track $index) {
+              <li>
+                - {{ item }}
+              </li>
+            }
           </ul>
+          </section>
+          <section class="mt-3">
+            <h6>Approach</h6>
+            <ul>
+              @for (item of story.approach; track $index) {
+                <li>
+                  - {{ item }}
+                </li>
+              }
+            </ul>
+          </section>
+          <section class="mt-3">
+          <h6>Summary</h6>
+          <p>
+            {{ story.summary }}
+          </p>
         </section>
-        <section class="mt-3">
-        <h4>Summary</h4>
-        <p>Our disciplined approach and no-problem attitude provide the foundation for delivering the success
-          to our customer.  We bring expertise across all problem domains including the personel.  True story,
-          when we engaged with our client, they required to bring their SME from retirement in order to help
-          assure our work.  When we originally interviewed the client, we were informed of the long and troubled
-          history of this work.  We offered our client's person our guarantee and worked professionally and delivered
-          to them the success that they were banking on.
-        </p>
-      </section>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-header>
-        <h3>Success Story 2: Extend System</h3>
-      </mat-card-header>
-      <mat-card-content>
-        <h4>Overview</h4>
-        <p>Our customer wishes to realize a new line of revenue that depends on extending their current systems.
-          They have their requirements, and have attempted on a few occassions to produce a feature from their backlog
-          that will realize them this new line of revenue.  However, the difficult nature of this feature (a rate calculator)
-          has been a barrier to its successful delivery.
-        </p>
-        <section class="mt-3">
-        <h4>Benefits</h4>
-        <ul>
-          <li>
-            - deliver supportable system feature
-          </li>
-          <li>
-            - maintain sensitivity to current working environment
-          </li>
-          <li>
-            - deliver new line of revenue, and supportable feature
-          </li>
-        </ul>
-        </section>
-        <section class="mt-3">
-          <h4>Approach</h4>
-          <ul>
-            <li>
-              - collect and analyse the existing requirements
-            </li>
-            <li>
-              - collect and analyse the documented (and undocumented) SOPs
-            </li>
-            <li>
-              - document analysis and scope of work
-            </li>
-            <li>
-              - interview and train user group members
-            </li>
-          </ul>
-        </section>
-        <section class="mt-3">
-        <h4>Summary</h4>
-        <p>Our disciplined approach and no-problem attitude provide the foundation for delivering the success
-          to our customer.  We bring expertise across all problem domains including the personel.  True story,
-          the requirements had critical gaps that would required closure as a precondition of successful delivery
-          of this feature.  During our agile approach, we identified this gaps, coached our customer through to
-          their resolve, and went on to deliver a successful feature both affordable and maintainable.  Our customer
-          reported ROI within the first year of operation.
-        </p>
-      </section>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-header>
-        <h3>Success Story 3: Proof of Concept</h3>
-      </mat-card-header>
-      <mat-card-content>
-        <h4>Overview</h4>
-        <p>Our customer needs to prove a concept requiring MVP-style deliver. Our agile approach will provide
-          them the opportunity to augment their existing team, and show-case their technical prowess in the form
-          of new features that are heavilty reactive and UX focused.
-        </p>
-        <section class="mt-3">
-        <h4>Benefits</h4>
-        <ul>
-          <li>
-            - work with existing, agile team structure
-          </li>
-          <li>
-            - maintain sensitivity to current working environment
-          </li>
-          <li>
-            - show-case new opportunities
-          </li>
-        </ul>
-        </section>
-        <section class="mt-3">
-          <h4>Approach</h4>
-          <ul>
-            <li>
-              - collect and analyse the existing team SOPs
-            </li>
-            <li>
-              - collect and analyse business area knowledge
-            </li>
-            <li>
-              - learn from, and coach and train teammates
-            </li>
-          </ul>
-        </section>
-        <section class="mt-3">
-        <h4>Summary</h4>
-        <p>Our disciplined approach and no-problem attitude provide the foundation for delivering the success
-          to our customer.  We bring expertise across all problem domains including the personel.  Our client
-          had their budgets locked in and time-lines narrowing fast.  We were able to increase bandwidth and
-          provide their work-force with fresh perspectives and new and innovative ways to reduce time and
-          increase engagement.
-        </p>
-      </section>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    }
   </div>
 </main>
 
