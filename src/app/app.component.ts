@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, ElementRef, inject, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,6 +7,14 @@ import { FormsModule } from '@angular/forms';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { CarouselComponent } from './component/carousel/carousel.component';
+
+import SwiperCore from 'swiper';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { register as registerSwiperElements } from 'swiper/element/bundle';
+import { AutoplayOptions, SwiperOptions } from 'swiper/types';
+
+registerSwiperElements();
 
 interface StoryModel {
   title: string;
@@ -19,11 +27,45 @@ interface StoryModel {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonToggleModule, MatCardModule, MatIconModule, MatSlideToggleModule, RouterOutlet],
+  imports: [CommonModule, FormsModule, MatButtonToggleModule, MatCardModule, MatIconModule, MatSlideToggleModule, RouterOutlet, CarouselComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppComponent {
+export class AppComponent {  
+  @ViewChild('swiper') swiperRef: ElementRef<HTMLElement & { swiper?: SwiperCore } & { initialize: () => void }> | undefined;
+  swiper?: SwiperCore;
+  
+  ngAfterViewInit(): void {
+    const progressCircle = document.querySelector<HTMLElement>(".autoplay-progress svg");
+    const progressContent = document.querySelector<HTMLElement>(".autoplay-progress span");
+    const swiperEl = Object.assign(this.swiperRef!.nativeElement, {
+      modules: [ Autoplay, Navigation, Pagination ],
+      autoplay: {
+        delay: 60000,
+        disableOnInteraction: false,
+      },
+      loop: true, // not having this here will cause next page button to skip to last page?
+      navigation: true,
+      pagination: {
+        clickable: true,
+      },
+      on: {
+        init: () => {
+          console.log('Swiper initialized');
+        },
+        // https://codesandbox.io/p/sandbox/9q8l47?file=%2Findex.html%3A129%2C46-131%2C70
+        autoplayTimeLeft: (s: any, time: any, progress: any) => {
+          //console.log('Swiper autoplay time left:', s, time, progress);
+          progressCircle!.style.setProperty("--progress", (1 - progress).toString());
+          progressContent!.textContent = `${Math.ceil(time / 1000)}s`;
+        }
+      }
+    });
+    swiperEl.initialize();
+    this.swiper = this.swiperRef!.nativeElement.swiper;
+  }
+  
   title = 'Vorba';
   //theme = 'dark';
   isLightTheme = false;
@@ -101,6 +143,11 @@ export class AppComponent {
   ] as StoryModel[];
 
   overlayContainer = inject(OverlayContainer);
+
+  constructor() {
+    //this.applyTheme('dark-theme');
+    console.log('AppComponent constructor stories:', this.stories);
+  }
 
   toggleTheme2(event: any): void {
     const isDarkTheme = event.value === 'dark'
