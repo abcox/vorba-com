@@ -9,6 +9,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { CarouselComponent } from './component/carousel/carousel.component';
 import { BehaviorSubject, of } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
+import { YouTubePlayer, YOUTUBE_PLAYER_CONFIG } from '@angular/youtube-player';
 
 interface StoryModel {
   title: string;
@@ -21,11 +23,12 @@ interface StoryModel {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonToggleModule, MatCardModule, MatIconModule, MatSlideToggleModule, RouterOutlet, CarouselComponent],
+  imports: [CommonModule, FormsModule, MatButtonToggleModule, MatCardModule, MatIconModule, MatSlideToggleModule, RouterOutlet, CarouselComponent, YouTubePlayer],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {  
+export class AppComponent {
+  sanitizer = inject(DomSanitizer);
   title = 'Vorba';
   //theme = 'dark';
   isLightTheme = false;
@@ -101,6 +104,16 @@ export class AppComponent {
         increase engagement.',
     }
   ] as StoryModel[]);
+
+  placeholderImageQuality: 'high' | 'low' | 'standard' = 'standard';
+  shorts$ = of<any[]>([
+    {
+      videoId: 'fS4cH2fky5M',
+    },
+    {
+      videoId: 'mVjYG9TSN88',
+    },
+  ]);
 
   //overlayContainer = inject(OverlayContainer);
 
