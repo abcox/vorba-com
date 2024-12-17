@@ -1,43 +1,13 @@
-<div class="carousel">
-    <!-- Slide Container -->
-    <div class="carousel-slides" [style.--active-slide-index]="activeSlideIndex">
-      <div
-        class="carousel-slide"
-        *ngFor="let slide of slides; let i = index"
-        [class.active]="i === activeSlideIndex"
-      >
-        <div class="carousel-slide-content">
-          <ng-container *ngTemplateOutlet="slide"></ng-container>
-        </div>
-      </div>
-    </div>
-  
-    <!-- Navigation Dots -->
-    <div class="carousel-dots">
-      <span
-        class="dot"
-        *ngFor="let slide of slides; let i = index"
-        [class.active]="i === activeSlideIndex"
-        (click)="goToSlide(i)"
-      ></span>
-    </div>
-  
-    <!-- Navigation Chevrons -->
-    <button
-      class="carousel-chevron left"
-      *ngIf="activeSlideIndex > 0"
-      (click)="prevSlide()"
-      mat-icon-button
-    >
-      <mat-icon>chevron_left</mat-icon>
-    </button>
-    <button
-      class="carousel-chevron right"
-      *ngIf="activeSlideIndex < slides.length - 1"
-      (click)="nextSlide()"
-      mat-icon-button
-    >
-      <mat-icon>chevron_right</mat-icon>
-    </button>
-  </div>
-  
+<swiper-container init="false" #swiper>
+    @for(slide of slides; track $index) {
+        <swiper-slide>
+            <ng-container *ngTemplateOutlet="slide"></ng-container>
+        </swiper-slide>
+    }
+</swiper-container>
+<div class="autoplay-progress">
+    <svg viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="20"></circle>
+    </svg>
+    <span></span>
+</div>
