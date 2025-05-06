@@ -7,7 +7,11 @@ param(
     [string]$location = "canadaeast",  # Azure region (e.g., eastus, westus)
     [string]$projectName = "vorba-web",  # Name of the Angular Project
     [string]$distFolder = "dist",  # Location of the Angular build folder
-    [string]$runtime = "NODE:18-lts"  # Web App run-time
+    [string]$runtime = "NODE:18-lts",  # Web App run-time
+    [switch]$UseServicePrincipal,  # Use service principal authentication
+    [string]$ServicePrincipalId,  # Service Principal ID
+    [string]$ServicePrincipalSecret,  # Service Principal Secret
+    [string]$TenantId = "a7f7a08d-4e79-4d3d-812f-10bd18abbcfb"  # Azure Tenant ID
 )
 
 # Step 1: Build the Angular app for production
@@ -23,10 +27,68 @@ if ($LASTEXITCODE -eq 0) {
     exit $LASTEXITCODE
 }
 
-# Login to Azure (this will open a browser window to log in)
-#az login
+# Step 2: Azure Authentication
+Write-Host "Authenticating to Azure..." -ForegroundColor Cyan
 
-# Step 2: Create Resource Group
+# First, check if we're already logged in
+$loginStatus = az account show --query "user.name" --output tsv 2>$null
+if ($loginStatus) {
+    Write-Host "Already logged in as: $loginStatus" -ForegroundColor Green
+    
+    # Check if we have any subscriptions
+    $subscriptions = az account list --query "[].{name:name, id:id}" --output json 2>$null
+    $subscriptionCount = ($subscriptions | ConvertFrom-Json).Count
+    
+    if ($subscriptionCount -eq 0) {
+        Write-Host "WARNING: No subscriptions found for this account. You may not be able to deploy resources." -ForegroundColor Red
+        Write-Host "Let's try logging in with a different account." -ForegroundColor Yellow
+        
+        # Log out and try again
+        az logout
+        $loginStatus = $null
+    } else {
+        Write-Host "Found $subscriptionCount subscription(s)." -ForegroundColor Green
+    }
+}
+
+# If we're not logged in or have no subscriptions, try to log in
+if (-not $loginStatus) {
+    Write-Host "Please log in to Azure. You'll be prompted to select an account." -ForegroundColor Yellow
+    Write-Host "IMPORTANT: Make sure to select an account that has access to Azure subscriptions." -ForegroundColor Cyan
+    
+    # Login with the specific tenant ID
+    Write-Host "Logging in with tenant ID: $TenantId" -ForegroundColor Cyan
+    $loginResult = az login --tenant $TenantId 2>&1
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Login failed: $loginResult" -ForegroundColor Red
+        exit 1
+    }
+    
+    # Check if we have any subscriptions after login
+    $subscriptions = az account list --query "[].{name:name, id:id}" --output json 2>$null
+    $subscriptionCount = ($subscriptions | ConvertFrom-Json).Count
+    
+    if ($subscriptionCount -eq 0) {
+        Write-Host "ERROR: No subscriptions found for the account you selected." -ForegroundColor Red
+        Write-Host "Please try one of the following:" -ForegroundColor Yellow
+        Write-Host "1. Use a different account that has subscriptions in Azure" -ForegroundColor Yellow
+        Write-Host "2. Create a subscription for your account at portal.azure.com" -ForegroundColor Yellow
+        Write-Host "3. Contact your Azure administrator to grant you access to a subscription" -ForegroundColor Yellow
+        exit 1
+    } else {
+        Write-Host "Successfully logged in with access to $subscriptionCount subscription(s)." -ForegroundColor Green
+        
+        # Display available subscriptions
+        Write-Host "Available subscriptions:" -ForegroundColor Cyan
+        $subscriptionList = $subscriptions | ConvertFrom-Json
+        for ($i = 0; $i -lt $subscriptionList.Count; $i++) {
+            Write-Host "[$($i+1)] $($subscriptionList[$i].name) ($($subscriptionList[$i].id))" -ForegroundColor Yellow
+        }
+    }
+}
+
+# Step 3: Create Resource Group
 # Check if the resource group already exists
 Write-Host "Checking if resource group $resourceGroupName exists."
 $rgExists = az group exists --name $resourceGroupName
@@ -38,7 +100,7 @@ if ($rgExists -eq "false") {
     Write-Host "Resource group $resourceGroupName exists."
 }
 
-# Step 3: Create App Service Plan (using Free tier)
+# Step 4: Create App Service Plan (using Free tier)
 # Check if the App Service Plan exists
 Write-Host "Checking if App Service Plan $appServicePlanName exists."
 $aspExists = az appservice plan show --name $appServicePlanName --resource-group $resourceGroupName --query "name" --output tsv
@@ -52,7 +114,7 @@ if (-not $aspExists) {
     Write-Host "App Service Plan $appServicePlanName already exists."
 }
 
-# Step 4: Create Web App
+# Step 5: Create Web App
 # Check if the Web App exists
 Write-Host "Checking if Web App $webAppName exists."
 $webAppExists = az webapp show --name $webAppName --resource-group $resourceGroupName --query "name" --output tsv
@@ -65,11 +127,11 @@ if (-not $webAppExists) {
 }
 
 # DEPRECATED -- using zip deploy
-# Step 5: Deploy Angular app to Azure
+# Step 6: Deploy Angular app to Azure
 ##Write-Host "Deploying the Angular app to Azure Web App $webAppName..."
 ##azure-static-web-apps-deploy --resource-group $resourceGroupName --name $webAppName --source "$distFolder\$projectName"
 
-# Step 6: Zip the build files for deployment
+# Step 7: Zip the build files for deployment
 $zipDestFolder = $env:TEMP
 $zipPath = "$zipDestFolder\$($projectName).zip"
 Write-Host "Creating archive file $zipPath"
@@ -96,7 +158,7 @@ Set-Location -Path $PSScriptRoot  # Change back to the original directory
 #tar -czf tmp.tar.gz -C dist/vorba-web .
 #az webapp config appsettings set --resource-group $resourceGroupName --name $webAppName --settings SCM_DO_BUILD_DURING_DEPLOYMENT=true
 
-# Step 7: Deploy the zipped Angular app to Azure Web App
+# Step 8: Deploy the zipped Angular app to Azure Web App
 Write-Host "Deploying app to $webAppName..."
 #az webapp deploy --resource-group $resourceGroupName --name $webAppName --src-path $zipPath
 #az webapp deployment source config-zip --resource-group $resourceGroupName --name $webAppName --src $zipPath
