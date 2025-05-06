@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam Cox - Full Stack .NET C# + TypeScript SWE</title>
+    <style>
+        /* Base styles */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #5a6a7a;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.3;
+            color: var(--text-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header styles */
+        header {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .header-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: auto auto;
+            /* gap: 1rem;
+            margin-bottom: .5rem; */
+        }
+
+        .talent-photo {
+            grid-column: 2;
+            grid-row: 1 / 4;
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            justify-self: end;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            display: contents;
+        }
+
+        .contact-email {
+            grid-column: 2;
+            grid-row: 1;
+            justify-self: end;
+            text-align: right;
+            align-self: end;
+        }
+        
+        .contact-phone {
+            grid-column: 2;
+            grid-row: 2;
+            justify-self: end;
+            text-align: right;
+            align-self: end;
+        }
+
+        .contact-role {
+            grid-column: 2;
+            grid-row: 1;
+            justify-self: end;
+            text-align: right;
+            margin-top: 1.5rem;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section styles */
+        section {
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            line-height: 1.5;
+        }
+
+        .talent-fullname {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            justify-self: start;
+            text-align: left;
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .talent-title {
+            grid-column: 1;
+            grid-row: 2;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            /* margin-bottom: 0.5rem; */
+            margin-top: 0.25rem;
+            font-weight: bold;
+            justify-self: start;
+            text-align: left;
+        }
+
+        /* Experience styles */
+        .experience-item {
+            margin-bottom: .75rem;
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.5rem;
+            line-height: 1rem;
+        }
+
+        .company {
+            font-style: italic;
+            color: var(--secondary-color);
+        }
+
+        .date {
+            color: var(--secondary-color);
+        }
+
+        .role {
+            font-weight: bold;
+            color: var(--primary-color);
+            /* margin-bottom: 0.5rem; */
+            font-size: 1.25rem;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-left: 1rem;
+        }
+
+        /* Skills section */
+        .skills-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+        }
+
+        .skills-container li {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            line-height: normal;
+        }
+
+        .skills-container li .title {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-right: 0.5rem;
+            white-space: nowrap;
+            font-size: 1rem;
+        }
+
+        .skills-container ul.category {
+            list-style-type: none;
+            margin-left: 1rem;
+        }
+
+        .skill-separator {
+            color: var(--secondary-color);
+            opacity: 0.7;
+            margin: 0 0.5rem;
+            flex-shrink: 0;
+        }
+        
+        .skill-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: inline-flex;
+            flex-wrap: wrap;
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .skills-container li > * {
+            margin-top: 0.1rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .skill-list li:not(:last-child)::after {
+            content: ", ";
+            margin-right: 0.25rem;
+        }
+
+        /* Summary section */
+        .summary {
+            /* text-align: justify; */
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                padding: 0;
+            }
+
+            header {
+                border-bottom: 1px solid var(--primary-color);
+            }
+
+            h2 {
+                border-bottom: 1px solid var(--primary-color);
+            }
+
+            .contact-info a {
+                color: var(--text-color);
+            }
+
+            .skills-container {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="talent-fullname">Adam Cox</div>
+            <div class="talent-title">Senior Full Stack Software Developer</div>
+            <div class="contact-info">
+                <a href="mailto:adam.cox@vorba.com" class="contact-email">adam.cox@vorba.com</a>
+                <span class="contact-phone">647-389-2728</span>
+                <!-- <span class="contact-role">Full Stack .NET C# + TypeScript SWE</span>
+             --></div>
+            <!-- <img src="images/AdamCox_400x400.jpg" alt="Adam Cox" class="talent-photo"/>
+         --></div>
+    </header>
+
+    <section id="summary">
+        <h2>Summary</h2>
+        <p class="summary">Overall 25 years experience as systems design analyst and software developer. Experienced with trending methods, practices, and technologies. Results focused leader with competency in communicating a clear path to results.</p>
+    </section>
+
+    <section id="skills">
+        <div class="skills-container">
+        <h2>Skills</h2>
+            <ul class="category">
+                <li>
+                    <span class="title">Architecture & Patterns</span>
+                    <span class="skill-separator">•</span>
+                    <ul class="skill-list">
+                        <li>REST</li>
+                        <li>DDD</li>
+                        <li>MVC</li>
+                        <li>MVVM</li>
+                        <li>SOA</li>
+                        <li>ORM</li>
+                        <li>Reactive UIs</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="title">Full Stack Development</span>
+                    <span class="skill-separator">•</span>
+                    <ul class="skill-list">
+                        <li>.NET Core (3.x–8)</li>
+                        <li>C#</li>
+                        <li>Angular</li>
+                        <li>React</li>
+                        <li>Vue</li>
+                        <li>EF Core</li>
+                        <li>RxJS</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="title">Databases</span>
+                    <span class="skill-separator">•</span>
+                    <ul class="skill-list">
+                        <li>MSSQL</li>
+                        <li>Postgres</li>
+                        <li>Oracle</li>
+                        <li>DB2</li>
+                        <li>SAP</li>
+                        <li>MongoDB</li>
+                        <li>CosmosDB</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="title">Cloud & DevOps</span>
+                    <span class="skill-separator">•</span>
+                    <ul class="skill-list">
+                        <li>Azure (Blob, EventGrid, AppService, Functions)</li>
+                        <li>Docker</li>
+                        <li>CI/CD</li>
+                        <li>Azure DevOps</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="title">Integration & Automation</span>
+                    <span class="skill-separator">•</span>
+                    <ul class="skill-list">
+                        <li>Kafka</li>
+                        <li>MSAL</li>
+                        <li>OAuth2</li>
+                        <li>PowerShell</li>
+                        <li>FileHelpers</li>
+                        <li>Dapper</li>
+                    </ul>
+                </li>
+                <li>
+                    <span class="title">Communication</span>
+                    <span class="skill-separator">•</span>
+                    <ul class="skill-list">
+                        <li>Clear, high-context communicator</li>
+                        <li>Strong ownership and focus</li>
+                        <li>Skilled at aligning teams and stakeholders</li>
+                        <li>Delivers accurate, timely, and excellent results</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Experience</h2>
+        
+        <div class="experience-item">
+            <div class="role">Consulting Software Specialist</div>
+            <div class="experience-header">
+                <span class="company">Digital Design & Delivery / 3D (Government of Alberta / GoA)</span>
+                <span class="date">Mar 2024 – present</span>
+            </div>
+            <ul>
+                <li>Work with the DMX team of 8 as a full-stack developer responsible for delivering the enterprise product named Digital Meeting Experience (DMX) with focus on front-end Angular 14+. Knowledge of structured, object oriented principles, reactive (i.e. RxJS & "declarative") style and template-driven component development, directives, git, Azure DevOps, and agile/scrum workflows with a focus on reactive CSS for mobile-first presentation of reactive component presentations via template-driven design.</li>
+                <li>Report into daily scrum meetings, groom stories in the Az DevOps via iterative discussion and documentation.</li>
+                <li>Contribute extensive experience in the area of working along the SDLC and Agile practices while being an adaptable team player who balances priorities to deliver quality work that meets team standards.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Consulting Software Specialist</div>
+            <div class="experience-header">
+                <span class="company">Treasury Board Secretariat (Government of Ontario)</span>
+                <span class="date">Mar 2023 – Jan 2024</span>
+            </div>
+            <ul>
+                <li>Contributed to front-end development using Angular 14–18, applying reactive and declarative patterns (RxJS), template-driven components, directives, and structured TypeScript practices in an Agile/Scrum environment with Azure DevOps.</li>
+                <li>Took ownership of complex UI components, refactored reusable elements like custom pagers, and wrote unit tests using Karma to improve reliability and maintainability.</li>
+                <li>Introduced performance improvements using pipes and directives, and advocated for API client generation via Swagger Codegen to reduce boilerplate and improve consistency.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Consulting Software Specialist</div>
+            <div class="experience-header">
+                <span class="company">Ceridian, Toronto, Canada</span>
+                <span class="date">Sep 2020 – Dec 2022</span>
+            </div>
+            <ul>
+                <li>Led the modernization of a legacy tax remittance system, transitioning a 20-year-old VB6 platform to .NET Core 3.1, enabling high-volume EDI submissions to banks. Delivered high-quality, test-driven code with >80% coverage, using libraries like FileHelper and LINQ to transform complex data sets into EDI and XML formats.</li>
+                <li>Architected core data transformation pipelines supporting Ceridian's Dayforce Wallet, integrating ingestion from Kafka (JSON) and output to EventGrid, FTP, and EDI. Validated structured outputs via XSL schema, ensuring back-office tax systems remained accurate and compliant.</li>
+                <li>Championed disciplined engineering practices, adopting Domain-Driven Design, managing EF Core migrations via CLI, and mentoring teammates on building supportable microservice-aligned solutions. Drove UAT success with minimal regression by modeling communication, focus, and technical ownership.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Full Stack Web Developer</div>
+            <div class="experience-header">
+                <span class="company">Ethoca (acquired by Mastercard)</span>
+                <span class="date">Sep 2020 – Sep 2021</span>
+            </div>
+            <ul>
+                <li>Working with the Enterprise Data Management team to deliver interfaces against large data sets.</li>
+                <li>Responsible for developing full-stack web application (SAP HANA + XSA + Express + Vue)</li>
+                <li>Responsible for defining, documenting, and guiding team SCM standards (Git-flow via GitLab)</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Lead Developer – Wallet Integration & Tax Systems Modernization</div>
+            <div class="experience-header">
+                <span class="company">Ceridian-Dayforce</span>
+                <span class="date">Jul 2020 – Sep 2020</span>
+            </div>
+            <ul>
+                <li>Served as a primary resource integrating Dayforce Wallet with Ceridian's back-office tax systems, leading modernization efforts from legacy VB6/SQL10 to .NET Core 3.x with EF Core and SQL Server 2012.</li>
+                <li>Delivered high-quality, test-driven code in an Agile/Scrum team, mentoring developers and stakeholders throughout the transition.</li>
+                <li>Implemented secure authentication flows using Microsoft Identity Web and MSAL, supporting OpenID Connect and OAuth2 across domains with DFID-issued tokens and proper claim validation at both client and API layers.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Full Stack Developer – Music Royalties & Mobile Product Delivery</div>
+            <div class="experience-header">
+                <span class="company">ACTRA National, Canada</span>
+                <span class="date">Sep 2018 – Jun 2020</span>
+            </div>
+            <ul>
+                <li>Led delivery of a mobile product for performer registration, OAuth2 auth, and payments, using Azure (App Services, CosmosDB, Blob), Ionic, Node.js, and MSSQL in a 6-person cross-functional team.</li>
+                <li>Modernized legacy royalty systems by moving from ASP.NET + WCF to .NET Core + EF Core + React; introduced Kafka for distributed messaging and Docker for deployment.</li>
+                <li>Delivered a long-blocked revenue-sharing feature for Classical musicians, and contributed to web portals using Ant Design Pro, React, and Material UI.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Full-Stack Developer – Insurance Web Application (Hybrid)</div>
+            <div class="experience-header">
+                <span class="company">GGHS (Generali), Canada</span>
+                <span class="date">Apr 2018 – Jun 2018</span>
+            </div>
+            <ul>
+                <li>Delivered a hybrid web application using Angular 5, ASP.NET Core 2.0 (C#), and MSSQL in an 8-person team, showcasing full-stack expertise for an insurance industry client.</li>
+                <li>Built a world-class proof-of-concept UI with Angular Material, deploying via IIS and Azure, and managing configurations across environments.</li>
+                <li>Maintained workflows and documentation using VSTS, SharePoint, and Git; developed in Visual Studio 2017, VS Code, and SQL Management Studio.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Senior Developer – Angular & .NET</div>
+            <div class="experience-header">
+                <span class="company">BMO, Canada</span>
+                <span class="date">Oct 2017 – Feb 2018</span>
+            </div>
+            <ul>
+                <li>Built modular UIs with Angular Material 2+, SASS, RxJS, leading front-end efforts in a 12-person Agile team.</li>
+                <li>Collaborated on .NET Core APIs and EF data access, and prototyped data-lake analytics using MEAN stack.</li>
+                <li>Mentored teammates and authored onboarding docs to streamline dev, using Jira, Bitbucket, and Confluence.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Full-Stack Developer – eCommerce & Healthcare Analytics</div>
+            <div class="experience-header">
+                <span class="company">GE, Canada</span>
+                <span class="date">Feb 2017 – Sep 2017</span>
+            </div>
+            <ul>
+                <li>Integrated BigCommerce API with GE's product catalog, enabling eCommerce and shopping cart functionality in a 7-person cross-functional team.</li>
+                <li>Built MEAN stack dashboards to visualize healthcare data across hospitals, supporting MRI usage analysis and reporting.</li>
+                <li>Developed .NET Core WebAPIs with EF and PostgreSQL/MSSQL backends, and authored a custom Domo connector to ingest external RESTful data into GE's BI environment.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Lead Developer</div>
+            <div class="experience-header">
+                <span class="company">DAC Group, Toronto</span>
+                <span class="date">Jun 2016 – Dec 2016</span>
+            </div>
+            <ul>
+                <li>Led development of a cloud-native marketing analytics product using ASP.NET MVC, Angular 2, and modern JavaScript tooling (Node, npm, Bower), deployed to Azure via CI/CD pipelines built in Azure DevOps (VSO). Architected APIs and client integrations with platforms like Mandrill, Mailchimp, and Facebook.</li>
+                <li>Owned delivery pipelines and environments, building and maintaining automated build/release definitions for development, testing, and production environments on Azure. Managed service configurations, cloud infrastructure, and ensured scalable, high-availability deployment practices.</li>
+                <li>Mentored a cross-functional Agile team, driving delivery excellence by teaching Microsoft toolchains (Visual Studio, Git, Azure DevOps), promoting disciplined engineering practices, and removing blockers through proactive communication, technical leadership, and thoughtful prioritization.</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Software Developer</div>
+            <div class="experience-header">
+                <span class="company">Lumira Capital, Toronto</span>
+                <span class="date">Aug 2015 – May 2016</span>
+            </div>
+            <ul>
+                <li>Consult with Principal stakeholder to migrate and enhance "world class" capital market portfolio management web application software, and migrate ASP.NET Web Application work from VS 2003 to VS 2013, upgrade tools and libraries (i.e. Telerik KendoUI) to latest versions</li>
+                <li>Worked with HTML and CSS as required to enhance ASP.NET Web app, and SQL Server backend</li>
+                <li>Enhance procedural architectures to modern OOP principles</li>
+            </ul>
+        </div>
+
+        <div class="experience-item">
+            <div class="role">Senior Software Developer</div>
+            <div class="experience-header">
+                <span class="company">Various Companies</span>
+                <span class="date">Mar 1996 – Aug 2015</span>
+            </div>
+            <p>Toronto, Canada: Thales Canada, Pure Bookkeeping, CIBC, Fresenius, CanDeal, IBM, Travelers Insurance, Machus Corp, RMI Physician Services (Houston, TX), Chevron (Houston TX), Government of Ontario (North Bay), Dell Computers (Austin), Changepoint Corp. (Toronto), Zenox / Telmetrics (fka DCCI) ~ details upon request.</p>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2>Education</h2>
+        <div class="experience-item">
+            <div class="role">Computer Engineering</div>
+            <div class="experience-header">
+                <span class="company">Humber College, Toronto</span>
+                <span class="date">1997</span>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
