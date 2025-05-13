@@ -7,6 +7,10 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { register as registerSwiperElements } from 'swiper/element/bundle';
 import { AutoplayOptions, SwiperOptions } from 'swiper/types';
 
+/* 
+ *  Wrapper for https://swiperjs.com/
+ */
+
 registerSwiperElements();
 
 @Component({

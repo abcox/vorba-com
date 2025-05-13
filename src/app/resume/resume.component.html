@@ -1,0 +1,23 @@
+<div class="resume-container">
+    <div class="download-controls">
+        <button mat-button [matMenuTriggerFor]="downloadMenu">
+            Download Resume
+            <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #downloadMenu="matMenu">
+            <button mat-menu-item (click)="downloadResume('html')">
+                <mat-icon>code</mat-icon>
+                <span>Download HTML</span>
+            </button>
+            <button mat-menu-item (click)="downloadResume('pdf')">
+                <mat-icon>picture_as_pdf</mat-icon>
+                <span>Download PDF</span>
+            </button>
+        </mat-menu>
+    </div>
+    <iframe 
+        src="/assets/resume.html" 
+        title="Resume"
+        (load)="onIframeLoad()"
+    ></iframe>
+</div>

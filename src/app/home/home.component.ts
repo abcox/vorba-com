@@ -1,18 +1,16 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-//import { OverlayContainer } from '@angular/cdk/overlay'; // todo: review what this is about
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
-import { CarouselComponent } from './component/carousel/carousel.component';
-import { BehaviorSubject, of } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { YouTubePlayer } from '@angular/youtube-player';
+import { CarouselComponent } from '../component/carousel/carousel.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { YouTubePlayer, YOUTUBE_PLAYER_CONFIG } from '@angular/youtube-player';
-import { HeaderComponent } from './component/layout/header/header.component';
-import { FooterComponent } from './component/layout/footer/footer.component';
+import { Observable, of } from 'rxjs';
+import { SocialMediaLinksComponent } from '../component/layout/_component/social-media-links/social-media-links.component';
 
 interface StoryModel {
   title: string;
@@ -22,19 +20,23 @@ interface StoryModel {
   approach: string[];
   summary: string;
 }
+
 @Component({
-  selector: 'app-root',
+  selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonToggleModule,
-    MatCardModule, MatIconModule, MatSlideToggleModule, RouterOutlet,
-    CarouselComponent, YouTubePlayer, HeaderComponent, FooterComponent
+  imports: [
+    CommonModule, FormsModule, MatButtonToggleModule,
+    MatCardModule, MatIconModule, MatSlideToggleModule, 
+    CarouselComponent, YouTubePlayer, RouterModule,
+    SocialMediaLinksComponent
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
-export class AppComponent {
+export class HomeComponent {
+
   sanitizer = inject(DomSanitizer);
-  title = 'Vorba';
+  title = 'Software Consulting';
   //theme = 'dark';
   isLightTheme = false;
 

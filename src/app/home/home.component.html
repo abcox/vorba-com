@@ -1,0 +1,118 @@
+<div class="flex flex-col w-full p-6">
+    <div class="header flex">
+      <div class="left-side flex-1">
+        <h1>{{ title }}</h1>
+      </div>
+      <!-- <div class="divider flex-auto" role="separator" aria-label="Divider"></div> -->
+      <div class="flex-auto">
+        <!-- <h1>{{ title }}</h1> -->
+      </div>
+      <div class="right-side flex-auto">        
+        <div class="theme-toggle">
+          <mat-slide-toggle
+            class="theme-toggle mt-5"
+            [(ngModel)]="isLightTheme"
+            (change)="toggleTheme($event.checked)">
+          </mat-slide-toggle>
+          <img src="assets/images/AdamCox_400x400.jpg" alt="abcox" class="mt-5 rounded-full w-28 h-28" />
+        </div>
+        <div class="flex flex-col">
+          <div class="mt-4">
+            <h4 class="mb-0 !m-0">Adam Cox</h4>
+            <p class="text-sm text-gray-300 !m-0">Principal Software Engineer</p>
+          </div>
+          <app-social-media-links></app-social-media-links>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="w-full sm:w-3/4 lg:w-3/4 xl:w-2/3 max-w-5xl mx-auto my-10">
+      <div class="p-8 rounded-lg shadow-lg bg-[var(--background-color)] text-[var(--text-color)]">
+        <h2 class="text-2xl font-bold text-center mb-6">Hello</h2>
+        <p class="leading-relaxed">
+          Hi, I'm <strong>Adam Cox</strong>, a software development expert and leader with nearly 30 years of experience delivering scalable, innovative solutions across diverse industries. 
+          Throughout my career, I've built a reputation for crafting modern systems, modernizing complex legacy applications, and mentoring development teams to achieve their full potential.
+        </p>
+        <p class="leading-relaxed mt-4">
+          I specialize in <strong>full-stack development</strong>, <strong>cloud computing</strong>, and <strong>agile practices</strong>, balancing deep technical expertise with a strategic, leadership-driven mindset. 
+          I thrive on solving complex problems and aligning technology with business goals to drive real-world impact.
+        </p>
+        <p class="leading-relaxed mt-4">
+          Whether you're looking to transform legacy systems, build cutting-edge applications, or lead teams to excellence, I bring the experience, vision, and expertise to make it happen. 
+          <strong>Let's connect and create something exceptional.</strong>
+        </p>
+        <p class="leading-relaxed mt-4">
+          <a routerLink="/resume" class="text-blue-500 hover:text-blue-700 cursor-pointer">Review and download my latest resume</a>
+        </p>
+      </div>
+    </div> -->
+
+    <!-- <div class="flex">
+      <app-carousel [autoplayDelayMs]="60000" class="w-full sm:w-3/4 lg:w-3/4 xl:w-2/3 max-w-5xl mx-auto">
+        <ng-container *ngIf="stories$ | async as stories">
+          @for(story of stories; track $index) {
+            <ng-template #slide>
+              <mat-card class="px-12 py-8">
+                <mat-card-header>
+                  <div class="flex flex-col">
+                    <h6>{{ story?.title }}:</h6>
+                    <h4>{{ story?.subtitle }}</h4>
+                  </div>
+                </mat-card-header>
+                <mat-card-content>
+                  <h6>Overview</h6>
+                  <p>
+                    {{ story?.overview }}
+                  </p>
+                  <section class="mt-3">
+                  <h6>Benefits</h6>
+                  <ul>
+                    @for (item of story?.benefits; track $index) {
+                      <li>
+                        - {{ item }}
+                      </li>
+                    }
+                  </ul>
+                  </section>
+                  <section class="mt-3">
+                    <h6>Approach</h6>
+                    <ul>
+                      @for (item of story?.approach; track $index) {
+                        <li>
+                          - {{ item }}
+                        </li>
+                      }
+                    </ul>
+                  </section>
+                  <section class="mt-3">
+                  <h6>Summary</h6>
+                  <p>
+                    {{ story?.summary }}
+                  </p>
+                </section>
+                </mat-card-content>
+              </mat-card>
+            </ng-template>
+          }
+        </ng-container>
+      </app-carousel>
+    </div> -->
+
+    <!-- <div class="flex">
+      <app-carousel [autoplayDelayMs]="30000" class="w-full sm:w-3/4 lg:w-3/4 xl:w-2/3 max-w-5xl mx-auto">
+        <ng-container *ngIf="stories$ | async as stories">
+          @for(short of shorts$ | async; track $index) {
+            <ng-template #slide>
+              <div class="flex items-center justify-center my-9">
+                <youtube-player 
+                  [videoId]="short.videoId"
+                  [placeholderImageQuality]="'low'"/>
+              </div>
+            </ng-template>
+          }
+        </ng-container>
+      </app-carousel>
+    </div> -->
+  
+  
+  </div>
