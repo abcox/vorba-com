@@ -14,7 +14,6 @@ export class MenuService {
     // observe router event NavigationEnd
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
-      take(1),
       tap(() => this.closeMenu()), // close menu when navigation end
       takeUntilDestroyed()
     ).subscribe();
