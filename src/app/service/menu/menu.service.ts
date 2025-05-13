@@ -1,27 +1,32 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuService {
-  menuOpen = signal(false);
+  private router = inject(Router);
+  private _menuOpen = signal<boolean>(false);
 
-  constructor() { 
-    effect(() => {
-      console.log('menuOpen', this.menuOpen());
-      /* if (this.menuOpen()) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      } */
-    });
+  constructor() {
+    // observe router event NavigationEnd
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      take(1),
+      tap(() => this.closeMenu()), // close menu when navigation end
+      takeUntilDestroyed()
+    ).subscribe();
   }
+
+  menuOpen = this._menuOpen.asReadonly();
 
   toggleMenu() {
-    console.log('toggleMenu');
-    this.menuOpen.update(open => !open);
+    this._menuOpen.update(value => !value);
   }
+
   closeMenu() {
-    this.menuOpen.set(false);
+    this._menuOpen.set(false);
   }
 }

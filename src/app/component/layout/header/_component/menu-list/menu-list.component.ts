@@ -1,7 +1,5 @@
-import { Component, input, inject } from '@angular/core';
-import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { MenuService } from '../../../../../service/menu/menu.service';
+import { Component, input } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 export interface MenuItem {
   label: string;
@@ -19,14 +17,4 @@ export interface MenuItem {
 })
 export class MenuListComponent {
   menuItems = input<MenuItem[]>([]);
-  private router = inject(Router);
-  private menuService = inject(MenuService);
-
-  constructor() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.menuService.closeMenu();
-    });
-  }
 }

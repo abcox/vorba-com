@@ -12,8 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './menu-dialog.component.scss'
 })
 export class MenuDialogComponent {
-  menuOpen = inject(MenuService).menuOpen;
-
+  private menuService = inject(MenuService);
+  menuOpen = this.menuService.menuOpen;
   menuItems: MenuItem[] = [
     {
       label: 'Home',
@@ -33,6 +33,6 @@ export class MenuDialogComponent {
   ];
   
   closeMenu() {
-    this.menuOpen.set(false);
+    this.menuService.closeMenu();
   }
 }
