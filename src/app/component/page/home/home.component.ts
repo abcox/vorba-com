@@ -7,10 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { YouTubePlayer } from '@angular/youtube-player';
-import { CarouselComponent } from '../component/carousel/carousel.component';
+import { CarouselComponent } from '../../carousel/carousel.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
-import { SocialMediaLinksComponent } from '../component/layout/_component/social-media-links/social-media-links.component';
+import { SocialMediaLinksComponent } from '../../layout/_component/social-media-links/social-media-links.component';
 
 interface StoryModel {
   title: string;

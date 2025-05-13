@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ResumeComponent } from './resume/resume.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './component/page/home/home.component';
 import { AboutPageComponent } from './component/page/about/about-page/about-page.component';
 import { ContactPageComponent } from './component/page/about/contact-page/contact-page.component';
 
