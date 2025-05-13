@@ -12,8 +12,8 @@ main {
 
 .content {
   flex: 1;
-  min-height: calc(100vh - 200px); /* Adjust based on header + footer height */
-  padding: 2rem 0;
+  min-height: calc(100vh - 252px); /* Adjust based on header + footer height */
+  padding: 1rem 0;
   margin: 0 32px;
   max-width: 1200px;
 }
