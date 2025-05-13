@@ -1,0 +1,10 @@
+<ul class="flex flex-col gap-2">
+  @for (item of menuItems(); track item.routerLink) {
+    <li>
+      <a [routerLink]="item.routerLink" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+        {{ item.label }}
+      </a>
+    </li>
+  }
+</ul>
+
