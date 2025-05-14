@@ -6,3 +6,17 @@
         <app-menu-list [menuItems]="menuItems"></app-menu-list>
     </div>
 </div>
+
+<ng-template
+    #themeTemplate
+    let-isLightThemeSignal="isLightThemeSignal"
+    let-toggleTheme="toggleTheme"
+    >
+    <mat-slide-toggle
+        class="theme-toggle mt-5"
+        [ngModel]="isLightThemeSignal()"
+        (change)="toggleTheme()">         
+        <!-- (ngModelChange)="toggleTheme()" -->
+    </mat-slide-toggle>
+</ng-template>
+

@@ -1,10 +1,21 @@
 <ul class="flex flex-col gap-2">
-  @for (item of menuItems(); track item.routerLink) {
-    <li>
-      <a [routerLink]="item.routerLink" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
-        {{ item.label }}
-      </a>
-    </li>
+  @for (item of menuItems(); track $index) {
+    @if (item.type === 'divider') {
+      <li class="h-px bg-gray-200 dark:bg-gray-800"></li>
+    } @else {
+      <li>
+        @if (item.template) {
+          <!-- Debug: {{ item.template ? 'Template exists' : 'No template' }} -->
+          <ng-container *ngTemplateOutlet="item.template; context: item.templateContext"></ng-container>
+          {{ item.label }}
+        } @else {
+          <a [routerLink]="item.routerLink" 
+             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+            {{ item.label }}
+          </a>
+        }
+      </li>
+    }
   }
 </ul>
 

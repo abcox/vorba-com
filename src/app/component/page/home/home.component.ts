@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -11,6 +11,7 @@ import { CarouselComponent } from '../../carousel/carousel.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { SocialMediaLinksComponent } from '../../layout/_component/social-media-links/social-media-links.component';
+import { LayoutService } from '../../../service/layout/layout.service';
 
 interface StoryModel {
   title: string;
@@ -34,11 +35,11 @@ interface StoryModel {
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
   sanitizer = inject(DomSanitizer);
+  layoutService = inject(LayoutService);
   title = 'Software Consulting';
   //theme = 'dark';
-  isLightTheme = false;
+  isLightTheme = computed(() => this.layoutService.themeSignal() === 'light');
 
   stories$ = of<StoryModel[]>([
     {
@@ -134,14 +135,14 @@ export class HomeComponent {
     const themeClass = isDarkTheme ? 'dark-theme' : 'light-theme';
     this.applyTheme(themeClass);
   }
-  toggleTheme(isLight: boolean) {
+  /* toggleTheme(isLight: boolean) {
     this.isLightTheme = isLight;
     if (isLight) {
       document.body.classList.add('light-theme');
     } else {
       document.body.classList.remove('light-theme');
     }
-  }
+  } */
 
   applyTheme(themeClass: string) {
     document.body.classList.remove('light-theme', 'dark-theme');
