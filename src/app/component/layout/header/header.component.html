@@ -2,7 +2,7 @@
     <div class="left-side flex flex-row">
         <app-logo></app-logo>
         <div class="mx-4 mt-4"><!-- TODO: we should center vertically rather than use top margin -->
-            <h2>Vorba Software Consulting</h2>
+            <h2>{{ titlePrefix() }} Vorba {{ titlePrefix() ? '' : 'Software Consulting' }}</h2>
         </div>
     </div>
     <div class="right-side mr-4">

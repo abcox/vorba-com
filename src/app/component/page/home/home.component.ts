@@ -128,6 +128,7 @@ export class HomeComponent {
   constructor() {
     //this.applyTheme('dark-theme');
     this.stories$.subscribe((stories) => console.log('AppComponent constructor stories:', stories));
+    this.layoutService.clearTitlePrefix();
   }
 
   toggleTheme2(event: any): void {
