@@ -5,13 +5,13 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { CarouselComponent } from '../../carousel/carousel.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Observable, of } from 'rxjs';
 import { SocialMediaLinksComponent } from '../../layout/_component/social-media-links/social-media-links.component';
-import { LayoutService } from '../../../service/layout/layout.service';
+import { LayoutService } from '../../layout/_service/layout.service';
+import { of } from 'rxjs';
 
 interface StoryModel {
   title: string;
@@ -31,10 +31,10 @@ interface StoryModel {
     CarouselComponent, YouTubePlayer, RouterModule,
     SocialMediaLinksComponent
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  templateUrl: './home-page.component.html',
+  styleUrl: './home-page.component.scss'
 })
-export class HomeComponent {
+export class HomePageComponent {
   sanitizer = inject(DomSanitizer);
   layoutService = inject(LayoutService);
   title = 'Software Consulting';

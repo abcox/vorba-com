@@ -3,7 +3,7 @@ import { MenuItem, MenuListComponent } from '../menu-list/menu-list.component';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../../../../service/menu/menu.service';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutService } from '../../../../../service/layout/layout.service';
+import { LayoutService } from '../../../_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 

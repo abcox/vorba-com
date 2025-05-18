@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ProfileCardComponent } from '../../profile-card/profile-card.component';
-import { LayoutService } from '../../../service/layout/layout.service';
+import { LayoutService } from '../../layout/_service/layout.service';
 
 @Component({
   selector: 'app-about-page',
@@ -15,5 +15,4 @@ export class AboutPageComponent {
   ngOnInit() {
     this.layoutService.setTitlePrefix('About');
   }
-
 }

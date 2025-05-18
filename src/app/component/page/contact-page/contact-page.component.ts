@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ProfileCardComponent } from '../../profile-card/profile-card.component';
-import { LayoutService } from '../../../service/layout/layout.service';
+import { LayoutService } from '../../layout/_service/layout.service';
+
 @Component({
   selector: 'app-contact-page',
   standalone: true,
-  imports: [ProfileCardComponent],
+  imports: [],
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss'
 })
