@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
           [alt]="alt()"
           [src]="src()"
           [ngClass]="sizeClass"
-          class="mt-5 rounded-full" />
+          class="rounded-full" />
       } @else {
         <!-- <mat-icon [ngClass]="sizeClass">person</mat-icon> -->
         <div [ngClass]="sizeClass">
