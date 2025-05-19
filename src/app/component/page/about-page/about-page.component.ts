@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-about-page',
   standalone: true,
-  imports: [RouterModule, ProfileCardComponent, AvatarComponent],
+  imports: [RouterModule, AvatarComponent],
   templateUrl: './about-page.component.html',
   styleUrl: './about-page.component.scss'
 })
