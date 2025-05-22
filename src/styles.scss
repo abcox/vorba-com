@@ -27,7 +27,8 @@ $custom-theme: mat-light-theme((
 /* Material theme -- END */
 
 
-:host {/* 
+:host {
+  /* 
   --gray-900: oklch(19.37% 0.006 300.98);
   --gray-700: oklch(36.98% 0.014 302.71);
   --gray-400: oklch(70.9% 0.015 304.04); */
@@ -45,19 +46,15 @@ $custom-theme: mat-light-theme((
   --gray-700: oklch(36.98% 0.014 302.71);
   --gray-400: oklch(70.9% 0.015 304.04); */
 
-  --red-to-pink-to-purple-vertical-gradient: linear-gradient(
-    180deg,
-    var(--orange-red) 0%,
-    var(--vivid-pink) 50%,
-    var(--electric-violet) 100%
-  );
+  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
 
-  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(
-    90deg,
-    var(--orange-red) 0%,
-    var(--vivid-pink) 50%,
-    var(--electric-violet) 100%
-  );
+  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
 
   --pill-accent: var(--bright-blue);
 
@@ -72,9 +69,22 @@ $custom-theme: mat-light-theme((
 }
 
 // added by material (ng add @angular/material)
-html, body { height: 100%; }
+html,
 body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  background-image: var(--background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
   margin: 0;
+  padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
@@ -103,11 +113,11 @@ body {
 /* theme */
 /* light (default / root) */
 .light-theme {
-    --background-color: #ffffff;
-    --text-color: var(--grayscale-700);
-    --primary-color: #1976d2;
-    --background-image: url('assets\\images\\background-blue-1-light.jpeg');
-  }
+  --background-color: #ffffff;
+  --text-color: var(--grayscale-700);
+  --primary-color: #1976d2;
+  --background-image: url('assets\\images\\background-blue-1-light.jpeg');
+}
 
 /* dark theme -- See root for default dark theme
 .dark-theme {
@@ -119,7 +129,8 @@ body {
 
 :root {
   /* Grayscale */
-  --grayscale-50: #ffffff;  /* White */
+  --grayscale-50: #ffffff;
+  /* White */
   --grayscale-100: #fafafa;
   --grayscale-200: #f5f5f5;
   --grayscale-300: #e5e5e5;
@@ -129,7 +140,8 @@ body {
   --grayscale-700: #525252;
   --grayscale-800: #404040;
   --grayscale-900: #262626;
-  --grayscale-950: #000000;  /* Black */
+  --grayscale-950: #000000;
+  /* Black */
 
   /* Existing variables */
   --gray-900: oklch(19.37% 0.006 300.98);
@@ -144,46 +156,37 @@ body {
   --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
 }
 
-body {
-    background-color: var(--background-color);
-    color: var(--text-color);
-    background-image: var(--background-image);
-    //background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
 button {
-    background-color: var(--primary-color);
-    color: var(--text-color);
+  background-color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .social-links path {
-    transition: fill 0.3s ease;
-    fill: var(--gray-400);
-  }
+  transition: fill 0.3s ease;
+  fill: var(--gray-400);
+}
 
-  .social-links a:hover svg path {
-    fill: var(--gray-700);
-  }
+.social-links a:hover svg path {
+  fill: var(--gray-700);
+}
 
-  .light-theme .social-links path {
-    transition: fill 0.3s ease !important;
-    fill: var(--gray-700) !important;
-  }
+.light-theme .social-links path {
+  transition: fill 0.3s ease !important;
+  fill: var(--gray-700) !important;
+}
 
-  .light-theme .social-links a:hover svg path {
-    fill: var(--gray-400) !important;
-  }
+.light-theme .social-links a:hover svg path {
+  fill: var(--gray-400) !important;
+}
 
-  .mat-button-toggle-group {
-    margin: 1rem;
-  
-    .mat-button-toggle-checked {
-      background-color: var(--text-color) !important;
-      color: var(--background-color) !important;
-    }
+.mat-button-toggle-group {
+  margin: 1rem;
+
+  .mat-button-toggle-checked {
+    background-color: var(--text-color) !important;
+    color: var(--background-color) !important;
   }
+}
 
 :root mat-card {
   background-color: var(--background-color);
