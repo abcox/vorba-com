@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy.ps1"
+    "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy.ps1",
+    "swagger--test": "npx ng-swagger-gen --input https://demo-app5-api.azurewebsites.net/swagger/v1/swagger.json --output src/app/api",
+    "openapi-gen-v1-prod": "openapi-generator-cli generate -g typescript-angular -i https://demo-app5-api.azurewebsites.net/swagger/v1/swagger.json -o src\\backend-api\\v1 -p npmName=demo-app5-api-v1 --additional-properties=supportsES6=true,ngVersion=17.1.0,npmVersion=10.5.0",
+    "openapi-gen-v1": "openapi-generator-cli generate -g typescript-angular -i http://localhost:5071/swagger/v1/swagger.json -o src\\backend-api\\v1 -p npmName=demo-app5-api-v1 --additional-properties=supportsES6=true,ngVersion=17.1.0,npmVersion=10.5.0"
   },
   "private": true,
   "dependencies": {
@@ -31,6 +34,7 @@
     "@angular-devkit/build-angular": "^18.2.1",
     "@angular/cli": "^18.2.1",
     "@angular/compiler-cli": "^18.2.0",
+    "@openapitools/openapi-generator-cli": "^2.20.2",
     "@types/jasmine": "~5.1.0",
     "autoprefixer": "^10.4.20",
     "jasmine-core": "~5.2.0",
