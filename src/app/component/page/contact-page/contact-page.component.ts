@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { LayoutService } from '../../layout/_service/layout.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { EmailService } from '@backend-api/v1/api/email.service';
+import { EmailServiceRequest } from '@backend-api/v1/model/emailServiceRequest';
 
 @Component({
   selector: 'app-contact-page',
@@ -11,6 +13,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './contact-page.component.scss'
 })
 export class ContactPageComponent {
+  private emailService = inject(EmailService);
   layoutService = inject(LayoutService);
   private fb = inject(FormBuilder);
   
@@ -31,7 +34,14 @@ export class ContactPageComponent {
   onSubmit() {
     if (this.contactForm.valid) {
       console.log(this.contactForm.value);
-      // TODO: Implement email sending logic
+      const request: EmailServiceRequest = {
+        recipientAddress: this.contactForm.value.email,
+        subject: `Contact Form from ${this.contactForm.value.name}`,
+        htmlContent: this.contactForm.value.message
+      };
+      this.emailService.sendEmail(request).subscribe(response => {
+        console.log(response);
+      });
     }
   }
 }
