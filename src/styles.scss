@@ -153,6 +153,7 @@ body {
   --background-color: #070437;
   --text-color: var(--grayscale-400);
   --primary-color: #bb86fc;
+  --error-color: #cf6679;
   --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
 
   // TODO & DEV-NOTE:  R&D how to compose theme with efficiency.
@@ -167,13 +168,61 @@ body {
   --mat-tab-header-inactive-label-text-color: var(--text-color);
   --mat-tab-header-inactive-hover-label-text-color: var(--text-color);
 
-  // mat form labels
-  --mdc-outlined-text-field-label-text-color: var(--text-color);
-  --mdc-outlined-text-field-hover-label-text-color: var(--text-color);
-  --mdc-outlined-text-field-focus-label-text-color: var(--text-color);
+  // Material form field theme
+  --mdc-outlined-text-field-container-color: transparent;
+  --mdc-outlined-text-field-outline-color: var(--grayscale-600);
+  --mdc-outlined-text-field-hover-outline-color: var(--grayscale-500);
+  --mdc-outlined-text-field-focus-outline-color: var(--primary-color);
+  --mdc-outlined-text-field-label-text-color: var(--grayscale-400);
+  --mdc-outlined-text-field-hover-label-text-color: var(--grayscale-300);
+  --mdc-outlined-text-field-focus-label-text-color: var(--primary-color);
+  --mdc-outlined-text-field-input-text-color: var(--grayscale-50);
+  --mdc-outlined-text-field-caret-color: var(--primary-color);
+  /* --mdc-outlined-text-field-outline-gap-padding: 4px;
+  --mdc-outlined-text-field-container-shape: 4px;
+  --mdc-outlined-text-field-label-padding: 0 4px; */
 
-  // mat form field text
-  --mdc-outlined-text-field-input-text-color: var(--text-color);
+  // Error states
+  --mdc-outlined-text-field-error-outline-color: var(--error-color);
+  --mdc-outlined-text-field-error-focus-outline-color: var(--error-color);
+  --mdc-outlined-text-field-error-hover-outline-color: var(--error-color);
+  --mdc-outlined-text-field-error-label-text-color: var(--error-color);
+  --mdc-outlined-text-field-error-hover-label-text-color: var(--error-color);
+  --mdc-outlined-text-field-error-focus-label-text-color: var(--error-color);
+
+  //--mat-form-field-outlined-label-text-populated-size: 12px;
+}
+
+.light-theme {
+  --background-color: #ffffff;
+  --text-color: var(--grayscale-700);
+  --primary-color: #5719d2;
+  --error-color: #d32f2f;
+  --background-image: url('assets\\images\\background-blue-1-light.jpeg');
+
+  // Material form field theme
+  --mdc-outlined-text-field-container-color: transparent;
+  --mdc-outlined-text-field-outline-color: var(--primary-color);
+  --mdc-outlined-text-field-hover-outline-color: var(--grayscale-500);
+  --mdc-outlined-text-field-focus-outline-color: var(--primary-color);
+  --mdc-outlined-text-field-label-text-color: var(--grayscale-600);
+  --mdc-outlined-text-field-hover-label-text-color: var(--grayscale-700);
+  --mdc-outlined-text-field-focus-label-text-color: var(--primary-color);
+  --mdc-outlined-text-field-input-text-color: var(--grayscale-900);
+  --mdc-outlined-text-field-caret-color: var(--primary-color);
+
+  // Error states
+  --mdc-outlined-text-field-error-outline-color: var(--error-color);
+  --mdc-outlined-text-field-error-focus-outline-color: var(--error-color);
+  --mdc-outlined-text-field-error-hover-outline-color: var(--error-color);
+  --mdc-outlined-text-field-error-label-text-color: var(--error-color);
+  --mdc-outlined-text-field-error-hover-label-text-color: var(--error-color);
+  --mdc-outlined-text-field-error-focus-label-text-color: var(--error-color);
+}
+
+// Fix for the vertical line issue
+.mdc-notched-outline__notch {
+  border-right: 0px;
 }
 
 button {
