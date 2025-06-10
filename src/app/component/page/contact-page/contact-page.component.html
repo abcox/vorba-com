@@ -11,6 +11,9 @@
           id="name"
           formControlName="name"
         >
+        <mat-error *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+          {{ getErrorMessage('name') }}
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="mb-4">
@@ -22,21 +25,13 @@
           id="email"
           formControlName="email"
         >
-<!--         [class.border-red-500]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
- -->      </mat-form-field>
+        <mat-error *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+          {{ getErrorMessage('email') }}
+        </mat-error>
+      </mat-form-field>
     </div>
 
     <div class="mb-4">
-      <!--
-        <label for="message" class="block text-sm font-medium mb-2">Message</label>
-        <textarea 
-          id="message"
-          formControlName="message"
-          rows="4"
-          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-          [class.border-red-500]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
-        ></textarea>
-      -->
       <mat-form-field appearance="outline" class="w-full">
         <mat-label>Message</mat-label>
         <textarea
@@ -45,10 +40,12 @@
           formControlName="message"
           rows="4"
         ></textarea>
+        <mat-error *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+          {{ getErrorMessage('message') }}
+        </mat-error>
       </mat-form-field>
     </div>
-
-    <button 
+    <button
       type="submit"
       [disabled]="contactForm.invalid"
       class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark disabled:opacity-50"

@@ -30,12 +30,29 @@ export class ContactPageComponent {
     this.contactForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      message: ['', [Validators.required, Validators.minLength(10)]]
+      message: ['', [Validators.required, Validators.minLength(5)]]
     });
   }
 
   ngOnInit() {
     this.layoutService.setTitlePrefix('Contact');
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.contactForm.get(controlName);
+    if (!control) return '';
+
+    if (control.hasError('required')) {
+      return 'This field is required';
+    }
+    if (control.hasError('email')) {
+      return 'Please enter a valid email address';
+    }
+    if (control.hasError('minlength')) {
+      const requiredLength = control.errors?.['minlength'].requiredLength;
+      return `Must be at least ${requiredLength} characters`;
+    }
+    return '';
   }
 
   onSubmit() {
