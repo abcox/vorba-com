@@ -26,12 +26,13 @@ export class MenuDialogComponent implements AfterViewInit {
   }
 
   getMenuItems(): MenuItem[] {
+    // TODO: use menu items from the config file
     return [
-      {
+      /* {
         label: 'Home',
         routerLink: '/',
         icon: 'home'
-      },
+      }, */
       {
         label: 'About',
         routerLink: '/about',

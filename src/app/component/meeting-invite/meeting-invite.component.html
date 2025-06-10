@@ -1,0 +1,202 @@
+<mat-card class="p-5">
+  <ng-container *ngIf="vm() as vm">
+    <div>
+      <h1>{{ vm.title }}</h1>
+      <ul>
+        <li class="mb-1 flex flex-row justify-stretch">
+          <div>
+            <mat-icon
+              class="fill-sky-100 stroke-sky-500"
+              svgIcon="clock-outline"></mat-icon>
+          </div>
+          <div class="ml-2">
+            <p>
+              <span>{{ vm.meeting?.duration?.value }}&nbsp;</span>
+              <span>{{ vm.meeting?.duration?.unit }}</span>
+              <span *ngIf="formGroup.controls['date'].value"
+                >&nbsp;on&nbsp;{{
+                  formGroup.controls['date'].value | date: 'MMM d, yyyy'
+                }}</span
+              >
+              <span *ngIf="formGroup.controls['time'].value"
+                >&nbsp;at&nbsp;{{ formGroup.controls['time'].value }}
+                <span *ngIf="formGroup.controls['zone'].value"
+                  >&nbsp;{{ formGroup.controls['zone'].value }}</span
+                >
+              </span>
+            </p>
+          </div>
+        </li>
+        <li class="flex mb-1">
+          <div>
+            <mat-icon
+              class="fill-sky-100 stroke-sky-500"
+              svgIcon="world-outline"></mat-icon>
+          </div>
+          <div class="ml-2 justify-self-stretch">
+            <p>
+              {{ vm.meeting?.timezone }}
+            </p>
+          </div>
+        </li>
+        <li class="flex">
+          <div>
+            <mat-icon
+              class="fill-sky-100 stroke-sky-500"
+              svgIcon="note-outline"></mat-icon>
+          </div>
+          <div class="ml-2 justify-self-stretch">
+            <p>
+              {{ vm.meeting?.note }}
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <form [formGroup]="formGroup">
+      <div>
+        <mat-tab-group #tabGroup>
+          <mat-tab label="Day">
+            <div class="flex">
+              <p-calendar
+                [disabledDates]="disabledDates"
+                [inline]="true"
+                [maxDate]="vm.meeting?.latestDate ?? getDate()"
+                [minDate]="vm.meeting?.earliestDate ?? getDate()"
+                class="max-w-full"
+                formControlName="date"></p-calendar>
+            </div>
+          </mat-tab>
+          <mat-tab label="Time" [disabled]="!formGroup.controls['date'].value">
+            <div class="mt-3">
+              <ul>
+                <li
+                  *ngIf="availableTimesOfSelectedDay?.length === 0"
+                  class="flex outline outline-1 outline-slate-400 rounded p-3 hover:text-sky-600 m-2 mt-3 vertical-center">
+                  <p class="mb-0">
+                    I'm all booked that day. Please choose another.
+                  </p>
+                </li>
+                @for (time of availableTimesOfSelectedDay; track $index) {
+                  <li class="flex m-1 overflow-clip p-1">
+                    <button
+                      [@childAnimation]="
+                        time.selected ? 'selectedHalf' : 'unselectedFull'
+                      "
+                      (click)="selectTime(time)"
+                      class="outline outline-1 outline-slate-400 rounded p-3 hover:text-sky-600"
+                      style="width: 100%">
+                      {{ time.value }}
+                    </button>
+                    <button
+                      *ngIf="time.selected"
+                      [@childAnimation]="
+                        time.selected ? 'selectedHalfConfirm' : ''
+                      "
+                      (click)="confirmTime()"
+                      class="outline outline-1 outline-slate-400 rounded p-3 hover:text-sky-600 ml-2"
+                      style="width: 0%">
+                      Confirm</button
+                    ><!--
+                  [style.display]="time.selected ? 'unset' : 'none'"-->
+                  </li>
+                }
+                <li class="mt-4 mx-2">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%"
+                    subscriptSizing="dynamic">
+                    <mat-label>Timezone</mat-label>
+                    <mat-select formControlName="zone">
+                      <mat-option
+                        *ngFor="let timezone of timezoneOptions"
+                        [value]="timezone"
+                        (click)="selectTimezone(timezone)">
+                        {{ timezone }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </li>
+              </ul>
+            </div>
+          </mat-tab>
+          <mat-tab label="Info" [disabled]="!formGroup.controls['date'].value">
+            <div class="mt-3">
+              <ul>
+                <li class="mt-4 mx-2">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%"
+                    subscriptSizing="dynamic">
+                    <mat-label>Name</mat-label>
+                    <input formControlName="name" matInput type="text" /><!--
+                    placeholder="Timezone" -->
+                  </mat-form-field>
+                </li>
+                <li class="mt-3 mx-2">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%"
+                    subscriptSizing="dynamic">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="email" matInput type="text" />
+                  </mat-form-field>
+                </li>
+                <li class="mt-3 mx-2">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%"
+                    subscriptSizing="dynamic">
+                    <mat-label>Phone</mat-label>
+                    <input formControlName="phone" matInput type="text" />
+                  </mat-form-field>
+                </li>
+                <li class="mt-3 mx-2">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%"
+                    subscriptSizing="dynamic">
+                    <mat-label>Subject</mat-label>
+                    <input formControlName="subject" matInput type="text" />
+                  </mat-form-field>
+                </li>
+                <li class="mt-3 mx-2">
+                  <mat-form-field
+                    appearance="outline"
+                    style="width: 100%"
+                    subscriptSizing="dynamic">
+                    <mat-label>Comments</mat-label>
+                    <!-- <input formControlName="comments" matInput type="text" /> -->
+                    <textarea
+                      matInput
+                      formControlName="comments"
+                      rows="3"
+                      class="w-full"></textarea>
+                  </mat-form-field>
+                </li>
+                <li class="mt-3 mx-2 h-65">
+                  <button
+                    class="w-full h-65"
+                    mat-raised-button
+                    color="primary"
+                    [disabled]="!formGroup.valid"
+                    (click)="submit()">
+                    SEND
+                  </button>
+                  <!-- <button
+                  (click)="submit()"
+                  mat-button
+                  class="select-none rounded-lg bg-indigo-600 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full"
+                  type="button">
+                  Send
+                </button> -->
+                </li>
+              </ul>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </form>
+  </ng-container>
+</mat-card>
+<!-- TODO: optionally request email address so that we can send invitation and process reminder notification -->

@@ -6,6 +6,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { ApiModule } from '@backend-api/v1';
 import { apiConfigFactory } from './core/services/api-config.service';
 
+export const TOKEN_KEY = 'token'; // todo: move to a shared constant file -- candidate for InjectionToken?
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),

@@ -154,6 +154,26 @@ body {
   --text-color: var(--grayscale-400);
   --primary-color: #bb86fc;
   --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
+
+  // TODO & DEV-NOTE:  R&D how to compose theme with efficiency.
+  // there should be a way to quickly create new from existing (as template) and
+  // create dark theme (from light).
+
+  // support styling of meeting/invite
+  // mat tab header labels
+  --mat-select-enabled-trigger-text-color: var(--text-color); // mat-select formControlName="zone"
+  --mat-tab-header-active-label-text-color: var(--text-color);
+  --mat-tab-header-active-hover-label-text-color: var(--text-color);
+  --mat-tab-header-inactive-label-text-color: var(--text-color);
+  --mat-tab-header-inactive-hover-label-text-color: var(--text-color);
+
+  // mat form labels
+  --mdc-outlined-text-field-label-text-color: var(--text-color);
+  --mdc-outlined-text-field-hover-label-text-color: var(--text-color);
+  --mdc-outlined-text-field-focus-label-text-color: var(--text-color);
+
+  // mat form field text
+  --mdc-outlined-text-field-input-text-color: var(--text-color);
 }
 
 button {

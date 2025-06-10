@@ -1,0 +1,23 @@
+mat-card {
+  box-shadow: unset; // was var(--mdc-elevated-card-container-elevation)
+}
+
+::ng-deep button.p-datepicker-year.p-link {
+  margin-left: 10px !important;
+}
+::ng-deep p-calendar {
+  width: 100%;
+}
+::ng-deep p-calendar > span {
+  width: calc(100% - 2.357em);
+}
+
+mat-icon /* .btn-icon */ {
+  /* &:hover { */
+  /* path {
+      fill: rgba(#00ffff, 1);
+    } */
+  height: 20px;
+  width: 20px;
+  //}
+}
