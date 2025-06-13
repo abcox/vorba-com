@@ -143,6 +143,33 @@ body {
   --grayscale-950: #000000;
   /* Black */
 
+  /* Some scale of the --primary-color */
+  /* Dark theme primary grayscale */
+  --primary-grayscale-50: #e3f2fd;
+  --primary-grayscale-100: #bbdefb;
+  --primary-grayscale-200: #90caf9;
+  --primary-grayscale-300: #64b5f6;
+  --primary-grayscale-400: #42a5f5;
+  --primary-grayscale-500: #1976d2;
+  --primary-grayscale-600: #1565c0;
+  --primary-grayscale-700: #0d47a1;
+  --primary-grayscale-800: #0a3d91;
+  --primary-grayscale-900: #002171;
+  --primary-grayscale-950: #000000;
+
+  /* Light theme primary grayscale */
+  --primary-light-grayscale-50: #f5f0ff;
+  --primary-light-grayscale-100: #ebe1ff;
+  --primary-light-grayscale-200: #d7c3ff;
+  --primary-light-grayscale-300: #c3a5ff;
+  --primary-light-grayscale-400: #af87ff;
+  --primary-light-grayscale-500: #9b69ff;
+  --primary-light-grayscale-600: #874bff;
+  --primary-light-grayscale-700: #732dff;
+  --primary-light-grayscale-800: #5f0fff;
+  --primary-light-grayscale-900: #5719d2;
+  --primary-light-grayscale-950: #000000;
+
   /* Existing variables */
   --gray-900: oklch(19.37% 0.006 300.98);
   --gray-700: oklch(36.98% 0.014 302.71);
@@ -280,4 +307,52 @@ p {
 // Rounded corners
 .rounded-lg {
   border-radius: 0rem;
+}
+
+// Material Dialog customization
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 8px;
+  --mdc-dialog-container-color: var(--primary-light-grayscale-200);
+  --mdc-dialog-container-elevation: 0;
+  --mdc-dialog-container-padding: 0;
+  max-width: 400px !important;
+}
+
+// Dialog backdrop
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+// Dialog text colors
+.mat-mdc-dialog-title {
+  color: var(--grayscale-800) !important;
+}
+
+.mat-mdc-dialog-content {
+  color: var(--grayscale-700) !important;
+}
+
+// You can also target specific dialog types if needed
+.mat-mdc-dialog-container.success-dialog {
+  --mdc-dialog-container-shape: 12px;
+  max-width: 350px !important;
+}
+
+// Light theme dialog styles
+.light-theme {
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: var(--primary-light-grayscale-100);
+  }
+
+  .mat-mdc-dialog-title {
+    color: var(--grayscale-900) !important;
+  }
+
+  .mat-mdc-dialog-content {
+    color: var(--grayscale-800) !important;
+  }
+
+  .cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.7);
+  }
 }

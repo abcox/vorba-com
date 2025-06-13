@@ -1,56 +1,68 @@
 <div class="container mx-auto px-4 py-8"><!-- 
   <h1 class="text-2xl font-bold mb-6">Contact Us</h1> -->
   
-  <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="max-w-lg">
-    <div class="mb-4">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Name</mat-label>
-        <input
-          matInput
-          type="text" 
-          id="name"
-          formControlName="name"
-        >
-        <mat-error *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-          {{ getErrorMessage('name') }}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <div class="mb-4">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Email</mat-label>
-        <input
-          matInput
-          type="email"
-          id="email"
-          formControlName="email"
-        >
-        <mat-error *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-          {{ getErrorMessage('email') }}
-        </mat-error>
-      </mat-form-field>
-    </div>
+  <mat-card class="max-w-lg">
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="p-4">
+      <div class="mb-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Name</mat-label>
+          <input
+            matInput
+            type="text" 
+            id="name"
+            formControlName="name"
+            [disabled]="isSubmitting"
+          >
+          <mat-error *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+            {{ getErrorMessage('name') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-    <div class="mb-4">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Message</mat-label>
-        <textarea
-          matInput
-          id="message"
-          formControlName="message"
-          rows="4"
-        ></textarea>
-        <mat-error *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-          {{ getErrorMessage('message') }}
-        </mat-error>
-      </mat-form-field>
-    </div>
-    <button
-      type="submit"
-      [disabled]="contactForm.invalid"
-      class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark disabled:opacity-50"
-    >
-      Send Message
-    </button>
-  </form>
+      <div class="mb-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            id="email"
+            formControlName="email"
+            [disabled]="isSubmitting"
+          >
+          <mat-error *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+            {{ getErrorMessage('email') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="mb-4">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Message</mat-label>
+          <textarea
+            matInput
+            id="message"
+            formControlName="message"
+            rows="4"
+            [disabled]="isSubmitting"
+          ></textarea>
+          <mat-error *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+            {{ getErrorMessage('message') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Spinner overlay on the card -->
+      <div *ngIf="isSubmitting" class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <mat-spinner diameter="48"></mat-spinner>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="contactForm.invalid || isSubmitting"
+        class="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark disabled:opacity-50"
+      >
+        Send Message
+      </button>
+    </form>
+  </mat-card>
 </div>
