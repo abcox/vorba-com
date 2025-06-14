@@ -143,6 +143,11 @@ body {
   --grayscale-950: #000000;
   /* Black */
 
+  /* MDC Shape System */
+  --mdc-shape-small: 4px;
+  --mdc-shape-medium: 8px;
+  --mdc-shape-large: 12px;
+
   /* Some scale of the --primary-color */
   /* Dark theme primary grayscale */
   --primary-grayscale-50: #e3f2fd;
@@ -218,6 +223,16 @@ body {
   --mdc-outlined-text-field-error-focus-label-text-color: var(--error-color);
 
   //--mat-form-field-outlined-label-text-populated-size: 12px;
+
+  // Checkbox variables
+  --mdc-checkbox-label-text-color: var(--text-color);
+  --mdc-checkbox-selected-icon-color: var(--primary-color);
+  --mdc-checkbox-unselected-icon-color: var(--grayscale-600);
+  --mdc-checkbox-selected-focus-icon-color: var(--primary-color);
+  --mdc-checkbox-selected-hover-icon-color: var(--primary-color);
+
+  --mdc-protected-button-disabled-container-color: var(--grayscale-600);
+  --mdc-protected-button-container-shape: var(--mdc-shape-small);
 }
 
 .light-theme {
@@ -245,6 +260,13 @@ body {
   --mdc-outlined-text-field-error-label-text-color: var(--error-color);
   --mdc-outlined-text-field-error-hover-label-text-color: var(--error-color);
   --mdc-outlined-text-field-error-focus-label-text-color: var(--error-color);
+
+  // Checkbox variables
+  --mdc-checkbox-label-text-color: var(--text-color);
+  --mdc-checkbox-selected-icon-color: var(--primary-color);
+  --mdc-checkbox-unselected-icon-color: var(--grayscale-600);
+  --mdc-checkbox-selected-focus-icon-color: var(--primary-color);
+  --mdc-checkbox-selected-hover-icon-color: var(--primary-color);
 }
 
 // Fix for the vertical line issue
@@ -355,4 +377,17 @@ p {
   .cdk-overlay-dark-backdrop {
     background: rgba(0, 0, 0, 0.7);
   }
+}
+
+// Checkbox styles - moved outside :root
+.mdc-label {
+  color: var(--text-color) !important;
+}
+
+.mat-mdc-checkbox .mdc-label {
+  color: var(--text-color) !important;
+}
+
+.mat-mdc-checkbox-label {
+  color: var(--text-color) !important;
 }
