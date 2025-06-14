@@ -1,0 +1,97 @@
+.page-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem;
+    gap: 2rem;
+    min-height: calc(100vh - 200px); // Account for header and footer
+
+    .intro-container,
+    .quiz-container {
+        flex: 1 1 0; // grow: 1, shrink: 1, basis: 0
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        max-width: 480px;
+    }
+
+    .intro-container {
+        align-items: flex-start;
+    }
+}
+
+// Separate list styles
+.intro-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 1.5rem 0 1rem 1.5rem; // top right bottom left
+    width: 100%;
+
+    li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+
+        &::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+    }
+}
+
+// Quiz card styles
+.quiz-card {
+    width: 100%;
+    // Override theme variables for this card only
+    --text-color: var(--primary-grayscale-500);
+    --text-color-secondary: var(--primary-grayscale-300);
+    --mdc-checkbox-label-text-color: var(--primary-grayscale-500);
+    
+    background-color: var(--background-color);
+    color: var(--text-color);
+
+    mat-card-header {
+        margin-bottom: 1rem;
+    }
+
+    mat-card-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    mat-card-subtitle {
+        color: var(--text-color-secondary);
+    }
+}
+
+// Quiz form styles
+.quiz-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    //gap: 1rem;
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    mat-checkbox {
+        //margin: 0.5rem 0;
+        padding: 0 1rem 0 0; // top right bottom left
+    }
+
+    button {
+        margin-top: 1rem;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .page-container {
+        flex-direction: column;
+    }
+}

@@ -6,6 +6,8 @@ import { ContactPageComponent } from './component/page/contact-page/contact-page
 import { MeetingInviteComponent } from './component/meeting-invite/meeting-invite.component';
 //import { requireAuthentication } from './common/guards/auth.guard';
 import { ThankyouPageComponent } from './component/page/thankyou-page/thankyou-page.component';
+import { QuizStartPageComponent } from './component/page/quiz-page/quiz-start-page/quiz-start-page.component';
+import { QuizPageComponent } from './component/page/quiz-page/quiz-page.component';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -42,6 +44,7 @@ export const routes: Routes = [
         component: item.component
       };
     }),
+    // items below exist on route only, and are not included in the menu
     {
         path: '',
         redirectTo: '/about',
@@ -52,6 +55,14 @@ export const routes: Routes = [
         redirectTo: '/',
         pathMatch: 'full'
     }, */
+    {
+        path: 'quiz',
+        component: QuizStartPageComponent
+    },
+    {
+        path: 'quiz/:id',
+        component: QuizPageComponent
+    },
     {
         path: 'about',
         component: AboutPageComponent
