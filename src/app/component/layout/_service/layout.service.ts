@@ -1,24 +1,16 @@
 import { computed, Injectable, signal } from '@angular/core';
-
-export enum Theme {
-  Light = 'light',
-  Dark = 'dark'
-}
+import { ThemeService, Theme } from '../../../services/theme.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LayoutService {
-  private _themeSignal = signal<Theme>(Theme.Dark);
-  readonly themeSignal = this._themeSignal.asReadonly();
-  readonly isLightTheme = computed(() => this.themeSignal() === Theme.Light);
   private _titlePrefixSignal = signal<string>('');
   readonly titlePrefixSignal = this._titlePrefixSignal.asReadonly();
 
-  constructor() { }
+  constructor(private themeService: ThemeService) { }
 
   setTitlePrefix(value: string) {
-    //this._titlePrefixSignal.update(prefix => prefix ? `${prefix} - ${title}` : title);
     this._titlePrefixSignal.set(value);
   }
 
@@ -26,12 +18,20 @@ export class LayoutService {
     this._titlePrefixSignal.set('');
   }
 
+  // Delegate theme operations to ThemeService
+  get themeSignal() {
+    return this.themeService.theme;
+  }
+
+  get isLightTheme() {
+    return this.themeService.isLightTheme;
+  }
+
   toggleTheme() {
-    this._themeSignal.update(theme => theme === Theme.Light ? Theme.Dark : Theme.Light);    
-    if (this.themeSignal() === Theme.Light) {
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-    }
+    this.themeService.toggleTheme();
+  }
+
+  setTheme(theme: Theme) {
+    this.themeService.setTheme(theme);
   }
 }

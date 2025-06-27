@@ -1,31 +1,202 @@
-/* You can add global styles to this file, and also import other style files */
+/* Material 3 Theme Setup */
+@use "@angular/material" as mat;
+@use "./themes/m3-theme";
 
+/* You can add global styles to this file, and also import other style files */
 @import './styles.css';
 
-/* Material theme -- BEGIN */
-/* @import "~@angular/material/theming";
-@include mat-core();
+@include mat.core();
 
-$custom-primary: mat-palette($mat-indigo);
-$custom-accent: mat-palette($mat-pink, A200, A100, A400);
+:root {
+  @include mat.all-component-themes(m3-theme.$light-theme);
+  @include mat.typography-hierarchy(m3-theme.$light-theme);
+  @include mat.system-level-colors(m3-theme.$light-theme);
+  @include mat.system-level-typography(m3-theme.$light-theme);
+}
 
-$custom-theme: mat-light-theme((
-  color: (
-    primary: $custom-primary,
-    accent: $custom-accent,
-  ),
-));
+/* Custom button variants */
+.secondary-btn {
+  @include mat.button-color(m3-theme.$light-theme, $color-variant: secondary);
+}
+.tertiary-btn {
+  @include mat.button-color(m3-theme.$light-theme, $color-variant: tertiary);
+}
+.error-btn {
+  @include mat.button-color(m3-theme.$light-theme, $color-variant: error);
+}
 
-@include angular-material-theme($custom-theme); */
+/* Base styles */
+html,
+body {
+  height: 100%;
+}
 
-// Import the prebuilt themes (or create your own)
-//@use '@angular/material' as mat;
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  background-image: var(--background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family-primary);
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-// Example of a built-in theme. You can customize this further.
-//@include mat.all-component-themes($primary: mat.define-palette(mat.$indigo-palette));
+/* Typography */
+h1 {
+  font-size: var(--h1-font-size);
+  color: var(--text-color);
+  font-weight: var(--h1-font-weight);
+  line-height: var(--h1-line-height);
+  letter-spacing: var(--h1-letter-spacing);
+  font-family: var(--font-family-heading);
+}
 
-/* Material theme -- END */
+h2 {
+  font-size: var(--h2-font-size);
+  color: var(--text-color);
+  font-weight: var(--h2-font-weight);
+  line-height: var(--h2-line-height);
+  letter-spacing: var(--h2-letter-spacing);
+  font-family: var(--font-family-heading);
+}
 
+/* Material Design System color utilities */
+.primary-color { color: var(--sys-primary); }
+.secondary-color { color: var(--sys-secondary); }
+.tertiary-color { color: var(--sys-tertiary); }
+
+/* Material component overrides */
+.mat-mdc-card-title {
+  color: var(--sys-on-surface);
+}
+
+/* Material form controls */
+.mat-select-enabled-trigger-text-color {
+  color: var(--text-color);
+}
+
+.mat-tab-header-active-label-text-color {
+  color: var(--text-color);
+}
+
+.mat-tab-header-active-hover-label-text-color {
+  color: var(--text-color);
+}
+
+.mat-tab-header-inactive-label-text-color {
+  color: var(--text-color);
+}
+
+/* Global scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: var(--sys-surface);
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--sys-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--sys-outline);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sys-outline-variant);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: var(--sys-outline) var(--sys-surface);
+}
+
+/* Legacy color variables for backward compatibility */
+:root {
+  /* Grayscale */
+  --grayscale-50: #ffffff;
+  --grayscale-100: #fafafa;
+  --grayscale-200: #f5f5f5;
+  --grayscale-300: #e5e5e5;
+  --grayscale-400: #d4d4d4;
+  --grayscale-500: #a3a3a3;
+  --grayscale-600: #737373;
+  --grayscale-700: #525252;
+  --grayscale-800: #404040;
+  --grayscale-900: #262626;
+  --grayscale-950: #000000;
+
+  /* MDC Shape System */
+  --mdc-shape-small: 4px;
+  --mdc-shape-medium: 8px;
+  --mdc-shape-large: 12px;
+
+  /* Primary color scales */
+  --primary-grayscale-50: #e3f2fd;
+  --primary-grayscale-100: #bbdefb;
+  --primary-grayscale-200: #90caf9;
+  --primary-grayscale-300: #64b5f6;
+  --primary-grayscale-400: #42a5f5;
+  --primary-grayscale-500: #1976d2;
+  --primary-grayscale-600: #1565c0;
+  --primary-grayscale-700: #0d47a1;
+  --primary-grayscale-800: #0a3d91;
+  --primary-grayscale-900: #002171;
+  --primary-grayscale-950: #000000;
+
+  /* Light theme primary grayscale */
+  --primary-light-grayscale-50: #f5f0ff;
+  --primary-light-grayscale-100: #ebe1ff;
+  --primary-light-grayscale-200: #d7c3ff;
+  --primary-light-grayscale-300: #c3a5ff;
+  --primary-light-grayscale-400: #af87ff;
+  --primary-light-grayscale-500: #9b69ff;
+  --primary-light-grayscale-600: #874bff;
+  --primary-light-grayscale-700: #732dff;
+  --primary-light-grayscale-800: #5f0fff;
+  --primary-light-grayscale-900: #5719d2;
+  --primary-light-grayscale-950: #000000;
+
+  /* Legacy variables */
+  --gray-900: oklch(19.37% 0.006 300.98);
+  --gray-700: oklch(36.98% 0.014 302.71);
+  --gray-400: oklch(70.9% 0.015 304.04);
+  --link-color: #0056b3;
+
+  /* Gradient variables */
+  --bright-blue: oklch(51.01% 0.274 263.83);
+  --electric-violet: oklch(53.18% 0.28 296.97);
+  --french-violet: oklch(47.66% 0.246 305.88);
+  --vivid-pink: oklch(69.02% 0.277 332.77);
+  --hot-red: oklch(61.42% 0.238 15.34);
+  --orange-red: oklch(63.32% 0.24 31.68);
+
+  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
+
+  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
+
+  --pill-accent: var(--bright-blue);
+
+  /* dark theme (default) */
+  --background-color: #070437;
+  --text-color: var(--grayscale-400);
+  --primary-color: #bb86fc;
+  --error-color: #cf6679;
+  --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
+}
 
 :host {
   /* 
@@ -66,48 +237,6 @@ $custom-theme: mat-light-theme((
   -moz-osx-font-smoothing: grayscale;
 
   --link-color: #0056b3;
-}
-
-// added by material (ng add @angular/material)
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  background-image: var(--background-image);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-:root h1 {
-  font-size: 2.5rem;
-  color: var(--text-color);
-  font-weight: 500;
-  line-height: 100%;
-  letter-spacing: -0.125rem;
-  font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
-}
-
-:root h2 {
-  font-size: 2rem;
-  color: var(--text-color);
-  font-weight: 500;
-  line-height: 100%;
-  letter-spacing: -0.125rem;
-  font-family: "Inter Tight", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
 }
 
 /* theme */
@@ -182,7 +311,7 @@ body {
   --link-color: #0056b3;
 
   /* dark theme (default) */
-  --background-color: #070437;
+  --background-color: #13121a;
   --text-color: var(--grayscale-400);
   --primary-color: #bb86fc;
   --error-color: #cf6679;
@@ -238,7 +367,7 @@ body {
 .light-theme {
   --background-color: #ffffff;
   --text-color: var(--grayscale-700);
-  --primary-color: #5719d2;
+  --primary-color: #1976d2;
   --error-color: #d32f2f;
   --background-image: url('assets\\images\\background-blue-1-light.jpeg');
 

@@ -1,7 +1,7 @@
 <ul class="flex flex-col gap-2">
   @for (item of menuItems(); track $index) {
     @if (item.type === 'divider') {
-      <li class="h-px bg-gray-200 dark:bg-gray-800"></li>
+      <li class="h-px" style="background-color: var(--md-sys-color-outline-variant);"></li>
     } @else {
       <li>
         @if (item.template) {
@@ -10,7 +10,10 @@
           {{ item.label }}
         } @else {
           <a [routerLink]="item.routerLink" 
-             class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+             class="block px-4 py-2 hover:bg-opacity-10 dark:hover:bg-gray-800"
+             style="background-color: transparent; color: var(--md-sys-color-on-surface);"
+             onmouseover="this.style.backgroundColor='var(--md-sys-color-primary)'"
+             onmouseout="this.style.backgroundColor='transparent'">
             {{ item.label }}
           </a>
         }
