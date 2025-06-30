@@ -1,61 +1,66 @@
 <div class="page-container">
-    <div class="intro-container">
-        <p>Unblock your barriers and begin to achieve new momentum in your software development journey.</p>
-        <p>753 professionals are following our guidance. Revive or begin your journey by taking our quiz, and unlock your potential productivity.</p>
-        Designed by expert product and software developers Adam Cox, this quiz will help
-        you get started on a new path toward success.
-        <ul>
-            <li>8 questions</li>
-            <li>5 minutes</li>
-            <li>100% free</li>
-            <li>get your personalized report</li>
-        </ul>
-    </div>
-    <div class="quiz-container">
-        <mat-card class="quiz-card">
-            <mat-card-header>
-                <mat-card-title>Start Your Journey</mat-card-title>
-                <mat-card-subtitle>Enter your details to begin the quiz</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
-                    <mat-form-field appearance="outline" class="w-full">
-                        <mat-label>Name</mat-label>
-                        <input matInput formControlName="name" placeholder="Enter your name">
-                        <mat-error *ngIf="quizForm.get('name')?.hasError('required')">
-                            Name is required
-                        </mat-error>
-                        <mat-error *ngIf="quizForm.get('name')?.hasError('minlength')">
-                            Name must be at least 2 characters
-                        </mat-error>
-                    </mat-form-field>
+    <mat-card class="intro-card">
+        <mat-card-content>
+            <div class="intro-container">
+                <h1>Breakthrough your barriers</h1>
+                <h3>Achieve new momentum in your product development journey.</h3>
+                <p>753 professionals are achieving their goals by following our guidance. Renew or begin your journey by taking our quiz, and unlock your potential productivity.</p>
+                <p>Designed by expert product and software developer, Adam Cox, this quiz will help
+                you get started on a new path toward success.</p>
+                <ul>
+                    <li>8 questions</li>
+                    <li>5 minutes</li>
+                    <li>100% free</li>
+                    <li>get your personalized report</li>
+                </ul>
+            </div>
+            <div class="quiz-container">
+                <mat-card class="quiz-card">
+                    <mat-card-header>
+                        <mat-card-title>Start Your Journey</mat-card-title>
+                        <mat-card-subtitle>Enter your details to begin the quiz</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
+                            <mat-form-field appearance="outline" class="w-full">
+                                <mat-label>Name</mat-label>
+                                <input matInput formControlName="name" placeholder="Enter your name">
+                                <mat-error *ngIf="quizForm.get('name')?.hasError('required')">
+                                    Name is required
+                                </mat-error>
+                                <mat-error *ngIf="quizForm.get('name')?.hasError('minlength')">
+                                    Name must be at least 2 characters
+                                </mat-error>
+                            </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="w-full">
-                        <mat-label>Email</mat-label>
-                        <input matInput formControlName="email" placeholder="Enter your email" type="email">
-                        <mat-error *ngIf="quizForm.get('email')?.hasError('required')">
-                            Email is required
-                        </mat-error>
-                        <mat-error *ngIf="quizForm.get('email')?.hasError('email')">
-                            Please enter a valid email address
-                        </mat-error>
-                    </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-full">
+                                <mat-label>Email</mat-label>
+                                <input matInput formControlName="email" placeholder="Enter your email" type="email">
+                                <mat-error *ngIf="quizForm.get('email')?.hasError('required')">
+                                    Email is required
+                                </mat-error>
+                                <mat-error *ngIf="quizForm.get('email')?.hasError('email')">
+                                    Please enter a valid email address
+                                </mat-error>
+                            </mat-form-field>
 
-                    <mat-checkbox formControlName="subscribeNewsletter" class="w-full">
-                        Subscribe to our newsletter for updates and insights
-                    </mat-checkbox>
+                            <mat-checkbox formControlName="subscribeNewsletter" class="w-full">
+                                Subscribe to our newsletter for updates and insights
+                            </mat-checkbox>
 
-                    <!--
-                    <mat-error *ngIf="quizForm.get('termsAccepted')?.hasError('required') && quizForm.get('termsAccepted')?.touched">
-                        You must accept the terms and conditions to continue
-                    </mat-error>
-                    -->
+                            <!--
+                            <mat-error *ngIf="quizForm.get('termsAccepted')?.hasError('required') && quizForm.get('termsAccepted')?.touched">
+                                You must accept the terms and conditions to continue
+                            </mat-error>
+                            -->
 
-                    <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid" class="w-full">
-                        Start Quiz
-                    </button>
-                </form>
-            </mat-card-content>
-        </mat-card>
-    </div>
+                            <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid" class="w-full">
+                                Start Quiz
+                            </button>
+                        </form>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-card-content>
+    </mat-card>
 </div>
