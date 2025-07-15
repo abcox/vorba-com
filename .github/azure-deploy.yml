@@ -1,4 +1,4 @@
-name: Deploy to Azure App Service (Comprehensive)
+name: Deploy Angular App to Azure Web App Service
 
 on:
   push:
@@ -9,9 +9,8 @@ on:
 
 env:
   NODE_VERSION: '22.14.0'
-  AZURE_WEBAPP_NAME: 'vorba-file-service-3'
+  AZURE_WEBAPP_NAME: 'vorba-web-app-demo-2'
   AZURE_RESOURCE_GROUP: 'vorba-file-service-rg'
-  AZURE_WEBAPP_PACKAGE_PATH: '.'
   DEPLOY_ENV: 'production'
 
 jobs:
@@ -38,7 +37,7 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Build NestJS application
+      - name: Build Angular application
         run: |
           echo "=== BUILD STEP DEBUG ==="
           echo "Ubuntu version: $(lsb_release -rs)"
@@ -54,9 +53,10 @@ jobs:
         run: |
           echo "=== POST-BUILD INSPECTION ==="
           echo "Build exit code: $?"
-          echo "Dist directory exists: $(test -d dist && echo 'YES' || echo 'NO')"
+          echo "Dist directory exists: $(test -d dist/vorba-web && echo 'YES' || echo 'NO')"
           echo "Dist directory contents:"
-          ls -la dist/ || echo "dist/ directory not- found"
+          ls -la dist/ || echo "dist/ directory not found"
+          ls -la dist/vorba-web/ || echo "dist/vorba-web/ directory not found"
           
           if [ $? -ne 0 ]; then
             echo "Build failed - exiting"
@@ -65,137 +65,72 @@ jobs:
             echo "Build successful"
           fi
 
-      # TODO: review this step, and if is better to make it part of the build process
-      - name: Copy config file to dist
-        run: cp src/config/config.${{ env.DEPLOY_ENV }}.json dist/config.json
-
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: |
-            dist/
-            package.json
-            package-lock.json
-            #node_modules/ # TODO: review this step, and if is better to make it part of the build process (or leave in release step as an npm ci --only=production)
+          path: dist/vorba-web/
           retention-days: 10
           if-no-files-found: error
 
-  release:
-    needs: build
+  deploy:
     runs-on: ubuntu-latest
+    needs: build
+
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-      
-      # TODO: review the approach of installing dependencies in the release step
-      # rather than in the build step (which becomes tar.gz - and we need to unzip)
-      # as well, if node_modules is generated at the build step, we take a performance hit with large upload/download of build artifact
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      # TODO: this step is dependent on the setup-node step
-      - name: Install production dependencies
-        run: |
-          cd dist
-          npm ci --only=production
-      
-      - name: Create release package
-        run: |
-          zip -r release-${{ github.run_number }}.zip .
-      
-      - name: Upload release
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-package
-          path: release-${{ github.run_number }}.zip
-          retention-days: 10
-          if-no-files-found: error
-          #compression-level: 9 # 1-9, 9 is best compression
-          
-      - name: Inspect release contents  # ← Add this step
-        run: |
-          echo "=== POST-RELEASE INSPECTION ==="
-          echo "Zip file size:"
-          ls -lh release-${{ github.run_number }}.zip
-          
-          echo ""
-          echo "Zip contents:"
-          unzip -l release-${{ github.run_number }}.zip | head -20
-          
-          echo ""
-          echo "Extract and show structure:"
-          unzip -q release-${{ github.run_number }}.zip -d temp-extract
-          find temp-extract -type f | head -10
-          rm -rf temp-extract
-          echo "=== END INSPECTION ==="
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: release
-    # TODO: review how 'environment' is used, and for what purpose/benefit
-    #environment:
-    #  name: 'production'
-    #  url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    steps:
-      - name: Download release package
-        uses: actions/download-artifact@v4
-        with:
-          name: release-package
           path: ./
 
-      - name: Unzip release package
-        run: unzip release-${{ github.run_number }}.zip
-
-      - name: Inspect unzipped release contents
+      - name: Inspect deployment contents
         run: |
-          echo "=== UNZIPPED RELEASE INSPECTION ==="
+          echo "=== DEPLOYMENT INSPECTION ==="
           echo "Current directory: $(pwd)"
           echo ""
-          echo "📁 All files and directories:"
+          echo "All files and directories:"
           ls -la
           echo ""
-          echo "📂 Directory structure:"
+          echo "Directory structure:"
           tree . || find . -type d | head -15
           echo ""
-          echo "📄 JavaScript files:"
+          echo "HTML files:"
+          find . -name "*.html" | head -5
+          echo ""
+          echo "JavaScript files:"
           find . -name "*.js" | head -10
           echo ""
-          echo "📦 Package files:"
-          find . -name "package.json" -o -name "*.json" | head -5
+          echo "CSS files:"
+          find . -name "*.css" | head -5
           echo ""
-          echo "�� File count by type:"
-          echo "JS files: $(find . -name '*.js' | wc -l)"
-          echo "JSON files: $(find . -name '*.json' | wc -l)"
-          echo "Total files: $(find . -type f | wc -l)"
-          echo ""
-          echo "�� Key files check:"
-          if [ -f "package.json" ]; then
-            echo "✅ package.json found"
-            echo "   Dependencies: $(jq -r '.dependencies | keys | length' package.json 2>/dev/null || echo 'unknown')"
+          echo "Key files check:"
+          if [ -f "index.html" ]; then
+            echo "index.html found"
+            echo "   Size: $(ls -lh index.html | awk '{print $5}')"
           else
-            echo "❌ package.json not found"
+            echo "index.html not found"
           fi
           
-          if [ -f "dist/main.js" ]; then
-            echo "✅ dist/main.js found"
-            echo "   Size: $(ls -lh dist/main.js | awk '{print $5}')"
+          if [ -f "main.js" ]; then
+            echo "main.js found"
+            echo "   Size: $(ls -lh main.js | awk '{print $5}')"
           else
-            echo "❌ dist/main.js not found"
+            #echo "dist/main.js not found" # TODO: review this step, and if is better to make it part of the build process
+            echo "main.js not found"
           fi
-          
           if [ -d "node_modules" ]; then
-            echo "✅ node_modules found"
+            echo "node_modules found"
             echo "   Size: $(du -sh node_modules | awk '{print $1}')"
           else
-            echo "❌ node_modules not found"
+            echo "node_modules not found"
           fi
-          
+          echo ""
+          echo "File count by type:"
+          echo "HTML files: $(find . -name '*.html' | wc -l)"
+          echo "JS files: $(find . -name '*.js' | wc -l)"
+          echo "CSS files: $(find . -name '*.css' | wc -l)"
+          echo "Total files: $(find . -type f | wc -l)"
           echo ""
           echo "=== END INSPECTION ==="
 
@@ -206,4 +141,5 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           #slot-name: 'production'
           publish-profile: ${{ secrets.AZ_WEBAPP_PUB_PRFL__FILE_SVC_3 }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          #package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          package: ./
