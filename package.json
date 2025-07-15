@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "lint": "ng lint",
     "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy.ps1",
     "swagger--test": "npx ng-swagger-gen --input https://demo-app5-api.azurewebsites.net/swagger/v1/swagger.json --output src/app/api",
     "openapi-gen-v1-prod": "openapi-generator-cli generate -g typescript-angular -i https://demo-app5-api.azurewebsites.net/swagger/v1/swagger.json -o src\\backend-api\\v1 -p npmName=demo-app5-api-v1 --additional-properties=supportsES6=true,ngVersion=17.1.0,npmVersion=10.5.0",
