@@ -105,7 +105,7 @@
           },
           "configurations": {
             "ci": {
-              "browsers": ["ChromeHeadless"],
+              "browsers": "ChromeHeadless",
               "watch": false
             }
           }

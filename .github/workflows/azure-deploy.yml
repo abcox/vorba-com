@@ -35,7 +35,7 @@ jobs:
         run: npm run lint
 
       - name: Run tests
-        run: ng test --configuration=ci
+        run: npm run test:ci
 
       - name: Build Angular application
         run: |
