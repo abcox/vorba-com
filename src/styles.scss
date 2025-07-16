@@ -195,7 +195,7 @@ h2 {
   --text-color: var(--grayscale-400);
   --primary-color: #bb86fc;
   --error-color: #cf6679;
-  --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
+  --background-image: url("assets/images/background-blue-1-dark.jpeg");
 }
 
 :host {
@@ -245,7 +245,7 @@ h2 {
   --background-color: #ffffff;
   --text-color: var(--grayscale-700);
   --primary-color: #1976d2;
-  --background-image: url('assets\\images\\background-blue-1-light.jpeg');
+  --background-image: url("assets/images/background-blue-1-light.jpeg");
 }
 
 /* dark theme -- See root for default dark theme
