@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { QuizPageComponent } from './quiz-page.component';
 
@@ -8,7 +10,8 @@ describe('QuizPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuizPageComponent]
+      imports: [QuizPageComponent, BrowserAnimationsModule],
+      providers: [provideRouter([])]
     })
     .compileComponents();
 

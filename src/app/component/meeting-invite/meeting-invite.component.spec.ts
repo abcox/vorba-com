@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MeetingInviteComponent } from './meeting-invite.component';
 
@@ -8,7 +9,7 @@ describe('MeetingInviteComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MeetingInviteComponent]
+      imports: [MeetingInviteComponent, BrowserAnimationsModule]
     })
     .compileComponents();
     

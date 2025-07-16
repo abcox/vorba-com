@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { QuizStartPageComponent } from './quiz-start-page.component';
 
@@ -8,7 +9,7 @@ describe('QuizStartPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuizStartPageComponent]
+      imports: [QuizStartPageComponent, BrowserAnimationsModule]
     })
     .compileComponents();
 

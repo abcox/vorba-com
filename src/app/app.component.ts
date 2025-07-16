@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 //import { OverlayContainer } from '@angular/cdk/overlay'; // todo: review what this is about
@@ -122,9 +122,12 @@ export class AppComponent {
 
   //overlayContainer = inject(OverlayContainer);
 
-  constructor() {
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+  ) {
     //this.applyTheme('dark-theme');
     this.stories$.subscribe((stories) => console.log('AppComponent constructor stories:', stories));
+    this.registerSvgIcons();
   }
 
   toggleTheme2(event: { value: string }): void {
@@ -147,5 +150,34 @@ export class AppComponent {
 
     //this.overlayContainer.getContainerElement().classList.remove('light-theme', 'dark-theme');
     //this.overlayContainer.getContainerElement().classList.add(themeClass);
+  }
+
+  
+  registerSvgIcons() {
+    const iconRootPath = '../../assets/icons/';
+    const icons = [
+      { name: 'check-outline' },
+      { name: 'clock-outline' },
+      { name: 'note-outline' },
+      { name: 'world-outline' },
+      /* { name: 'thumbs-up', filename: '' },
+      { name: 'thumbs-down', filename: '' },
+      { name: 'search', filename: '' },
+      { name: 'home', filename: '' }, */
+    ];
+    icons.forEach(({ name }) => {
+      this.matIconRegistry.addSvgIcon(
+        name,
+        this.sanitizer.bypassSecurityTrustResourceUrl(
+          `${iconRootPath}${name}.svg`
+        )
+      );
+    });
+    //this.matIconRegistry.addSvgIcon(
+    //  'thumbs-up',
+    //  this.domSanitizer.bypassSecurityTrustResourceUrl(
+    //    'assets/img/examples/thumbup-icon.svg'
+    //  )
+    //);
   }
 }

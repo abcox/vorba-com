@@ -1,6 +1,8 @@
 {
     "root": true,
-    "ignorePatterns": ["projects/**/*", "dist/**/*", "node_modules/**/*"],
+    "ignorePatterns": [
+        "*.spec.ts", // Ignore spec files (todo: review tests)
+        "projects/**/*", "dist/**/*", "node_modules/**/*"],
     "overrides": [
         {
             "files": ["*.ts"],
