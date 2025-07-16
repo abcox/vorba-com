@@ -102,6 +102,12 @@
               "src/styles.scss"
             ],
             "scripts": []
+          },
+          "configurations": {
+            "ci": {
+              "browsers": ["ChromeHeadless"],
+              "watch": false
+            }
           }
         },
         "lint": {
