@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,9 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { CarouselComponent } from './component/carousel/carousel.component';
-import { BehaviorSubject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { YouTubePlayer, YOUTUBE_PLAYER_CONFIG } from '@angular/youtube-player';
+import { YouTubePlayer/* , YOUTUBE_PLAYER_CONFIG */ } from '@angular/youtube-player';
 import { HeaderComponent } from './component/layout/header/header.component';
 import { FooterComponent } from './component/layout/footer/footer.component';
 
@@ -111,7 +111,7 @@ export class AppComponent {
   ] as StoryModel[]);
 
   placeholderImageQuality: 'high' | 'low' | 'standard' = 'standard';
-  shorts$ = of<any[]>([
+  shorts$ = of<{ videoId: string }[]>([
     {
       videoId: 'fS4cH2fky5M',
     },
@@ -127,7 +127,7 @@ export class AppComponent {
     this.stories$.subscribe((stories) => console.log('AppComponent constructor stories:', stories));
   }
 
-  toggleTheme2(event: any): void {
+  toggleTheme2(event: { value: string }): void {
     const isDarkTheme = event.value === 'dark'
     const themeClass = isDarkTheme ? 'dark-theme' : 'light-theme';
     this.applyTheme(themeClass);

@@ -1,6 +1,5 @@
 import { Route, Routes } from '@angular/router';
 import { ResumeComponent } from './resume/resume.component';
-import { HomePageComponent } from './component/page/home-page/home-page.component';
 import { AboutPageComponent } from './component/page/about-page/about-page.component';
 import { ContactPageComponent } from './component/page/contact-page/contact-page.component';
 import { MeetingInviteComponent } from './component/meeting-invite/meeting-invite.component';

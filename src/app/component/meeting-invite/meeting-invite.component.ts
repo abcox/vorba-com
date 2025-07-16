@@ -209,7 +209,7 @@ export class MeetingInviteComponent implements OnInit {
   selectTime(time: TimeSelectionModel) {
     console.log('selectTime', time);
     this.availableTimesOfSelectedDay.forEach(t => (t.selected = false));
-    let index = this.availableTimesOfSelectedDay.findIndex(
+    const index = this.availableTimesOfSelectedDay.findIndex(
       t => t.value === time.value
     );
     console.log('index', index);

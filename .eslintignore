@@ -1,0 +1,14 @@
+# Ignore build output and common temp folders
+dist/
+node_modules/
+tmp/
+coverage/
+src/backend-api/v1/
+src/assets/
+src/environments/
+src/index.html
+src/main.ts
+src/polyfills.ts
+src/styles.css
+src/test.ts
+src/test.ts

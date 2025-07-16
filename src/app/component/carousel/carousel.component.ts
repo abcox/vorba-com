@@ -1,11 +1,11 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ContentChildren, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input, OnInit, QueryList, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ContentChildren, CUSTOM_ELEMENTS_SCHEMA, ElementRef, Input, QueryList, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 
 import SwiperCore from 'swiper';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { register as registerSwiperElements } from 'swiper/element/bundle';
-import { AutoplayOptions, SwiperOptions } from 'swiper/types';
+//import { AutoplayOptions, SwiperOptions } from 'swiper/types';
 
 /* 
  *  Wrapper for https://swiperjs.com/

@@ -22,6 +22,7 @@ export interface MenuItem {
 export class MenuListComponent implements OnInit {
   menuItems = input<MenuItem[]>([]);
 
+  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
     /* console.log('Menu Items:', this.menuItems());
     this.menuItems().forEach(item => {
