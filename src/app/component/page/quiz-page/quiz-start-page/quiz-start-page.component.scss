@@ -75,13 +75,16 @@
 
 // Quiz card styles
 .quiz-card {
+    padding: 1rem;
     width: 100%;
     // Override theme variables for this card only
     --text-color: var(--primary-grayscale-500);
     --text-color-secondary: var(--primary-grayscale-300);
     --mdc-checkbox-label-text-color: var(--primary-grayscale-500);
+
+    --mdc-background-color: var(--primary-grayscale-50);
     
-    background-color: var(--background-color);
+    background-color: var(--mdc-background-color);
     color: var(--text-color);
 
     mat-card-header {
