@@ -315,7 +315,7 @@ h2 {
   --text-color: var(--grayscale-400);
   --primary-color: #bb86fc;
   --error-color: #cf6679;
-  --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
+  --background-image: url('assets/images/background-blue-1-dark.jpeg');
 
   // TODO & DEV-NOTE:  R&D how to compose theme with efficiency.
   // there should be a way to quickly create new from existing (as template) and
@@ -369,7 +369,7 @@ h2 {
   --text-color: var(--grayscale-700);
   --primary-color: #1976d2;
   --error-color: #d32f2f;
-  --background-image: url('assets\\images\\background-blue-1-light.jpeg');
+  --background-image: url('assets/images/background-blue-1-light.jpeg');
 
   // Material form field theme
   --mdc-outlined-text-field-container-color: transparent;
