@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
+import { Theme, ThemeService } from 'src/app/services/theme.service';
 
 @Component({
   selector: 'app-quiz-start-page',
@@ -26,13 +27,20 @@ import { Router } from '@angular/router';
 export class QuizStartPageComponent {
   quizForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private themeService: ThemeService
+  ) {
     this.quizForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       subscribeNewsletter: [false, [Validators.requiredTrue]]
       //termsAccepted: [false, [Validators.requiredTrue]]
     });
+    
+    // set theme to light
+    this.themeService.setTheme(Theme.Light);
   }
 
   onSubmit() {

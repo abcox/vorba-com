@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
+import { Theme, ThemeService } from 'src/app/services/theme.service';
 
 interface QuizQuestionOption {
   id: number;
@@ -238,7 +239,8 @@ export class QuizPageComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private themeService: ThemeService
   ) {
     // Initialize form with empty controls for all questions
     const controls: { [key: string]: any } = {};
@@ -250,6 +252,9 @@ export class QuizPageComponent implements OnInit {
 
   ngOnInit() {
     this.quizId = this.route.snapshot.paramMap.get('id');
+
+    // set theme to light
+    this.themeService.setTheme(Theme.Light);
   }
 
   onSubmit() {
