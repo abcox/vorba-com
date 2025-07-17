@@ -1,7 +1,7 @@
-import { Component, computed, OnInit, signal, ViewEncapsulation } from '@angular/core';
+import { Component, computed, HostListener, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
+//import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
 interface QuizQuestionOption {
   id: number;
@@ -42,6 +43,7 @@ interface QuizQuestion {
   encapsulation: ViewEncapsulation.None
 })
 export class QuizPageComponent implements OnInit {
+  @ViewChild('stepper') stepper!: MatStepper;
   quizForm: FormGroup;
   quizId: string | null = null;
   isLinear = true;
@@ -263,4 +265,60 @@ export class QuizPageComponent implements OnInit {
       // TODO: Submit answers to API
     }
   }
+
+  /* @HostListener('swipeleft', ['$event'])
+  onSwipeLeft(event: any) {
+    if (this.canGoNext()) {
+      this.stepper.next();
+    }
+  }
+
+  @HostListener('swiperight', ['$event'])
+  onSwipeRight(event: any) {
+    if (this.canGoBack()) {
+      this.stepper.previous();
+    }
+  } */
+
+  canGoNext() {
+    return this.currentStep() < this.quiz.length;
+  }
+
+  canGoBack() {
+    return this.currentStep() > 0;
+  }
+
+  //#region  // Swipe detection (native)  ***** EXPERIMENTAL *****
+  //
+  // TODO: review hammerjs as an alternative, more robust swipe detection
+  // 
+  //    (https://hammerjs.github.io/)
+  //
+  private touchStartX = 0;
+  private touchStartY = 0;
+  private readonly SWIPE_THRESHOLD = 50; // Minimum px distance for swipe
+
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.touches[0].clientX;
+    this.touchStartY = event.touches[0].clientY;
+  }
+
+  @HostListener('touchend', ['$event'])
+  onTouchEnd(event: TouchEvent) {
+    const touchEndX = event.changedTouches[0].clientX;
+    const touchEndY = event.changedTouches[0].clientY;
+    const diffX = this.touchStartX - touchEndX;
+    const diffY = this.touchStartY - touchEndY;
+
+    // Only trigger if horizontal swipe is greater than vertical
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > this.SWIPE_THRESHOLD) {
+      if (diffX > 0 && this.canGoNext()) {
+        this.stepper.next(); // Swipe left
+      } else if (diffX < 0 && this.canGoBack()) {
+        this.stepper.previous(); // Swipe right
+      }
+    }
+  }
+  //#endregion  // Swipe detection
 }

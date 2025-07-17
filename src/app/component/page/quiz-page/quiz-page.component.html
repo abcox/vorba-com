@@ -9,11 +9,14 @@
           <mat-stepper
             #stepper
             [linear]="isLinear"
-            (selectionChange)="currentStep.set($event.selectedIndex)"            
+            (selectionChange)="currentStep.set($event.selectedIndex)"
             >
             <mat-step *ngFor="let question of quiz" [stepControl]="quizForm.controls['question' + question.id]">
               <!-- <ng-template matStepLabel>Question {{question.id}}</ng-template> -->
-              <div class="question-container">
+              <div class="question-container"
+                (swipeleft)="onSwipeLeft($event)"
+                (swiperight)="onSwipeRight($event)"
+              >
                 <h3>{{question.content}}</h3>
                 <p class="dimension">{{question.dimension}}</p>
                 <mat-radio-group [formControlName]="'question' + question.id"
