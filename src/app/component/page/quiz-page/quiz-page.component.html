@@ -1,9 +1,9 @@
 <div class="page-container">
   <div class="quiz-container">
     <mat-card>
-      <mat-card-header>
+      <!-- <mat-card-header>
         <mat-card-title>Quiz</mat-card-title>
-      </mat-card-header>
+      </mat-card-header> -->
       <mat-card-content>
         <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
           <mat-stepper
@@ -30,8 +30,15 @@
               </div>
               <div class="step-actions">
                 <button mat-button matStepperPrevious *ngIf="question.id > 1">Back</button>
-                <button mat-button matStepperNext *ngIf="question.id < quiz.length">Next</button>
-                <button mat-raised-button color="primary" type="submit" *ngIf="question.id === quiz.length">
+                <button mat-button matStepperNext
+                  *ngIf="question.id < quiz.length"
+                  [disabled]="!quizForm.get('question' + question.id)?.valid"
+                  (click)="stepper.next()">Next</button>
+                <button mat-raised-button color="primary" 
+                  type="submit" 
+                  *ngIf="question.id === quiz.length"
+                  [disabled]="!quizForm.get('question' + question.id)?.valid"
+                  [disabled]="!quizForm.valid">
                   Submit
                 </button>
               </div>
