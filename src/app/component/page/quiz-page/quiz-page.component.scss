@@ -5,6 +5,7 @@
   min-height: 100vh;
   padding: 2rem;
   background-color: var(--primary-grayscale-50);
+
 }
 
 .quiz-container {
@@ -142,7 +143,7 @@ h3 {
   font-size: 1rem;
 }
 
-.option-context {
+.option-subtext {
   font-size: 0.85rem;
   opacity: 0.8;
   font-style: italic;
@@ -155,3 +156,30 @@ h3 {
   padding-top: 1rem;
   border-top: 1px solid var(--primary-grayscale-200);
 }
+
+// Mobile styles
+@media (max-width: 768px) {
+    .page-container {
+      padding: 0;
+    }
+    .quiz-container {
+      .mat-mdc-card-content {
+        padding: 0;
+      }
+    }
+    .mdc-label {
+      .option-subtext {
+        display: none;
+      }
+      .option-text {
+        font-size: 1.75rem;
+        line-height: 1.2;
+      }
+    }
+    .dimension {
+      display: none;
+    }
+    .simple-radio-button .mdc-form-field {
+      padding: 1rem 1rem !important;
+    }
+  }
