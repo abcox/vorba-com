@@ -49,25 +49,98 @@ h3 {
   font-style: italic;
 }
 
+// Original radio button styles
 .option-radio {
   display: block;
   margin: 1rem 0;
   color: var(--primary-grayscale-700);
 }
 
+// New button-style radio button class
+.simple-radio-button {
+  display: block;
+  margin: 0.75rem 0;
+  
+  // Hide the default radio button circle
+  .mdc-radio {
+    display: none !important;
+  }
+  
+  // Style the entire radio button container as a button
+  .mdc-form-field {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--primary-grayscale-200);
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: 0;
+    
+    &:hover {
+      border-color: var(--primary-grayscale-100);
+      background-color: var(--primary-grayscale-50);
+      color: white;
+      //transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  // Selected state
+  &.mat-mdc-radio-checked .mdc-form-field {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  // Focus state for accessibility
+  .mdc-form-field:focus-within {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+
+  .mdc-label {
+    display: flex;
+    align-items: center;
+  }
+
+  &:hover {
+    .mdc-form-field {
+        background-color: var(--primary-grayscale-100);
+    }
+    .mdc-label {
+        .option-content {
+            color: var(--primary-grayscale-900);
+            .option-text {
+                color: var(--primary-grayscale-900);
+            }
+        }
+    }
+  }
+}
+
 .option-content {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  text-align: left;
 }
 
 .option-text {
   font-weight: 500;
+  font-size: 1rem;
 }
 
 .option-context {
   font-size: 0.85rem;
-  color: var(--primary-grayscale-600);
+  opacity: 0.8;
   font-style: italic;
 }
 

@@ -16,7 +16,9 @@
                 <h3>{{question.content}}</h3>
                 <p class="dimension">{{question.dimension}}</p>
                 <mat-radio-group [formControlName]="'question' + question.id">
-                  <mat-radio-button *ngFor="let option of question.options" [value]="option.archetypeId" class="option-radio">
+                  <mat-radio-button *ngFor="let option of question.options"
+                    class="simple-radio-button"
+                    [value]="option.archetypeId">
                     <div class="option-content">
                       <span class="option-text">{{option.content}}</span>
                       <span class="option-context">{{option.context}}</span>
