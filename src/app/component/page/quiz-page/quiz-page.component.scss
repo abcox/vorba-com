@@ -204,4 +204,15 @@ h3 {
     .simple-radio-button .mdc-form-field {
       padding: 1rem 1rem !important;
     }
+    .step-action-button {
+        border-radius: 36px !important;
+        height: 72px !important;
+        .mdc-button__label {
+            display: none;
+        }
+        mat-icon {
+            margin: 0 !important;
+            height: 48px;
+        }
+    }
   }
