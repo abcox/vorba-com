@@ -1,54 +1,70 @@
 <div class="page-container">
   <div class="quiz-container">
-    <mat-card>
-      <!-- <mat-card-header>
-        <mat-card-title>Quiz</mat-card-title>
-      </mat-card-header> -->
-      <mat-card-content>
-        <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
-          <mat-stepper
-            #stepper
-            [linear]="isLinear"
-            (selectionChange)="currentStep.set($event.selectedIndex)"
-            >
-            <mat-step *ngFor="let question of quiz" [stepControl]="quizForm.controls['question' + question.id]">
-              <!-- <ng-template matStepLabel>Question {{question.id}}</ng-template> -->
-              <div class="question-container"
-              ><!-- 
-                (swipeleft)="onSwipeLeft($event)"
-                (swiperight)="onSwipeRight($event)" -->
-                <h3>{{question.content}}</h3>
-                <p class="dimension">{{question.dimension}}</p>
-                <mat-radio-group [formControlName]="'question' + question.id"
-                  (change)="stepper.next()">
-                  <mat-radio-button *ngFor="let option of question.options"
-                    class="simple-radio-button"
-                    [value]="option.archetypeId">
-                    <div class="option-content">
-                      <span class="option-text">{{option.content}}</span>
-                      <span class="option-subtext">{{option.context}}</span>
-                    </div>
-                  </mat-radio-button>
-                </mat-radio-group>
-              </div>
-              <div class="step-actions">
-                <button mat-button matStepperPrevious *ngIf="question.id > 1">Back</button>
-                <button mat-button matStepperNext
-                  *ngIf="question.id < quiz.length"
-                  [disabled]="!quizForm.get('question' + question.id)?.valid"
-                  (click)="stepper.next()">Next</button>
-                <button mat-raised-button color="primary" 
-                  type="submit" 
-                  *ngIf="question.id === quiz.length"
-                  [disabled]="!quizForm.get('question' + question.id)?.valid"
-                  [disabled]="!quizForm.valid">
-                  Submit
-                </button>
-              </div>
-            </mat-step>
-          </mat-stepper>
-        </form>
-      </mat-card-content>
-    </mat-card>
+    <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+      <mat-stepper
+        #stepper
+        [linear]="isLinear"
+        ><!-- 
+        (selectionChange)="currentStep.set($event.selectedIndex)" -->
+        <mat-step *ngFor="let question of quiz"
+          [completed]="question.id === quiz.length"><!-- 
+          [stepControl]="quizForm.controls['question' + question.id]" -->
+          <!-- <ng-template matStepLabel>Question {{question.id}}</ng-template> -->
+          <div class="question-container"
+          ><!-- 
+            (swipeleft)="onSwipeLeft($event)"
+            (swiperight)="onSwipeRight($event)" -->
+            <h3>{{question.content}}</h3>
+            <p class="dimension">{{question.dimension}}</p>
+            <mat-radio-group [formControlName]="'question' + question.id"
+              (change)="goToNext()"><!-- 
+              (change)="stepper.next()" -->
+              <mat-radio-button *ngFor="let option of question.options"
+                class="simple-radio-button"
+                [value]="option.archetypeId">
+                <div class="option-content">
+                  <span class="option-text">{{option.content}}</span>
+                  <span class="option-subtext">{{option.context}}</span>
+                </div>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="step-actions">
+            <button mat-flat-button 
+              [style.visibility]="question.id === 1 ? 'hidden' : 'visible'"
+              (click)="goToPrevious()"
+              class="step-action-button"><!-- 
+              matStepperPrevious
+              (click)="stepper.previous()" -->
+              <mat-icon>arrow_back_ios</mat-icon>
+              Back
+            </button>
+            <div class="step-position-indicator">
+              {{question.id}}&nbsp;/&nbsp;{{quiz.length}}
+            </div>
+            <button mat-flat-button 
+              color="primary"
+              *ngIf="question.id < quiz.length"
+              [disabled]="!quizForm.get('question' + question.id)?.valid"
+              class="step-action-button"
+              (click)="goToNext()"><!-- 
+              matStepperNext
+              (click)="stepper.next()" -->
+              Next
+              <mat-icon iconPositionEnd>arrow_forward_ios</mat-icon>
+            </button>
+            <button mat-flat-button color="primary" 
+              type="submit" 
+              *ngIf="question.id === quiz.length"
+              [disabled]="!quizForm.get('question' + question.id)?.valid"
+              [disabled]="!quizForm.valid"
+              class="step-action-button">
+              Submit
+              <mat-icon iconPositionEnd>check</mat-icon>
+            </button>
+          </div>
+        </mat-step>
+      </mat-stepper>
+    </form>
   </div>
 </div>

@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
+import { MatIconModule } from '@angular/material/icon';
 //import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
 interface QuizQuestionOption {
@@ -36,7 +37,8 @@ interface QuizQuestion {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatRadioModule
+    MatRadioModule,
+    MatIconModule
   ],
   templateUrl: './quiz-page.component.html',
   styleUrl: './quiz-page.component.scss',
@@ -46,9 +48,9 @@ export class QuizPageComponent implements OnInit {
   @ViewChild('stepper') stepper!: MatStepper;
   quizForm: FormGroup;
   quizId: string | null = null;
-  isLinear = true;
-  currentStep = signal(0);
-  percentageCompleted = computed(() => this.currentStep() / this.quiz.length * 100);
+  isLinear = false; // was true;
+  //currentStep = signal(0);
+  //percentageCompleted = computed(() => this.currentStep() / this.quiz.length * 100);
 
   quiz: QuizQuestion[] = [
     {
@@ -259,6 +261,23 @@ export class QuizPageComponent implements OnInit {
     this.themeService.setTheme(Theme.Light);
   }
 
+
+  // instead of using stepControl, and stepper.previous(), we use this method to go to the previous step
+  // because stepper.previous() is not working as expected (i.e. stepping back 2 steps)
+  goToNext() {
+    console.log('goToNext', this.stepper.selectedIndex);
+    if (this.stepper.selectedIndex < this.quiz.length - 1) {
+      this.stepper.selectedIndex = this.stepper.selectedIndex + 1;
+    }
+  }
+  
+  goToPrevious() {
+    console.log('goToPrevious', this.stepper.selectedIndex);
+    if (this.stepper.selectedIndex > 0) {
+      this.stepper.selectedIndex = this.stepper.selectedIndex - 1;
+    }
+  }
+
   onSubmit() {
     if (this.quizForm.valid) {
       console.log('Form submitted:', this.quizForm.value);
@@ -281,11 +300,13 @@ export class QuizPageComponent implements OnInit {
   } */
 
   canGoNext() {
-    return this.currentStep() < this.quiz.length;
+    //return this.currentStep() < this.quiz.length;
+    return this.stepper.selectedIndex < this.quiz.length;
   }
 
   canGoBack() {
-    return this.currentStep() > 0;
+    //return this.currentStep() > 0;
+    return this.stepper.selectedIndex > 0;
   }
 
   //#region  // Swipe detection (native)  ***** EXPERIMENTAL *****

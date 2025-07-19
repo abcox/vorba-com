@@ -1,31 +1,30 @@
+:root {
+  --sys-surface: var(--primary-grayscale-500);
+  --mdc-stepper-container-color: white;
+  background-color: var(--sys-surface);
+  //--mdc-stepper-line-color: var(--sys-surface);
+  //--mdc-stepper-header-icon-background-color: var(--sys-surface);
+  //--mdc-stepper-header-icon-foreground-color: var(--sys-surface);
+  //--mdc-stepper-header-selected-state-icon-background-color: var(--sys-surface);
+  //--mdc-stepper-header-selected-state-icon-foreground-color: var(--sys-surface);
+  //--mdc-stepper-header-edit-state-icon-background-color: var(--sys-surface);
+
+  --mdc-elevated-card-container-shape: 0px;
+}
+
 .page-container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
   min-height: 100vh;
   padding: 2rem;
-  background-color: var(--primary-grayscale-50);
+  //background-color: var(--primary-grayscale-50);
 
 }
 
 .quiz-container {
   width: 100%;
   max-width: 800px;
-}
-
-mat-card {
-  background-color: var(--primary-grayscale-100);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-mat-card-header {
-  margin-bottom: 1rem;
-}
-
-mat-card-title {
-  font-size: 1.5rem;
-  color: var(--primary-grayscale-900);
 }
 
 // Hide stepper header
@@ -38,9 +37,10 @@ mat-card-title {
 }
 
 h3 {
-  color: var(--primary-grayscale-800);
+  color: var(--primary-grayscale-100);
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
+  font-weight: 800;
 }
 
 .dimension {
@@ -152,20 +152,42 @@ h3 {
 .step-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--primary-grayscale-200);
+  margin-top: 1rem;
+  //padding-top: 1rem;
+  padding-bottom: 2rem;
+  //border-top: 1px solid var(--primary-grayscale-200);
+  .step-action-button {
+    font-size: 1.5rem;
+    //font-weight: 800;
+    //padding: 0.5rem 1rem;
+    border-radius: 24px;
+    background-color: var(--primary-grayscale-100);
+    color: var(--primary-grayscale-900);
+    mat-icon {
+      font-size: 1.5rem;
+      font-weight: 800;
+      // fix position and prevent content truncation
+      height: unset;
+      width: unset;
+    }
+    height: 48px;
+    &:hover {
+      background-color: var(--primary-grayscale-200);
+    }
+  }
+}
+
+.step-position-indicator {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-grayscale-100);
+  align-self: center;
 }
 
 // Mobile styles
 @media (max-width: 768px) {
     .page-container {
       padding: 0;
-    }
-    .quiz-container {
-      .mat-mdc-card-content {
-        padding: 0;
-      }
     }
     .mdc-label {
       .option-subtext {
