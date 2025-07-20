@@ -1,4 +1,4 @@
-import { Component, computed, HostListener, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
 //import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
@@ -24,6 +24,11 @@ interface QuizQuestion {
   content: string;
   dimension: string;
   options: QuizQuestionOption[];
+}
+
+interface Quiz {
+  title: string;
+  questions: QuizQuestion[];
 }
 
 @Component({
@@ -52,7 +57,9 @@ export class QuizPageComponent implements OnInit {
   //currentStep = signal(0);
   //percentageCompleted = computed(() => this.currentStep() / this.quiz.length * 100);
 
-  quiz: QuizQuestion[] = [
+  quiz: Quiz = {
+    title: 'Quiz 1',
+    questions: [
     {
       id: 1,
       content: "When tackling a tricky work challenge, I'm most likely to…",
@@ -239,12 +246,14 @@ export class QuizPageComponent implements OnInit {
         }
       ]
     }
-  ];
+    ]
+  };
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private router: Router
   ) {
     // Initialize form with empty controls for all questions
     const controls: { [key: string]: any } = {};
@@ -261,13 +270,29 @@ export class QuizPageComponent implements OnInit {
     this.themeService.setTheme(Theme.Light);
   }
 
+  get currentQuestionId(): number {
+    return (this.stepper?.selectedIndex ?? 0) + 1;
+  }
+
+  get isFirstQuestion(): boolean {
+    return this.currentQuestionId === 1;
+  }
+
+  get isLastQuestion(): boolean {
+    return this.currentQuestionId === this.quiz.questions.length;
+  }
+
+  get currentQuestion(): QuizQuestion {
+    return this.quiz.questions[this.currentQuestionId - 1];
+  }
 
   // instead of using stepControl, and stepper.previous(), we use this method to go to the previous step
   // because stepper.previous() is not working as expected (i.e. stepping back 2 steps)
   goToNext() {
-    console.log('goToNext', this.stepper.selectedIndex);
-    if (this.stepper.selectedIndex < this.quiz.length - 1) {
+    //console.log('goToNext', this.stepper.selectedIndex);
+    if (this.stepper.selectedIndex < this.quiz.questions.length - 1) {
       this.stepper.selectedIndex = this.stepper.selectedIndex + 1;
+      //this.cdr.detectChanges();
     }
   }
   
@@ -275,6 +300,7 @@ export class QuizPageComponent implements OnInit {
     console.log('goToPrevious', this.stepper.selectedIndex);
     if (this.stepper.selectedIndex > 0) {
       this.stepper.selectedIndex = this.stepper.selectedIndex - 1;
+      //this.cdr.detectChanges();
     }
   }
 
@@ -301,7 +327,7 @@ export class QuizPageComponent implements OnInit {
 
   canGoNext() {
     //return this.currentStep() < this.quiz.length;
-    return this.stepper.selectedIndex < this.quiz.length;
+    return this.stepper.selectedIndex < this.quiz.questions.length;
   }
 
   canGoBack() {
