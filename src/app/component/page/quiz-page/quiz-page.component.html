@@ -62,10 +62,8 @@
         <!-- <ng-container *ngTemplateOutlet="stepperNavigation; context: {$implicit: stepper.selectedIndex + 1, questions: questions}">
         </ng-container> -->
         <button mat-flat-button color="primary" 
-          type="submit" 
-          *ngIf="currentQuestionId === quiz.questions.length"
-          [disabled]="!quizForm.get('question' + currentQuestionId)?.valid"
-          [disabled]="!quizForm.valid"  
+          type="submit"
+          *ngIf="quizForm.valid"
           class="form-submit-button">
           Submit<!-- 
           <mat-icon iconPositionEnd>check</mat-icon> -->
