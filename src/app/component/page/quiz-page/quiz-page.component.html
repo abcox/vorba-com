@@ -1,26 +1,26 @@
 <div class="page-container">
-  <div class="quiz-container">
-    <div class="quiz-nav-header">
-      <button class="quiz-nav-header-back-button"
-        title="Back"
-        [disabled]="isFirstQuestion"
-        (click)="goToPrevious()">
-        <mat-icon>arrow_back_ios</mat-icon>
-      </button><!-- 
-        [style.visibility]="isFirstQuestion ? 'hidden' : 'visible'" -->
-      <div class="quiz-nav-header-title">
-        <span class="step-position-indicator-text">
-          {{currentQuestionId}}&nbsp;/&nbsp;{{quiz.questions.length}}
-        </span>
-      </div>
-      <button class="quiz-nav-header-next-button"
-        title="Next"
-        [disabled]="isLastQuestion || !quizForm.get('question' + currentQuestionId)?.valid"
-        (click)="goToNext()">
-        <mat-icon>arrow_forward_ios</mat-icon>
-      </button><!-- 
-        [style.visibility]="isLastQuestion ? 'hidden' : 'visible'" -->
-    </div><!-- 
+  <div class="quiz-nav-header">
+    <button class="quiz-nav-header-back-button"
+      title="Back"
+      [disabled]="isFirstQuestion"
+      (click)="goToPrevious()">
+      <mat-icon>arrow_back_ios</mat-icon>
+    </button><!-- 
+      [style.visibility]="isFirstQuestion ? 'hidden' : 'visible'" -->
+    <div class="quiz-nav-header-title">
+      <span class="step-position-indicator-text">
+        {{currentQuestionId}}&nbsp;/&nbsp;{{quiz.questions.length}}
+      </span>
+    </div>
+    <button class="quiz-nav-header-next-button"
+      title="Next"
+      [disabled]="isLastQuestion || !quizForm.get('question' + currentQuestionId)?.valid"
+      (click)="goToNext()">
+      <mat-icon>arrow_forward_ios</mat-icon>
+    </button><!-- 
+      [style.visibility]="isLastQuestion ? 'hidden' : 'visible'" -->
+  </div>
+  <div class="quiz-container"><!-- 
     <pre style="color: white;">{{stepper?.selectedIndex}}</pre> -->
     <div *ngIf="quiz?.questions as questions">
       <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
@@ -44,6 +44,7 @@
                 </span> -->
                 <p class="dimension">{{question.dimension}}</p>
               </div>
+              <!-- Options scrollable area BEGIN -->
               <mat-radio-group [formControlName]="'question' + question.id"
                 (change)="goToNext()"><!-- 
                 (change)="stepper.next()" -->
@@ -56,6 +57,7 @@
                   </div>
                 </mat-radio-button>
               </mat-radio-group>
+              <!-- Options scrollable area END -->
             </div>
           </mat-step>
         </mat-stepper>
@@ -70,13 +72,13 @@
         </button>
       </form>
     </div>
-    <div class="quiz-footer">
-      <div class="quiz-footer-item">
-          Vorba &copy; 2025
-      </div>
-      <div class="quiz-footer-item">
-          {{quiz.title}}
-      </div>
+  </div>
+  <div class="quiz-footer">
+    <div class="quiz-footer-item">
+        Vorba &copy; 2025
+    </div>
+    <div class="quiz-footer-item">
+        {{quiz.title}}
     </div>
   </div>
 </div>

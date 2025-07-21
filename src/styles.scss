@@ -3,16 +3,9 @@
 @use "./themes/m3-theme";
 
 /* You can add global styles to this file, and also import other style files */
-@import './styles.css';
+@import './styles.css'; // stylelint-disable-line no-invalid-position-at-import-rule
 
 @include mat.core();
-
-:root {
-  @include mat.all-component-themes(m3-theme.$light-theme);
-  @include mat.typography-hierarchy(m3-theme.$light-theme);
-  @include mat.system-level-colors(m3-theme.$light-theme);
-  @include mat.system-level-typography(m3-theme.$light-theme);
-}
 
 /* Custom button variants */
 .secondary-btn {
@@ -120,145 +113,13 @@ h2 {
 
 /* Legacy color variables for backward compatibility */
 :root {
+  @include mat.all-component-themes(m3-theme.$light-theme);
+  @include mat.typography-hierarchy(m3-theme.$light-theme);
+  @include mat.system-level-colors(m3-theme.$light-theme);
+  @include mat.system-level-typography(m3-theme.$light-theme);
+
   /* Grayscale */
-  --grayscale-50: #ffffff;
-  --grayscale-100: #fafafa;
-  --grayscale-200: #f5f5f5;
-  --grayscale-300: #e5e5e5;
-  --grayscale-400: #d4d4d4;
-  --grayscale-500: #a3a3a3;
-  --grayscale-600: #737373;
-  --grayscale-700: #525252;
-  --grayscale-800: #404040;
-  --grayscale-900: #262626;
-  --grayscale-950: #000000;
-
-  /* MDC Shape System */
-  --mdc-shape-small: 4px;
-  --mdc-shape-medium: 8px;
-  --mdc-shape-large: 12px;
-
-  /* Primary color scales */
-  --primary-grayscale-50: #e3f2fd;
-  --primary-grayscale-100: #bbdefb;
-  --primary-grayscale-200: #90caf9;
-  --primary-grayscale-300: #64b5f6;
-  --primary-grayscale-400: #42a5f5;
-  --primary-grayscale-500: #1976d2;
-  --primary-grayscale-600: #1565c0;
-  --primary-grayscale-700: #0d47a1;
-  --primary-grayscale-800: #0a3d91;
-  --primary-grayscale-900: #002171;
-  --primary-grayscale-950: #000000;
-
-  /* Light theme primary grayscale */
-  --primary-light-grayscale-50: #f5f0ff;
-  --primary-light-grayscale-100: #ebe1ff;
-  --primary-light-grayscale-200: #d7c3ff;
-  --primary-light-grayscale-300: #c3a5ff;
-  --primary-light-grayscale-400: #af87ff;
-  --primary-light-grayscale-500: #9b69ff;
-  --primary-light-grayscale-600: #874bff;
-  --primary-light-grayscale-700: #732dff;
-  --primary-light-grayscale-800: #5f0fff;
-  --primary-light-grayscale-900: #5719d2;
-  --primary-light-grayscale-950: #000000;
-
-  /* Legacy variables */
-  --gray-900: oklch(19.37% 0.006 300.98);
-  --gray-700: oklch(36.98% 0.014 302.71);
-  --gray-400: oklch(70.9% 0.015 304.04);
-  --link-color: #0056b3;
-
-  /* Gradient variables */
-  --bright-blue: oklch(51.01% 0.274 263.83);
-  --electric-violet: oklch(53.18% 0.28 296.97);
-  --french-violet: oklch(47.66% 0.246 305.88);
-  --vivid-pink: oklch(69.02% 0.277 332.77);
-  --hot-red: oklch(61.42% 0.238 15.34);
-  --orange-red: oklch(63.32% 0.24 31.68);
-
-  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%);
-
-  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%);
-
-  --pill-accent: var(--bright-blue);
-
-  /* dark theme (default) */
-  --background-color: #070437;
-  --text-color: var(--grayscale-400);
-  --primary-color: #bb86fc;
-  --error-color: #cf6679;
-  --background-image: url("assets/images/background-blue-1-dark.jpeg");
-}
-
-:host {
-  /* 
-  --gray-900: oklch(19.37% 0.006 300.98);
-  --gray-700: oklch(36.98% 0.014 302.71);
-  --gray-400: oklch(70.9% 0.015 304.04); */
-
-  /* moved from app.component.scss */
-
-  --bright-blue: oklch(51.01% 0.274 263.83);
-  --electric-violet: oklch(53.18% 0.28 296.97);
-  --french-violet: oklch(47.66% 0.246 305.88);
-  --vivid-pink: oklch(69.02% 0.277 332.77);
-  --hot-red: oklch(61.42% 0.238 15.34);
-  --orange-red: oklch(63.32% 0.24 31.68);
-  /* 
-  --gray-900: oklch(19.37% 0.006 300.98);
-  --gray-700: oklch(36.98% 0.014 302.71);
-  --gray-400: oklch(70.9% 0.015 304.04); */
-
-  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%);
-
-  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg,
-      var(--orange-red) 0%,
-      var(--vivid-pink) 50%,
-      var(--electric-violet) 100%);
-
-  --pill-accent: var(--bright-blue);
-
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  --link-color: #0056b3;
-}
-
-/* theme */
-/* light (default / root) */
-.light-theme {
-  --background-color: #ffffff;
-  --text-color: var(--grayscale-700);
-  --primary-color: #1976d2;
-  --background-image: url("assets/images/background-blue-1-light.jpeg");
-}
-
-/* dark theme -- See root for default dark theme
-.dark-theme {
-    --background-color: #121212;
-    --text-color: var(--grayscale-600);
-    --primary-color: #bb86fc;
-    --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
-  } */
-
-:root {
-  /* Grayscale */
-  --grayscale-50: #ffffff;
+  --grayscale-50: #fff;
   /* White */
   --grayscale-100: #fafafa;
   --grayscale-200: #f5f5f5;
@@ -269,7 +130,7 @@ h2 {
   --grayscale-700: #525252;
   --grayscale-800: #404040;
   --grayscale-900: #262626;
-  --grayscale-950: #000000;
+  --grayscale-950: #000;
   /* Black */
 
   /* MDC Shape System */
@@ -289,7 +150,7 @@ h2 {
   --primary-grayscale-700: #0d47a1;
   --primary-grayscale-800: #0a3d91;
   --primary-grayscale-900: #002171;
-  --primary-grayscale-950: #000000;
+  --primary-grayscale-950: #000;
 
   /* Light theme primary grayscale */
   --primary-light-grayscale-50: #f5f0ff;
@@ -302,21 +163,41 @@ h2 {
   --primary-light-grayscale-700: #732dff;
   --primary-light-grayscale-800: #5f0fff;
   --primary-light-grayscale-900: #5719d2;
-  --primary-light-grayscale-950: #000000;
+  --primary-light-grayscale-950: #000;
 
   /* Existing variables */
-  --gray-900: oklch(19.37% 0.006 300.98);
-  --gray-700: oklch(36.98% 0.014 302.71);
-  --gray-400: oklch(70.9% 0.015 304.04);
+  --gray-900: oklch(19.37% 0.006 300.98deg);
+  --gray-700: oklch(36.98% 0.014 302.71deg);
+  --gray-400: oklch(70.9% 0.015 304.04deg);
   --link-color: #0056b3;
 
+  /* Gradient variables */
+  --bright-blue: oklch(51.01% 0.274 263.83deg);
+  --electric-violet: oklch(53.18% 0.28 296.97deg);
+  --french-violet: oklch(47.66% 0.246 305.88deg);
+  --vivid-pink: oklch(69.02% 0.277 332.77deg);
+  --hot-red: oklch(61.42% 0.238 15.34deg);
+  --orange-red: oklch(63.32% 0.24 31.68deg);
+
+  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
+
+  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
+
+  --pill-accent: var(--bright-blue);
+
   /* dark theme (default) */
-  --background-color: #13121a;
+  --background-color: #070437;
   --text-color: var(--grayscale-400);
   --primary-color: #bb86fc;
   --error-color: #cf6679;
-  --background-image: url('assets/images/background-blue-1-dark.jpeg');
-
+  --background-image: url("assets/images/background-blue-1-dark.jpeg");
+  
   // TODO & DEV-NOTE:  R&D how to compose theme with efficiency.
   // there should be a way to quickly create new from existing (as template) and
   // create dark theme (from light).
@@ -364,8 +245,60 @@ h2 {
   --mdc-protected-button-container-shape: var(--mdc-shape-small);
 }
 
+:host {
+  /* 
+  --gray-900: oklch(19.37% 0.006 300.98);
+  --gray-700: oklch(36.98% 0.014 302.71);
+  --gray-400: oklch(70.9% 0.015 304.04); */
+
+  /* moved from app.component.scss */
+
+  --bright-blue: oklch(51.01% 0.274 263.83deg);
+  --electric-violet: oklch(53.18% 0.28 296.97deg);
+  --french-violet: oklch(47.66% 0.246 305.88deg);
+  --vivid-pink: oklch(69.02% 0.277 332.77deg);
+  --hot-red: oklch(61.42% 0.238 15.34deg);
+  --orange-red: oklch(63.32% 0.24 31.68deg);
+  /* 
+  --gray-900: oklch(19.37% 0.006 300.98);
+  --gray-700: oklch(36.98% 0.014 302.71);
+  --gray-400: oklch(70.9% 0.015 304.04); */
+
+  --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
+
+  --red-to-pink-to-purple-horizontal-gradient: linear-gradient(90deg,
+      var(--orange-red) 0%,
+      var(--vivid-pink) 50%,
+      var(--electric-violet) 100%);
+
+  --pill-accent: var(--bright-blue);
+
+  // todo: review this font-family:
+  // font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  //   Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  //   "Segoe UI Symbol";
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --link-color: #0056b3;
+}
+
+/* dark theme -- See root for default dark theme
+.dark-theme {
+    --background-color: #121212;
+    --text-color: var(--grayscale-600);
+    --primary-color: #bb86fc;
+    --background-image: url('assets\\images\\background-blue-1-dark.jpeg');
+  } */
+
+/* theme */
+/* light (default / root) */
 .light-theme {
-  --background-color: #ffffff;
+  --background-color: #fff;
   --text-color: var(--grayscale-700);
   --primary-color: #1976d2;
   --error-color: #d32f2f;
@@ -396,6 +329,29 @@ h2 {
   --mdc-checkbox-unselected-icon-color: var(--grayscale-600);
   --mdc-checkbox-selected-focus-icon-color: var(--primary-color);
   --mdc-checkbox-selected-hover-icon-color: var(--primary-color);
+  
+  p {
+    margin: 0;
+    color: var(--gray-700);
+  }
+
+  //#region / Light theme dialog styles -- START --
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: var(--primary-light-grayscale-100);
+  }
+
+  .mat-mdc-dialog-title {
+    color: var(--grayscale-900) !important;
+  }
+
+  .mat-mdc-dialog-content {
+    color: var(--grayscale-800) !important;
+  }
+
+  .cdk-overlay-dark-backdrop {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  //#endregion / Light theme dialog styles -- END --
 }
 
 // Fix for the vertical line issue
@@ -447,13 +403,6 @@ p {
   //color: var(--gray-700);
 }
 
-.light-theme {
-  p {
-    margin: 0;
-    color: var(--gray-700);
-  }
-}
-
 // Material theme overrides:
 // Rounded corners
 .rounded-lg {
@@ -487,25 +436,6 @@ p {
 .mat-mdc-dialog-container.success-dialog {
   --mdc-dialog-container-shape: 12px;
   max-width: 350px !important;
-}
-
-// Light theme dialog styles
-.light-theme {
-  .mat-mdc-dialog-container {
-    --mdc-dialog-container-color: var(--primary-light-grayscale-100);
-  }
-
-  .mat-mdc-dialog-title {
-    color: var(--grayscale-900) !important;
-  }
-
-  .mat-mdc-dialog-content {
-    color: var(--grayscale-800) !important;
-  }
-
-  .cdk-overlay-dark-backdrop {
-    background: rgba(0, 0, 0, 0.7);
-  }
 }
 
 // Checkbox styles - moved outside :root

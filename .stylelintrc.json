@@ -1,0 +1,41 @@
+{
+    "customSyntax": "postcss-scss",
+    "plugins": ["stylelint-scss"],
+    "extends": [
+        "stylelint-config-standard",
+        "stylelint-config-recommended",
+        "stylelint-config-tailwindcss"
+    ],
+    "rules": {
+        "at-rule-no-unknown": [
+            true,
+            {
+                "ignoreAtRules": [
+                "tailwind",
+                "apply",
+                "variants",
+                "responsive",
+                "screen",
+                "layer",
+                "use",
+                "include",
+                "tailwind"
+                ]
+            }
+        ],
+        "rule-empty-line-before": null,
+        "comment-empty-line-before": null,
+        "declaration-empty-line-before": null,
+        "custom-property-empty-line-before": null,
+        "color-function-alias-notation": null,
+        "color-function-notation": null,
+        "alpha-value-notation": null,
+        "media-feature-range-notation": null,
+        "no-descending-specificity": null,
+        "shorthand-property-no-redundant-values": null,
+        "selector-class-pattern": null,
+        "length-zero-no-unit": null,
+        "at-rule-no-deprecated": null
+    }
+}
+  
