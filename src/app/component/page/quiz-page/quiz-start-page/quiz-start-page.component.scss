@@ -134,9 +134,53 @@
 }
 
 // Responsive: switch to row layout on wider screens
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 600px) {
     .intro-card mat-card-content {
         flex-direction: row;  // Horizontal layout on desktop
         justify-content: space-between;
+    }
+}
+
+// Responsive: switch to row layout on narrow screens
+@media screen and (max-width: 600px) {
+    .intro-card mat-card-content {
+        flex-direction: column;  // Vertical layout on mobile
+        justify-content: center;
+    }
+
+    /* :root, html, body,
+    .light-theme,
+    .page-container,
+    .intro-card {
+        --background-color: var(--primary-grayscale-500) !important;
+         --mat-app-background-color: var(--primary-grayscale-500) !important;
+        --sys-background: var(--primary-grayscale-500) !important;
+        --sys-surface: var(--primary-grayscale-500) !important;
+        background-color: var(--primary-grayscale-500) !important;
+    } */
+     /* :root {
+        --sys-background: var(--primary-grayscale-500) !important;
+        --mat-app-background-color: var(--primary-grayscale-500) !important;
+        --background-color: var(--primary-grayscale-500) !important;
+    } */
+
+    body.light-theme {
+        --background-color: var(--primary-grayscale-500) !important;
+        background-color: var(--primary-grayscale-500) !important;
+      }
+
+    .intro-card.mat-mdc-card {
+        background-color: var(--primary-grayscale-500);
+        border-radius: 0;
+    }
+    
+    .page-container {
+        min-height: 100vh;
+        margin: 0;
+
+        h1, p,
+        .intro-container {
+            color: var(--primary-grayscale-50);
+        }
     }
 }

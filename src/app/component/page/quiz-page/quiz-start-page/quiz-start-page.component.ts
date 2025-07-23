@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,7 +22,8 @@ import { Theme, ThemeService } from 'src/app/services/theme.service';
     MatCardModule
   ],
   templateUrl: './quiz-start-page.component.html',
-  styleUrl: './quiz-start-page.component.scss'
+  styleUrl: './quiz-start-page.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class QuizStartPageComponent {
   quizForm: FormGroup;
