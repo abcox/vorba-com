@@ -120,6 +120,11 @@
     button {
         margin-top: 1rem;
     }
+
+    --mdc-protected-button-container-color: var(--primary-grayscale-500);
+    --mdc-protected-button-label-text-color: var(--primary-grayscale-50);
+    --mdc-protected-button-disabled-container-color: var(--primary-grayscale-200);
+    --mdc-protected-button-disabled-label-text-color: var(--primary-grayscale-400);
 }
 
 @media screen and (max-width: 960px) {
