@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
@@ -10,6 +10,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
+import { DeviceService } from 'src/app/services/device.service';
 //import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
 interface QuizQuestionOption {
@@ -50,6 +51,7 @@ interface Quiz {
   encapsulation: ViewEncapsulation.None
 })
 export class QuizPageComponent implements OnInit {
+  isMobile = inject(DeviceService).isMobile;
   @ViewChild('stepper') stepper!: MatStepper;
   quizForm: FormGroup;
   quizId: string | null = null;
