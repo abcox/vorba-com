@@ -68,7 +68,7 @@ jobs:
           fi
 
       - name: Copy environment.ts file to dist
-        run: cp src/environments/environment.${{ env.DEPLOY_ENV_ABBREV }}.ts dist/browser/environment.ts
+        run: cp src/environments/environment.${{ env.DEPLOY_ENV_ABBREV }}.ts dist/environment.ts
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
