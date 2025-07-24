@@ -337,6 +337,12 @@ export class QuizPageComponent implements OnInit {
     return this.stepper.selectedIndex > 0;
   }
 
+  isCurrentQuestionValid(): boolean {
+    const currentQuestionId = this.currentQuestionId;
+    const questionControl = this.quizForm.get(`question${currentQuestionId}`);
+    return questionControl ? questionControl.valid : false;
+  }
+
   //#region  // Swipe detection (native)  ***** EXPERIMENTAL *****
   //
   // TODO: review hammerjs as an alternative, more robust swipe detection
@@ -362,10 +368,10 @@ export class QuizPageComponent implements OnInit {
 
     // Only trigger if horizontal swipe is greater than vertical
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > this.SWIPE_THRESHOLD) {
-      if (diffX > 0 && this.canGoNext()) {
-        this.stepper.next(); // Swipe left
+      if (diffX > 0 && this.canGoNext() && this.isCurrentQuestionValid()) {
+        this.goToNext(); // Swipe left - use goToNext instead of stepper.next()
       } else if (diffX < 0 && this.canGoBack()) {
-        this.stepper.previous(); // Swipe right
+        this.goToPrevious(); // Swipe right - use goToPrevious instead of stepper.previous()
       }
     }
   }
