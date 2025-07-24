@@ -15,12 +15,12 @@
                 <span class="question-text">{{question.content}}</span>
                 <p class="dimension">{{question.dimension}}</p>
               </div>
-              <mat-radio-group [formControlName]="'question' + question.id"
-                (change)="goToNextWhenFormNotValid()">
+              <mat-radio-group [formControlName]="'question' + question.id">
                 <div class="radio-group-container"
                   [ngClass]="{'two-column': !isMobile() && question.options.length > 2}">
                   <mat-radio-button *ngFor="let option of question.options"
                     class="simple-radio-button"
+                    (mouseup)="goToNextWhenFormNotValid()"
                     [value]="option.archetypeId">
                     <div class="option-content">
                       <span class="option-text">{{option.content}}</span>
