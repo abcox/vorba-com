@@ -16,7 +16,7 @@
                 <p class="dimension">{{question.dimension}}</p>
               </div>
               <mat-radio-group [formControlName]="'question' + question.id"
-                (change)="goToNext()">
+                (change)="goToNextWhenFormNotValid()">
                 <div class="radio-group-container"
                   [ngClass]="{'two-column': !isMobile() && question.options.length > 2}">
                   <mat-radio-button *ngFor="let option of question.options"

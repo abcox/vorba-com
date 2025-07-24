@@ -288,6 +288,12 @@ export class QuizPageComponent implements OnInit {
     return this.quiz.questions[this.currentQuestionId - 1];
   }
 
+  goToNextWhenFormNotValid() {
+    if (!this.quizForm.valid) {
+      this.goToNext();
+    }
+  }
+
   // instead of using stepControl, and stepper.previous(), we use this method to go to the previous step
   // because stepper.previous() is not working as expected (i.e. stepping back 2 steps)
   goToNext() {
