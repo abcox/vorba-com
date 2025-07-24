@@ -69,6 +69,18 @@
             position: absolute;
             left: 0;
             color: var(--primary-color);
+            font-size: 1.5rem;
+
+        }
+        &.heart::before {
+            content: "♥";
+            font-size: 1.5rem;
+            color: red;
+        }
+        &.star::before {
+            content: "★";
+            font-size: 1rem;
+            color: var(--primary-color);
         }
     }
 }
@@ -123,8 +135,8 @@
 
     --mdc-protected-button-container-color: var(--primary-grayscale-500);
     --mdc-protected-button-label-text-color: var(--primary-grayscale-50);
-    --mdc-protected-button-disabled-container-color: var(--primary-grayscale-200);
-    --mdc-protected-button-disabled-label-text-color: var(--primary-grayscale-400);
+    --mdc-protected-button-disabled-container-color: var(--grayscale-400);
+    --mdc-protected-button-disabled-label-text-color: var(--grayscale-600);
 }
 
 @media screen and (max-width: 960px) {
@@ -143,6 +155,28 @@
 
 // Responsive: switch to row layout on narrow screens
 @media screen and (max-width: 600px) {
+
+    :root {
+        .mat-typography {
+            h1 {
+                font: var(--sys-display-large);
+            }
+            p {
+                font: var(--sys-body-large);
+            }
+            mat-card-title {
+                font: var(--sys-headline-medium);
+            }
+            mat-card-subtitle {
+                display: none;
+                //font: var(--sys-body-medium);
+            }
+
+            --mdc-protected-button-container-height: 4rem;
+            --mdc-protected-button-label-text-size: 1.5rem;
+        }
+    }
+
     .intro-card mat-card-content {
         flex-direction: column;  // Vertical layout on mobile
         justify-content: center;
@@ -178,9 +212,25 @@
         min-height: 100vh;
         margin: 0;
 
+        h1 {
+            font-size: 1.875rem;
+        }
+
         h1, p,
         .intro-container {
             color: var(--primary-grayscale-50);
+        }
+    }
+    .intro-container ul {
+        li {
+            font-size: 1.3rem;
+            line-height: 1.875rem;
+            letter-spacing: 0.1rem;
+            padding-left: 1.875rem;
+
+            &.star::before {
+                color: yellow;
+            }
         }
     }
 }
