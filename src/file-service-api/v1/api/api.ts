@@ -1,0 +1,13 @@
+export * from './auth.service';
+import { AuthService } from './auth.service';
+export * from './config.service';
+import { ConfigService } from './config.service';
+export * from './file.service';
+import { FileService } from './file.service';
+export * from './gPT.service';
+import { GPTService } from './gPT.service';
+export * from './user.service';
+import { UserService } from './user.service';
+export * from './workflow.service';
+import { WorkflowService } from './workflow.service';
+export const APIS = [AuthService, ConfigService, FileService, GPTService, UserService, WorkflowService];
