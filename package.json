@@ -13,7 +13,8 @@
     "deploy": "powershell -ExecutionPolicy Bypass -File ./deploy.ps1",
     "swagger--test": "npx ng-swagger-gen --input https://demo-app5-api.azurewebsites.net/swagger/v1/swagger.json --output src/app/api",
     "openapi-gen-v1-prod": "openapi-generator-cli generate -g typescript-angular -i https://demo-app5-api.azurewebsites.net/swagger/v1/swagger.json -o src\\backend-api\\v1 -p npmName=demo-app5-api-v1 --additional-properties=supportsES6=true,ngVersion=17.1.0,npmVersion=10.5.0",
-    "openapi-gen-v1": "ope,napi-generator-cli generate -g typescript-angular -i http://localhost:5071/swagger/v1/swagger.json -o src\\backend-api\\v1 -p npmName=demo-app5-api-v1 --additional-properties=supportsES6=true,ngVersion=17.1.0,npmVersion=10.5.0",
+    "openapi-gen-v1": "openapi-generator-cli generate -g typescript-angular -i http://localhost:5071/swagger/v1/swagger.json -o src\\backend-api\\v1 -p npmName=demo-app5-api-v1 --additional-properties=supportsES6=true,ngVersion=17.1.0,npmVersion=10.5.0",
+    "openapi-gen-file-service-v1": "openapi-generator-cli generate -g typescript-angular -i http://localhost:3000/api-json -o src\\file-service-api\\v1 -p npmName=file-service-api-v1 --additional-properties=supportsES6=true,ngVersion=17.1.0,npmVersion=10.5.0",
     "------------- LINTING --------------------": "----------------------------------------",
     "lint:css": "stylelint \"src/**/*.{css,scss}\"",
     "lint:css:fix": "stylelint \"src/**/*.{css,scss}\" --fix"
