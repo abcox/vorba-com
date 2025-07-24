@@ -180,6 +180,7 @@
     .intro-card mat-card-content {
         flex-direction: column;  // Vertical layout on mobile
         justify-content: center;
+        gap: 0;
     }
 
     /* :root, html, body,
