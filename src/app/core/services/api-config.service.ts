@@ -1,29 +1,55 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Configuration, ConfigurationParameters } from '@backend-api/v1';
+import {
+  Configuration as BackendApiConfig,
+  ConfigurationParameters as BackendApiConfigParams
+} from '@backend-api/v1';
+import {
+  Configuration as FileServiceConfig,
+  ConfigurationParameters as FileServiceConfigParams } from '@file-service-api/v1';
+
 
 // configure backend api
-export function apiConfigFactory(): Configuration {
-  const params: ConfigurationParameters = {
-    basePath: environment.apiUrl,
+export function backendApiConfigFactory(): BackendApiConfig {
+  const params: BackendApiConfigParams = {
+    basePath: environment.backendApiUrl,
   };
-  return new Configuration(params);
+  return new BackendApiConfig(params);
 }
+
+// configure file service api
+export function fileServiceApiConfigFactory(): FileServiceConfig {
+  const params: FileServiceConfigParams = {
+    basePath: environment.fileServiceApiUrl,
+  };
+  return new FileServiceConfig(params);
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiConfigService {
-  private configuration: Configuration;
+  private backendApiConfiguration: BackendApiConfig;
+  private fileServiceApiConfiguration: FileServiceConfig;
 
   constructor() {
-    this.configuration = new Configuration({
-      basePath: environment.apiUrl
+    this.backendApiConfiguration = new BackendApiConfig({
+      basePath: environment.backendApiUrl
+    });
+    this.fileServiceApiConfiguration = new FileServiceConfig({
+      basePath: environment.fileServiceApiUrl
     });
   }
 
   // todo: do we need this?  (i moved apiConfigFactory from app.config to this code file -- see above)
-  getConfiguration(): Configuration {
-    return this.configuration;
+  getConfiguration(): {
+    backendApiConfiguration: BackendApiConfig;
+    fileServiceApiConfiguration: FileServiceConfig;
+  } {
+    return {
+      backendApiConfiguration: this.backendApiConfiguration,
+      fileServiceApiConfiguration: this.fileServiceApiConfiguration
+    };
   }
 } 

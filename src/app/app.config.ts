@@ -3,8 +3,9 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
-import { ApiModule } from '@backend-api/v1';
-import { apiConfigFactory } from './core/services/api-config.service';
+import { ApiModule as BackendApiModule } from '@backend-api/v1';
+import { ApiModule as FileServiceApiModule } from '@file-service-api/v1';
+import { backendApiConfigFactory, fileServiceApiConfigFactory } from './core/services/api-config.service';
 
 export const TOKEN_KEY = 'token'; // todo: move to a shared constant file -- candidate for InjectionToken?
 
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(),
     //{ provide: Configuration, useFactory: apiConfigFactory },    
-    importProvidersFrom(ApiModule.forRoot(apiConfigFactory)),
+    importProvidersFrom(BackendApiModule.forRoot(backendApiConfigFactory)),
+    importProvidersFrom(FileServiceApiModule.forRoot(fileServiceApiConfigFactory)),
   ]
 };

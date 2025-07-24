@@ -25,7 +25,8 @@
     ],
     "baseUrl": "./",
     "paths": {
-      "@backend-api/*": ["src/backend-api/*"]
+      "@backend-api/*": ["src/backend-api/*"],
+      "@file-service-api/*": ["src/file-service-api/*"]
     }
   },
   "angularCompilerOptions": {
