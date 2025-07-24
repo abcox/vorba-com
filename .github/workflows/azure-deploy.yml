@@ -12,6 +12,7 @@ env:
   AZURE_WEBAPP_NAME: 'vorba-web-app-demo-2'
   AZURE_RESOURCE_GROUP: 'vorba-file-service-rg'
   DEPLOY_ENV: 'production'
+  DEPLOY_ENV_ABBREV: 'prod'
 
 jobs:
   # optionally, can use job build-and-deploy: ?
@@ -65,6 +66,9 @@ jobs:
           else
             echo "Build successful"
           fi
+
+      - name: Copy environment.ts file to dist
+        run: cp src/environments/environment.${{ env.DEPLOY_ENV_ABBREV }}.ts dist/vorba-web/environment.ts
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
