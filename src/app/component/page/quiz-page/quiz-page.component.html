@@ -60,7 +60,8 @@
     <button mat-flat-button class="step-action-button"
       title="Back"
       [disabled]="isFirstQuestion"
-      (click)="goToPrevious()">
+      (click)="goToPrevious()"
+      type="button">
       <mat-icon iconPositionStart>arrow_back_ios</mat-icon>
       Back
     </button>
@@ -73,7 +74,8 @@
       <button mat-flat-button class="step-action-button"
         title="Next"
         [disabled]="isLastQuestion || !quizForm.get('question' + currentQuestionId)?.valid"
-        (click)="goToNext()">
+        (click)="goToNext()"
+        type="button">
         <mat-icon iconPositionEnd>arrow_forward_ios</mat-icon>
         Next
       </button>
@@ -92,7 +94,8 @@
     <button class="quiz-nav-header-back-button"
       title="Back"
       [disabled]="isFirstQuestion"
-      (click)="goToPrevious()">
+      (click)="goToPrevious()"
+      type="button">
       <mat-icon>arrow_back_ios</mat-icon>
     </button>
     <div class="quiz-nav-header-title">
@@ -103,7 +106,8 @@
     <button class="quiz-nav-header-next-button"
       title="Next"
       [disabled]="isLastQuestion || !quizForm.get('question' + currentQuestionId)?.valid"
-      (click)="goToNext()">
+      (click)="goToNext()"
+      type="button">
       <mat-icon>arrow_forward_ios</mat-icon>
     </button>
   </div>  
