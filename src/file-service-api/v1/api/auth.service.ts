@@ -83,7 +83,7 @@ export class AuthService extends BaseService {
             }
         }
 
-        let localVarPath = `/auth/login`;
+        let localVarPath = `/api/auth/login`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -149,7 +149,7 @@ export class AuthService extends BaseService {
             }
         }
 
-        let localVarPath = `/auth/register`;
+        let localVarPath = `/api/auth/register`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {

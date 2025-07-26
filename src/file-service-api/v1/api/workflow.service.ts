@@ -92,7 +92,7 @@ export class WorkflowService extends BaseService {
             }
         }
 
-        let localVarPath = `/workflow/file/report`;
+        let localVarPath = `/api/workflow/file/report`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<object>('get', `${basePath}${localVarPath}`,
             {

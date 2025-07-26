@@ -83,7 +83,7 @@ export class GPTService extends BaseService {
             }
         }
 
-        let localVarPath = `/gpt/analyze`;
+        let localVarPath = `/api/gpt/analyze`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
@@ -136,7 +136,7 @@ export class GPTService extends BaseService {
             }
         }
 
-        let localVarPath = `/gpt/config`;
+        let localVarPath = `/api/gpt/config`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -188,7 +188,7 @@ export class GPTService extends BaseService {
             }
         }
 
-        let localVarPath = `/gpt/health`;
+        let localVarPath = `/api/gpt/health`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {

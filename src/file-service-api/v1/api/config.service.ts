@@ -70,7 +70,7 @@ export class ConfigService extends BaseService {
             }
         }
 
-        let localVarPath = `/config`;
+        let localVarPath = `/api/config`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -122,7 +122,7 @@ export class ConfigService extends BaseService {
             }
         }
 
-        let localVarPath = `/config/vault/client/url`;
+        let localVarPath = `/api/config/vault/client/url`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {

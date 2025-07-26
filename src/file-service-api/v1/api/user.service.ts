@@ -74,7 +74,7 @@ export class UserService extends BaseService {
             }
         }
 
-        let localVarPath = `/user/email/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/user/email/${this.configuration.encodeParam({name: "email", value: email, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -126,7 +126,7 @@ export class UserService extends BaseService {
             }
         }
 
-        let localVarPath = `/user/list`;
+        let localVarPath = `/api/user/list`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -201,7 +201,7 @@ export class UserService extends BaseService {
             }
         }
 
-        let localVarPath = `/user/file/upload`;
+        let localVarPath = `/api/user/file/upload`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {
