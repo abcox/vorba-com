@@ -16,6 +16,11 @@ encoder.ts
 git_push.sh
 index.ts
 model/models.ts
+model/userDto.ts
+model/userLoginRequest.ts
+model/userLoginResponse.ts
+model/userRegistrationRequest.ts
+model/userRegistrationResponse.ts
 ng-package.json
 package.json
 param.ts

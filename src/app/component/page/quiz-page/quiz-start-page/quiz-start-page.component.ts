@@ -9,8 +9,8 @@ import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
-import { RegisterRequest } from 'src/app/service/auth/auth.service';
 import { environment } from 'src/environments/environment';
+import { UserRegistrationRequest } from '../../../../../file-service-api/v1';
 
 @Component({
   selector: 'app-quiz-start-page',
@@ -57,9 +57,13 @@ export class QuizStartPageComponent {
       // and on successful response, route to quiz page      this.router.navigate(['/quiz', response.guid]);
       //this.router.navigate(['/quiz', response.guid]);
 
-      const request: RegisterRequest = {
+      const request: UserRegistrationRequest = {
         email: this.quizForm.value.email,
-        name: this.quizForm.value.name
+        name: this.quizForm.value.name,
+        password: this.quizForm.value.email,
+        username: this.quizForm.value.email,
+        //subscribeNewsletter: this.quizForm.value.subscribeNewsletter,
+        //termsAccepted: true
       };
 
       this.authService.register(request).subscribe((success) => {
