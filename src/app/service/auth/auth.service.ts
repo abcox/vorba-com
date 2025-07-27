@@ -1,6 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { AuthService as AuthApiService } from '@file-service-api/v1';
 import { map, Observable } from 'rxjs';
+import { TOKEN_KEY } from '../../app.config';
 
 // TODO: define the types for the request and response in the API model
 // so we have them on generating the API module
@@ -36,13 +37,39 @@ export class AuthService {
             map((response) => {
                 console.log('register response', response);
                 if (!response.success) {
+                    this.clearAuthState();
                     return false;
                 }
-                // TODO: store the token in the local storage
-                //localStorage.setItem('token', response.token);
+                // Store the token in localStorage
+                //localStorage.setItem(TOKEN_KEY, response.token);
                 this.authState.set(response);
                 return true;
             })
         );
     }
+
+    getToken(): string | null {
+        return this.authState()?.token ?? null;
+    }
+    
+    clearAuthState(): void {
+        this.authState.set(null);
+    }
+
+    /* getToken(): string | null {
+        return localStorage.getItem(TOKEN_KEY);
+    }
+
+    isAuthenticated(): boolean {
+        return !!this.getToken();
+    }
+
+    clearAuthState(): void {
+        localStorage.removeItem(TOKEN_KEY);
+        this.authState.set(null);
+    }
+
+    logout(): void {
+        this.clearAuthState();
+    } */
 }

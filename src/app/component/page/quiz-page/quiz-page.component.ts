@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, inject, OnInit, Signal, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
@@ -11,6 +11,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
 import { DeviceService } from 'src/app/services/device.service';
+import { QuizService } from '@file-service-api/v1';
+import { map, switchMap } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 //import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
 interface QuizQuestionOption {
@@ -51,6 +56,7 @@ interface Quiz {
   encapsulation: ViewEncapsulation.None
 })
 export class QuizPageComponent implements OnInit {
+  quizService = inject(QuizService);
   isMobile = inject(DeviceService).isMobile;
   @ViewChild('stepper') stepper!: MatStepper;
   quizForm: FormGroup;
@@ -59,7 +65,7 @@ export class QuizPageComponent implements OnInit {
   //currentStep = signal(0);
   //percentageCompleted = computed(() => this.currentStep() / this.quiz.length * 100);
 
-  quiz: Quiz = {
+  /* quizData: Quiz = {
     title: 'Quiz 1',
     questions: [
     {
@@ -249,8 +255,10 @@ export class QuizPageComponent implements OnInit {
       ]
     }
     ]
-  };
+  }; */
 
+  quiz: Signal<Quiz | null>/*  = signal(this.quizData) */;
+  
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -263,6 +271,27 @@ export class QuizPageComponent implements OnInit {
       controls[`question${i}`] = ['', Validators.required];
     }
     this.quizForm = this.fb.group(controls);
+
+    const quiz$ = this.route.queryParams.pipe(
+      switchMap((params) => {
+        console.log('Params:', params);
+        const title = params['title'];
+        if (!title) {
+          throw new Error('Quiz title is required');
+        }
+        console.log('Quiz title:', title);
+        return this.quizService.quizControllerGetQuizByTitle(title) as Observable<Quiz>;
+      }),
+      map((response: any) => { // todo: fix this --> we need to make response model in the api
+        console.log('response', response);
+        if (response.success) {
+          return response.quiz;
+        }
+        return null;
+      }),
+      takeUntilDestroyed()
+    );
+    this.quiz = toSignal<Quiz | null>(quiz$, { initialValue: null });
   }
 
   ngOnInit() {
@@ -281,11 +310,11 @@ export class QuizPageComponent implements OnInit {
   }
 
   get isLastQuestion(): boolean {
-    return this.currentQuestionId === this.quiz.questions.length;
+    return this.currentQuestionId === this.quiz()?.questions.length;
   }
 
-  get currentQuestion(): QuizQuestion {
-    return this.quiz.questions[this.currentQuestionId - 1];
+  get currentQuestion(): QuizQuestion | undefined {
+    return this.quiz()?.questions[this.currentQuestionId - 1];
   }
 
   goToNextWhenFormNotValid() {
@@ -298,7 +327,7 @@ export class QuizPageComponent implements OnInit {
   // because stepper.previous() is not working as expected (i.e. stepping back 2 steps)
   goToNext() {
     //console.log('goToNext', this.stepper.selectedIndex);
-    if (this.stepper.selectedIndex < this.quiz.questions.length - 1) {
+    if (this.stepper.selectedIndex < (this.quiz()?.questions.length ?? 0) - 1) {
       this.stepper.selectedIndex = this.stepper.selectedIndex + 1;
       //this.cdr.detectChanges();
     }
@@ -335,7 +364,7 @@ export class QuizPageComponent implements OnInit {
 
   canGoNext() {
     //return this.currentStep() < this.quiz.length;
-    return this.stepper.selectedIndex < this.quiz.questions.length;
+    return this.stepper.selectedIndex < (this.quiz()?.questions.length ?? 0);
   }
 
   canGoBack() {

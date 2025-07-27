@@ -1,61 +1,63 @@
 <div class="page-container">
-  @if (isMobile()) {
-    <ng-container *ngTemplateOutlet="quizNavHeader"></ng-container>
-  } @else {
-    <ng-container *ngTemplateOutlet="quizHeader"></ng-container>
-  }
-  <div class="quiz-container">
-    <div *ngIf="quiz?.questions as questions">
-      <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
-        <mat-stepper #stepper [linear]="isLinear">
-          <mat-step *ngFor="let question of questions"
-            [completed]="question.id === questions.length">
-            <div class="question-container">
-              <div class="question-content">
-                <span class="question-text">{{question.content}}</span>
-                <p class="dimension">{{question.dimension}}</p>
-              </div>
-              <mat-radio-group [formControlName]="'question' + question.id">
-                <div class="radio-group-container"
-                  [ngClass]="{'two-column': !isMobile() && question.options.length > 2}">
-                  <mat-radio-button *ngFor="let option of question.options"
-                    class="simple-radio-button"
-                    (mouseup)="goToNextWhenFormNotValid()"
-                    [value]="option.archetypeId">
-                    <div class="option-content">
-                      <span class="option-text">{{option.content}}</span>
-                      <span class="option-subtext">{{option.context}}</span>
-                    </div>
-                  </mat-radio-button>
+  <ng-container *ngIf="quiz() as quiz">
+    @if (isMobile()) {
+      <ng-container *ngTemplateOutlet="quizNavHeader; context: { $implicit: quiz }"></ng-container>
+    } @else {
+      <ng-container *ngTemplateOutlet="quizHeader; context: { $implicit: quiz }"></ng-container>
+    }
+    <div class="quiz-container">
+      <div *ngIf="quiz.questions as questions">
+        <form [formGroup]="quizForm" (ngSubmit)="onSubmit()">
+          <mat-stepper #stepper [linear]="isLinear">
+            <mat-step *ngFor="let question of questions"
+              [completed]="question.id === questions.length">
+              <div class="question-container">
+                <div class="question-content">
+                  <span class="question-text">{{question.content}}</span>
+                  <p class="dimension">{{question.dimension}}</p>
                 </div>
-              </mat-radio-group>
-            </div>
-          </mat-step>
-        </mat-stepper>
-        @if (isMobile()) {
-        <button mat-flat-button color="primary" 
-          type="submit"
-          *ngIf="quizForm.valid"
-          class="form-submit-button">
-          Submit
-        </button>
-        } @else {
-          <ng-container *ngTemplateOutlet="quizNav"></ng-container>
-        }
-      </form>
+                <mat-radio-group [formControlName]="'question' + question.id">
+                  <div class="radio-group-container"
+                    [ngClass]="{'two-column': !isMobile() && question.options.length > 2}">
+                    <mat-radio-button *ngFor="let option of question.options"
+                      class="simple-radio-button"
+                      (mouseup)="goToNextWhenFormNotValid()"
+                      [value]="option.archetypeId">
+                      <div class="option-content">
+                        <span class="option-text">{{option.content}}</span>
+                        <span class="option-subtext">{{option.context}}</span>
+                      </div>
+                    </mat-radio-button>
+                  </div>
+                </mat-radio-group>
+              </div>
+            </mat-step>
+          </mat-stepper>
+          @if (isMobile()) {
+          <button mat-flat-button color="primary" 
+            type="submit"
+            *ngIf="quizForm.valid"
+            class="form-submit-button">
+            Submit
+          </button>
+          } @else {
+            <ng-container *ngTemplateOutlet="quizNav; context: { $implicit: quiz }"></ng-container>
+          }
+        </form>
+      </div>
     </div>
-  </div>
-  <div class="quiz-footer">
-    <div class="quiz-footer-item">
-        Vorba &copy; 2025
+    <div class="quiz-footer">
+      <div class="quiz-footer-item">
+          Vorba &copy; 2025
+      </div>
+      <div class="quiz-footer-item">
+          {{quiz.title}}
+      </div>
     </div>
-    <div class="quiz-footer-item">
-        {{quiz.title}}
-    </div>
-  </div>
+  </ng-container>
 </div>
 
-<ng-template #quizNav>
+<ng-template #quizNav let-quiz>
   <div class="step-actions">
     <button mat-flat-button class="step-action-button"
       title="Back"
@@ -89,7 +91,7 @@
   </div>
 </ng-template>
 
-<ng-template #quizNavHeader>
+<ng-template #quizNavHeader let-quiz>
   <div class="quiz-nav-header">
     <button class="quiz-nav-header-back-button"
       title="Back"
@@ -113,6 +115,6 @@
   </div>  
 </ng-template>
 
-<ng-template #quizHeader>
+<ng-template #quizHeader let-quiz>
   <!-- Header (todo) -->
 </ng-template>

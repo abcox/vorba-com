@@ -64,7 +64,7 @@ export class QuizStartPageComponent {
       this.authService.register(request).subscribe((success) => {
         console.log('register success', success);
         if (success) {
-          this.router.navigate(['/quiz', '1234567890']);
+          this.router.navigate(['/quiz', '1'], { queryParams: { title: 'Quiz 2' } });
         }
       });
     }
