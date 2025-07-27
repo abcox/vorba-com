@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { AuthService } from 'src/app/service/auth/auth.service';
 import { RegisterRequest } from 'src/app/service/auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-quiz-start-page',
@@ -64,7 +65,12 @@ export class QuizStartPageComponent {
       this.authService.register(request).subscribe((success) => {
         console.log('register success', success);
         if (success) {
-          this.router.navigate(['/quiz', '1'], { queryParams: { title: 'Quiz 2' } });
+          // TODO: fix this by making "Quiz 1" in local cosmos db (emulator)
+          if (environment.production) {
+            this.router.navigate(['/quiz', '1'], { queryParams: { title: 'Quiz 1' } });
+          } else {
+            this.router.navigate(['/quiz', '2'], { queryParams: { title: 'Quiz 2' } });
+          }
         }
       });
     }
