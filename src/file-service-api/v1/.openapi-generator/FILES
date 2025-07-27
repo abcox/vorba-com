@@ -9,6 +9,7 @@ api/file.service.ts
 api/gPT.service.ts
 api/quiz.service.ts
 api/user.service.ts
+api/userQuizResults.service.ts
 api/workflow.service.ts
 configuration.ts
 encoder.ts
