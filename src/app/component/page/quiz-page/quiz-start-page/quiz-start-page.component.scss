@@ -1,8 +1,8 @@
 .page-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; // Default: stacked layout
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin: 3rem;
     gap: 2rem;
     min-height: calc(100vh - 200px); // Account for header and footer
@@ -16,6 +16,7 @@
         justify-content: center;
         padding: 1rem;
         max-width: 480px;
+        width: 100%;
     }
 
     .intro-container {
@@ -45,6 +46,7 @@
         justify-content: center;
         padding: 1rem;
         max-width: 480px;
+        width: 100%;
     }
 
     .intro-container {
@@ -139,21 +141,22 @@
     --mdc-protected-button-disabled-label-text-color: var(--grayscale-600);
 }
 
-@media screen and (max-width: 960px) {
-    .intro-container {
-        flex-direction: column;
-    }
-}
-
 // Responsive: switch to row layout on wider screens
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 960px) {
+    .page-container {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
     .intro-card mat-card-content {
         flex-direction: row;  // Horizontal layout on desktop
         justify-content: space-between;
     }
 }
 
-// Responsive: switch to row layout on narrow screens
+
+
+// Responsive: mobile layout
 @media screen and (max-width: 600px) {
 
     :root {
@@ -180,7 +183,7 @@
     .intro-card mat-card-content {
         flex-direction: column;  // Vertical layout on mobile
         justify-content: center;
-        gap: 0;
+        gap: 1rem;
     }
 
     /* :root, html, body,
@@ -212,6 +215,9 @@
     .page-container {
         min-height: 100vh;
         margin: 0;
+        flex-direction: column;  // Ensure stacked layout on mobile
+        justify-content: center;
+        gap: 1rem;
 
         h1 {
             font-size: 1.875rem;
