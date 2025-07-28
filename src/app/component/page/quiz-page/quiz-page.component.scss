@@ -264,6 +264,17 @@ h3 {
     &:hover {
       background-color: var(--primary-grayscale-200);
     }
+    &:disabled {
+      background-color: var(--primary-grayscale-400);
+      opacity: 0.5;
+    }
+    &.submit-button {
+      background-color: var(--primary-light-grayscale-700);
+      color: var(--primary-grayscale-50);
+      &:hover {
+        background-color: var(--primary-light-grayscale-600);
+      }
+    }
   }
 }
 
