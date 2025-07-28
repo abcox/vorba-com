@@ -22,14 +22,25 @@ body.light-theme {
 
 // Completion card
 .completion-card {
-    background-color: var(--primary-grayscale-50);
+    background-color: var(--primary-grayscale-700);
     border-radius: 16px;
     padding: 2.5rem;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     
     .completion-header {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
         text-align: center;
         margin-bottom: 2.5rem;
+            
+        .completion-icon {
+            font-size: 2.75rem;
+            color: #4CAF50;
+            margin-right: 1rem;
+            width: 2.75rem;
+            height: 2.75rem;
+        }
         
         .completion-title {
             display: flex;
@@ -38,19 +49,16 @@ body.light-theme {
             gap: 1rem;
             font-size: 2.25rem;
             font-weight: 700;
-            color: var(--primary-grayscale-800);
+            color: var(--primary-grayscale-100);
             margin-bottom: 0.5rem;
-            
-            .completion-icon {
-                font-size: 2.75rem;
-                color: #4CAF50;
-            }
+            line-height: 2.75rem;
         }
         
         .completion-subtitle {
             font-size: 1.25rem;
-            color: var(--primary-grayscale-600);
+            color: var(--primary-grayscale-300);
             font-weight: 500;
+            padding-top: 0.5rem;
         }
     }
 }
@@ -110,7 +118,7 @@ body.light-theme {
     p {
         font-size: 1.125rem;
         line-height: 1.6;
-        color: var(--primary-grayscale-700);
+        color: var(--primary-grayscale-100);
         margin-bottom: 1rem;
         font-weight: 500;
         
@@ -130,8 +138,9 @@ body.light-theme {
     button {
         min-width: 180px;
         height: 52px;
+        letter-spacing: 0.05em;
         border-radius: 26px;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 1.1rem;
         transition: all 0.2s ease;
         
