@@ -2,6 +2,7 @@ import { Route, Routes } from '@angular/router';
 import { navRoutes } from './component/layout/nav-layout.module';
 import { QuizStartPageComponent } from './component/page/quiz-page/quiz-start-page/quiz-start-page.component';
 import { QuizPageComponent } from './component/page/quiz-page/quiz-page.component';
+import { QuizEndPageComponent } from './component/page/quiz-page/quiz-end-page/quiz-end-page.component';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -37,6 +38,10 @@ export const routes: Routes = [
     {
         path: 'quiz/:id',
         component: QuizPageComponent
+    },
+    {
+        path: 'quiz/:id/end',
+        component: QuizEndPageComponent
     },
     // Catch all - redirect to nav layout
     {

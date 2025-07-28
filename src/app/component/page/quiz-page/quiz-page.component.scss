@@ -121,20 +121,29 @@ h3 {
   font-style: italic;
 }
 
-// Original radio button styles
+// Legacy radio button styles (no longer used)
 .option-radio {
   display: block;
   margin: 1rem 0;
   color: var(--primary-grayscale-700);
 }
 
-.radio-group-container {
+// Override Angular Material button toggle default styling
+.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+  line-height: normal !important;
+  padding: 1.5rem !important;
+}
+
+.quiz-option-group {
   display: flex;
   flex-direction: column;
   gap: 1rem; // adjust as needed
+  width: 100%;
+  border: none !important;
+  border-radius: 0 !important;
 }
 
-.radio-group-container.two-column {
+.quiz-option-group.two-column {
   margin-top: 1.5rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -142,94 +151,72 @@ h3 {
   align-items: stretch;
 }
 
-.radio-group-container.two-column .simple-radio-button {
+.quiz-option-group.two-column .quiz-option-button {
   flex: 1 1 calc(50% - 1rem); // 2 columns, minus gap
-  //max-width: calc(50% - 1rem);
   box-sizing: border-box;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: stretch;
-
-  .mdc-form-field {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
 }
 
-// New button-style radio button class
-.simple-radio-button {
+// Button toggle styling for quiz options
+.quiz-option-button {
   display: block;
-  //margin: 0.325rem 0; // using gap instead
+  width: 100%;
+  height: auto;
+  min-height: 60px;
+  border: none !important;
+  border-radius: 8px !important;
+  margin: 0 !important;
   
-  // Hide the default radio button circle
-  .mdc-radio {
-    display: none !important;
+  // Remove connected button appearance
+  &:not(:first-child) {
+    border-left: none !important;
   }
   
-  // Style the entire radio button container as a button
-  .mdc-form-field {
-    display: block;
+  &:not(:last-child) {
+    border-right: none !important;
+  }
+  
+  // Style the button toggle
+  .mat-button-toggle-label-content {
+    display: flex;
+    align-items: center;
     width: 100%;
+    height: 100%;
     padding: 1rem 1.5rem;
     border: 2px solid var(--primary-grayscale-200);
     border-radius: 8px;
     background-color: white;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin: 0;
+    white-space: normal; // Allow text wrapping
+    word-wrap: break-word;
     
     &:hover {
       border-color: var(--primary-grayscale-100);
       background-color: var(--primary-grayscale-50);
-      color: white;
-      //transform: translateY(-1px);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-    
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
   
   // Selected state
-  &.mat-mdc-radio-checked .mdc-form-field {
+  &.mat-button-toggle-checked .mat-button-toggle-label-content {
     border-color: var(--primary-color);
     background-color: var(--primary-grayscale-200);
-    //color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    
     .option-content,
     .option-text {
-        color: var(--primary-grayscale-900);
+      color: var(--primary-grayscale-900);
     }
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
   
   // Focus state for accessibility
-  .mdc-form-field:focus-within {
+  .mat-button-toggle-label-content:focus-within {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
-  }
-
-  .mdc-label {
-    display: flex;
-    align-items: center;
-  }
-
-  &:hover {
-    .mdc-form-field {
-        background-color: var(--primary-grayscale-100);
-    }
-    .mdc-label {
-        .option-content {
-            color: var(--primary-grayscale-900);
-            .option-text {
-                color: var(--primary-grayscale-900);
-            }
-        }
-    }
   }
 }
 
@@ -381,6 +368,34 @@ h3 {
   }
   .simple-radio-button .mdc-form-field {
     padding: 1rem 1rem !important;
+  }
+  
+  // Mobile styles for button toggle group
+  .quiz-option-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem;
+  }
+  
+  .quiz-option-group.two-column {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
+  }
+  
+  .quiz-option-button .mat-button-toggle-label-content {
+    padding: 1rem 1rem !important;
+    line-height: normal !important; // Override the default line-height
+    
+    .option-text {
+      font-size: 1.75rem;
+      //line-height: 1.2;
+      padding: 1rem;
+    }
+    
+    .option-subtext {
+      display: none;
+    }
   }
   .step-actions {
       position: fixed;

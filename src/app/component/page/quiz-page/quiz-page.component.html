@@ -16,20 +16,19 @@
                   <span class="question-text">{{question.content}}</span>
                   <p class="dimension">{{question.dimension}}</p>
                 </div>
-                <mat-radio-group [formControlName]="'question' + question.id">
-                  <div class="radio-group-container"
-                    [ngClass]="{'two-column': !isMobile() && question.options.length > 2}">
-                    <mat-radio-button *ngFor="let option of question.options"
-                      class="simple-radio-button"
-                      (mouseup)="goToNextWhenFormNotValid()"
-                      [value]="option.archetypeId">
-                      <div class="option-content">
-                        <span class="option-text">{{option.content}}</span>
-                        <span class="option-subtext">{{option.context}}</span>
-                      </div>
-                    </mat-radio-button>
-                  </div>
-                </mat-radio-group>
+                <mat-button-toggle-group [formControlName]="'question' + question.id" 
+                  class="quiz-option-group"
+                  [ngClass]="{'two-column': !isMobile() && question.options.length > 2}">
+                  <mat-button-toggle *ngFor="let option of question.options"
+                    class="quiz-option-button"
+                    [value]="option.archetypeId"
+                    (mouseup)="goToNextWhenFormNotValid()">
+                    <div class="option-content">
+                      <span class="option-text">{{option.content}}</span>
+                      <span class="option-subtext">{{option.context}}</span>
+                    </div>
+                  </mat-button-toggle>
+                </mat-button-toggle-group>
               </div>
             </mat-step>
           </mat-stepper>

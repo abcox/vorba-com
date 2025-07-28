@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
@@ -48,7 +48,7 @@ interface Quiz {
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatRadioModule,
+    MatButtonToggleModule,
     MatIconModule
   ],
   templateUrl: './quiz-page.component.html',
@@ -265,12 +265,8 @@ export class QuizPageComponent implements OnInit {
     private themeService: ThemeService,
     private router: Router
   ) {
-    // Initialize form with empty controls for all questions
-    const controls: { [key: string]: any } = {};
-    for (let i = 1; i <= 6; i++) { // Assuming 6 questions
-      controls[`question${i}`] = ['', Validators.required];
-    }
-    this.quizForm = this.fb.group(controls);
+    // Initialize with empty form - will be populated when quiz data loads
+    this.quizForm = this.fb.group({});
 
     const quiz$ = this.route.queryParams.pipe(
       switchMap((params) => {
@@ -285,7 +281,10 @@ export class QuizPageComponent implements OnInit {
       map((response: any) => { // todo: fix this --> we need to make response model in the api
         console.log('response', response);
         if (response.success) {
-          return response.quiz;
+          const quiz = response.quiz;
+          // Create form controls dynamically based on actual quiz questions
+          this.createFormControls(quiz);
+          return quiz;
         }
         return null;
       }),
@@ -299,6 +298,27 @@ export class QuizPageComponent implements OnInit {
 
     // set theme to light
     this.themeService.setTheme(Theme.Light);
+  }
+
+  private createFormControls(quiz: Quiz) {
+    const controls: { [key: string]: any } = {};
+    
+    // Create form controls for each question using the actual question ID
+    quiz.questions.forEach(question => {
+      controls[`question${question.id}`] = ['', Validators.required];
+      console.log(`Created control for question${question.id} with ID: ${question.id}`);
+    });
+    
+    // Update the form with the new controls
+    this.quizForm = this.fb.group(controls);
+    
+    // Subscribe to form value changes for debugging
+    this.quizForm.valueChanges.subscribe(value => {
+      console.log('Form value changed:', value);
+    });
+    
+    console.log('Form controls created:', Object.keys(controls));
+    console.log('Quiz questions:', quiz.questions.map(q => ({ id: q.id, content: q.content.substring(0, 50) + '...' })));
   }
 
   get currentQuestionId(): number {
@@ -317,11 +337,7 @@ export class QuizPageComponent implements OnInit {
     return this.quiz()?.questions[this.currentQuestionId - 1];
   }
 
-  goToNextWhenFormNotValid() {
-    if (!this.quizForm.valid) {
-      this.goToNext();
-    }
-  }
+
 
   // instead of using stepControl, and stepper.previous(), we use this method to go to the previous step
   // because stepper.previous() is not working as expected (i.e. stepping back 2 steps)
@@ -341,11 +357,71 @@ export class QuizPageComponent implements OnInit {
     }
   }
 
+  onOptionSelected(questionId: number, archetypeId: number, optionContent: string) {
+    console.log(`Option selected for question ${questionId}:`, {
+      archetypeId,
+      optionContent: optionContent.substring(0, 50) + '...',
+      formControlName: `question${questionId}`,
+      currentFormValue: this.quizForm.get(`question${questionId}`)?.value
+    });
+  }
+
+  goToNextWhenFormNotValid() {
+    // Add a small delay to ensure form validation and value change have completed
+    setTimeout(() => {
+      // Check if current question is valid and not the last question
+      if (this.isCurrentQuestionValid() && !this.isLastQuestion) {
+        this.goToNext();
+      }
+    }, 500); // 100ms delay
+  }
+
   onSubmit() {
+    console.log('=== FORM SUBMISSION DEBUG ===');
+    console.log('Form valid:', this.quizForm.valid);
+    console.log('Form value:', this.quizForm.value);
+    console.log('Form controls:', Object.keys(this.quizForm.controls));
+    
+    // Check each question individually
+    this.quiz()?.questions.forEach(question => {
+      const control = this.quizForm.get(`question${question.id}`);
+      console.log(`Question ${question.id}:`, {
+        controlExists: !!control,
+        value: control?.value,
+        valid: control?.valid,
+        errors: control?.errors
+      });
+    });
+    
     if (this.quizForm.valid) {
-      console.log('Form submitted:', this.quizForm.value);
+      console.log('Form submitted successfully');
       // TODO: Submit answers to API
+      
+      // Navigate to quiz end page with completion data
+      const answeredQuestions = this.getAnsweredQuestionsCount();
+      const totalQuestions = this.quiz()?.questions.length || 0;
+      
+      this.router.navigate(['/quiz', this.quizId, 'end'], {
+        queryParams: {
+          quizTitle: this.quiz()?.title || 'Quiz',
+          totalQuestions: totalQuestions,
+          answeredQuestions: answeredQuestions
+        }
+      });
+    } else {
+      console.log('Form has validation errors');
     }
+  }
+  
+  private getAnsweredQuestionsCount(): number {
+    let count = 0;
+    this.quiz()?.questions.forEach(question => {
+      const control = this.quizForm.get(`question${question.id}`);
+      if (control && control.value !== null && control.value !== undefined && control.value !== '') {
+        count++;
+      }
+    });
+    return count;
   }
 
   /* @HostListener('swipeleft', ['$event'])
