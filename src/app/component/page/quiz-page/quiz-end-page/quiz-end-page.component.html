@@ -1,15 +1,15 @@
 <div class="page-container">
   <div class="quiz-end-container">
-    <mat-card class="completion-card">
-      <mat-card-header>
-        <mat-card-title>
+    <div class="completion-card">
+      <div class="completion-header">
+        <div class="completion-title">
           <mat-icon class="completion-icon">check_circle</mat-icon>
           Quiz Completed!
-        </mat-card-title>
-        <mat-card-subtitle>{{ quizTitle }}</mat-card-subtitle>
-      </mat-card-header>
+        </div>
+        <div class="completion-subtitle">{{ quizTitle }}</div>
+      </div>
       
-      <mat-card-content>
+      <div class="completion-content">
         <div class="completion-summary">
           <div class="summary-item">
             <span class="label">Questions Answered:</span>
@@ -30,26 +30,24 @@
           <p>Thank you for completing the quiz! Your responses have been recorded.</p>
           <p>You will receive your personalized results and insights shortly.</p>
         </div>
-      </mat-card-content>
+      </div>
       
-      <mat-card-actions>
-        <div class="action-buttons">
-          <button mat-flat-button 
-            class="home-button"
-            (click)="goToHome()">
-            <mat-icon>home</mat-icon>
-            Go to Home
-          </button>
-          
-          <button mat-flat-button 
-            color="primary"
-            class="retake-button"
-            (click)="goToQuizStart()">
-            <mat-icon>refresh</mat-icon>
-            Take Another Quiz
-          </button>
-        </div>
-      </mat-card-actions>
-    </mat-card>
+      <div class="action-buttons">
+        <button mat-flat-button 
+          class="home-button"
+          (click)="goToHome()">
+          <mat-icon>home</mat-icon>
+          Go to Home
+        </button>
+        
+        <button mat-flat-button 
+          color="primary"
+          class="retake-button"
+          (click)="goToQuizStart()">
+          <mat-icon>refresh</mat-icon>
+          Take Another Quiz
+        </button>
+      </div>
+    </div>
   </div>
 </div> 
