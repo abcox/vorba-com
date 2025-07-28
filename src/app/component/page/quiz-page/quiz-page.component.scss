@@ -164,8 +164,7 @@ h3 {
 .quiz-option-button {
   display: block;
   width: 100%;
-  height: auto;
-  min-height: 60px;
+  height: 120px; // Fixed height for consistency
   border: none !important;
   border-radius: 8px !important;
   margin: 0 !important;
@@ -183,8 +182,9 @@ h3 {
   .mat-button-toggle-label-content {
     display: flex;
     align-items: center;
+    justify-content: center; // Center content vertically and horizontally
     width: 100%;
-    height: 100%;
+    height: 100px; // Fixed height for consistency
     padding: 1rem 1.5rem;
     border: 2px solid var(--primary-grayscale-200);
     border-radius: 8px;
@@ -394,18 +394,23 @@ h3 {
     grid-template-columns: unset !important;
   }
   
-  .quiz-option-button .mat-button-toggle-label-content {
-    padding: 1rem 1rem !important;
-    line-height: normal !important; // Override the default line-height
-    
-    .option-text {
-      font-size: 1.75rem;
-      //line-height: 1.2;
-      padding: 1rem;
-    }
-    
-    .option-subtext {
-      display: none;
+  .quiz-option-button {
+    .mat-button-toggle-label-content {
+      padding: 1rem 1rem !important;
+      line-height: normal !important; // Override the default line-height
+      height: 80px; // Fixed height for mobile consistency
+      display: flex;
+      align-items: center;
+      
+      .option-text {
+        font-size: 1.75rem;
+        //line-height: 1.2;
+        padding: 1rem;
+      }
+      
+      .option-subtext {
+        display: none;
+      }
     }
   }
   .step-actions {
