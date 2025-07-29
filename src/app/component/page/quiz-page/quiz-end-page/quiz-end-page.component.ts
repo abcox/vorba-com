@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './quiz-end-page.component.html',
   styleUrl: './quiz-end-page.component.scss'
 })
-export class QuizEndPageComponent {
+export class QuizEndPageComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   
