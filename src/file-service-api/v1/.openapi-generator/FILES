@@ -15,7 +15,12 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/baseSearchResponseDto.ts
 model/models.ts
+model/quizDto.ts
+model/quizQuestionDto.ts
+model/quizQuestionOptionDto.ts
+model/quizResponseDto.ts
 model/userDto.ts
 model/userLoginRequest.ts
 model/userLoginResponse.ts

@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, Signal, signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, inject, OnInit, Signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
@@ -11,31 +11,31 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
 import { DeviceService } from 'src/app/services/device.service';
-import { QuizService } from '@file-service-api/v1';
+import { QuizResponseDto, QuizDto, QuizService, QuizQuestionDto } from '@file-service-api/v1';
 import { map, switchMap } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 //import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
-interface QuizQuestionOption {
+/* interface QuizQuestionOption {
   id: number;
   content: string;
   archetypeId: number;
   context: string;
-}
+} */
 
-interface QuizQuestion {
+/* interface QuizQuestion {
   id: number;
   content: string;
   dimension: string;
   options: QuizQuestionOption[];
-}
+} */
 
-interface Quiz {
+/* interface Quiz {
   title: string;
   questions: QuizQuestion[];
-}
+} */
 
 @Component({
   selector: 'app-quiz-page',
@@ -257,7 +257,7 @@ export class QuizPageComponent implements OnInit {
     ]
   }; */
 
-  quiz: Signal<Quiz | null>/*  = signal(this.quizData) */;
+  quiz: Signal<QuizDto | null>/*  = signal(this.quizData) */;
   
   constructor(
     private fb: FormBuilder,
@@ -276,12 +276,13 @@ export class QuizPageComponent implements OnInit {
           throw new Error('Quiz title is required');
         }
         console.log('Quiz title:', title);
-        return this.quizService.quizControllerGetQuizByTitle(title) as Observable<Quiz>;
+        const quizResponse = this.quizService.quizControllerGetQuizByTitle(title) as Observable<QuizResponseDto>;
+        return quizResponse;
       }),
-      map((response: any) => { // todo: fix this --> we need to make response model in the api
+      map((response: QuizResponseDto) => { // todo: fix this --> we need to make response model in the api
         console.log('response', response);
         if (response.success) {
-          const quiz = response.quiz;
+          const quiz = response.data as QuizDto;
           // Create form controls dynamically based on actual quiz questions
           this.createFormControls(quiz);
           return quiz;
@@ -290,7 +291,7 @@ export class QuizPageComponent implements OnInit {
       }),
       takeUntilDestroyed()
     );
-    this.quiz = toSignal<Quiz | null>(quiz$, { initialValue: null });
+    this.quiz = toSignal<QuizDto | null>(quiz$, { initialValue: null });
   }
 
   ngOnInit() {
@@ -300,7 +301,7 @@ export class QuizPageComponent implements OnInit {
     this.themeService.setTheme(Theme.Light);
   }
 
-  private createFormControls(quiz: Quiz) {
+  private createFormControls(quiz: QuizDto) {
     const controls: { [key: string]: any } = {};
     
     // Create form controls for each question using the actual question ID
@@ -333,7 +334,7 @@ export class QuizPageComponent implements OnInit {
     return this.currentQuestionId === this.quiz()?.questions.length;
   }
 
-  get currentQuestion(): QuizQuestion | undefined {
+  get currentQuestion(): QuizQuestionDto | undefined {
     return this.quiz()?.questions[this.currentQuestionId - 1];
   }
 
