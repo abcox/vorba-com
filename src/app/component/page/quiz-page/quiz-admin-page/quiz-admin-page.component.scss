@@ -36,7 +36,11 @@
 }
 
 .admin-content {
-  .mat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .management-card {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
   }
@@ -65,6 +69,7 @@
   }
 }
 
+// used by quiz and user management
 .table-container {
   .quiz-table {
     width: 100%;
@@ -115,6 +120,57 @@
       font-size: 1.1rem;
     }
   }
+
+  //#region User management specific styles
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.active {
+      background-color: var(--sys-primary-container);
+      color: var(--sys-on-primary-container);
+    }
+
+    &.inactive {
+      background-color: var(--sys-error-container);
+      color: var(--sys-on-error-container);
+    }
+  }
+
+  .admin-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.admin {
+      background-color: var(--sys-tertiary-container);
+      color: var(--sys-on-tertiary-container);
+    }
+
+    &.user {
+      background-color: var(--sys-surface-container);
+      color: var(--sys-on-surface-variant);
+    }
+  }
+
+  .role-chip {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 1px;
+    background-color: var(--sys-surface-container-high);
+    color: var(--sys-on-surface);
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+//#endregion User management specific styles
 }
 
 // Responsive design

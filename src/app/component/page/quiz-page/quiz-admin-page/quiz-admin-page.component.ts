@@ -10,9 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
+import { QuizService, QuizSummaryDto, UserService, UserDto } from '@file-service-api/v1';
 import { Theme, ThemeService } from '../../../../services/theme.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-quiz-admin-page',
@@ -28,7 +30,9 @@ import { Theme, ThemeService } from '../../../../services/theme.service';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatExpansionModule,
+    MatTooltipModule
   ],
   templateUrl: './quiz-admin-page.component.html',
   styleUrl: './quiz-admin-page.component.scss'
@@ -36,16 +40,32 @@ import { Theme, ThemeService } from '../../../../services/theme.service';
 export class QuizAdminPageComponent implements OnInit {
   private themeService = inject(ThemeService);
   private router = inject(Router);
-  private quizService = inject(QuizService);
   
+  // quiz management
+  private quizService = inject(QuizService);
   quizList: QuizSummaryDto[] = [];
   displayedColumns: string[] = ['title', 'questionCount', 'createdAt', 'actions'];
+
+  // user management
+  private userService = inject(UserService);
+  userList: UserDto[] = [];
+  displayedUserColumns: string[] = ['username', 'email', 'name', 'isActive', 'isAdmin', 'roles', 'lastLoginAt', 'actions'];
   
   ngOnInit() {
     this.themeService.setTheme(Theme.Dark);
+
+    // quiz management
     this.loadQuizList();
+
+    // user management
+    this.loadUserList();
   }
-  
+    
+  goToHome() {
+    this.router.navigate(['/']);
+  }
+
+  //#region Quiz Management
   loadQuizList() {
     this.quizService.quizControllerGetQuizList().subscribe({
       next: (response) => {
@@ -58,7 +78,7 @@ export class QuizAdminPageComponent implements OnInit {
       }
     });
   }
-  
+
   createNewQuiz() {
     // TODO: Implement quiz creation
     console.log('Create new quiz');
@@ -85,8 +105,41 @@ export class QuizAdminPageComponent implements OnInit {
       }
     });
   }
-  
-  goToHome() {
-    this.router.navigate(['/']);
+//#endregion Quiz Management
+
+//#region User Management
+  loadUserList() {
+    this.userService.userControllerGetUserList().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.userList = response.data;
+        }
+      },
+      error: (error) => {
+        console.error('Error loading user list:', error);
+      }
+    });
   }
-} 
+
+  // User management methods
+  createNewUser() {
+    // TODO: Implement user creation
+    console.log('Create new user');
+  }
+
+  editUser(userId: string) {
+    // TODO: Navigate to user edit page
+    console.log('Edit user:', userId);
+  }
+
+  deleteUser(userId: string) {
+    // TODO: Implement user deletion with confirmation
+    console.log('Delete user:', userId);
+  }
+
+  toggleUserStatus(user: UserDto) {
+    // TODO: Implement user status toggle
+    console.log('Toggle user status:', user.id, user.isActive);
+  }
+//#endregion User Management
+}
