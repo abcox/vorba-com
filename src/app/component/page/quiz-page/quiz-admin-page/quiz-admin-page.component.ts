@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
+import { Theme, ThemeService } from '../../../../services/theme.service';
 
 @Component({
   selector: 'app-quiz-admin-page',
@@ -33,6 +34,7 @@ import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
   styleUrl: './quiz-admin-page.component.scss'
 })
 export class QuizAdminPageComponent implements OnInit {
+  private themeService = inject(ThemeService);
   private router = inject(Router);
   private quizService = inject(QuizService);
   
@@ -40,10 +42,11 @@ export class QuizAdminPageComponent implements OnInit {
   displayedColumns: string[] = ['title', 'questionCount', 'createdAt', 'actions'];
   
   ngOnInit() {
-    this.loadQuizzes();
+    this.themeService.setTheme(Theme.Dark);
+    this.loadQuizList();
   }
   
-  loadQuizzes() {
+  loadQuizList() {
     this.quizService.quizControllerGetQuizList().subscribe({
       next: (response) => {
         if (response.success && response.data) {
@@ -51,7 +54,7 @@ export class QuizAdminPageComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Error loading quizzes:', error);
+        console.error('Error loading quiz list:', error);
       }
     });
   }
@@ -75,7 +78,7 @@ export class QuizAdminPageComponent implements OnInit {
     this.quizService.quizControllerGenerateSeed().subscribe({
       next: (response) => {
         console.log('Seed data generated:', response);
-        this.loadQuizzes(); // Reload the list
+        this.loadQuizList(); // Reload the list
       },
       error: (error) => {
         console.error('Error generating seed data:', error);

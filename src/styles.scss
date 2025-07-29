@@ -4,6 +4,8 @@
 
 /* You can add global styles to this file, and also import other style files */
 @import './styles.css'; // stylelint-disable-line no-invalid-position-at-import-rule
+@import './themes/light.css'; // stylelint-disable-line no-invalid-position-at-import-rule
+@import './themes/dark.css'; // stylelint-disable-line no-invalid-position-at-import-rule
 
 @include mat.core();
 
@@ -111,7 +113,7 @@ h2 {
   scrollbar-color: var(--sys-outline) var(--sys-surface);
 }
 
-/* Legacy color variables for backward compatibility */
+/* Apply light theme by default */
 :root {
   @include mat.all-component-themes(m3-theme.$light-theme);
   @include mat.typography-hierarchy(m3-theme.$light-theme);
@@ -243,6 +245,14 @@ h2 {
 
   --mdc-protected-button-disabled-container-color: var(--grayscale-600);
   --mdc-protected-button-container-shape: var(--mdc-shape-small);
+}
+
+/* Apply dark theme when dark-theme class is present */
+.dark-theme {
+  @include mat.all-component-themes(m3-theme.$dark-theme);
+  @include mat.typography-hierarchy(m3-theme.$dark-theme);
+  @include mat.system-level-colors(m3-theme.$dark-theme);
+  @include mat.system-level-typography(m3-theme.$dark-theme);
 }
 
 :host {

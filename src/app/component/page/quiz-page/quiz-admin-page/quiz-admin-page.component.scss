@@ -3,8 +3,8 @@
   max-width: 1200px;
   margin: 0 auto;
   min-height: 100vh;
-  background-color: var(--primary-grayscale-50);
-  color: var(--primary-grayscale-800);
+  background-color: var(--sys-surface);
+  color: var(--sys-on-surface);
 }
 
 .admin-header {
@@ -13,11 +13,11 @@
   align-items: center;
   margin-bottom: 24px;
   padding: 16px 0;
-  border-bottom: 2px solid var(--primary-grayscale-200);
+  border-bottom: 2px solid var(--sys-outline);
 
   h1 {
     margin: 0;
-    color: var(--primary-grayscale-900);
+    color: var(--sys-on-surface);
     font-size: 2rem;
     font-weight: 600;
   }
@@ -42,21 +42,21 @@
   }
 
   .mat-card-header {
-    background-color: var(--primary-grayscale-100);
+    background-color: var(--sys-surface-container);
     border-radius: 8px 8px 0 0;
     padding: 16px 24px;
     margin: -24px -24px 24px -24px;
 
     .mat-card-title {
       margin: 0;
-      color: var(--primary-grayscale-900);
+      color: var(--sys-on-surface);
       font-size: 1.5rem;
       font-weight: 600;
     }
 
     .mat-card-subtitle {
       margin: 4px 0 0 0;
-      color: var(--primary-grayscale-600);
+      color: var(--sys-on-surface-variant);
     }
   }
 
@@ -71,21 +71,21 @@
     border-collapse: collapse;
 
     .mat-header-cell {
-      background-color: var(--primary-grayscale-100);
-      color: var(--primary-grayscale-900);
+      background-color: var(--sys-surface-container);
+      color: var(--sys-on-surface);
       font-weight: 600;
       padding: 16px 12px;
-      border-bottom: 2px solid var(--primary-grayscale-200);
+      border-bottom: 2px solid var(--sys-outline);
     }
 
     .mat-cell {
       padding: 12px;
-      border-bottom: 1px solid var(--primary-grayscale-200);
-      color: var(--primary-grayscale-800);
+      border-bottom: 1px solid var(--sys-outline-variant);
+      color: var(--sys-on-surface);
     }
 
     .mat-row:hover {
-      background-color: var(--primary-grayscale-50);
+      background-color: var(--sys-surface-container-low);
     }
 
     .mat-row:last-child .mat-cell {
@@ -99,7 +99,7 @@
     align-items: center;
     justify-content: center;
     padding: 48px 24px;
-    color: var(--primary-grayscale-600);
+    color: var(--sys-on-surface-variant);
     text-align: center;
 
     mat-icon {
