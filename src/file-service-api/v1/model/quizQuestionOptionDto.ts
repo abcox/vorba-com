@@ -25,6 +25,6 @@ export interface QuizQuestionOptionDto {
     /**
      * Additional context for the option
      */
-    context?: string;
+    context: string;
 }
 
