@@ -17,8 +17,8 @@
     --sys-inverse-on-surface: #2f3036;
     --sys-outline: #8f9099;
     --sys-outline-variant: #44474f;
-    --sys-shadow: #000000;
-    --sys-scrim: #000000;
+    --sys-shadow: #000;
+    --sys-scrim: #000;
     --sys-surface-tint: #afc6ff;
     --sys-primary: #afc6ff;
     --sys-on-primary: #142f60;
