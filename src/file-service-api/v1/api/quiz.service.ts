@@ -17,9 +17,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { BaseSearchResponseDto } from '../model/baseSearchResponseDto';
-// @ts-ignore
 import { QuizResponseDto } from '../model/quizResponseDto';
+// @ts-ignore
+import { QuizSearchResponseDto } from '../model/quizSearchResponseDto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -278,9 +278,9 @@ export class QuizService extends BaseService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public quizControllerGetQuizList(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<BaseSearchResponseDto>;
-    public quizControllerGetQuizList(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BaseSearchResponseDto>>;
-    public quizControllerGetQuizList(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BaseSearchResponseDto>>;
+    public quizControllerGetQuizList(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<QuizSearchResponseDto>;
+    public quizControllerGetQuizList(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<QuizSearchResponseDto>>;
+    public quizControllerGetQuizList(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<QuizSearchResponseDto>>;
     public quizControllerGetQuizList(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -313,7 +313,7 @@ export class QuizService extends BaseService {
 
         let localVarPath = `/api/quiz/list`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<BaseSearchResponseDto>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<QuizSearchResponseDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

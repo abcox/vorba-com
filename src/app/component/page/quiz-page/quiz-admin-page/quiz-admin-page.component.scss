@@ -1,0 +1,160 @@
+.admin-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--primary-grayscale-50);
+  color: var(--primary-grayscale-800);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 0;
+  border-bottom: 2px solid var(--primary-grayscale-200);
+
+  h1 {
+    margin: 0;
+    color: var(--primary-grayscale-900);
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
+
+.admin-content {
+  .mat-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .mat-card-header {
+    background-color: var(--primary-grayscale-100);
+    border-radius: 8px 8px 0 0;
+    padding: 16px 24px;
+    margin: -24px -24px 24px -24px;
+
+    .mat-card-title {
+      margin: 0;
+      color: var(--primary-grayscale-900);
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .mat-card-subtitle {
+      margin: 4px 0 0 0;
+      color: var(--primary-grayscale-600);
+    }
+  }
+
+  .mat-card-content {
+    padding: 0;
+  }
+}
+
+.table-container {
+  .quiz-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    .mat-header-cell {
+      background-color: var(--primary-grayscale-100);
+      color: var(--primary-grayscale-900);
+      font-weight: 600;
+      padding: 16px 12px;
+      border-bottom: 2px solid var(--primary-grayscale-200);
+    }
+
+    .mat-cell {
+      padding: 12px;
+      border-bottom: 1px solid var(--primary-grayscale-200);
+      color: var(--primary-grayscale-800);
+    }
+
+    .mat-row:hover {
+      background-color: var(--primary-grayscale-50);
+    }
+
+    .mat-row:last-child .mat-cell {
+      border-bottom: none;
+    }
+  }
+
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    color: var(--primary-grayscale-600);
+    text-align: center;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 16px;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+
+    .admin-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .quiz-table {
+      min-width: 600px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-header {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .admin-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+} 

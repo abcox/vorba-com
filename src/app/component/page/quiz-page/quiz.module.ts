@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { QuizStartPageComponent } from './quiz-start-page/quiz-start-page.component';
 import { QuizPageComponent } from './quiz-page.component';
 import { QuizEndPageComponent } from './quiz-end-page/quiz-end-page.component';
+import { QuizAdminPageComponent } from './quiz-admin-page/quiz-admin-page.component';
 
 // Quiz Routes for standalone components
 export const quizRoutes: Routes = [
@@ -14,6 +15,11 @@ export const quizRoutes: Routes = [
     path: 'start',
     component: QuizStartPageComponent,
     title: 'Start Quiz'
+  },
+  {
+    path: 'admin',
+    component: QuizAdminPageComponent,
+    title: 'Quiz Administration'
   },
   {
     path: ':id',
