@@ -3,6 +3,7 @@ import { QuizStartPageComponent } from './quiz-start-page/quiz-start-page.compon
 import { QuizPageComponent } from './quiz-page.component';
 import { QuizEndPageComponent } from './quiz-end-page/quiz-end-page.component';
 import { QuizAdminPageComponent } from './quiz-admin-page/quiz-admin-page.component';
+import { adminGuard } from '../../../core/auth/auth.guard';
 
 // Quiz Routes for standalone components
 export const quizRoutes: Routes = [
@@ -19,7 +20,8 @@ export const quizRoutes: Routes = [
   {
     path: 'admin',
     component: QuizAdminPageComponent,
-    title: 'Quiz Administration'
+    title: 'Quiz Administration',
+    canActivate: [adminGuard()]
   },
   {
     path: ':id',

@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 //import { OverlayContainer } from '@angular/cdk/overlay'; // todo: review what this is about
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CarouselComponent } from './component/carousel/carousel.component';
 import { of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -26,7 +28,7 @@ interface StoryModel {
   selector: 'app-root',
   standalone: true,
   imports: [CommonModule, FormsModule, MatButtonToggleModule,
-    MatCardModule, MatIconModule, MatSlideToggleModule, RouterOutlet,
+    MatCardModule, MatDialogModule, MatIconModule, MatSlideToggleModule, MatSnackBarModule, RouterOutlet,
     CarouselComponent, YouTubePlayer, HeaderComponent, FooterComponent
   ],
   templateUrl: './app.component.html',

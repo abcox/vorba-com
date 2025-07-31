@@ -26,7 +26,7 @@
       </mat-card-header>      
       <mat-card-content>
         <div class="table-container">
-          <table mat-table [dataSource]="userList" class="user-table">
+          <table mat-table [dataSource]="userDataSource" class="user-table">
             <!-- Username Column -->
             <ng-container matColumnDef="username">
               <th mat-header-cell *matHeaderCellDef>Username</th>
@@ -99,7 +99,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedUserColumns;"></tr>
           </table>
 
-          <div *ngIf="userList.length === 0" class="no-data">
+          <div *ngIf="userList?.length === 0" class="no-data">
             <mat-icon>people</mat-icon>
             <p>No users found.</p>
           </div>
@@ -158,6 +158,6 @@
         </div>
       </mat-card-content>
     </mat-card>
-    
+
   </div>
 </div>

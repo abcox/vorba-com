@@ -1,0 +1,196 @@
+// Notify SnackBar Styles - Material Design 3
+.notify-snackbar {
+  // Base styles for all notifications
+  .mdc-snackbar__surface {
+    background-color: var(--sys-surface-container);
+    color: var(--sys-on-surface);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--sys-outline-variant);
+    min-width: 300px;
+    max-width: 500px;
+  }
+
+  .mdc-snackbar__label {
+    color: var(--sys-on-surface);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    padding: 12px 16px;
+  }
+
+  .mdc-snackbar__actions {
+    .mdc-button {
+      color: var(--sys-primary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.75rem;
+      min-width: 64px;
+      height: 32px;
+      border-radius: 16px;
+      
+      &:hover {
+        background-color: var(--sys-primary-container);
+        color: var(--sys-on-primary-container);
+      }
+
+      &:focus {
+        outline: 2px solid var(--sys-primary);
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // Success notification
+  &.notify-success {
+    .mdc-snackbar__surface {
+      background-color: var(--sys-primary-container);
+      color: var(--sys-on-primary-container);
+      border-color: var(--sys-primary);
+    }
+
+    .mdc-snackbar__label {
+      color: var(--sys-on-primary-container);
+    }
+
+    .mdc-snackbar__actions .mdc-button {
+      color: var(--sys-on-primary-container);
+      
+      &:hover {
+        background-color: var(--sys-primary);
+        color: var(--sys-on-primary);
+      }
+    }
+  }
+
+  // Error notification
+  &.notify-error {
+    .mdc-snackbar__surface {
+      background-color: var(--sys-error-container);
+      color: var(--sys-on-error-container);
+      border-color: var(--sys-error);
+    }
+
+    .mdc-snackbar__label {
+      color: var(--sys-on-error-container);
+    }
+
+    .mdc-snackbar__actions .mdc-button {
+      color: var(--sys-on-error-container);
+      
+      &:hover {
+        background-color: var(--sys-error);
+        color: var(--sys-on-error);
+      }
+    }
+  }
+
+  // Warning notification
+  &.notify-warning {
+    .mdc-snackbar__surface {
+      background-color: var(--sys-tertiary-container);
+      color: var(--sys-on-tertiary-container);
+      border-color: var(--sys-tertiary);
+    }
+
+    .mdc-snackbar__label {
+      color: var(--sys-on-tertiary-container);
+    }
+
+    .mdc-snackbar__actions .mdc-button {
+      color: var(--sys-on-tertiary-container);
+      
+      &:hover {
+        background-color: var(--sys-tertiary);
+        color: var(--sys-on-tertiary);
+      }
+    }
+  }
+
+  // Info notification
+  &.notify-info {
+    .mdc-snackbar__surface {
+      background-color: var(--sys-secondary-container);
+      color: var(--sys-on-secondary-container);
+      border-color: var(--sys-secondary);
+    }
+
+    .mdc-snackbar__label {
+      color: var(--sys-on-secondary-container);
+    }
+
+    .mdc-snackbar__actions .mdc-button {
+      color: var(--sys-on-secondary-container);
+      
+      &:hover {
+        background-color: var(--sys-secondary);
+        color: var(--sys-on-secondary);
+      }
+    }
+  }
+}
+
+// Animation for snackbar entrance
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar {
+    animation: snackbar-slide-in 0.3s ease-out;
+  }
+}
+
+@keyframes snackbar-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Responsive design
+@media (max-width: 600px) {
+  .notify-snackbar {
+    .mdc-snackbar__surface {
+      min-width: 280px;
+      max-width: calc(100vw - 32px);
+      margin: 16px;
+    }
+
+    .mdc-snackbar__label {
+      padding: 10px 14px;
+      font-size: 0.8rem;
+    }
+
+    .mdc-snackbar__actions .mdc-button {
+      font-size: 0.7rem;
+      min-width: 56px;
+      height: 28px;
+    }
+  }
+}
+
+// Dark theme specific adjustments
+.dark-theme {
+  .notify-snackbar {
+    .mdc-snackbar__surface {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: more) {
+  .notify-snackbar {
+    .mdc-snackbar__surface {
+      border-width: 2px;
+    }
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .mat-mdc-snack-bar-container .mdc-snackbar {
+    animation: none;
+  }
+} 

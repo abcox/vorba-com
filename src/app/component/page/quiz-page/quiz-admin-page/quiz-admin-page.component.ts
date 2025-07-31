@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -108,12 +108,18 @@ export class QuizAdminPageComponent implements OnInit {
 //#endregion Quiz Management
 
 //#region User Management
+  get userDataSource(): MatTableDataSource<UserDto> {
+    return new MatTableDataSource(this.userList);
+  }
+
   loadUserList() {
     this.userService.userControllerGetUserList().subscribe({
       next: (response) => {
-        if (response.success && response.data) {
+        console.log('User list loaded:', response);
+        /* if (response.success && response.data) {
           this.userList = response.data;
-        }
+        } */
+       this.userList = response;
       },
       error: (error) => {
         console.error('Error loading user list:', error);
