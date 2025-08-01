@@ -1,6 +1,8 @@
 import { Route, Routes } from '@angular/router';
 import { navRoutes } from './component/layout/nav-layout.module';
 import { quizRoutes } from './component/page/quiz-page/quiz.module';
+import { adminRoutes } from 'src/module/admin/admin.module';
+import { adminGuard } from './core/auth/auth.guard';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -28,6 +30,12 @@ export const menuItems: MenuItem[] = [
 
 export const routes: Routes = [
     ...navRoutes,
+    // Admin routes
+    {
+        path: 'admin',
+        children: adminRoutes,
+        canActivate: [adminGuard()]
+    },
     // Quiz routes
     {
         path: 'quiz',

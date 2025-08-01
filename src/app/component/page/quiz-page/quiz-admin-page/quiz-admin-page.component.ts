@@ -12,7 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
-import { QuizService, QuizSummaryDto, UserService, UserDto } from '@file-service-api/v1';
+import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
 import { Theme, ThemeService } from '../../../../services/theme.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 
@@ -41,31 +41,20 @@ export class QuizAdminPageComponent implements OnInit {
   private themeService = inject(ThemeService);
   private router = inject(Router);
   
-  // quiz management
   private quizService = inject(QuizService);
   quizList: QuizSummaryDto[] = [];
   displayedColumns: string[] = ['title', 'questionCount', 'createdAt', 'actions'];
 
-  // user management
-  private userService = inject(UserService);
-  userList: UserDto[] = [];
-  displayedUserColumns: string[] = ['username', 'email', 'name', 'isActive', 'isAdmin', 'roles', 'lastLoginAt', 'actions'];
-  
   ngOnInit() {
     this.themeService.setTheme(Theme.Dark);
 
-    // quiz management
     this.loadQuizList();
-
-    // user management
-    this.loadUserList();
   }
     
   goToHome() {
     this.router.navigate(['/']);
   }
 
-  //#region Quiz Management
   loadQuizList() {
     this.quizService.quizControllerGetQuizList().subscribe({
       next: (response) => {
@@ -105,47 +94,4 @@ export class QuizAdminPageComponent implements OnInit {
       }
     });
   }
-//#endregion Quiz Management
-
-//#region User Management
-  get userDataSource(): MatTableDataSource<UserDto> {
-    return new MatTableDataSource(this.userList);
-  }
-
-  loadUserList() {
-    this.userService.userControllerGetUserList().subscribe({
-      next: (response) => {
-        console.log('User list loaded:', response);
-        /* if (response.success && response.data) {
-          this.userList = response.data;
-        } */
-       this.userList = response;
-      },
-      error: (error) => {
-        console.error('Error loading user list:', error);
-      }
-    });
-  }
-
-  // User management methods
-  createNewUser() {
-    // TODO: Implement user creation
-    console.log('Create new user');
-  }
-
-  editUser(userId: string) {
-    // TODO: Navigate to user edit page
-    console.log('Edit user:', userId);
-  }
-
-  deleteUser(userId: string) {
-    // TODO: Implement user deletion with confirmation
-    console.log('Delete user:', userId);
-  }
-
-  toggleUserStatus(user: UserDto) {
-    // TODO: Implement user status toggle
-    console.log('Toggle user status:', user.id, user.isActive);
-  }
-//#endregion User Management
 }

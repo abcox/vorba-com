@@ -17,6 +17,7 @@ export const quizRoutes: Routes = [
     component: QuizStartPageComponent,
     title: 'Start Quiz'
   },
+  // TODO: redirect to /admin/user
   {
     path: 'admin',
     component: QuizAdminPageComponent,

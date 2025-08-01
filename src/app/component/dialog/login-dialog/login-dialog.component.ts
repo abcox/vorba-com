@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { AuthService, LoginCredentials } from '../../../core/auth/auth.service';
 import { finalize } from 'rxjs/operators';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { NotifyService } from '../../../core/notify/notify.service';
 
 export interface LoginDialogData {
   returnUrl?: string;
@@ -49,7 +48,6 @@ export class LoginDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private notifyService = inject(NotifyService);
   
   dialogRef = inject(MatDialogRef<LoginDialogComponent>);
   data: LoginDialogData = inject(MAT_DIALOG_DATA);
@@ -108,7 +106,6 @@ export class LoginDialogComponent implements OnInit {
           }
         },
         error: (error) => {
-          //this.notifyService.error('Login failed', error.message);
           console.error('Login error:', error);
           this.errorMessage = error.message || 'Login failed. Please try again.';
         }

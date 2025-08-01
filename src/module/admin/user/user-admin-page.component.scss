@@ -1,0 +1,215 @@
+.admin-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--sys-surface);
+  color: var(--sys-on-surface);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 0;
+  border-bottom: 2px solid var(--sys-outline);
+
+  h1 {
+    margin: 0;
+    color: var(--sys-on-surface);
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
+
+.admin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .management-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .mat-card-header {
+    background-color: var(--sys-surface-container);
+    border-radius: 8px 8px 0 0;
+    padding: 16px 24px;
+    margin: -24px -24px 24px -24px;
+
+    .mat-card-title {
+      margin: 0;
+      color: var(--sys-on-surface);
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .mat-card-subtitle {
+      margin: 4px 0 0 0;
+      color: var(--sys-on-surface-variant);
+    }
+  }
+
+  .mat-card-content {
+    padding: 0;
+  }
+}
+
+.table-container {
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    .mat-header-cell {
+      background-color: var(--sys-surface-container);
+      color: var(--sys-on-surface);
+      font-weight: 600;
+      padding: 16px 12px;
+      border-bottom: 2px solid var(--sys-outline);
+    }
+
+    .mat-cell {
+      padding: 12px;
+      border-bottom: 1px solid var(--sys-outline-variant);
+      color: var(--sys-on-surface);
+    }
+
+    .mat-row:hover {
+      background-color: var(--sys-surface-container-low);
+    }
+
+    .mat-row:last-child .mat-cell {
+      border-bottom: none;
+    }
+  }
+
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    color: var(--sys-on-surface-variant);
+    text-align: center;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+  }
+
+  //#region User management specific styles
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.active {
+      background-color: var(--sys-primary-container);
+      color: var(--sys-on-primary-container);
+    }
+
+    &.inactive {
+      background-color: var(--sys-error-container);
+      color: var(--sys-on-error-container);
+    }
+  }
+
+  .admin-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    &.admin {
+      background-color: var(--sys-tertiary-container);
+      color: var(--sys-on-tertiary-container);
+    }
+
+    &.user {
+      background-color: var(--sys-surface-container);
+      color: var(--sys-on-surface-variant);
+    }
+  }
+
+  .role-chip {
+    display: inline-block;
+    padding: 2px 6px;
+    margin: 1px;
+    background-color: var(--sys-surface-container-high);
+    color: var(--sys-on-surface);
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+//#endregion User management specific styles
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 16px;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+
+    .admin-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .user-table {
+      min-width: 600px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-header {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .admin-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+} 

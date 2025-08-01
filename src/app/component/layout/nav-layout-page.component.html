@@ -1,0 +1,26 @@
+<mat-drawer-container>
+  <mat-drawer #drawer [mode]="drawerModeSignal()" [opened]="drawerOpenedSignal()" [position]="drawerPositionSignal()">
+    {{ drawerPositionSignal() }}
+    {{ drawerModeSignal() }}
+    {{ drawerOpenedSignal() }}
+    <ng-container *ngTemplateOutlet="drawerControls"></ng-container>
+  </mat-drawer>
+  <mat-drawer-content>
+    <app-header></app-header>
+    <ng-container *ngTemplateOutlet="drawerControls"></ng-container>
+    <div class="content">
+      <router-outlet />
+    </div>
+    <app-footer></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<ng-template #drawerControls>
+  <button mat-raised-button (click)="toggleDrawer()">Toggle drawer</button>    
+  <mat-slide-toggle [checked]="drawerModeSignal() === 'side'" (change)="toggleDrawerMode()">
+    Mode: {{ drawerModeSignal() }}
+  </mat-slide-toggle>
+  <mat-slide-toggle [checked]="drawerPositionSignal() === 'start'" (change)="toggleDrawerPosition()">
+    Position: {{ drawerPositionSignal() }}
+  </mat-slide-toggle>
+</ng-template>

@@ -8,6 +8,12 @@ export class LayoutService {
   private _titlePrefixSignal = signal<string>('');
   readonly titlePrefixSignal = this._titlePrefixSignal.asReadonly();
 
+  //#region Drawer
+  readonly drawerOpenedSignal = signal<boolean>(false);
+  readonly drawerModeSignal = signal<'side' | 'over'>('side');
+  readonly drawerPositionSignal = signal<'start' | 'end'>('start');
+  //#endregion
+
   constructor(private themeService: ThemeService) { }
 
   setTitlePrefix(value: string) {
@@ -34,4 +40,19 @@ export class LayoutService {
   setTheme(theme: Theme) {
     this.themeService.setTheme(theme);
   }
+
+  //#region Drawer
+  toggleDrawer() {
+    this.drawerOpenedSignal.set(!this.drawerOpenedSignal());
+  }
+
+  toggleDrawerMode() {
+    this.drawerModeSignal.set(this.drawerModeSignal() === 'side' ? 'over' : 'side');
+  }
+
+  toggleDrawerPosition() {
+    this.drawerPositionSignal.set(this.drawerPositionSignal() === 'start' ? 'end' : 'start');
+  }
+  //#endregion
+
 }
