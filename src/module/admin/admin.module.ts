@@ -2,8 +2,13 @@ import { Routes } from "@angular/router";
 import { QuizAdminPageComponent } from "src/app/component/page/quiz-page/quiz-admin-page/quiz-admin-page.component";
 import { UserAdminPageComponent } from "./user/user-admin-page.component";
 
-// Quiz Routes for standalone components
+// Admin Routes for standalone components
 export const adminRoutes: Routes = [
+    {
+        path: '',
+        redirectTo: 'user',
+        pathMatch: 'full'
+    },
     {
         path: 'user',
         component: UserAdminPageComponent,

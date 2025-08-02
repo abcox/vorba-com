@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterModule } from '@angular/router';
 import { Component, inject, viewChild } from '@angular/core';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { LayoutService } from './_service/layout.service';
+import { DrawerMode, LayoutService } from './_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
@@ -16,6 +16,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   imports: [
     CommonModule,
     RouterOutlet,
+    RouterModule,
     MatButtonToggleModule,
     MatIconModule,
     MatCardModule,
@@ -25,6 +26,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSlideToggleModule
   ],
   templateUrl: './nav-layout-page.component.html',
+  styleUrls: ['./nav-layout-page.component.scss']
 })
 export class NavLayoutPageComponent {
   layoutService = inject(LayoutService);
@@ -32,6 +34,10 @@ export class NavLayoutPageComponent {
   drawerOpenedSignal = this.layoutService.drawerOpenedSignal;
   drawerModeSignal = this.layoutService.drawerModeSignal;
   drawerPositionSignal = this.layoutService.drawerPositionSignal;
+
+  constructor() {
+    this.layoutService.toggleDrawerMode(DrawerMode.Over);
+  }
 
   get drawerOpened() {
     return this.drawerOpenedSignal();

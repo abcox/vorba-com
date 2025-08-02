@@ -1,0 +1,100 @@
+<mat-drawer-container class="admin-layout-container">
+  <mat-drawer #drawer [mode]="drawerModeSignal()" [opened]="drawerOpenedSignal()" [position]="drawerPositionSignal()" class="admin-drawer">
+    <div class="drawer-header">
+      <div class="admin-header-content">
+        <mat-icon class="admin-icon">admin_panel_settings</mat-icon>
+        <div class="admin-title">
+          <h4>Admin Panel</h4>
+          <span class="user-role">{{ getCurrentUserRole() }}</span>
+        </div>
+      </div>
+      <button mat-icon-button (click)="toggleDrawer()" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>    
+    </div>
+    
+    <div class="drawer-content">
+      <div class="nav-section">
+        <h6 class="nav-section-title">Administration</h6>
+        <div 
+          *ngFor="let item of adminNavItems" 
+          class="drawer-content-item" 
+          [routerLink]="item.route" 
+          routerLinkActive="active"
+          (click)="onNavItemClick(item)"
+          [matTooltip]="item.description"
+          matTooltipPosition="right">
+          <mat-icon>{{ item.icon }}</mat-icon>
+          <div class="nav-item-content">
+            <span class="nav-label">{{ item.label }}</span>
+            <span class="nav-description">{{ item.description }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="drawer-footer">
+        <div class="drawer-content-item" routerLink="/" routerLinkActive="active">
+          <mat-icon>home</mat-icon>
+          <span>Back to Site</span>
+        </div>
+        <div class="drawer-content-item" routerLink="/admin/profile" routerLinkActive="active">
+          <mat-icon>account_circle</mat-icon>
+          <span>Profile</span>
+        </div>
+      </div>
+    </div>
+  </mat-drawer>
+  
+  <mat-drawer-content class="admin-content">
+    <app-header></app-header>
+    
+    <!-- Admin-specific toolbar -->
+    <div class="admin-toolbar">
+      <div class="toolbar-left">
+        <button mat-icon-button (click)="toggleDrawer()" class="menu-button">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="page-title">Admin Dashboard</span>
+      </div>
+      <div class="toolbar-right">
+        <button mat-icon-button [matMenuTriggerFor]="adminMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #adminMenu="matMenu">
+          <button mat-menu-item routerLink="/admin/settings">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </button>
+          <button mat-menu-item routerLink="/admin/profile">
+            <mat-icon>account_circle</mat-icon>
+            <span>Profile</span>
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    
+    <div class="content">
+      <router-outlet />
+    </div>
+    
+    <app-footer></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>
+
+<!-- Development controls (can be removed in production) -->
+<ng-template #drawerControls>
+  <div class="dev-controls" *ngIf="false">
+    <button mat-raised-button (click)="toggleDrawer()">Toggle drawer</button>    
+    <mat-slide-toggle [checked]="drawerModeSignal() === 'side'" (change)="toggleDrawerMode()">
+      Mode: {{ drawerModeSignal() }}
+    </mat-slide-toggle>
+    <mat-slide-toggle [checked]="drawerPositionSignal() === 'start'" (change)="toggleDrawerPosition()">
+      Position: {{ drawerPositionSignal() }}
+    </mat-slide-toggle>
+  </div>
+</ng-template> 

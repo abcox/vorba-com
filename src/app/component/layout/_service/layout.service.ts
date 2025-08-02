@@ -1,6 +1,22 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { ThemeService, Theme } from '../../../services/theme.service';
 
+export enum DrawerMode {
+  Side = 'side',
+  Over = 'over'
+}
+
+export enum DrawerPosition {
+  Start = 'start',
+  End = 'end'
+}
+
+export type DrawerState = {
+  opened: boolean;
+  mode: DrawerMode;
+  position: DrawerPosition;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,8 +26,8 @@ export class LayoutService {
 
   //#region Drawer
   readonly drawerOpenedSignal = signal<boolean>(false);
-  readonly drawerModeSignal = signal<'side' | 'over'>('side');
-  readonly drawerPositionSignal = signal<'start' | 'end'>('start');
+  readonly drawerModeSignal = signal<DrawerMode>(DrawerMode.Side);
+  readonly drawerPositionSignal = signal<DrawerPosition>(DrawerPosition.Start);
   //#endregion
 
   constructor(private themeService: ThemeService) { }
@@ -41,17 +57,25 @@ export class LayoutService {
     this.themeService.setTheme(theme);
   }
 
-  //#region Drawer
-  toggleDrawer() {
-    this.drawerOpenedSignal.set(!this.drawerOpenedSignal());
+  //#region Drawer  
+  get drawerStateSignal() {
+    return computed(() => ({
+      opened: this.drawerOpenedSignal(),
+      mode: this.drawerModeSignal(),
+      position: this.drawerPositionSignal()
+    }));
   }
 
-  toggleDrawerMode() {
-    this.drawerModeSignal.set(this.drawerModeSignal() === 'side' ? 'over' : 'side');
+  toggleDrawer(opened?: boolean) {
+    this.drawerOpenedSignal.set(opened ?? !this.drawerOpenedSignal());
   }
 
-  toggleDrawerPosition() {
-    this.drawerPositionSignal.set(this.drawerPositionSignal() === 'start' ? 'end' : 'start');
+  toggleDrawerMode(mode?: DrawerMode) {
+    this.drawerModeSignal.set(mode ?? (this.drawerModeSignal() === DrawerMode.Side ? DrawerMode.Over : DrawerMode.Side));
+  }
+
+  toggleDrawerPosition(position?: DrawerPosition) {
+    this.drawerPositionSignal.set(position ?? (this.drawerPositionSignal() === DrawerPosition.Start ? DrawerPosition.End : DrawerPosition.Start));
   }
   //#endregion
 

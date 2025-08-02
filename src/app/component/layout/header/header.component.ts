@@ -3,14 +3,17 @@ import { MenuToggleComponent } from './_component/menu-toggle/menu-toggle.compon
 import { LogoComponent } from './_component/logo/logo.component';
 import { MenuDialogComponent } from './_component/menu-dialog/menu-dialog.component';
 import { LayoutService } from '../_service/layout.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MenuToggleComponent, LogoComponent, MenuDialogComponent],
+  imports: [MenuToggleComponent, LogoComponent, MenuDialogComponent, MatIconModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  titlePrefix = inject(LayoutService).titlePrefixSignal;
+  layoutService = inject(LayoutService);
+  titlePrefix = this.layoutService.titlePrefixSignal;
+  drawerOpenedSignal = this.layoutService.drawerOpenedSignal;
 }

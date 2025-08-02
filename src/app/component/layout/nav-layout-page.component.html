@@ -1,9 +1,25 @@
 <mat-drawer-container>
   <mat-drawer #drawer [mode]="drawerModeSignal()" [opened]="drawerOpenedSignal()" [position]="drawerPositionSignal()">
-    {{ drawerPositionSignal() }}
+    <!-- {{ drawerPositionSignal() }}
     {{ drawerModeSignal() }}
     {{ drawerOpenedSignal() }}
-    <ng-container *ngTemplateOutlet="drawerControls"></ng-container>
+    <ng-container *ngTemplateOutlet="drawerControls"></ng-container> -->
+    <div class="drawer-header">
+      <h4>Admin</h4>
+      <button mat-icon-button (click)="toggleDrawer()">
+        <mat-icon prefix>close</mat-icon>
+      </button>    
+    </div>
+    <div class="drawer-content">
+      <div class="drawer-content-item" routerLink="/admin/user" routerLinkActive="active">
+        <mat-icon>group</mat-icon>
+        <span>User</span>
+      </div>
+      <div class="drawer-content-item" routerLink="/admin/quiz" routerLinkActive="active">
+        <mat-icon>quiz</mat-icon>
+        <span>Quiz</span>
+      </div>
+    </div>
   </mat-drawer>
   <mat-drawer-content>
     <app-header></app-header>

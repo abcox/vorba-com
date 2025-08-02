@@ -1,5 +1,8 @@
 <div class="header flex justify-between items-center m-3 mx-4">
     <div class="left-side flex flex-row">
+        <button mat-icon-button (click)="layoutService.toggleDrawer()">
+            <mat-icon>menu_open</mat-icon>
+        </button>
         <app-logo></app-logo>
         <div class="mx-4 mt-4"><!-- TODO: we should center vertically rather than use top margin -->
             <h2>{{ titlePrefix() }} Vorba {{ titlePrefix() ? '' : 'Software Consulting' }}</h2>
