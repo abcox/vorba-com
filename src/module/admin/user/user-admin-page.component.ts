@@ -85,6 +85,7 @@ export class UserAdminPageComponent implements OnInit {
   editUser(userId: string) {
     // TODO: Navigate to user edit page
     console.log('Edit user:', userId);
+    this.router.navigate(['/admin/user/edit', userId]);
   }
 
   deleteUser(userId: string) {

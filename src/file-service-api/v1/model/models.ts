@@ -4,6 +4,7 @@ export * from './quizQuestionOptionDto';
 export * from './quizResponseDto';
 export * from './quizSearchResponseDto';
 export * from './quizSummaryDto';
+export * from './updateUserDto';
 export * from './userDto';
 export * from './userLoginRequest';
 export * from './userLoginResponse';

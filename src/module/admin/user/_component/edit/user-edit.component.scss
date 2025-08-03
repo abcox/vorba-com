@@ -1,0 +1,252 @@
+.user-edit-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--sys-surface);
+  color: var(--sys-on-surface);
+}
+
+.user-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 0;
+  border-bottom: 2px solid var(--sys-outline);
+
+  h1 {
+    margin: 0;
+    color: var(--sys-on-surface);
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .user-edit-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
+
+.user-edit-content {
+  .edit-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  .mat-card-header {
+    background-color: var(--sys-surface-container);
+    border-radius: 8px 8px 0 0;
+    padding: 16px 24px;
+    margin: -24px -24px 24px -24px;
+
+    .mat-card-title {
+      margin: 0;
+      color: var(--sys-on-surface);
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .mat-card-subtitle {
+      margin: 4px 0 0 0;
+      color: var(--sys-on-surface-variant);
+    }
+  }
+
+  .mat-card-content {
+    padding: 24px;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: var(--sys-on-surface-variant);
+  text-align: center;
+
+  mat-spinner {
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .form-field {
+    width: 100%;
+
+    .mat-form-field-wrapper {
+      padding-bottom: 0;
+    }
+  }
+
+  .checkbox-field {
+    margin: 16px 0;
+    color: var(--sys-on-surface);
+  }
+
+  .form-section {
+    border: 1px solid var(--sys-outline-variant);
+    border-radius: 8px;
+    padding: 20px;
+    background-color: var(--sys-surface-container-low);
+
+    h3 {
+      margin: 0 0 16px 0;
+      color: var(--sys-on-surface);
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    h4 {
+      margin: 0 0 12px 0;
+      color: var(--sys-on-surface);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+
+  .roles-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .current-roles {
+    .role-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .role-chip {
+        background-color: var(--sys-primary-container);
+        color: var(--sys-on-primary-container);
+        font-weight: 500;
+      }
+
+      .no-roles {
+        color: var(--sys-on-surface-variant);
+        font-style: italic;
+        margin: 0;
+      }
+    }
+  }
+
+  .available-roles {
+    .role-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .role-button {
+        border-color: var(--sys-outline);
+        color: var(--sys-on-surface);
+
+        &:not(:disabled) {
+          &:hover {
+            background-color: var(--sys-surface-container);
+          }
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          background-color: var(--sys-surface-container);
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    padding-top: 16px;
+    border-top: 1px solid var(--sys-outline-variant);
+
+    .submit-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 140px;
+    }
+
+    .cancel-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .user-edit-container {
+    padding: 16px;
+  }
+
+  .user-edit-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+
+    .user-edit-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .user-edit-header {
+    h1 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .user-edit-actions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+} 

@@ -22,6 +22,7 @@ model/quizQuestionOptionDto.ts
 model/quizResponseDto.ts
 model/quizSearchResponseDto.ts
 model/quizSummaryDto.ts
+model/updateUserDto.ts
 model/userDto.ts
 model/userLoginRequest.ts
 model/userLoginResponse.ts

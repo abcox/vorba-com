@@ -1,0 +1,124 @@
+<div class="user-edit-container">
+  <div class="user-edit-header">
+    <h1>Edit User</h1>
+    <div class="user-edit-actions">
+      <button mat-raised-button (click)="onCancel()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Users
+      </button>
+    </div>
+  </div>
+
+  <div class="user-edit-content">
+    <mat-card class="edit-card">
+      <mat-card-header>
+        <mat-card-title>User Information</mat-card-title>
+        <mat-card-subtitle>Update user details and permissions</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div *ngIf="loading" class="loading-container">
+          <mat-spinner></mat-spinner>
+          <p>Loading user information...</p>
+        </div>
+
+        <form *ngIf="!loading" [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" placeholder="Enter username">
+              <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+                Username is required
+              </mat-error>
+              <mat-error *ngIf="userForm.get('username')?.hasError('minlength')">
+                Username must be at least 3 characters
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" type="email" placeholder="Enter email">
+              <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+                Please enter a valid email
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="form-field">
+              <mat-label>Full Name</mat-label>
+              <input matInput formControlName="name" placeholder="Enter full name">
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-checkbox formControlName="isActive" class="checkbox-field">
+              Active Account
+            </mat-checkbox>
+            
+            <mat-checkbox formControlName="isAdmin" class="checkbox-field">
+              Admin Privileges
+            </mat-checkbox>
+          </div>
+
+          <div class="form-section">
+            <h3>User Roles</h3>
+            <div class="roles-container">
+              <div class="current-roles">
+                <h4>Current Roles</h4>
+                <div class="role-chips">
+                  <mat-chip *ngFor="let role of userForm.get('roles')?.value" 
+                           (removed)="removeRole(role)" 
+                           class="role-chip">
+                    {{ role }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                  <p *ngIf="!userForm.get('roles')?.value?.length" class="no-roles">
+                    No roles assigned
+                  </p>
+                </div>
+              </div>
+
+              <div class="available-roles">
+                <h4>Available Roles</h4>
+                <div class="role-buttons">
+                  <button mat-stroked-button 
+                          *ngFor="let role of availableRoles"
+                          (click)="addRole(role)"
+                          [disabled]="userForm.get('roles')?.value?.includes(role)"
+                          class="role-button">
+                    {{ role }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button 
+                    type="submit" 
+                    [disabled]="userForm.invalid || saving"
+                    color="primary"
+                    class="submit-button">
+              <mat-spinner *ngIf="saving" diameter="20"></mat-spinner>
+              <mat-icon *ngIf="!saving">save</mat-icon>
+              {{ saving ? 'Saving...' : 'Save Changes' }}
+            </button>
+            
+            <button mat-stroked-button 
+                    type="button" 
+                    (click)="onCancel()"
+                    [disabled]="saving"
+                    class="cancel-button">
+              <mat-icon>cancel</mat-icon>
+              Cancel
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div> 
