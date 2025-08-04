@@ -121,22 +121,23 @@
   }
 
   //#region User management specific styles
-  .status-badge {
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-
-    &.active {
-      background-color: var(--sys-primary-container);
-      color: var(--sys-on-primary-container);
+  .mat-slide-toggle {
+    .mat-slide-toggle-bar {
+      background-color: var(--sys-outline-variant);
     }
 
-    &.inactive {
-      background-color: var(--sys-error-container);
-      color: var(--sys-on-error-container);
+    .mat-slide-toggle-thumb {
+      background-color: var(--sys-surface);
+    }
+
+    &.mat-checked {
+      .mat-slide-toggle-bar {
+        background-color: var(--sys-primary);
+      }
+
+      .mat-slide-toggle-thumb {
+        background-color: var(--sys-primary);
+      }
     }
   }
 

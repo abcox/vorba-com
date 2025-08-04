@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { UserService, UserDto } from '@file-service-api/v1';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -32,7 +33,8 @@ import { Theme, ThemeService } from 'src/app/services/theme.service';
     MatDialogModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSlideToggleModule
   ],
   templateUrl: './user-admin-page.component.html',
   styleUrl: './user-admin-page.component.scss'
@@ -44,7 +46,7 @@ export class UserAdminPageComponent implements OnInit {
   // user management
   private userService = inject(UserService);
   userList: UserDto[] = [];
-  displayedUserColumns: string[] = ['username', 'email', 'name', 'isActive', 'isAdmin', 'roles', 'lastLoginAt', 'actions'];
+  displayedUserColumns: string[] = [/* 'username',  */'email', 'name', 'isActive', 'isAdmin', 'roles', 'lastLoginAt', 'actions'];
   
   ngOnInit() {
     this.themeService.setTheme(Theme.Dark);
@@ -104,7 +106,34 @@ export class UserAdminPageComponent implements OnInit {
   }
 
   toggleUserStatus(user: UserDto) {
-    // TODO: Implement user status toggle
-    console.log('Toggle user status:', user.id, user.isActive);
+    if (user.isActive) {
+      this.deactivateUser(user.id);
+    } else {
+      this.activateUser(user.id);
+    }
+  }
+
+  activateUser(userId: string) {
+    this.userService.userControllerActivateUser(userId).subscribe({
+      next: (response) => {
+        console.log('User activated:', response);
+        this.loadUserList();
+      },
+      error: (error) => {
+        console.error('Error activating user:', error);
+      }
+    });
+  }
+
+  deactivateUser(userId: string) {
+    this.userService.userControllerDeactivateUser(userId).subscribe({
+      next: (response) => {
+        console.log('User deactivated:', response);
+        this.loadUserList();
+      },
+      error: (error) => {
+        console.error('Error deactivating user:', error);
+      }
+    });
   }
 }

@@ -45,9 +45,13 @@
             <ng-container matColumnDef="isActive">
               <th mat-header-cell *matHeaderCellDef>Status</th>
               <td mat-cell *matCellDef="let user">
-                <span class="status-badge" [class.active]="user.isActive" [class.inactive]="!user.isActive">
-                  {{ user.isActive ? 'Active' : 'Inactive' }}
-                </span>
+                <mat-slide-toggle
+                  [checked]="user.isActive"
+                  (change)="toggleUserStatus(user)"
+                  [disabled]="false"
+                  color="primary"
+                  matTooltip="{{ user.isActive ? 'Deactivate' : 'Activate' }} User">
+                </mat-slide-toggle>
               </td>
             </ng-container>
 
@@ -81,9 +85,6 @@
               <td mat-cell *matCellDef="let user">
                 <button mat-icon-button color="primary" (click)="editUser(user.id)" matTooltip="Edit User">
                   <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button [color]="user.isActive ? 'warn' : 'primary'" (click)="toggleUserStatus(user)" matTooltip="{{ user.isActive ? 'Deactivate' : 'Activate' }} User">
-                  <mat-icon>{{ user.isActive ? 'block' : 'check_circle' }}</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="deleteUser(user.id)" matTooltip="Delete User">
                   <mat-icon>delete</mat-icon>
