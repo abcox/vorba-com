@@ -1,3 +1,4 @@
+export * from './createUserDto';
 export * from './quizDto';
 export * from './quizQuestionDto';
 export * from './quizQuestionOptionDto';
