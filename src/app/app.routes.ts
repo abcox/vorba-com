@@ -3,7 +3,7 @@ import { navRoutes } from './component/layout/nav-layout.module';
 import { quizRoutes } from './component/page/quiz-page/quiz.module';
 import { adminRoutes } from 'src/module/admin/admin.module';
 import { adminGuard } from './core/auth/auth.guard';
-import { AdminLayoutPageComponent } from 'src/module/admin/admin-layout-page.component';
+import { AdminLayoutPageComponent } from 'src/module/admin/_component/layout/admin-layout-page.component';
 
 export interface MenuItem extends Route {
     title?: string;
