@@ -80,6 +80,7 @@ export class UserAdminPageComponent implements OnInit {
   createNewUser() {
     // TODO: Implement user creation
     console.log('Create new user');
+    this.router.navigate(['/admin/user/new']);
   }
 
   editUser(userId: string) {
