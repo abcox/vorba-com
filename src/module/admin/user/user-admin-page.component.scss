@@ -40,32 +40,34 @@
   flex-direction: column;
   gap: 24px;
 
-  .management-card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+
+  .mat-card-content {
+    padding: 0;
   }
+}
+
+.management-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 
   .mat-card-header {
     background-color: var(--sys-surface-container);
     border-radius: 8px 8px 0 0;
     padding: 16px 24px;
     margin: -24px -24px 24px -24px;
-
-    .mat-card-title {
-      margin: 0;
-      color: var(--sys-on-surface);
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    .mat-card-subtitle {
-      margin: 4px 0 0 0;
-      color: var(--sys-on-surface-variant);
-    }
   }
 
-  .mat-card-content {
-    padding: 0;
+  .mat-card-title {
+    margin: 0;
+    color: var(--sys-on-surface);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .mat-mdc-card-subtitle {
+    margin-top: 4px;
+    padding-bottom: 16px !important;
+    color: var(--sys-on-surface-variant);
   }
 }
 
@@ -169,6 +171,20 @@
     border-radius: 8px;
     font-size: 0.7rem;
     font-weight: 500;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+
+    a {
+      color: var(--sys-primary);
+      text-decoration: underline;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
   }
 //#endregion User management specific styles
 }

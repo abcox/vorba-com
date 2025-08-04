@@ -12,10 +12,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserService, UserDto } from '@file-service-api/v1';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
+import { ConfirmDialogService } from 'src/app/component/dialog/confirm-dialog';
 
 @Component({
   selector: 'app-user-admin-page',
@@ -34,7 +35,8 @@ import { Theme, ThemeService } from 'src/app/services/theme.service';
     MatSnackBarModule,
     MatExpansionModule,
     MatTooltipModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    RouterModule
   ],
   templateUrl: './user-admin-page.component.html',
   styleUrl: './user-admin-page.component.scss'
@@ -42,6 +44,7 @@ import { Theme, ThemeService } from 'src/app/services/theme.service';
 export class UserAdminPageComponent implements OnInit {
   private themeService = inject(ThemeService);
   private router = inject(Router);
+  private confirmDialog = inject(ConfirmDialogService);
   
   // user management
   private userService = inject(UserService);
@@ -92,15 +95,21 @@ export class UserAdminPageComponent implements OnInit {
   }
 
   deleteUser(userId: string) {
-    // TODO: Implement user deletion with confirmation
-    console.log('Delete user:', userId);
-    this.userService.userControllerDeleteUser(userId).subscribe({
-      next: (response) => {
-        console.log('User deleted:', response);
-        this.loadUserList();
-      },
-      error: (error) => {
-        console.error('Error deleting user:', error);
+    // Find the user to get their name for the confirmation dialog
+    const user = this.userList.find(u => u.id === userId);
+    const userName = user?.name || user?.username || 'this user';
+    
+    this.confirmDialog.confirmDelete(userName).subscribe(confirmed => {
+      if (confirmed) {
+        this.userService.userControllerDeleteUser(userId).subscribe({
+          next: (response) => {
+            console.log('User deleted:', response);
+            this.loadUserList();
+          },
+          error: (error) => {
+            console.error('Error deleting user:', error);
+          }
+        });
       }
     });
   }

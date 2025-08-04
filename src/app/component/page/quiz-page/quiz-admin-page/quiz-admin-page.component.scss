@@ -40,34 +40,39 @@
   flex-direction: column;
   gap: 24px;
 
-  .management-card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+  .mat-card-content {
+    padding: 0;
   }
+}
 
+:host {
+  //--mat-card-subtitle-text-color: red;
+}
+
+.management-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  
   .mat-card-header {
     background-color: var(--sys-surface-container);
     border-radius: 8px 8px 0 0;
     padding: 16px 24px;
     margin: -24px -24px 24px -24px;
-
-    .mat-card-title {
-      margin: 0;
-      color: var(--sys-on-surface);
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    .mat-card-subtitle {
-      margin: 4px 0 0 0;
-      color: var(--sys-on-surface-variant);
-    }
   }
 
-  .mat-card-content {
-    padding: 0;
+  .mat-card-title {
+    margin: 0;
+    color: var(--sys-on-surface);
+    font-size: 1.5rem;
+    font-weight: 600;
   }
-}
+
+  .mat-mdc-card-subtitle {
+    margin-top: 4px;
+    padding-bottom: 16px;
+    color: var(--sys-on-surface-variant);
+  }
+} 
 
 // used by quiz and user management
 .table-container {
@@ -118,6 +123,20 @@
     p {
       margin: 0;
       font-size: 1.1rem;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+
+    a {
+      color: var(--sys-primary);
+      text-decoration: underline;
+
+      &:hover {
+        opacity: 0.6;
+      }
     }
   }
 

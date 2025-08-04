@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
 import { Theme, ThemeService } from '../../../../services/theme.service';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { RouterModule } from '@angular/router';
+import { ConfirmDialogService } from '../../../dialog/confirm-dialog/confirm-dialog.service';
 
 @Component({
   selector: 'app-quiz-admin-page',
@@ -32,16 +34,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatDialogModule,
     MatSnackBarModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RouterModule
   ],
   templateUrl: './quiz-admin-page.component.html',
   styleUrl: './quiz-admin-page.component.scss'
 })
 export class QuizAdminPageComponent implements OnInit {
   private themeService = inject(ThemeService);
-  private router = inject(Router);
-  
+  private router = inject(Router);  
   private quizService = inject(QuizService);
+  private confirmDialogService = inject(ConfirmDialogService);
+  
   quizList: QuizSummaryDto[] = [];
   displayedColumns: string[] = ['title', 'questionCount', 'createdAt', 'actions'];
 
@@ -78,9 +82,13 @@ export class QuizAdminPageComponent implements OnInit {
     console.log('Edit quiz:', quizId);
   }
   
-  deleteQuiz(quizId: string) {
-    // TODO: Implement quiz deletion with confirmation
-    console.log('Delete quiz:', quizId);
+  deleteQuiz(quiz: QuizSummaryDto) {
+    const { _id, title } = quiz;
+    this.confirmDialogService.confirmDelete(title).subscribe((result) => {
+      if (result) {
+        console.log('Delete quiz id:', _id);
+      }
+    });
   }
   
   generateSeedData() {

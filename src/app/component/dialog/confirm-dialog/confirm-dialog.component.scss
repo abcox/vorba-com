@@ -1,0 +1,152 @@
+.confirm-dialog-container {
+  min-width: 400px;
+  max-width: 500px;
+  background-color: var(--sys-surface);
+  color: var(--sys-on-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid var(--sys-outline-variant);
+  background-color: var(--sys-surface-container);
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+  }
+
+  .dialog-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    padding: 8px;
+    background-color: var(--sys-primary-container);
+    color: var(--sys-on-primary-container);
+
+    &.primary {
+      background-color: var(--sys-primary-container);
+      color: var(--sys-on-primary-container);
+    }
+
+    &.accent {
+      background-color: var(--sys-secondary-container);
+      color: var(--sys-on-secondary-container);
+    }
+
+    &.warn {
+      background-color: var(--sys-error-container);
+      color: var(--sys-on-error-container);
+    }
+  }
+
+  .dialog-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--sys-on-surface);
+    line-height: 1.2;
+  }
+
+  .close-button {
+    color: var(--sys-on-surface-variant);
+    
+    &:hover {
+      background-color: var(--sys-surface-container-high);
+    }
+  }
+}
+
+.dialog-content {
+  padding: 24px;
+
+  .dialog-message {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--sys-on-surface);
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid var(--sys-outline-variant);
+  background-color: var(--sys-surface-container-low);
+
+  .cancel-button {
+    color: var(--sys-on-surface-variant);
+    border: 1px solid var(--sys-outline);
+    
+    &:hover {
+      background-color: var(--sys-surface-container);
+    }
+  }
+
+  .confirm-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    min-width: 100px;
+    
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 600px) {
+  .confirm-dialog-container {
+    min-width: 320px;
+    max-width: 90vw;
+  }
+
+  .dialog-header {
+    padding: 20px 20px 12px 20px;
+
+    .dialog-title {
+      font-size: 1.25rem;
+    }
+
+    .dialog-icon {
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
+      padding: 6px;
+    }
+  }
+
+  .dialog-content {
+    padding: 20px;
+  }
+
+  .dialog-actions {
+    padding: 12px 20px 20px 20px;
+    flex-direction: column-reverse;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+
+// Dark theme adjustments
+@media (prefers-color-scheme: dark) {
+  .confirm-dialog-container {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+} 

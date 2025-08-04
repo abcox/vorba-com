@@ -1,0 +1,33 @@
+<div class="confirm-dialog-container">
+  <div class="dialog-header">
+    <div class="header-content">
+      <mat-icon class="dialog-icon" [class]="confirmColor">{{ icon }}</mat-icon>
+      <h2 class="dialog-title">{{ title }}</h2>
+    </div>
+    <button mat-icon-button class="close-button" (click)="onClose()" matTooltip="Close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="dialog-content">
+    <p class="dialog-message">{{ message }}</p>
+  </div>
+
+  <div class="dialog-actions">
+    <button 
+      mat-button 
+      (click)="onCancel()" 
+      *ngIf="showCancel"
+      class="cancel-button">
+      {{ cancelText }}
+    </button>
+    <button 
+      mat-raised-button 
+      [color]="confirmColor"
+      (click)="onConfirm()" 
+      class="confirm-button">
+      <mat-icon>check</mat-icon>
+      {{ confirmText }}
+    </button>
+  </div>
+</div> 
