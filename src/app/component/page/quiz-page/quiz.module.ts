@@ -4,6 +4,7 @@ import { QuizPageComponent } from './quiz-page.component';
 import { QuizEndPageComponent } from './quiz-end-page/quiz-end-page.component';
 import { QuizAdminPageComponent } from './quiz-admin-page/quiz-admin-page.component';
 import { adminGuard } from '../../../core/auth/auth.guard';
+import { FileUploadComponent } from './_component/file-upload/file-upload.component';
 
 // Quiz Routes for standalone components
 export const quizRoutes: Routes = [
@@ -16,6 +17,11 @@ export const quizRoutes: Routes = [
     path: 'start',
     component: QuizStartPageComponent,
     title: 'Start Quiz'
+  },
+  {
+    path: 'file-upload',
+    component: FileUploadComponent,
+    title: 'File upload'
   },
   // TODO: redirect to /admin/user
   {

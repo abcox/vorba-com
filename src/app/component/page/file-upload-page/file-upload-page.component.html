@@ -1,0 +1,157 @@
+<div class="page-container">
+  @if (isMobile()) {
+    <ng-container *ngTemplateOutlet="uploadNavHeader; context: { $implicit: currentStepData }"></ng-container>
+  } @else {
+    <ng-container *ngTemplateOutlet="uploadHeader; context: { $implicit: currentStepData }"></ng-container>
+  }
+  
+  <div class="upload-container">
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+      <mat-stepper #stepper [linear]="isLinear">
+        <mat-step *ngFor="let step of uploadSteps; let i = index"
+          [completed]="step.completed">
+          <div class="step-container">
+            <div class="step-content">
+              <div class="step-header">
+                <h2 class="step-title">{{ step.title }}</h2>
+                <p class="step-description">{{ step.description }}</p>
+              </div>
+              
+              <div class="step-body">
+                @switch (step.component) {
+                  @case ('file-select') {
+                    <div class="file-select-step">
+                      <app-file-upload 
+                        (filesSelected)="onFileSelected($event)"
+                        [selectedFiles]="uploadForm.get('files')?.value">
+                      </app-file-upload>
+                    </div>
+                  }
+                  @case ('file-review') {
+                    <div class="file-review-step">
+                      <div class="file-list">
+                        <h3>Selected Files</h3>
+                        <div class="file-item" *ngFor="let file of uploadForm.get('files')?.value">
+                          <mat-icon>description</mat-icon>
+                          <span class="file-name">{{ file.name }}</span>
+                          <span class="file-size">{{ (file.size / 1024 / 1024).toFixed(2) }} MB</span>
+                        </div>
+                      </div>
+                      
+                      <div class="upload-options">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Description (optional)</mat-label>
+                          <textarea matInput formControlName="description" 
+                                   placeholder="Add a description for your files"></textarea>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Tags (optional)</mat-label>
+                          <input matInput formControlName="tags" 
+                                 placeholder="Enter tags separated by commas">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  }
+                  @case ('file-progress') {
+                    <div class="file-progress-step">
+                      <div class="progress-container">
+                        <h3>Uploading Files...</h3>
+                        <div class="progress-bar">
+                          <div class="progress-fill" [style.width.%]="75"></div>
+                        </div>
+                        <p class="progress-text">3 of 4 files uploaded</p>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+        </mat-step>
+      </mat-stepper>
+      
+      @if (isMobile()) {
+        <button mat-flat-button color="primary" 
+          type="submit"
+          *ngIf="uploadForm.valid && isLastStep"
+          class="form-submit-button">
+          Upload Files
+        </button>
+      } @else {
+        <ng-container *ngTemplateOutlet="uploadNav; context: { $implicit: currentStepData }"></ng-container>
+      }
+    </form>
+  </div>
+  
+  <div class="upload-footer">
+    <div class="upload-footer-item">
+      Vorba &copy; 2025
+    </div>
+    <div class="upload-footer-item">
+      File Upload
+    </div>
+  </div>
+</div>
+
+<ng-template #uploadNav let-step>
+  <div class="step-actions">
+    <button mat-flat-button class="step-action-button"
+      title="Back"
+      [disabled]="isFirstStep"
+      (click)="goToPrevious()"
+      type="button">
+      <mat-icon iconPositionStart>arrow_back_ios</mat-icon>
+      Back
+    </button>
+    <div class="step-position-indicator">
+      <span class="step-position-indicator-text">
+        {{ currentStep + 1 }}&nbsp;/&nbsp;{{ uploadSteps.length }}
+      </span>
+    </div>
+    <div>
+      <button mat-flat-button class="step-action-button"
+        title="Next"
+        [disabled]="!canGoNext"
+        (click)="goToNext()"
+        type="button">
+        <mat-icon iconPositionEnd>arrow_forward_ios</mat-icon>
+        Next
+      </button>
+      <button mat-flat-button color="primary" 
+        type="submit"
+        [disabled]="!uploadForm.valid || !isLastStep"
+        class="step-action-button submit-button ml-5">
+        Upload Files
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #uploadNavHeader let-step>
+  <div class="upload-nav-header">
+    <button class="upload-nav-header-back-button"
+      title="Back"
+      [disabled]="isFirstStep"
+      (click)="goToPrevious()"
+      type="button">
+      <mat-icon>arrow_back_ios</mat-icon>
+    </button>
+    <div class="upload-nav-header-title">
+      <span class="step-position-indicator-text">
+        {{ currentStep + 1 }}&nbsp;/&nbsp;{{ uploadSteps.length }}
+      </span>
+    </div>
+    <button class="upload-nav-header-next-button"
+      title="Next"
+      [disabled]="!canGoNext"
+      (click)="goToNext()"
+      type="button">
+      <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+  </div>  
+</ng-template>
+
+<ng-template #uploadHeader let-step>
+  <!-- Header (todo) -->
+</ng-template> 

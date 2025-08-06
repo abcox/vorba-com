@@ -56,6 +56,10 @@
                   <a (click)="deleteQuiz(quiz)">
                     Delete
                   </a>
+                  <a [routerLink]="['/quiz', { title: quiz.title }]"
+                    target="_blank">
+                    View
+                  </a>
                 </div><!--
                 <button mat-icon-button color="primary" (click)="editQuiz(quiz._id)" matTooltip="Edit Quiz">
                   <mat-icon>edit</mat-icon>
