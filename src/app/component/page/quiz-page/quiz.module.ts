@@ -19,7 +19,7 @@ export const quizRoutes: Routes = [
     title: 'Start Quiz'
   },
   {
-    path: 'file-upload',
+    path: ':id/upload',
     component: FileUploadComponent,
     title: 'File upload'
   },

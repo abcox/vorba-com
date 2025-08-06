@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { DeviceService } from 'src/app/services/device.service';
 import { FileUploadComponent } from '../quiz-page/_component/file-upload/file-upload.component';
@@ -36,8 +36,8 @@ interface UploadStep {
     MatIconModule,
     FileUploadComponent
   ],
-  templateUrl: './file-upload-page.component.html',
-  styleUrl: './file-upload-page.component.scss',
+  templateUrl: './file-upload-page-demo.component.html',
+  styleUrl: './file-upload-page-demo.component.scss',
   encapsulation: ViewEncapsulation.None
 })
 export class FileUploadPageComponent implements OnInit {
@@ -45,6 +45,12 @@ export class FileUploadPageComponent implements OnInit {
   private deviceService = inject(DeviceService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  quizId: string | null = null;
+  quizTitle: string = '';
+  totalQuestions: number = 0;
+  answeredQuestions: number = 0;
 
   isMobile = this.deviceService.isMobile;
   uploadForm: FormGroup;
@@ -86,6 +92,17 @@ export class FileUploadPageComponent implements OnInit {
 
   ngOnInit() {
     this.themeService.setTheme(Theme.Dark);
+
+    // Get quiz data from route params and query params
+    this.route.params.subscribe(params => {
+      this.quizId = params['id'];
+    });
+    
+    this.route.queryParams.subscribe(queryParams => {
+      this.quizTitle = queryParams['quizTitle'] || 'Quiz';
+      this.totalQuestions = parseInt(queryParams['totalQuestions']) || 0;
+      this.answeredQuestions = parseInt(queryParams['answeredQuestions']) || 0;
+    });
   }
 
   get currentStepData(): UploadStep {
@@ -119,6 +136,10 @@ export class FileUploadPageComponent implements OnInit {
     if (this.canGoBack) {
       this.currentStep--;
     }
+  }
+
+  goToEnd() {
+    this.router.navigate(['/quiz', this.quizId, 'end']);
   }
 
   onFileSelected(files: File[]) {

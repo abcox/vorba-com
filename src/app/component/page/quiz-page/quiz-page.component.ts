@@ -402,7 +402,7 @@ export class QuizPageComponent implements OnInit {
       const answeredQuestions = this.getAnsweredQuestionsCount();
       const totalQuestions = this.quiz()?.questions.length || 0;
       
-      this.router.navigate(['/quiz', this.quizId, 'end'], {
+      this.router.navigate(['/quiz', this.quizId, 'upload'], {
         queryParams: {
           quizTitle: this.quiz()?.title || 'Quiz',
           totalQuestions: totalQuestions,
