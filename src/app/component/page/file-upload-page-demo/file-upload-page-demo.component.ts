@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { DeviceService } from 'src/app/services/device.service';
-import { FileUploadComponent } from '../quiz-page/_component/file-upload/file-upload.component';
+import { FileUploadComponent } from '../file-upload-page/_component/file-upload/file-upload.component';
 
 interface UploadStep {
   id: number;
@@ -40,7 +40,7 @@ interface UploadStep {
   styleUrl: './file-upload-page-demo.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class FileUploadPageComponent implements OnInit {
+export class FileUploadPageDemoComponent implements OnInit {
   private themeService = inject(ThemeService);
   private deviceService = inject(DeviceService);
   private fb = inject(FormBuilder);

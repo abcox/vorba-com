@@ -1,0 +1,12 @@
+<div class="file-upload-container">
+    <div class="top-left-container">
+        <h3>Congratulation! You have completed the quiz.</h3>
+        <p>Please upload your PDF file, and get your custom report.</p>
+    </div>
+    <div class="bottom-right-container">
+        <app-file-upload
+            (filesSelected)="onFileSelected($event)"
+            [selectedFiles]="uploadForm.get('files')?.value">
+        </app-file-upload>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 })
 export class FileUploadComponent {
   @Input() selectedFiles: File[] = [];
+  selectedFilesCountMax = input(1);
   @Output() filesSelected = new EventEmitter<File[]>();
 
   isDragOver = false;
@@ -131,5 +132,12 @@ export class FileUploadComponent {
       default:
         return 'insert_drive_file';
     }
+  }
+
+  uploadFiles() {
+    console.log('uploadFiles...', this.selectedFiles);
+    this.isUploading = true;
+    this.uploadProgress = 0;
+    //this.uploadFiles();
   }
 }

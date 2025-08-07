@@ -1,87 +1,105 @@
-<div class="file-upload-container">
-    <div class="top-left-container">
-        <h3>Congratulation! You have completed the quiz.</h3>
-        <p>Please upload your PDF file, and get your custom report.</p>
-    </div>
-    <div class="bottom-right-container">
-        <!-- Drag and Drop Area -->
-        <div class="upload-area"
-            [class.drag-over]="isDragOver"
-            (dragover)="onDragOver($event)"
-            (dragleave)="onDragLeave($event)"
-            (drop)="onDrop($event)">
-            
-            <div class="upload-content">
-            <mat-icon class="upload-icon">cloud_upload</mat-icon>
-            <h3 class="upload-title">Drop files here or click to browse</h3>
-            <p class="upload-subtitle">Support for multiple file types up to 100MB each</p>
-            
-            <button mat-raised-button 
-                    color="primary" 
-                    class="browse-button"
-                    (click)="fileInput.click()">
-                <mat-icon>folder_open</mat-icon>
-                Browse Files
-            </button>
-            
-            <input #fileInput 
-                    type="file" 
-                    multiple 
-                    style="display: none;"
-                    (change)="onFileSelected($event)">
-            </div>
-        </div>
-
-        <!-- Selected Files List -->
-        @if (selectedFiles.length > 0) {
-            <div class="selected-files">
-            <div class="files-header">
-                <h3>Selected Files ({{ selectedFiles.length }})</h3>
-                <div class="files-summary">
-                <span class="total-size">Total: {{ getTotalSize() }}</span>
-                <button mat-button 
-                        color="warn" 
-                        class="clear-all-button"
-                        (click)="clearAllFiles()">
-                    Clear All
-                </button>
-                </div>
-            </div>
-            
-            <div class="files-list">
-                @for (file of selectedFiles; track file.name; let i = $index) {
-                <div class="file-item">
-                    <div class="file-info">
-                    <mat-icon class="file-icon">{{ getFileIcon(file) }}</mat-icon>
-                    <div class="file-details">
-                        <span class="file-name">{{ file.name }}</span>
-                        <span class="file-size">{{ formatFileSize(file.size) }}</span>
-                    </div>
-                    </div>
-                    <button mat-icon-button 
-                            color="warn" 
-                            class="remove-button"
-                            (click)="removeFile(i)"
-                            matTooltip="Remove file">
-                    <mat-icon>close</mat-icon>
-                    </button>
-                </div>
-                }
-            </div>
-            </div>
+@if (selectedFiles.length < selectedFilesCountMax()) {
+<!-- Drag and Drop Area -->
+<div class="upload-area"
+    *ngIf="selectedFiles.length < selectedFilesCountMax()"
+    [class.drag-over]="isDragOver"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)">
+    
+    <div class="upload-content">
+    <mat-icon class="upload-icon">cloud_upload</mat-icon>
+    <h3 class="upload-title">
+        @if (selectedFilesCountMax() > 1) {
+            Drop files here or click to browse
+        } @else {
+            Drop file here or click to browse
         }
-
-        <!-- Upload Progress (when uploading) -->
-        @if (isUploading) {
-            <div class="upload-progress">
-            <h3>Uploading Files...</h3>
-            <mat-progress-bar 
-                mode="determinate" 
-                [value]="uploadProgress"
-                class="progress-bar">
-            </mat-progress-bar>
-            <p class="progress-text">{{ uploadProgress }}% Complete</p>
-            </div>
-        }        
+    </h3>
+    <p class="upload-subtitle">
+        @if (selectedFilesCountMax() > 1) {
+            Support for multiple file types up to 100MB each
+        } @else {
+            File size up to 100MB supported
+        }
+    </p>
+    
+    <button mat-raised-button 
+            color="primary" 
+            class="browse-button"
+            (click)="fileInput.click()">
+        <mat-icon>folder_open</mat-icon>
+        Browse files
+    </button>
+    
+    <input #fileInput 
+            type="file" 
+            multiple 
+            style="display: none;"
+            (change)="onFileSelected($event)">
     </div>
 </div>
+} @else {
+    <!-- empty -->
+}
+
+<!-- Selected Files List -->
+@if (selectedFiles.length > 0) {
+    <div class="selected-files">
+        <div class="files-header">
+            <h3>Selected Files ({{ selectedFiles.length }})</h3>
+            <div class="files-summary">
+            <span class="total-size">Total: {{ getTotalSize() }}</span>
+            <button mat-button 
+                    color="warn" 
+                    class="clear-all-button"
+                    (click)="clearAllFiles()">
+                Clear All
+            </button>
+            </div>
+        </div>
+        
+        <div class="files-list">
+            @for (file of selectedFiles; track file.name; let i = $index) {
+            <div class="file-item">
+                <div class="file-info">
+                <mat-icon class="file-icon">{{ getFileIcon(file) }}</mat-icon>
+                <div class="file-details">
+                    <span class="file-name">{{ file.name }}</span>
+                    <span class="file-size">{{ formatFileSize(file.size) }}</span>
+                </div>
+                </div>
+                <button mat-icon-button 
+                        color="warn" 
+                        class="remove-button"
+                        (click)="removeFile(i)"
+                        matTooltip="Remove file">
+                <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="upload-button">
+        <button mat-raised-button 
+                color="primary" 
+                class="upload-button"
+                (click)="uploadFiles()">
+            Upload
+        </button>
+    </div>
+}
+
+<!-- Upload Progress (when uploading) -->
+@if (isUploading) {
+    <div class="upload-progress">
+    <h3>Uploading Files...</h3>
+    <mat-progress-bar 
+        mode="determinate" 
+        [value]="uploadProgress"
+        class="progress-bar">
+    </mat-progress-bar>
+    <p class="progress-text">{{ uploadProgress }}% Complete</p>
+    </div>
+}
+ 
