@@ -22,7 +22,7 @@
                   <mat-button-toggle *ngFor="let option of question.options"
                     class="quiz-option-button"
                     [value]="option.archetypeId"
-                    (mouseup)="goToNextWhenFormNotValid()">
+                    (mouseup)="onOptionClick(option)">
                     <div class="option-content">
                       <span class="option-text">{{option.content}}</span>
                       <span class="option-subtext">{{option.context}}</span>
