@@ -5,8 +5,18 @@
     </div>
     <div class="bottom-right-container">
         <app-file-upload
-            (filesSelected)="onFileSelected($event)"
-            [selectedFiles]="uploadForm.get('files')?.value">
-        </app-file-upload>
+            (filesSelected)="updateSelectedFiles($event)"
+            [selectedFiles]="selectedFiles">
+        </app-file-upload>        
+        @if (selectedFiles.length > 0) {
+            <div class="upload-button">
+                <button mat-raised-button 
+                        color="primary" 
+                        class="upload-button"
+                        (click)="uploadFiles(selectedFiles)">
+                    Upload
+                </button>
+            </div>
+        }
     </div>
 </div>
