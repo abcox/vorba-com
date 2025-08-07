@@ -44,7 +44,7 @@
 }
 
 <!-- Selected Files List -->
-@if (selectedFiles.length > 0) {
+@if (selectedFiles.length > 0 && !isUploading) {
     <div class="selected-files">
         <div class="files-header">
             <h3>Selected Files ({{ selectedFiles.length }})</h3>
@@ -80,14 +80,6 @@
             }
         </div>
     </div>
-    <div class="upload-button">
-        <button mat-raised-button 
-                color="primary" 
-                class="upload-button"
-                (click)="uploadFiles()">
-            Upload
-        </button>
-    </div>
 }
 
 <!-- Upload Progress (when uploading) -->
@@ -102,4 +94,14 @@
     <p class="progress-text">{{ uploadProgress }}% Complete</p>
     </div>
 }
- 
+
+@if (selectedFiles.length > 0) {
+    <div class="upload-button">
+        <button mat-raised-button 
+                color="primary" 
+                class="upload-button"
+                (click)="uploadFiles()">
+            Upload
+        </button>
+    </div>
+}
