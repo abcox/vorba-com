@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthService } from '../../../../app/core/auth/auth.service';
 
 @Component({
   selector: 'app-admin-layout-page',
@@ -38,6 +39,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class AdminLayoutPageComponent {
   layoutService = inject(LayoutService);
+  authService = inject(AuthService);
+  
   drawer = viewChild<MatSidenav>('drawer');
   drawerOpenedSignal = this.layoutService.drawerOpenedSignal;
   drawerModeSignal = this.layoutService.drawerModeSignal;

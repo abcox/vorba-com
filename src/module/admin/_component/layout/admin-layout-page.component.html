@@ -70,7 +70,7 @@
             <span>Profile</span>
           </button>
           <mat-divider></mat-divider>
-          <button mat-menu-item>
+          <button mat-menu-item (click)="authService.logout()">
             <mat-icon>logout</mat-icon>
             <span>Logout</span>
           </button>
