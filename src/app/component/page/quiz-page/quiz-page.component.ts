@@ -11,11 +11,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
 import { DeviceService } from 'src/app/services/device.service';
-import { QuizResponseDto, QuizDto, QuizService, QuizQuestionDto, QuizQuestionOptionDto } from '@file-service-api/v1';
-import { map, switchMap } from 'rxjs/operators';
+import { QuizResponseDto, QuizDto, QuizService, QuizQuestionDto, QuizQuestionOptionDto, UserService, SubmitQuizActionDto } from '@file-service-api/v1';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { clearSessionId, getSessionId } from 'src/app/shared/utils';
 //import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
 /* interface QuizQuestionOption {
@@ -57,6 +58,7 @@ import { Observable } from 'rxjs';
 })
 export class QuizPageComponent implements OnInit {
   quizService = inject(QuizService);
+  userService = inject(UserService);
   isMobile = inject(DeviceService).isMobile;
   @ViewChild('stepper') stepper!: MatStepper;
   quizForm: FormGroup;
@@ -124,10 +126,30 @@ export class QuizPageComponent implements OnInit {
     // Subscribe to form value changes for debugging
     this.quizForm.valueChanges.subscribe(value => {
       console.log('Form value changed:', value);
+      // upsert to api
+      const quizActionData = this.quizActionData;
+      this.userService.userControllerSubmitQuizAction(quizActionData).pipe(tap(response => {
+        console.log('Action submitted successfully:', response);
+      }),
+      catchError((error) => {
+        console.error('Error submitting action:', error);
+        return of(null);
+      })).subscribe();
     });
     
     console.log('Form controls created:', Object.keys(controls));
     console.log('Quiz questions:', quiz.questions.map(q => ({ id: q.id, content: q.content.substring(0, 50) + '...' })));
+  }
+
+  get quizActionData(): SubmitQuizActionDto {
+    return {
+      userId: 'temp-user-id', // TODO: Remove when backend extracts from JWT
+      quizId: this.quizId || '',
+      sessionId: getSessionId(),
+      action: 'answer',
+      questionId: this.currentQuestionId,
+      selectedOptionId: this.quizForm.value[`question${this.currentQuestionId}`],
+    };
   }
 
   get currentQuestionId(): number {
@@ -206,19 +228,32 @@ export class QuizPageComponent implements OnInit {
     
     if (this.quizForm.valid) {
       console.log('Form submitted successfully');
-      // TODO: Submit answers to API
       
-      // Navigate to quiz end page with completion data
-      const answeredQuestions = this.getAnsweredQuestionsCount();
-      const totalQuestions = this.quiz()?.questions.length || 0;
+      // TODO: Submit action "complete"
+      this.userService.userControllerSubmitQuizAction(this.quizActionData).pipe(
+        tap(() => {
+          console.log('Action submitted successfully');
+
+          clearSessionId();
       
-      this.router.navigate(['/quiz', this.quizId, 'upload'], {
-        queryParams: {
-          quizTitle: this.quiz()?.title || 'Quiz',
-          totalQuestions: totalQuestions,
-          answeredQuestions: answeredQuestions
-        }
-      });
+          // Navigate to quiz end page with completion data
+          const answeredQuestions = this.getAnsweredQuestionsCount();
+          const totalQuestions = this.quiz()?.questions.length || 0;
+          
+          this.router.navigate(['/quiz', this.quizId, 'upload'], {
+            queryParams: {
+              quizTitle: this.quiz()?.title || 'Quiz',
+              totalQuestions: totalQuestions,
+              answeredQuestions: answeredQuestions
+            }
+          });
+        }),
+        catchError((error) => {
+          console.error('Error submitting action:', error);
+          // TODO: do we want to show error and have user retry?
+          return of(null);
+        })
+      ).subscribe();
     } else {
       console.log('Form has validation errors');
     }

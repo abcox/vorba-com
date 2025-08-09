@@ -133,6 +133,7 @@ export class AuthService {
   register(request: UserRegistrationRequest): Observable<boolean> {
     return this.authApiService.authControllerRegister(request).pipe(
       map((response: UserRegistrationResponse) => {
+        console.log('authControllerRegister response', response);
         if (!response.success) {
           throw new Error(response.message || 'Registration failed');
         }

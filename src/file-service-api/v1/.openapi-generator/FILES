@@ -23,10 +23,12 @@ model/quizQuestionOptionDto.ts
 model/quizResponseDto.ts
 model/quizSearchResponseDto.ts
 model/quizSummaryDto.ts
+model/submitQuizActionDto.ts
 model/updateUserDto.ts
 model/userDto.ts
 model/userLoginRequest.ts
 model/userLoginResponse.ts
+model/userQuizActionMetadataDto.ts
 model/userRegistrationRequest.ts
 model/userRegistrationResponse.ts
 ng-package.json
