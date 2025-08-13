@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -44,13 +44,15 @@ export interface LoginDialogResult {
   templateUrl: './login-dialog.component.html',
   styleUrl: './login-dialog.component.scss'
 })
-export class LoginDialogComponent implements OnInit {
+export class LoginDialogComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
   
   dialogRef = inject(MatDialogRef<LoginDialogComponent>);
   data: LoginDialogData = inject(MAT_DIALOG_DATA);
+
+  @ViewChild('emailInput') emailInput!: ElementRef;
 
   loginForm!: FormGroup;
   isLoading = false;
@@ -60,6 +62,15 @@ export class LoginDialogComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+  }
+
+  ngAfterViewInit() {
+    // Use setTimeout to ensure the dialog is fully rendered before focusing
+    setTimeout(() => {
+      if (this.emailInput?.nativeElement) {
+        this.emailInput.nativeElement.focus();
+      }
+    }, 100);
   }
 
   private initForm(): void {

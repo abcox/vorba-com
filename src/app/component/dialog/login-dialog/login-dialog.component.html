@@ -17,6 +17,7 @@
       <mat-form-field appearance="outline" class="form-field">
         <mat-label>Email</mat-label>
         <input 
+          #emailInput
           matInput 
           type="email" 
           formControlName="email" 
@@ -41,7 +42,8 @@
           formControlName="password" 
           placeholder="Enter your password"
           autocomplete="current-password"
-          [errorStateMatcher]="matcher">
+          [errorStateMatcher]="matcher"
+          (keyup.enter)="onSubmit()">
         <button 
           mat-icon-button 
           matSuffix 
