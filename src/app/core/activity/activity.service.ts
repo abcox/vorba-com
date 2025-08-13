@@ -3,6 +3,8 @@ import { AuthService } from '../auth/auth.service';
 import { DialogService } from '../../component/dialog/dialog.service';
 import { Router } from '@angular/router';
 
+const SESSION_TIMEOUT_ROUTE = '/session-timeout';
+
 export interface ActivityConfig {
   warningBeforeTokenExpiry: number; // milliseconds
   refreshBeforeTokenExpiry: number; // milliseconds
@@ -227,7 +229,7 @@ export class ActivityService {
     if (this.isTokenExpired()) {
       console.log('🚨 ActivityService: Token expired, logging out user immediately');
       this.authService.logout();
-      this.router.navigate(['/']);
+      this.router.navigate([SESSION_TIMEOUT_ROUTE]);
       return;
     }
     
@@ -250,7 +252,7 @@ export class ActivityService {
   private handleActivityTimeout(): void {
     console.log('🚨 ActivityService: Activity timeout - logging out user');
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate([SESSION_TIMEOUT_ROUTE]);
   }
 
   /**
@@ -285,7 +287,7 @@ export class ActivityService {
             // User chose to logout
             console.log('🚪 ActivityService: User chose to logout');
             this.authService.logout();
-            this.router.navigate(['/']);
+            this.router.navigate([SESSION_TIMEOUT_ROUTE]);
           }
         },
         error: (error) => {
