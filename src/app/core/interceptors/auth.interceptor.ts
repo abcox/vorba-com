@@ -1,14 +1,16 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import { LoginDialogService } from '../../component/dialog/login-dialog/login-dialog.service';
+import { DialogService } from '../../component/dialog/dialog.service';
+import { ActivityService } from '../activity/activity.service';
 
 export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
   const authService = inject(AuthService);
-  const loginDialogService = inject(LoginDialogService);
+  const dialogService = inject(DialogService);
+  const activityService = inject(ActivityService);
   const router = inject(Router);
 
   // Get token from auth service
@@ -33,20 +35,55 @@ export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
       console.log('AuthInterceptor - error:', error.status, error.message);
       
       if (error.status === 401) {
-        // Token expired or invalid - clear auth state
-        console.log('AuthInterceptor - 401 error, clearing auth state');
-        authService.logout();
+        // Check if ActivityService is showing a warning dialog
+        if (activityService.isShowingWarningDialog()) {
+          console.log('AuthInterceptor - 401 error but ActivityService is showing warning dialog, skipping automatic logout');
+          return throwError(() => error);
+        }
         
-        // Open login dialog instead of redirecting
-        loginDialogService.openGeneralLoginDialog().subscribe(result => {
-          if (result.success) {
-            console.log('AuthInterceptor - user logged in after 401, retrying request');
-            // Optionally retry the original request here
-          } else {
-            console.log('AuthInterceptor - login cancelled after 401');
-            router.navigate(['/']);
-          }
-        });
+        // Token expired or invalid - try refresh first
+        console.log('AuthInterceptor - 401 error, attempting token refresh');
+        
+        return authService.refreshAccessToken().pipe(
+          switchMap(refreshSuccess => {
+            if (refreshSuccess) {
+              // Token refreshed successfully, retry original request
+              console.log('AuthInterceptor - token refreshed, retrying request');
+              const newToken = authService.token();
+              const newRequest = request.clone({
+                setHeaders: {
+                  Authorization: `Bearer ${newToken}`
+                }
+              });
+              return next(newRequest);
+            } else {
+              // Refresh failed, clear auth state and show login dialog
+              console.log('AuthInterceptor - token refresh failed, clearing auth state');
+              authService.logout();
+              
+              // Open login dialog instead of redirecting
+              return dialogService.openGeneralLoginDialog().pipe(
+                switchMap(result => {
+                  if (result.success) {
+                    console.log('AuthInterceptor - user logged in after 401, retrying request');
+                    // Retry the original request with new token
+                    const newToken = authService.token();
+                    const newRequest = request.clone({
+                      setHeaders: {
+                        Authorization: `Bearer ${newToken}`
+                      }
+                    });
+                    return next(newRequest);
+                  } else {
+                    console.log('AuthInterceptor - login cancelled after 401');
+                    router.navigate(['/']);
+                    return throwError(() => error);
+                  }
+                })
+              );
+            }
+          })
+        );
       } else if (error.status === 403) {
         // Forbidden - user doesn't have permission
         console.log('AuthInterceptor - 403 error, insufficient permissions');

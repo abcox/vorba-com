@@ -1,9 +1,12 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { 
+  ActivityConfigDto,
   AuthService as AuthApiService, 
+  RefreshTokenRequestDto,
+  RefreshTokenResponseDto,
   UserService,
   UserRegistrationRequest, 
   UserRegistrationResponse,
@@ -16,8 +19,10 @@ import { NotifyService } from '../notify/notify.service';
 export interface AuthState {
   user: UserDto | null;
   token: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  tokenExpiry: Date | null;
 }
 
 export interface LoginCredentials {
@@ -43,23 +48,32 @@ export class AuthService {
 
   // Storage keys
   private readonly TOKEN_KEY = 'auth_token';
+  private readonly REFRESH_TOKEN_KEY = 'auth_refresh_token';
   private readonly USER_KEY = 'auth_user';
   private readonly REMEMBER_ME_KEY = 'auth_remember_me';
+  private readonly ACTIVITY_CONFIG_KEY = 'auth_activity_config';
 
   // Reactive state management
   private readonly _authState = signal<AuthState>({
     user: null,
     token: null,
+    refreshToken: null,
     isAuthenticated: false,
-    isAdmin: false
+    isAdmin: false,
+    tokenExpiry: null
   });
+
+  // Activity configuration signal
+  public readonly activityConfig = signal<ActivityConfigDto | null>(null);
 
   // Public readonly signals
   readonly authState = this._authState.asReadonly();
   readonly user = computed(() => this._authState().user);
   readonly token = computed(() => this._authState().token);
+  readonly refreshToken = computed(() => this._authState().refreshToken);
   readonly isAuthenticated = computed(() => this._authState().isAuthenticated);
   readonly isAdmin = computed(() => this._authState().isAdmin);
+  readonly tokenExpiry = computed(() => this._authState().tokenExpiry);
 
   // Behavior subject for components that need observables
   private readonly _authStateSubject = new BehaviorSubject<AuthState>(this._authState());
@@ -73,15 +87,43 @@ export class AuthService {
    */
   private initializeAuthState(): void {
     const token = this.getStoredToken();
+    const refreshToken = this.getStoredRefreshToken();
     const user = this.getStoredUser();
+    const activityConfig = this.getStoredActivityConfig();
     
     if (token && user) {
-      this.updateAuthState({
-        user,
-        token,
-        isAuthenticated: true,
-        isAdmin: user.isAdmin
-      });
+      const tokenExpiry = this.getTokenExpiryFromToken(token);
+      
+      // Check if token is expired
+      if (tokenExpiry && tokenExpiry > new Date()) {
+        // Valid session - restore everything
+        this.updateAuthState({
+          user,
+          token,
+          refreshToken,
+          isAuthenticated: true,
+          isAdmin: user.isAdmin,
+          tokenExpiry
+        });
+        
+        // Restore activity config if available
+        if (activityConfig) {
+          console.log('⚙️ AuthService: Restoring activity config from storage:', activityConfig);
+          this.activityConfig.set(activityConfig);
+        } else {
+          console.log('⚠️ AuthService: No stored activity config found, using defaults');
+          // Set default activity config for stored sessions
+          this.activityConfig.set({
+            warningBeforeTokenExpiry: 30000, // 30 seconds
+            refreshBeforeTokenExpiry: 45000, // 45 seconds
+            activityTimeoutMultiplier: 0.8
+          });
+        }
+      } else {
+        // Token expired - clear everything
+        console.log('🚨 AuthService: Stored token is expired, clearing session');
+        this.clearStoredData();
+      }
     }
   }
 
@@ -105,17 +147,28 @@ export class AuthService {
           this.setRememberMe(true);
         }
 
-        // Store token and user data
-        this.storeToken(response.token);
+        // Store tokens and user data
+        this.storeTokens(response.token, (response as any).refreshToken || '');
         this.storeUser(response.user);
 
         // Update auth state
         this.updateAuthState({
           user: response.user,
           token: response.token,
+          refreshToken: (response as any).refreshToken || null,
           isAuthenticated: true,
-          isAdmin: response.user?.isAdmin ?? false
+          isAdmin: response.user?.isAdmin ?? false,
+          tokenExpiry: this.getTokenExpiryFromToken(response.token)
         });
+
+        // Pass activity configuration to activity service
+        if ((response as any).activityConfig) {
+          console.log('⚙️ AuthService: Setting activity config from login response:', (response as any).activityConfig);
+          this.activityConfig.set((response as any).activityConfig);
+          this.storeActivityConfig((response as any).activityConfig);
+        } else {
+          console.log('⚠️ AuthService: No activity config in login response');
+        }
 
         return true;
       }),
@@ -140,15 +193,26 @@ export class AuthService {
 
         // Auto-login after successful registration
         if (response.token && response.user) {
-          this.storeToken(response.token);
+          this.storeTokens(response.token, (response as any).refreshToken || '');
           this.storeUser(response.user);
 
           this.updateAuthState({
             user: response.user,
             token: response.token,
+            refreshToken: (response as any).refreshToken || null,
             isAuthenticated: true,
-            isAdmin: response.user.isAdmin
+            isAdmin: response.user.isAdmin,
+            tokenExpiry: this.getTokenExpiryFromToken(response.token)
           });
+        }
+
+        // Pass activity configuration to activity service
+        if ((response as any).activityConfig) {
+          console.log('⚙️ AuthService: Setting activity config from register response:', (response as any).activityConfig);
+          this.activityConfig.set((response as any).activityConfig);
+          this.storeActivityConfig((response as any).activityConfig);
+        } else {
+          console.log('⚠️ AuthService: No activity config in register response');
         }
 
         return true;
@@ -161,22 +225,58 @@ export class AuthService {
   }
 
   /**
-   * Logout current user
+   * Refresh access token using refresh token
+   */
+  refreshAccessToken(): Observable<boolean> {
+    const currentRefreshToken = this.refreshToken();
+    if (!currentRefreshToken) {
+      return of(false);
+    }
+
+    const refreshTokenRequest: RefreshTokenRequestDto = {
+      refreshToken: currentRefreshToken
+    };
+
+    return this.authApiService.authControllerRefreshToken(refreshTokenRequest).pipe(
+      map((response: RefreshTokenResponseDto) => {
+        if (response.success && response.accessToken) {
+          // Store new access token
+          this.storeToken(response.accessToken);
+          
+          // Update auth state with new token
+          const tokenExpiry = this.getTokenExpiryFromToken(response.accessToken);
+          this.updateAuthState({
+            ...this._authState(),
+            token: response.accessToken,
+            tokenExpiry
+          });
+          
+          return true;
+        }
+        return false;
+      }),
+      catchError((error) => {
+        console.error('Token refresh failed:', error);
+        return of(false);
+      })
+    );
+  }
+
+  /**
+   * Logout user and clear all stored data
    */
   logout(): void {
-    // Clear stored data
     this.clearStoredData();
-    
-    // Update auth state
     this.updateAuthState({
       user: null,
       token: null,
+      refreshToken: null,
       isAuthenticated: false,
-      isAdmin: false
+      isAdmin: false,
+      tokenExpiry: null
     });
-
-    // Navigate to login page
-    this.router.navigate(['/login']);
+    this.activityConfig.set(null);
+    this.router.navigate(['/']);
   }
 
   /**
@@ -193,11 +293,14 @@ export class AuthService {
       map((response) => {
         if (response.success && response.data) {
           this.storeUser(response.data);
+          const tokenExpiry = this.getTokenExpiryFromToken(token);
           this.updateAuthState({
             user: response.data,
             token,
+            refreshToken: this.getStoredRefreshToken(),
             isAuthenticated: true,
-            isAdmin: response.data.isAdmin
+            isAdmin: response.data.isAdmin,
+            tokenExpiry
           });
           return true;
         }
@@ -208,6 +311,23 @@ export class AuthService {
         return of(false);
       })
     );
+  }
+
+  /**
+   * Get token expiry date
+   */
+  getTokenExpiry(): Date | null {
+    return this.tokenExpiry();
+  }
+
+  /**
+   * Check if token is expired or will expire soon
+   */
+  isTokenExpired(gracePeriodMs: number = 60000): boolean { // 1 minute grace period
+    const expiry = this.getTokenExpiry();
+    if (!expiry) return true;
+    
+    return expiry.getTime() - Date.now() < gracePeriodMs;
   }
 
   /**
@@ -289,6 +409,11 @@ export class AuthService {
     this._authStateSubject.next(newState);
   }
 
+  private storeTokens(token: string, refreshToken: string): void {
+    this.storeToken(token);
+    this.storeRefreshToken(refreshToken);
+  }
+
   private storeToken(token: string): void {
     const storage = this.getRememberMe() ? localStorage : sessionStorage;
     storage.setItem(this.TOKEN_KEY, token);
@@ -297,6 +422,17 @@ export class AuthService {
   private getStoredToken(): string | null {
     const localToken = localStorage.getItem(this.TOKEN_KEY);
     const sessionToken = sessionStorage.getItem(this.TOKEN_KEY);
+    return localToken || sessionToken;
+  }
+
+  private storeRefreshToken(refreshToken: string): void {
+    const storage = this.getRememberMe() ? localStorage : sessionStorage;
+    storage.setItem(this.REFRESH_TOKEN_KEY, refreshToken);
+  }
+
+  private getStoredRefreshToken(): string | null {
+    const localToken = localStorage.getItem(this.REFRESH_TOKEN_KEY);
+    const sessionToken = sessionStorage.getItem(this.REFRESH_TOKEN_KEY);
     return localToken || sessionToken;
   }
 
@@ -324,6 +460,30 @@ export class AuthService {
     return null;
   }
 
+  private storeActivityConfig(config: ActivityConfigDto | null): void {
+    if (!config) {
+      console.warn('Activity config is null, skipping storage');
+      return;
+    }
+    const storage = this.getRememberMe() ? localStorage : sessionStorage;
+    storage.setItem(this.ACTIVITY_CONFIG_KEY, JSON.stringify(config));
+  }
+
+  private getStoredActivityConfig(): ActivityConfigDto | null {
+    const localConfig = localStorage.getItem(this.ACTIVITY_CONFIG_KEY);
+    const sessionConfig = sessionStorage.getItem(this.ACTIVITY_CONFIG_KEY);
+    const configData = localConfig || sessionConfig;
+    
+    if (configData) {
+      try {
+        return JSON.parse(configData);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+
   private setRememberMe(remember: boolean): void {
     localStorage.setItem(this.REMEMBER_ME_KEY, remember.toString());
   }
@@ -334,9 +494,22 @@ export class AuthService {
 
   private clearStoredData(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);
+    localStorage.removeItem(this.ACTIVITY_CONFIG_KEY);
     sessionStorage.removeItem(this.TOKEN_KEY);
+    sessionStorage.removeItem(this.REFRESH_TOKEN_KEY);
     sessionStorage.removeItem(this.USER_KEY);
+    sessionStorage.removeItem(this.ACTIVITY_CONFIG_KEY);
     localStorage.removeItem(this.REMEMBER_ME_KEY);
   }
-} 
+
+  private getTokenExpiryFromToken(token: string): Date | null {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return new Date(payload.exp * 1000);
+    } catch {
+      return null;
+    }
+  }
+}

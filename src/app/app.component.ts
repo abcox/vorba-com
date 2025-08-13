@@ -15,6 +15,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { YouTubePlayer/* , YOUTUBE_PLAYER_CONFIG */ } from '@angular/youtube-player';
 import { HeaderComponent } from './component/layout/header/header.component';
 import { FooterComponent } from './component/layout/footer/footer.component';
+import { ActivityService } from './core/activity/activity.service';
 
 interface StoryModel {
   title: string;
@@ -36,6 +37,8 @@ interface StoryModel {
 })
 export class AppComponent {
   sanitizer = inject(DomSanitizer);
+  // TODO: is there a better way to assure a service is instantiated?  this way seems hacky
+  private activityService = inject(ActivityService); // Ensure ActivityService is instantiated
   title = 'Vorba';
   //theme = 'dark';
   isLightTheme = false;

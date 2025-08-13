@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { LoginDialogComponent, LoginDialogData, LoginDialogResult } from './login-dialog.component';
-import { ActivityWarningComponent, ActivityWarningDialogData, ActivityWarningDialogResult } from '../activity-warning/activity-warning.component';
+import { LoginDialogComponent, LoginDialogData, LoginDialogResult } from './login-dialog/login-dialog.component';
+import { ActivityWarningComponent, ActivityWarningDialogData, ActivityWarningDialogResult } from './activity-warning/activity-warning.component';
 
 @Injectable({
   providedIn: 'root'

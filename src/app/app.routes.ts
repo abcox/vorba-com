@@ -4,6 +4,7 @@ import { quizRoutes } from './component/page/quiz-page/quiz.module';
 import { adminRoutes } from 'src/module/admin/admin.module';
 import { adminGuard } from './core/auth/auth.guard';
 import { AdminLayoutPageComponent } from 'src/module/admin/_component/layout/admin-layout-page.component';
+import { SessionTimeoutPageComponent } from './component/page/session-timeout-page/session-timeout-page.component';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -42,6 +43,11 @@ export const routes: Routes = [
     {
         path: 'quiz',
         children: quizRoutes
+    },
+    // Session timeout routes
+    {
+        path: 'session-timeout',
+        component: SessionTimeoutPageComponent
     },
     // Catch all - redirect to nav layout
     {

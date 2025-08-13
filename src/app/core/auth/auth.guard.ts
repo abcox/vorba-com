@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from './auth.service';
-import { LoginDialogService } from '../../component/dialog/login-dialog/login-dialog.service';
+import { DialogService } from '../../component/dialog/dialog.service';
 import { map, catchError, of, switchMap } from 'rxjs';
 
 export interface AuthGuardConfig {
@@ -24,7 +24,7 @@ export const authGuard = (config: AuthGuardConfig = {}): CanActivateFn => {
   return (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
-    const loginDialogService = inject(LoginDialogService);
+    const dialogService = inject(DialogService);
 
     const {
       requireAuth = true,
@@ -44,7 +44,7 @@ export const authGuard = (config: AuthGuardConfig = {}): CanActivateFn => {
       
       // Open login dialog instead of redirecting
       if (requireAdmin) {
-        return loginDialogService.openAdminLoginDialog(state.url).pipe(
+        return dialogService.openAdminLoginDialog(state.url).pipe(
           map(result => {
             if (result.success) {
               // User logged in successfully, check admin status
@@ -64,7 +64,7 @@ export const authGuard = (config: AuthGuardConfig = {}): CanActivateFn => {
           })
         );
       } else {
-        return loginDialogService.openGeneralLoginDialog(state.url).pipe(
+        return dialogService.openGeneralLoginDialog(state.url).pipe(
           map(result => {
             if (result.success) {
               return true;

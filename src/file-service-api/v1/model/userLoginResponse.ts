@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { UserDto } from './userDto';
+import { ActivityConfigDto } from './activityConfigDto';
 
 
 export interface UserLoginResponse { 
@@ -23,6 +24,22 @@ export interface UserLoginResponse {
      * JWT authentication token
      */
     token: string;
+    /**
+     * JWT refresh token for token renewal
+     */
+    refreshToken: string;
+    /**
+     * Token expiry timestamp (Unix epoch)
+     */
+    tokenExpiry: number;
+    /**
+     * Session duration in seconds
+     */
+    sessionDurationSeconds: number;
+    /**
+     * Activity configuration for frontend when user is authenticated
+     */
+    activityConfig: ActivityConfigDto | null;
     /**
      * User information (null if login failed)
      */
