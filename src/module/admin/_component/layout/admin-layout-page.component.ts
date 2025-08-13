@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { RouterOutlet, RouterModule } from '@angular/router';
+import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { Component, inject, viewChild } from '@angular/core';
 import { HeaderComponent } from '../../../../app/component/layout/header/header.component';
 import { FooterComponent } from '../../../../app/component/layout/footer/footer.component';
@@ -40,6 +40,7 @@ import { AuthService } from '../../../../app/core/auth/auth.service';
 export class AdminLayoutPageComponent {
   layoutService = inject(LayoutService);
   authService = inject(AuthService);
+  router = inject(Router);
   
   drawer = viewChild<MatSidenav>('drawer');
   drawerOpenedSignal = this.layoutService.drawerOpenedSignal;
@@ -68,6 +69,16 @@ export class AdminLayoutPageComponent {
 
   get drawerOpened() {
     return this.drawerOpenedSignal();
+  }
+
+  navigate(route: string) {
+    this.layoutService.closeDrawer();
+    this.router.navigate([route]);
+  }
+
+  logout() {
+    this.layoutService.closeDrawer();
+    this.authService.logout();
   }
 
   toggleDrawer() {

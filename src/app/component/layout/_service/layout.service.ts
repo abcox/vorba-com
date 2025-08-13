@@ -66,6 +66,10 @@ export class LayoutService {
     }));
   }
 
+  closeDrawer() {
+    this.drawerOpenedSignal.set(false);
+  }
+
   toggleDrawer(opened?: boolean) {
     this.drawerOpenedSignal.set(opened ?? !this.drawerOpenedSignal());
   }
