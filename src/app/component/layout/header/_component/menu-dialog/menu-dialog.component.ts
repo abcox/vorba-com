@@ -41,7 +41,12 @@ export class MenuDialogComponent implements AfterViewInit {
       {
         label: 'Contact',
         routerLink: '/contact',
-        icon: 'contact'
+        icon: 'group'
+      },
+      {
+        label: 'Sign-in',
+        routerLink: '/admin/user',
+        icon: 'login'
       },
       {
         type: 'divider'
