@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { 
-  ActivityConfigDto,
+  IdelSessionConfigDto,
   AuthService as AuthApiService, 
   RefreshTokenRequestDto,
   RefreshTokenResponseDto,
@@ -64,7 +64,7 @@ export class AuthService {
   });
 
   // Activity configuration signal
-  public readonly activityConfig = signal<ActivityConfigDto | null>(null);
+  public readonly activityConfig = signal<IdelSessionConfigDto | null>(null);
 
   // Public readonly signals
   readonly authState = this._authState.asReadonly();
@@ -459,7 +459,7 @@ export class AuthService {
     return null;
   }
 
-  private storeActivityConfig(config: ActivityConfigDto | null): void {
+  private storeActivityConfig(config: IdelSessionConfigDto | null): void {
     if (!config) {
       console.warn('Activity config is null, skipping storage');
       return;
@@ -468,7 +468,7 @@ export class AuthService {
     storage.setItem(this.ACTIVITY_CONFIG_KEY, JSON.stringify(config));
   }
 
-  private getStoredActivityConfig(): ActivityConfigDto | null {
+  private getStoredActivityConfig(): IdelSessionConfigDto | null {
     const localConfig = localStorage.getItem(this.ACTIVITY_CONFIG_KEY);
     const sessionConfig = sessionStorage.getItem(this.ACTIVITY_CONFIG_KEY);
     const configData = localConfig || sessionConfig;

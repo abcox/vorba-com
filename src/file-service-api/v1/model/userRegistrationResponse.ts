@@ -7,8 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { IdelSessionConfigDto } from './idelSessionConfigDto';
 import { UserDto } from './userDto';
-import { ActivityConfigDto } from './activityConfigDto';
 
 
 export interface UserRegistrationResponse { 
@@ -39,7 +39,7 @@ export interface UserRegistrationResponse {
     /**
      * Activity configuration for frontend when user is registered
      */
-    activityConfig: ActivityConfigDto | null;
+    activityConfig: IdelSessionConfigDto | null;
     /**
      * Registered user information
      */

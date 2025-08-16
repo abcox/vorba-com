@@ -15,8 +15,8 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
-model/activityConfigDto.ts
 model/createUserDto.ts
+model/idelSessionConfigDto.ts
 model/models.ts
 model/quizDto.ts
 model/quizQuestionDto.ts
