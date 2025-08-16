@@ -109,7 +109,7 @@ export class AuthService {
         // Restore activity config if available
         if (activityConfig) {
           console.log('⚙️ AuthService: Restoring activity config from storage:', activityConfig);
-          this.activityConfig.set(activityConfig);
+          this.activityConfig.set({...activityConfig/* , warningCountdownSeconds: 300 */ });
         } else {
           console.log('⚠️ AuthService: No stored activity config found, using defaults');
           // Set default activity config for stored sessions
