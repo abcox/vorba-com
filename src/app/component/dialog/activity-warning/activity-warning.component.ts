@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { interval, Subscription } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface ActivityWarningDialogData {
   timeRemaining: number; // seconds
@@ -21,7 +22,8 @@ export interface ActivityWarningDialogResult {
     CommonModule,
     MatDialogModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   template: `
     <div class="activity-warning-dialog">
@@ -39,17 +41,22 @@ export interface ActivityWarningDialogResult {
         </div>
       </mat-dialog-content>
       
-      <mat-dialog-actions align="end">
-        <button mat-button (click)="logout()" color="warn">
-          Logout Now
+      <mat-dialog-actions>
+        <button mat-raised-button (click)="logout()" color="warn">
+          <mat-icon>logout</mat-icon>
+          Sign-out
         </button>
         <button mat-raised-button (click)="extendSession()" color="primary">
-          Stay Logged In
+          <mat-icon>schedule</mat-icon>
+          Stay signed in
         </button>
       </mat-dialog-actions>
     </div>
   `,
   styles: [`
+    :host {
+      --mat-dialog-actions-alignment: space-between;
+    }
     .activity-warning-dialog {
       padding: 20px;
       min-width: 400px;
