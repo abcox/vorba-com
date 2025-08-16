@@ -9,13 +9,24 @@
           <ng-container *ngTemplateOutlet="item.template; context: item.templateContext"></ng-container>
           {{ item.label }}
         } @else {
-          <a [routerLink]="item.routerLink" 
-             class="block px-4 py-2 hover:bg-opacity-10 dark:hover:bg-gray-800"
-             style="background-color: transparent; color: var(--md-sys-color-on-surface);"
-             onmouseover="this.style.backgroundColor='var(--md-sys-color-primary)'"
-             onmouseout="this.style.backgroundColor='transparent'">
-            {{ item.label }}
-          </a>
+          <button mat-button class="flex items-center gap-2" (click)="item.routerLink ? router.navigate([item.routerLink]) : null">
+            @if (item.icon) {
+              <mat-icon>{{ item.icon }}</mat-icon>
+            }
+            <span>{{ item.label }}</span>
+          </button>
+          <!-- <div>
+            <a [routerLink]="item.routerLink" 
+              class="block px-4 py-2 hover:bg-opacity-10 dark:hover:bg-gray-800"
+              style="background-color: transparent; color: var(--md-sys-color-on-surface);"
+              onmouseover="this.style.backgroundColor='var(--md-sys-color-primary)'"
+              onmouseout="this.style.backgroundColor='transparent'">
+              @if (item.icon) {
+                <mat-icon>{{ item.icon }}</mat-icon>
+              }
+              <span>{{ item.label }}</span>
+            </a>
+          </div> -->
         }
       </li>
     }

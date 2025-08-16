@@ -1,7 +1,12 @@
-import { Component, input, TemplateRef, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, input, TemplateRef, OnInit, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { NgTemplateOutlet } from '@angular/common';
-
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+/* import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+ */
 export interface MenuItem {
   label?: string;
   routerLink?: string;
@@ -15,12 +20,13 @@ export interface MenuItem {
 @Component({
   selector: 'app-menu-list',
   standalone: true,
-  imports: [RouterModule, NgTemplateOutlet],
+  imports: [RouterModule, NgTemplateOutlet, MatIconModule, MatButtonModule],
   templateUrl: './menu-list.component.html',
   styleUrl: './menu-list.component.scss'
 })
 export class MenuListComponent implements OnInit {
   menuItems = input<MenuItem[]>([]);
+  router = inject(Router);
 
   // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
   ngOnInit() {
