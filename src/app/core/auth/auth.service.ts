@@ -114,9 +114,8 @@ export class AuthService {
           console.log('⚠️ AuthService: No stored activity config found, using defaults');
           // Set default activity config for stored sessions
           this.activityConfig.set({
-            warningBeforeTokenExpiry: 30000, // 30 seconds
-            refreshBeforeTokenExpiry: 45000, // 45 seconds
-            activityTimeoutMultiplier: 0.8
+            inactivityWarningSeconds: 30, // 30 seconds
+            warningCountdownSeconds: 60, // 60 seconds
           });
         }
       } else {

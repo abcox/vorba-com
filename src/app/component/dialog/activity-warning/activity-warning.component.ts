@@ -134,7 +134,7 @@ export class ActivityWarningComponent implements OnInit, OnDestroy {
       
       this.countdownPercentage = (this.timeRemaining / this.initialTime) * 100;
       
-      console.log('⏰ ActivityWarning: Countdown - timeRemaining:', this.timeRemaining, 'percentage:', this.countdownPercentage.toFixed(1) + '%');
+      //console.log('⏰ ActivityWarning: Countdown - timeRemaining:', this.timeRemaining, 'percentage:', this.countdownPercentage.toFixed(1) + '%');
       
       if (this.timeRemaining <= 0) {
         console.log('⏰ ActivityWarning: Countdown reached zero, triggering auto-logout');

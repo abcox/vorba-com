@@ -11,16 +11,12 @@
 
 export interface ActivityConfigDto { 
     /**
-     * Warning time before token expiry in milliseconds
+     * Show warning dialog after X seconds of inactivity
      */
-    warningBeforeTokenExpiry: number;
+    inactivityWarningSeconds: number;
     /**
-     * Refresh time before token expiry in milliseconds
+     * Warning dialog countdown before logout
      */
-    refreshBeforeTokenExpiry: number;
-    /**
-     * Activity timeout as fraction of token duration
-     */
-    activityTimeoutMultiplier: number;
+    warningCountdownSeconds: number;
 }
 

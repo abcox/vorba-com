@@ -3,12 +3,14 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { LoginDialogComponent, LoginDialogData, LoginDialogResult } from './login-dialog/login-dialog.component';
 import { ActivityWarningComponent, ActivityWarningDialogData, ActivityWarningDialogResult } from './activity-warning/activity-warning.component';
+import { LayoutService } from '../layout/_service/layout.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DialogService {
   private dialog = inject(MatDialog);
+  private layoutService = inject(LayoutService);
 
   /**
    * Open login dialog with optional configuration
@@ -20,10 +22,11 @@ export class DialogService {
       maxWidth: '90vw',
       maxHeight: '90vh',
       disableClose: false,
-      autoFocus: true,
+      autoFocus: false,
       panelClass: 'login-dialog-panel'
     };
 
+    this.layoutService.closeDrawer();
     const dialogRef = this.dialog.open(LoginDialogComponent, config);
     return dialogRef.afterClosed();
   }

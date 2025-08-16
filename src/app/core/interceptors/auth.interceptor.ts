@@ -5,12 +5,10 @@ import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { DialogService } from '../../component/dialog/dialog.service';
-import { ActivityService } from '../activity/activity.service';
 
 export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
   const authService = inject(AuthService);
   const dialogService = inject(DialogService);
-  const activityService = inject(ActivityService);
   const router = inject(Router);
 
   // Get token from auth service
@@ -35,12 +33,6 @@ export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
       console.log('AuthInterceptor - error:', error.status, error.message);
       
       if (error.status === 401) {
-        // Check if ActivityService is showing a warning dialog
-        if (activityService.isShowingWarningDialog()) {
-          console.log('AuthInterceptor - 401 error but ActivityService is showing warning dialog, skipping automatic logout');
-          return throwError(() => error);
-        }
-        
         // Token expired or invalid - try refresh first
         console.log('AuthInterceptor - 401 error, attempting token refresh');
         

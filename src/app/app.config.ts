@@ -7,6 +7,8 @@ import { ApiModule as BackendApiModule } from '@backend-api/v1';
 import { ApiModule as FileServiceApiModule } from '@file-service-api/v1';
 import { backendApiConfigFactory, fileServiceApiConfigFactory } from './core/services/api-config.service';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { provideNgIdle } from '@ng-idle/core';
+import { provideNgIdleKeepalive } from '@ng-idle/keepalive';
 
 export const TOKEN_KEY = 'token'; // todo: move to a shared constant file -- candidate for InjectionToken?
 
@@ -18,6 +20,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([AuthInterceptor])
     ),
+    provideNgIdle(),
+    provideNgIdleKeepalive(),
     //{ provide: Configuration, useFactory: apiConfigFactory },    
     importProvidersFrom(BackendApiModule.forRoot(backendApiConfigFactory)),
     importProvidersFrom(FileServiceApiModule.forRoot(fileServiceApiConfigFactory)),

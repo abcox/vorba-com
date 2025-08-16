@@ -43,3 +43,7 @@ Thumbs.db
 
 # Logs
 logs
+
+# puppeteer logs
+activity-debug-results
+ux-analysis-results
