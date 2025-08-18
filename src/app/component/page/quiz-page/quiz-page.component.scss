@@ -142,6 +142,8 @@ h3 {
   border: none !important;
   border-radius: 0 !important;
   align-items: stretch; // Make all buttons stretch to same height
+  margin: 0 !important;
+  margin-top: 1rem !important;
 }
 
 .quiz-option-group.two-column {
@@ -390,6 +392,7 @@ h3 {
     flex-direction: column !important;
     gap: 1rem;
     width: auto;
+    margin-top: 0 !important;
   }
   
   .quiz-option-group.two-column {
