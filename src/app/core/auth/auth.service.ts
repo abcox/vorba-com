@@ -74,6 +74,7 @@ export class AuthService {
   readonly isAuthenticated = computed(() => this._authState().isAuthenticated);
   readonly isAdmin = computed(() => this._authState().isAdmin);
   readonly tokenExpiry = computed(() => this._authState().tokenExpiry);
+  readonly isGuest = computed(() => this._authState().user?.roles.includes('guest'));
 
   // Behavior subject for components that need observables
   private readonly _authStateSubject = new BehaviorSubject<AuthState>(this._authState());
@@ -265,6 +266,7 @@ export class AuthService {
    * Logout user and clear all stored data
    */
   logout(): void {
+    console.log('🔐 AuthService: Logging out');
     this.clearStoredData();
     this.updateAuthState({
       user: null,

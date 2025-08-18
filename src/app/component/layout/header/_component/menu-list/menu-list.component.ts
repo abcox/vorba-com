@@ -15,6 +15,7 @@ export interface MenuItem {
   type?: 'item' | 'divider';
   template?: TemplateRef<any>;
   templateContext?: Record<string, any>;
+  action?: () => void;
 }
 
 @Component({

@@ -3,7 +3,7 @@ import { QuizStartPageComponent } from './quiz-start-page/quiz-start-page.compon
 import { QuizPageComponent } from './quiz-page.component';
 import { QuizEndPageComponent } from './quiz-end-page/quiz-end-page.component';
 import { QuizAdminPageComponent } from './quiz-admin-page/quiz-admin-page.component';
-import { adminGuard } from '../../../core/auth/auth.guard';
+import { adminGuard, authGuard } from '../../../core/auth/auth.guard';
 import { FileUploadPageComponent } from '../file-upload-page/file-upload-page.component';
 
 // Quiz Routes for standalone components
@@ -33,7 +33,8 @@ export const quizRoutes: Routes = [
   {
     path: ':id',
     component: QuizPageComponent,
-    title: 'Quiz Questions'
+    title: 'Quiz Questions',
+    canActivate: [authGuard({redirectTo: '/quiz/start'})]
   },
   {
     path: ':id/end',

@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LayoutService } from '../../../_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-menu-dialog',
@@ -17,6 +18,8 @@ import { FormsModule } from '@angular/forms';
 export class MenuDialogComponent implements AfterViewInit {
   private menuService = inject(MenuService);
   private layoutService = inject(LayoutService);
+  private authService = inject(AuthService);
+  
   menuOpen = this.menuService.menuOpen;
   @ViewChild('themeTemplate') themeTemplate!: TemplateRef<any>;  
   menuItems: MenuItem[] = [];
@@ -44,9 +47,15 @@ export class MenuDialogComponent implements AfterViewInit {
         icon: 'group'
       },
       {
-        label: 'Sign-in',
+        label: 'User admin',
         routerLink: '/admin/user',
-        icon: 'login'
+        icon: 'group'
+      },
+      {
+        label: 'Sign out',
+        routerLink: '/logout',
+        icon: 'login',
+        action: () => this.authService.logout()
       },
       {
         type: 'divider'

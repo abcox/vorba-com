@@ -17,26 +17,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, of } from 'rxjs';
 import { clearSessionId, getSessionId } from 'src/app/shared/utils';
-//import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
-/* interface QuizQuestionOption {
-  id: number;
-  content: string;
-  archetypeId: number;
-  context: string;
-} */
-
-/* interface QuizQuestion {
-  id: number;
-  content: string;
-  dimension: string;
-  options: QuizQuestionOption[];
-} */
-
-/* interface Quiz {
-  title: string;
-  questions: QuizQuestion[];
-} */
+// Example: http://localhost:4200/quiz/2?title=Quiz%202
 
 @Component({
   selector: 'app-quiz-page',
@@ -128,6 +110,7 @@ export class QuizPageComponent implements OnInit {
       console.log('Form value changed:', value);
       // upsert to api
       const quizActionData = this.quizActionData;
+      console.log('quizActionData', this.quizActionData);
       this.userService.userControllerSubmitQuizAction(quizActionData).pipe(tap(response => {
         console.log('Action submitted successfully:', response);
       }),
@@ -230,6 +213,7 @@ export class QuizPageComponent implements OnInit {
       console.log('Form submitted successfully');
       
       // TODO: Submit action "complete"
+      console.log('quizActionData', this.quizActionData);
       this.userService.userControllerSubmitQuizAction(this.quizActionData).pipe(
         tap(() => {
           console.log('Action submitted successfully');

@@ -30,7 +30,7 @@ export const authGuard = (config: AuthGuardConfig = {}): CanActivateFn => {
       requireAuth = true,
       requireAdmin = false,
       requireRoles = [],
-      redirectTo = '/login'
+      redirectTo = config.redirectTo || '/login'
     } = config;
 
     // If no authentication required, allow access
@@ -64,6 +64,12 @@ export const authGuard = (config: AuthGuardConfig = {}): CanActivateFn => {
           })
         );
       } else {
+        if (redirectTo) {
+          router.navigate([redirectTo], {
+            queryParams: { returnUrl: state.url }
+          });
+          return false;
+        }
         return dialogService.openGeneralLoginDialog(state.url).pipe(
           map(result => {
             if (result.success) {

@@ -9,7 +9,9 @@
           <ng-container *ngTemplateOutlet="item.template; context: item.templateContext"></ng-container>
           {{ item.label }}
         } @else {
-          <button mat-button class="flex items-center gap-2" (click)="item.routerLink ? router.navigate([item.routerLink]) : null">
+          <button mat-button class="flex items-center gap-2"
+            (click)="item.action ? item.action() :
+              item.routerLink ? router.navigate([item.routerLink]) : null">
             @if (item.icon) {
               <mat-icon>{{ item.icon }}</mat-icon>
             }

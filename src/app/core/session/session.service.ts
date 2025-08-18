@@ -283,29 +283,38 @@ export class SessionService {
     // Effect to handle authentication state changes
     effect(() => {
       const isAuthenticated = this.authService.isAuthenticated();
+      const isGuest = this.authService.isGuest();
       const initTrigger = this._initTrigger(); // Read trigger to make effect reactive
       
       console.log('🔍 SessionService: Auth state check', { isAuthenticated, initTrigger });
       
-      if (isAuthenticated) {
-        // User is authenticated, get config and start monitoring
-        const config = this.authService.activityConfig();
-        if (config) {
-          console.log('✅ SessionService: Initializing session with config');
-          this.initializeSession({
-            idleTime: config.inactivityWarningSeconds,
-            timeout: config.warningCountdownSeconds,
-            ping: 30, // 30 seconds
-            warningTime: 60 // Show warning 60 seconds before timeout
-          });
-        } else {
-          console.log('⚠️ SessionService: No config available for authenticated user');
-        }
-      } else {
-        // User is not authenticated, stop monitoring
-        console.log('🚫 SessionService: User not authenticated, stopping monitoring');
+      if (!isAuthenticated) {
+        console.log('🚫 SessionService: User is not authenticated. Stopping session monitoring');
         this.stopMonitoring();
+        return;
       }
+
+      if (isGuest) {
+        console.log('🚫 SessionService: User is guest. Stopping session monitoring');
+        this.stopMonitoring();
+        return;
+      }
+
+      // User is authenticated, get config and start monitoring
+      const config = this.authService.activityConfig();
+      if (!config) {
+        console.log('⚠️ SessionService: No config available for authenticated user. Stopping session monitoring');
+        this.stopMonitoring();
+        return;
+      }
+
+      console.log('✅ SessionService: Initializing session with config');
+      this.initializeSession({
+        idleTime: config.inactivityWarningSeconds,
+        timeout: config.warningCountdownSeconds,
+        ping: 30, // 30 seconds
+        warningTime: 60 // Show warning 60 seconds before timeout
+      });
     }, { allowSignalWrites: true });
   }
 
