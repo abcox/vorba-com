@@ -141,6 +141,7 @@ h3 {
   width: 100%;
   border: none !important;
   border-radius: 0 !important;
+  align-items: stretch; // Make all buttons stretch to same height
 }
 
 .quiz-option-group.two-column {
@@ -148,7 +149,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: .875rem; // adjust as needed
-  align-items: stretch;
+  align-items: stretch; // Make all buttons stretch to same height
 }
 
 .quiz-option-group.two-column .quiz-option-button {
@@ -162,12 +163,13 @@ h3 {
 
 // Button toggle styling for quiz options
 .quiz-option-button {
-  display: block;
+  display: flex; // Change to flex to allow stretching
   width: 100%;
-  height: 120px; // Fixed height for consistency
+  height: 100%; // Allow button to stretch to match tallest sibling
   border: none !important;
   border-radius: 8px !important;
-  margin: 0 !important;
+  //margin: 0 !important;
+  gap: 8px;
   
   // Remove connected button appearance
   &:not(:first-child) {
@@ -184,8 +186,9 @@ h3 {
     align-items: center;
     justify-content: center; // Center content vertically and horizontally
     width: 100%;
-    height: 100px; // Fixed height for consistency
-    padding: 1rem 1.5rem;
+    height: 100%; // Use 100% to fill the button container
+    min-height: 80px; // Minimum height for consistency
+    padding: 1.5rem; // Consistent padding that will expand with content
     border: 2px solid var(--primary-grayscale-200);
     border-radius: 8px;
     background-color: white;
@@ -386,6 +389,7 @@ h3 {
     display: flex !important;
     flex-direction: column !important;
     gap: 1rem;
+    width: auto;
   }
   
   .quiz-option-group.two-column {
@@ -398,7 +402,8 @@ h3 {
     .mat-button-toggle-label-content {
       padding: 1rem 1rem !important;
       line-height: normal !important; // Override the default line-height
-      height: 80px; // Fixed height for mobile consistency
+      min-height: 80px; // Use min-height instead of fixed height for mobile
+      height: auto; // Allow content to determine height
       display: flex;
       align-items: center;
       
@@ -429,7 +434,8 @@ h3 {
     z-index: 1000;
     border-radius: 36px !important;
     height: 72px !important;
-      .mdc-button__label {
+
+    .mdc-button__label {
       //display: none;
     }
     mat-icon {
