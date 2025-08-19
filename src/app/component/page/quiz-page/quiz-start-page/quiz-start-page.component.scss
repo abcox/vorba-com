@@ -68,11 +68,15 @@ body.light-theme {
 
 // Quiz form section
 .quiz-container {
-    width: 100%;
-    max-width: 480px;
+    display: flex;
+    //max-width: 360px;
 }
 
 .quiz-form-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: var(--primary-grayscale-50);
     border-radius: 16px;
     padding: 2.5rem;
@@ -181,14 +185,11 @@ body.light-theme {
         flex: 1;
         max-width: none;
     }
-    
-    .quiz-container {
-        flex: 0 0 480px;
-    }
 }
 
 // Mobile optimizations
 @media screen and (max-width: 600px) {
+
     .page-container {
         padding: 1rem;
         gap: 2rem;
@@ -214,6 +215,7 @@ body.light-theme {
     }
     
     .quiz-form-card {
+        width: 100%;
         padding: 2rem;
         
         .quiz-header {
