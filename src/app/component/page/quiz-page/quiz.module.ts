@@ -21,7 +21,8 @@ export const quizRoutes: Routes = [
   {
     path: ':id/upload',
     component: FileUploadPageComponent,
-    title: 'File upload'
+    title: 'File upload',
+    canActivate: [authGuard({redirectTo: '/quiz/start'})]
   },
   // TODO: redirect to /admin/user
   {
