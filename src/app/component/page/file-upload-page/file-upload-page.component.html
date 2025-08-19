@@ -1,7 +1,12 @@
 <div class="file-upload-container">
     <div class="top-left-container">
         <h3>Congratulation! You have completed the quiz.</h3>
-        <p>Please upload your PDF file, and get your custom report.</p>
+        <p>Upload your PDF file, and get your customized report.</p>        
+        <ul class="bullet-list">
+            <li class="star">1 PDF file</li>
+            <li class="star">100 MB max size</li>
+            <li class="star">100% free customized report</li>
+        </ul>
     </div>
     <div class="bottom-right-container">
         <app-file-upload
@@ -14,6 +19,7 @@
                         color="primary" 
                         class="upload-button"
                         (click)="uploadFiles(selectedFiles)">
+                        <mat-icon>cloud_upload</mat-icon>
                     Upload
                 </button>
             </div>
