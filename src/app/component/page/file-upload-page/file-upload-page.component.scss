@@ -6,6 +6,10 @@
     background-color: var(--sys-surface);
 }
 
+h3, p {
+    color: var(--primary-grayscale-100);
+}
+
 .file-upload-container {
     display: flex;
     flex-direction: row;
@@ -29,4 +33,17 @@
     gap: 1rem;
     width: 100%;
     margin: 32px;
+}
+
+@media (max-width: 768px) {
+    .file-upload-container {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    .bottom-right-container {
+        padding: 1rem;
+    }
+    .top-left-container {
+        margin: 1rem;
+    }
 }

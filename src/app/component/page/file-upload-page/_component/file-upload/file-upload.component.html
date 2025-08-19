@@ -9,13 +9,14 @@
     
     <div class="upload-content">
     <mat-icon class="upload-icon">cloud_upload</mat-icon>
-    <h3 class="upload-title">
+    <div class="upload-title">
         @if (selectedFilesCountMax() > 1) {
-            Drop files here or click to browse
+            Drop files here
         } @else {
-            Drop file here or click to browse
+            Drop file here
         }
-    </h3>
+    </div>
+    <div class="upload-subtitle">or click Browse files</div>
     <p class="upload-subtitle">
         @if (selectedFilesCountMax() > 1) {
             Support for multiple file types up to 100MB each
