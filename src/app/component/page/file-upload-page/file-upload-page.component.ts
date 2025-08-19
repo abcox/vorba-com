@@ -7,8 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
-import { FileService as FileApiService } from '@file-service-api/v1';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService as UserApiService } from '@file-service-api/v1';
 
 @Component({
   selector: 'app-file-upload-page',
@@ -28,8 +28,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class FileUploadPageComponent {
     private fb = inject(FormBuilder);
-    private fileService = inject(FileApiService);
-    private router = inject(Router);
+    private userService = inject(UserApiService);
     private route = inject(ActivatedRoute);
 
     private _selectedFiles: File[] = [];
@@ -73,10 +72,31 @@ export class FileUploadPageComponent {
         // where we are responsing to the response by setting a status
         // on the file view model so that files can be shown in progress
         // and then have them show when they've been uploaded (remove the 'X')
-        this.fileService.fileControllerUploadFile(files[0]).subscribe({
+        
+        // TODO:  fix issue from test where "Auth audience invalid"
+        // path /api/file/upload
+        // should be /api/user/file/upload (and use request.user.id)
+        this.userService.userControllerUploadFile(files[0]).subscribe({
             next: (response) => {
+                // TODO:  make userFileUploadResponse (dto) like:
+                // {
+                //     id: string;
+                //     name: string;
+                //     size: number;
+                //     type: string;
+                //     url: string;
+                //     createdAt: string;
+                //     updatedAt: string;
+                //     success: boolean;
+                //     message: string;  // could be "File already exists"
+                // }
+                // IF file already exists, provide re-use it and provide existing
+                // >>> **** and then process custom report and provide download link...
+                // ALSO... we need progress-type stuff for all API calls
+                // because each time, user may wait even for a second...
                 console.log('fileControllerUploadFile response:', response);
-                if (response.size > 0) { // TODO: create 'success' flag at api
+                const { fileInfo, fileUrl } = response;
+                if (fileInfo && fileUrl) {
                     this.selectedFiles = [];
                     //this.router.navigate(['/quiz', this.quizId, 'end']);
                 }
