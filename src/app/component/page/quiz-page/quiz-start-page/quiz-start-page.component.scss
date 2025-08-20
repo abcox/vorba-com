@@ -156,7 +156,7 @@ body.light-theme {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.8rem;
+            gap: 6px; // assures button label does not change position along X-axis when spinner is shown
         }
         
         &:hover {
@@ -168,6 +168,11 @@ body.light-theme {
     mat-spinner {
         display: inline-flex;
         --mdc-circular-progress-active-indicator-color: var(--primary-grayscale-50);
+    }
+
+    mat-icon {
+        // assures icon does not change position along X-axis when spinner is shown
+        --mat-protected-button-icon-offset: 0;
     }
 
     //--mdc-outlined-text-field-container-color: var(--primary-grayscale-500);
