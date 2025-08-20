@@ -47,6 +47,8 @@
                 </mat-checkbox>
 
                 <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid" class="w-full">
+                    <mat-spinner *ngIf="loading()" diameter="20"></mat-spinner>
+                    <mat-icon *ngIf="!loading()">play_arrow</mat-icon>
                     Start Quiz
                 </button>
             </form>

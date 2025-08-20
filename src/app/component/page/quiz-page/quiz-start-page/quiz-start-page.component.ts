@@ -1,4 +1,4 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, inject, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,6 +11,11 @@ import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { UserRegistrationRequest } from '../../../../../file-service-api/v1';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { catchError, finalize } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { NotifyService } from 'src/app/core/notify/notify.service';
 
 @Component({
   selector: 'app-quiz-start-page',
@@ -22,7 +27,9 @@ import { UserRegistrationRequest } from '../../../../../file-service-api/v1';
     MatInputModule,
     MatCheckboxModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './quiz-start-page.component.html',
   styleUrl: './quiz-start-page.component.scss',
@@ -31,11 +38,13 @@ import { UserRegistrationRequest } from '../../../../../file-service-api/v1';
 export class QuizStartPageComponent {
   private authService = inject(AuthService);
   quizForm: FormGroup;
+  loading = signal(false);
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private notifyService: NotifyService
   ) {
     this.quizForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -66,7 +75,15 @@ export class QuizStartPageComponent {
         //termsAccepted: true
       };
 
-      this.authService.register(request).subscribe((success) => {
+      this.loading.set(true);
+      this.authService.register(request).pipe(
+        finalize(() => this.loading.set(false)),
+        catchError((error) => {
+          console.error('register error', error);
+          this.notifyService.error('Failed to register. Please try again.');
+          return of(false);
+        })
+      ).subscribe((success) => {
         console.log('register success', success);
         if (success) {
           // TODO: fix this by making "Quiz 1" in local cosmos db (emulator)
@@ -76,6 +93,7 @@ export class QuizStartPageComponent {
             this.router.navigate(['/quiz', '2'], { queryParams: { title: 'Quiz 2' } });
           }
         }
+        this.loading.set(false);
       });
     }
   }
