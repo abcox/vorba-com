@@ -30,6 +30,7 @@ export class FileUploadPageComponent {
     private fb = inject(FormBuilder);
     private userService = inject(UserApiService);
     private route = inject(ActivatedRoute);
+    private router = inject(Router);
 
     private _selectedFiles: File[] = [];
 
@@ -98,7 +99,7 @@ export class FileUploadPageComponent {
                 const { fileInfo, fileUrl } = response;
                 if (fileInfo && fileUrl) {
                     this.selectedFiles = [];
-                    //this.router.navigate(['/quiz', this.quizId, 'end']);
+                    this.router.navigate(['/quiz', this.quizId, 'report']);
                 }
             },
             error: (error) => {
