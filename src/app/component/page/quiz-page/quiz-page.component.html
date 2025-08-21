@@ -84,6 +84,10 @@
         type="submit"
         [disabled]="!quizForm.valid"
         class="step-action-button submit-button ml-5">
+        <mat-icon *ngIf="!loading()">upload</mat-icon>
+        <mat-icon *ngIf="loading()">
+          <mat-spinner diameter="20"></mat-spinner>
+        </mat-icon>
         Submit
       </button>
     </div>

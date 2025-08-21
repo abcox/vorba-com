@@ -48,18 +48,21 @@
 @if (selectedFiles.length > 0 && !isUploading) {
     <div class="selected-files">
         <div class="files-header">
-            <h3>Selected Files ({{ selectedFiles.length }})</h3>
-            <div class="files-summary">
-            <span class="total-size">Total: {{ getTotalSize() }}</span>
-            <button mat-button 
-                    color="warn" 
-                    class="clear-all-button"
-                    (click)="clearAllFiles()">
-                Clear All
-            </button>
-            </div>
+            @if (selectedFiles.length === 1) {
+                <h3>Selected file</h3>
+            } @else {
+                <h3>Selected files ({{ selectedFiles.length }})</h3>
+                <div class="files-summary">
+                    <span class="total-size">Total: {{ getTotalSize() }}</span>
+                    <button mat-button
+                        color="warn"
+                        class="clear-all-button"
+                        (click)="clearAllFiles()">
+                        Clear all
+                    </button>
+                </div>
+            }
         </div>
-        
         <div class="files-list">
             @for (file of selectedFiles; track file.name; let i = $index) {
             <div class="file-item">
@@ -86,7 +89,7 @@
 <!-- Upload Progress (when uploading) -->
 @if (isUploading) {
     <div class="upload-progress">
-    <h3>Uploading Files...</h3>
+    <h3>Uploading files...</h3>
     <mat-progress-bar 
         mode="determinate" 
         [value]="uploadProgress"

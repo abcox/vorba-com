@@ -27,6 +27,11 @@ h3, p {
     padding-top: 2rem;
 }
 
+mat-spinner {
+    display: inline-flex;
+    //--mdc-circular-progress-active-indicator-color: var(--primary-grayscale-50);
+}
+
 .bullet-list {
     color: var(--primary-grayscale-50);
     list-style-type: none;
@@ -60,8 +65,15 @@ h3, p {
 
 .upload-button {
     display: flex;
+    font-size: 1.125rem;
+    height: 3rem;
     justify-content: end;
-    font-size: 1rem;
+
+    mat-icon {
+        font-size: 1.25rem;
+        height: 1.25rem;
+        width: 1.25rem;
+    }
 }
 
 @media (max-width: 768px) {

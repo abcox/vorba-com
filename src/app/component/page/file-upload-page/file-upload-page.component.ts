@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FileUploadComponent } from './_component/file-upload/file-upload.component';
 import { CommonModule } from '@angular/common';
@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService as UserApiService } from '@file-service-api/v1';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { catchError, finalize, of } from 'rxjs';
 
 @Component({
   selector: 'app-file-upload-page',
@@ -21,7 +23,8 @@ import { UserService as UserApiService } from '@file-service-api/v1';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    FileUploadComponent
+    FileUploadComponent,
+    MatProgressSpinnerModule
   ],
   templateUrl: './file-upload-page.component.html',
   styleUrls: ['./file-upload-page.component.scss']
@@ -33,6 +36,7 @@ export class FileUploadPageComponent {
     private router = inject(Router);
 
     private _selectedFiles: File[] = [];
+    loading = signal(false);
 
     quizId: string | null = null;
     uploadForm: FormGroup = this.fb.group({
@@ -67,6 +71,7 @@ export class FileUploadPageComponent {
 
     uploadFiles(files: File[]) {
         console.log('Uploading files:', files);
+        this.loading.set(true);
         // TODO: use /api/v1/user/file/upload, and
         // upload multiple files..
         // for multi-file upload, we could have an array of observables
@@ -77,7 +82,13 @@ export class FileUploadPageComponent {
         // TODO:  fix issue from test where "Auth audience invalid"
         // path /api/file/upload
         // should be /api/user/file/upload (and use request.user.id)
-        this.userService.userControllerUploadFile(files[0]).subscribe({
+        this.userService.userControllerUploadFile(files[0]).pipe(
+            catchError((error) => {
+                console.error('fileControllerUploadFile error:', error);
+                return of(false);
+            }),
+            finalize(() => this.loading.set(false))
+        ).subscribe({
             next: (response) => {
                 // TODO:  make userFileUploadResponse (dto) like:
                 // {

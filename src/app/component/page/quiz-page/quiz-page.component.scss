@@ -54,6 +54,11 @@
   flex: 1;
 }
 
+mat-spinner {
+  display: inline-flex;
+  --mdc-circular-progress-active-indicator-color: var(--primary-grayscale-50);
+}
+
 .quiz-footer {
   display: flex;
   flex-direction: row;

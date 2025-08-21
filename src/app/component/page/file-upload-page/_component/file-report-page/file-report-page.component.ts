@@ -10,12 +10,15 @@ import { Component } from "@angular/core";
     template: `
     <div class="file-upload-container">
         <div class="top-left-container">
-            <h1>Congratulations!</h1>
-            <h3>Here is your custom report:</h3>        
+            <h1>Your report is ready!</h1>
+            <h3>Points of focus:</h3>        
             <ul class="bullet-list">
-                <li class="star">1 PDF file</li>
-                <li class="star">100 MB max size</li>
-                <li class="star">100% free customized report</li>
+                <li class="star">Key terms and obligations</li>
+                <li class="star">Potential risks or red flags</li>
+                <li class="star">Vague or unusual clauses</li>
+                <li class="star">Alignment with standard practices</li>
+                <li class="star">Suggested clarifications or alternatives</li>
+                <li class="star">Sections worth legal review</li>
             </ul>
         </div>
     </div>`,
@@ -50,7 +53,7 @@ import { Component } from "@angular/core";
         color: var(--primary-grayscale-50);
         list-style-type: none;
         padding: 0;
-        margin: 0 0 0 1rem;
+        margin: 1rem 0 0 2rem;
         
         li {
             position: relative;
@@ -60,7 +63,7 @@ import { Component } from "@angular/core";
             color: var(--primary-grayscale-100);
             
             &::before {
-                content: "★";
+                content: "●";
                 position: absolute;
                 left: 0;
                 color: var(--primary-grayscale-50);

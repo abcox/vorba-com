@@ -12,14 +12,18 @@
         <app-file-upload
             (filesSelected)="updateSelectedFiles($event)"
             [selectedFiles]="selectedFiles">
-        </app-file-upload>        
+        </app-file-upload>
         @if (selectedFiles.length > 0) {
             <div class="upload-button">
-                <button mat-raised-button 
-                        color="primary" 
-                        class="upload-button"
-                        (click)="uploadFiles(selectedFiles)">
-                        <mat-icon>cloud_upload</mat-icon>
+                <button mat-raised-button
+                    type="button"
+                    color="primary"
+                    class="upload-button"
+                    (click)="uploadFiles(selectedFiles)">
+                    <mat-icon *ngIf="!loading()">cloud_upload</mat-icon>
+                    <mat-icon *ngIf="loading()">
+                        <mat-spinner diameter="20"></mat-spinner>
+                    </mat-icon>
                     Upload
                 </button>
             </div>

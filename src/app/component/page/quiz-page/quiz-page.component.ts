@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, Signal, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal, Signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
@@ -12,11 +12,12 @@ import { Theme, ThemeService } from 'src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
 import { DeviceService } from 'src/app/services/device.service';
 import { QuizResponseDto, QuizDto, QuizService, QuizQuestionDto, QuizQuestionOptionDto, UserService, SubmitQuizActionDto } from '@file-service-api/v1';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, of } from 'rxjs';
 import { clearSessionId, getSessionId } from 'src/app/shared/utils';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Example: http://localhost:4200/quiz/2?title=Quiz%202
 
@@ -32,7 +33,8 @@ import { clearSessionId, getSessionId } from 'src/app/shared/utils';
     MatButtonModule,
     MatCardModule,
     MatButtonToggleModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './quiz-page.component.html',
   styleUrl: './quiz-page.component.scss',
@@ -43,6 +45,7 @@ export class QuizPageComponent implements OnInit {
   userService = inject(UserService);
   isMobile = inject(DeviceService).isMobile;
   @ViewChild('stepper') stepper!: MatStepper;
+  loading = signal(false);
   quizForm: FormGroup;
   quizId: string | null = null;
   isLinear = false; // was true;
@@ -218,6 +221,7 @@ export class QuizPageComponent implements OnInit {
         tap(() => {
           console.log('Action submitted successfully');
 
+          this.loading.set(true);
           clearSessionId();
       
           // Navigate to quiz end page with completion data
@@ -237,7 +241,7 @@ export class QuizPageComponent implements OnInit {
           // TODO: do we want to show error and have user retry?
           return of(null);
         })
-      ).subscribe();
+      ).pipe(finalize(() => this.loading.set(false))).subscribe();
     } else {
       console.log('Form has validation errors');
     }
