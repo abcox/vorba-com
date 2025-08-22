@@ -78,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: dist/vorba-web/
+          path: dist/vorba-web/browser/
           retention-days: 10
           if-no-files-found: error
 
@@ -91,21 +91,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./dist-files
-
-      - name: Move browser files to root for deployment
-        run: |
-          echo "=== MOVING BROWSER FILES TO ROOT ==="
-          echo "Current directory: $(pwd)"
-          echo "Dist files directory contents:"
-          ls -la dist-files/
-          echo ""
-          echo "Moving browser files to root..."
-          mv dist-files/browser/* ./
-          echo ""
-          echo "Root directory contents after move:"
-          ls -la
-          echo "=== END MOVE ==="
+          path: ./
 
       - name: Inspect deployment contents
         run: |
