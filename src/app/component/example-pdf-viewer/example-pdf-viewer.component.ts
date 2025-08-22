@@ -31,7 +31,8 @@ export class ExamplePdfViewerComponent implements OnInit {
     // trading image quality for performance.
 
     // Configure the assets path for the PDF viewer
-    pdfDefaultOptions.assetsFolder = 'assets';
+      pdfDefaultOptions.assetsFolder = 'assets';
+      pdfDefaultOptions.workerSrc = () => 'assets/pdf.worker-5.4.793.min.js';
   }
 
   async ngOnInit() {
