@@ -75,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: dist/vorba-web/
+          path: dist/vorba-web/browser/
           retention-days: 10
           if-no-files-found: error
 
@@ -137,6 +137,28 @@ jobs:
           echo "JS files: $(find . -name '*.js' | wc -l)"
           echo "CSS files: $(find . -name '*.css' | wc -l)"
           echo "Total files: $(find . -type f | wc -l)"
+          echo ""
+          echo "PDF Viewer assets check:"
+          if [ -f "assets/pdf.sandbox-5.4.793.mjs" ]; then
+            echo "✓ PDF sandbox found"
+          else
+            echo "✗ PDF sandbox missing"
+          fi
+          if [ -f "assets/pdf.worker-5.4.793.mjs" ]; then
+            echo "✓ PDF worker found"
+          else
+            echo "✗ PDF worker missing"
+          fi
+          if [ -f "assets/viewer-5.4.793.mjs" ]; then
+            echo "✓ PDF viewer found"
+          else
+            echo "✗ PDF viewer missing"
+          fi
+          if [ -d "assets/wasm" ]; then
+            echo "✓ WASM directory found"
+          else
+            echo "✗ WASM directory missing"
+          fi
           echo ""
           echo "=== END INSPECTION ==="
 
