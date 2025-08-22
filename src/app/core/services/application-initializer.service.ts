@@ -61,9 +61,9 @@ export class ApplicationInitializerService {
   async checkPdfViewerAssets(): Promise<boolean> {
     try {
       const assets = [
-        '/assets/viewer-5.4.793.min.mjs',
-        '/assets/pdf.worker-5.4.793.min.mjs',
-        '/assets/pdf.sandbox-5.4.793.min.mjs'
+        '/assets/viewer-5.4.793.min.js',
+        '/assets/pdf.worker-5.4.793.min.js',
+        '/assets/pdf.sandbox-5.4.793.min.js'
       ];
       
       for (const asset of assets) {
