@@ -8,7 +8,7 @@
     padding: 0;
     border: .25rem solid var(--primary-grayscale-700);
     border-radius: .25rem;
-    background-color: var(--primary-grayscale-700);
+    background-color: var(--primary-grayscale-900);
 
     @media (max-width: 960px) {
         width: auto;
@@ -24,7 +24,7 @@ ngx-extended-pdf-viewer {
 
     // Background color for the viewer
     .pdfViewer#viewer {
-        background-color: var(--primary-grayscale-700) !important;
+        background-color: var(--primary-grayscale-900) !important;
     }
 
     // Webkit scrollbar styling
@@ -45,6 +45,32 @@ ngx-extended-pdf-viewer {
     // Firefox scrollbar styling
     scrollbar-color: var(--primary-grayscale-500) var(--primary-grayscale-300) !important;
     scrollbar-width: thin !important;
+
+    // Hide the original light gray triangle from the PDF viewer
+    .secondaryToolbar::before {
+        //display: none !important;
+    }
+    
+    // Hide triangles on child elements of secondary toolbar
+    .secondaryToolbar > *::before,
+    .secondaryToolbar > *::after {
+        //display: none !important;
+    }
+    
+    // Target specific elements that might create the triangle
+    [id*="secondary"]::before,
+    [class*="secondary"]::before,
+    [id*="menu"]::before,
+    [class*="menu"]::before {
+        //display: none !important;
+    }
+    // Target specific elements that might create the triangle
+    [id*="secondary"]::after,
+    [class*="secondary"]::after,
+    [id*="menu"]::after,
+    [class*="menu"]::after {
+        //display: none !important;
+    }
 }
 
 // Target all internal elements for scrollbar styling
@@ -69,3 +95,123 @@ ngx-extended-pdf-viewer *::-webkit-scrollbar-thumb:hover {
 ngx-extended-pdf-viewer *::-webkit-scrollbar-track {
     background-color: var(--primary-grayscale-200) !important;
 }
+
+/* stylelint-disable-next-line selector-id-pattern */
+#toolbarContainer {
+    color: var(--primary-grayscale-100) !important;
+    background-color: var(--primary-grayscale-700) !important;
+}
+
+/* stylelint-disable-next-line selector-id-pattern */
+#toolbarViewerRight {
+
+    .toolbarButton.toggled {
+        background-color: transparent !important;
+    }
+}
+
+.toolbarButton {
+    &:active,
+    &:hover {
+        background-color: transparent !important;
+    }
+    svg {
+        color: var(--primary-grayscale-100) !important;
+
+        &:hover {
+            //color: var(--primary-grayscale-700) !important;
+        }
+    }
+}
+
+/* stylelint-disable-next-line selector-id-pattern */
+#scaleSelect {
+    background-color: var(--primary-grayscale-800) !important;
+    color: var(--primary-grayscale-100) !important;
+    border: 1px solid var(--primary-grayscale-600) !important;
+    border-radius: 0.25rem !important;
+    padding-left: 0.25rem !important;
+
+    /* svg {
+        padding-right: 0.25rem !important;
+    } */
+}
+
+/* stylelint-disable-next-line selector-id-pattern */
+#pageNumber {
+    background-color: var(--primary-grayscale-800) !important;
+    color: var(--primary-grayscale-100) !important;
+    border: 1px solid var(--primary-grayscale-600) !important;
+    border-radius: 0.25rem !important;
+    padding-left: 0.25rem !important;
+}
+
+.secondaryToolbar {
+    background-color: var(--primary-grayscale-700) !important;
+    border: 1px solid var(--primary-grayscale-500) !important;
+    //position: relative !important;
+
+    // Triangle/tab that points to the burger menu
+    &::before {
+        content: "" !important;
+        position: absolute !important;
+        top: -17px !important;
+        right: 13px !important;
+        width: 0 !important;
+        height: 0 !important;
+        border-left: 8px solid transparent !important;
+        border-right: 8px solid transparent !important;
+        border-bottom: 8px solid var(--primary-grayscale-500) !important;
+        z-index: 1 !important;
+        //background-color: red !important;
+    }
+
+    // Border for the triangle/tab
+    &::after {
+        content: "" !important;
+        position: absolute !important;
+        top: -16px !important;
+        right: 12px !important;
+        width: 0 !important;
+        height: 0 !important;
+        border-left: 8px solid transparent !important;
+        border-right: 8px solid transparent !important;
+        border-bottom: 8px solid var(--primary-grayscale-700) !important;
+        z-index: 10 !important;
+    }
+
+    .secondaryToolbarButton {
+        color: var(--primary-grayscale-100) !important;
+        
+        &:hover {
+            font-weight: 600 !important;
+            color: var(--primary-grayscale-700) !important;
+            background-color: var(--primary-grayscale-100) !important;            
+        }
+
+        &.toggled {
+            background-color: transparent !important;
+
+            &:hover {
+                background-color: var(--primary-grayscale-100) !important;
+
+                &::after {
+                    color: var(--primary-grayscale-700) !important;
+                }
+            }
+
+            &::after {
+                content: "✓" !important;
+                color: var(--primary-grayscale-100) !important;
+                font-weight: 600 !important;
+                padding-left: 1rem !important;
+            }
+        }
+    }
+}
+
+.toolbar {
+    border-bottom: 1px solid var(--primary-grayscale-500) !important;
+}
+
+
