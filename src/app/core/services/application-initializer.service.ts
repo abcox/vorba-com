@@ -16,13 +16,13 @@ export class ApplicationInitializerService {
       console.log('Initializing PDF viewer assets...');
       
       // Load the main PDF viewer module
-      await this.loadScript('/assets/viewer-5.4.793.min.mjs', 'module');
+      await this.loadScript('/assets/viewer-5.4.793.min.js', 'module');
       
       // Load the PDF worker module
-      await this.loadScript('/assets/pdf.worker-5.4.793.min.mjs', 'module');
+      await this.loadScript('/assets/pdf.worker-5.4.793.min.js', 'module');
       
       // Load the PDF sandbox module
-      await this.loadScript('/assets/pdf.sandbox-5.4.793.min.mjs', 'module');
+      await this.loadScript('/assets/pdf.sandbox-5.4.793.min.js', 'module');
       
       console.log('PDF viewer assets loaded successfully');
     } catch (error) {
