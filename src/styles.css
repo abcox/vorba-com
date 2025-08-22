@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global scrollbar styling for PDF viewer */
+ngx-extended-pdf-viewer {
+    /* Webkit scrollbar styling */
+    &::-webkit-scrollbar {
+        width: 12px;
+        background-color: var(--primary-grayscale-300) !important;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--primary-grayscale-500) !important;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--primary-grayscale-600) !important;
+    }
+    &::-webkit-scrollbar-track {
+        background-color: var(--primary-grayscale-200) !important;
+    }
+
+    /* Firefox scrollbar styling */
+    scrollbar-color: var(--primary-grayscale-500) var(--primary-grayscale-300) !important;
+    scrollbar-width: thin !important;
+}
+
+/* Target internal elements of ngx-extended-pdf-viewer */
+ngx-extended-pdf-viewer * {
+    scrollbar-color: var(--primary-grayscale-500) var(--primary-grayscale-300) !important;
+    scrollbar-width: thin !important;
+}
+
+ngx-extended-pdf-viewer *::-webkit-scrollbar {
+    width: 12px;
+    background-color: var(--primary-grayscale-300) !important;
+}
+
+ngx-extended-pdf-viewer *::-webkit-scrollbar-thumb {
+    background-color: var(--primary-grayscale-500) !important;
+}
+
+ngx-extended-pdf-viewer *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-grayscale-600) !important;
+}
+
+ngx-extended-pdf-viewer *::-webkit-scrollbar-track {
+    background-color: var(--primary-grayscale-200) !important;
+}
