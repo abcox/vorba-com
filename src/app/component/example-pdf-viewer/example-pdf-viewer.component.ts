@@ -26,6 +26,7 @@ export class ExamplePdfViewerComponent {
     // Increasing this setting allows your users to use higher zoom factors,
     // trading image quality for performance.
 
-    
+    // Configure the assets path for the PDF viewer
+    pdfDefaultOptions.assetsFolder = 'assets';    
     }
 }
