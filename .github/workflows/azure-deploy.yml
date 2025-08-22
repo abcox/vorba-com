@@ -91,7 +91,22 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./
+          path: ./browser-files
+
+      - name: Move files to root for deployment
+        run: |
+          echo "=== MOVING FILES TO ROOT ==="
+          echo "Current directory: $(pwd)"
+          echo "Browser files directory contents:"
+          ls -la browser-files/
+          echo ""
+          echo "Moving all files from browser-files/ to root..."
+          mv browser-files/* ./
+          mv browser-files/.* ./ 2>/dev/null || true
+          echo ""
+          echo "Root directory contents after move:"
+          ls -la
+          echo "=== END MOVE ==="
 
       - name: Inspect deployment contents
         run: |
