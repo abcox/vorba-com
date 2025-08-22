@@ -56,12 +56,9 @@ jobs:
           echo "=== POST-BUILD INSPECTION ==="
           echo "Build exit code: $?"
           echo "Dist directory exists: $(test -d dist/vorba-web && echo 'YES' || echo 'NO')"
-          echo "Browser directory exists: $(test -d dist/vorba-web/browser && echo 'YES' || echo 'NO')"
           echo "Dist directory contents:"
           ls -la dist/ || echo "dist/ directory not found"
           ls -la dist/vorba-web/ || echo "dist/vorba-web/ directory not found"
-          echo "Browser directory contents:"
-          ls -la dist/vorba-web/browser/ || echo "dist/vorba-web/browser/ directory not found"
           
           if [ $? -ne 0 ]; then
             echo "Build failed - exiting"
@@ -78,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: dist/vorba-web/browser/
+          path: dist/vorba-web/
           retention-days: 10
           if-no-files-found: error
 
@@ -140,28 +137,6 @@ jobs:
           echo "JS files: $(find . -name '*.js' | wc -l)"
           echo "CSS files: $(find . -name '*.css' | wc -l)"
           echo "Total files: $(find . -type f | wc -l)"
-          echo ""
-          echo "PDF Viewer assets check:"
-          if [ -f "assets/pdf.sandbox-5.4.793.mjs" ]; then
-            echo "✓ PDF sandbox found"
-          else
-            echo "✗ PDF sandbox missing"
-          fi
-          if [ -f "assets/pdf.worker-5.4.793.mjs" ]; then
-            echo "✓ PDF worker found"
-          else
-            echo "✗ PDF worker missing"
-          fi
-          if [ -f "assets/viewer-5.4.793.mjs" ]; then
-            echo "✓ PDF viewer found"
-          else
-            echo "✗ PDF viewer missing"
-          fi
-          if [ -d "assets/wasm" ]; then
-            echo "✓ WASM directory found"
-          else
-            echo "✗ WASM directory missing"
-          fi
           echo ""
           echo "=== END INSPECTION ==="
 
