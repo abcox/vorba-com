@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { /* APP_INITIALIZER,  */ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -9,13 +9,13 @@ import { backendApiConfigFactory, fileServiceApiConfigFactory } from './core/ser
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { provideNgIdle } from '@ng-idle/core';
 import { provideNgIdleKeepalive } from '@ng-idle/keepalive';
-import { ApplicationInitializerService } from './core/services/application-initializer.service';
+//import { ApplicationInitializerService } from './core/services/application-initializer.service';
 
 export const TOKEN_KEY = 'token'; // todo: move to a shared constant file -- candidate for InjectionToken?
-
+/* 
 const appInitializerFactory = (initializer: ApplicationInitializerService) => {
   return () => initializer.initializePdfViewer();
-};
+}; */
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,11 +30,11 @@ export const appConfig: ApplicationConfig = {
     //{ provide: Configuration, useFactory: apiConfigFactory },    
     importProvidersFrom(BackendApiModule.forRoot(backendApiConfigFactory)),
     importProvidersFrom(FileServiceApiModule.forRoot(fileServiceApiConfigFactory)),
-    {
+    /* {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,
       deps: [ApplicationInitializerService],
       multi: true
-    }
+    } */
   ]
 };

@@ -4,8 +4,11 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "start:dev": "ng serve",
+    "start": "node server.js",
+    "build": "ng build && npm run postbuild:rename-mjs",
+    "build:prod": "ng build --configuration production",
+    "postbuild:rename-mjs": "node scripts/rename-mjs-files.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --configuration=ci",

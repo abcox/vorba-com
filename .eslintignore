@@ -12,3 +12,4 @@ src/polyfills.ts
 src/styles.css
 src/test.ts
 src/test.ts
+server.js

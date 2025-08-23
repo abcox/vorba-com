@@ -51,6 +51,11 @@ jobs:
           # Run build with verbose output
           npm run build
 
+      - name: Copy server.js and package.json to dist output
+        run: |
+          cp server.js dist/vorba-web/browser/
+          cp package.json dist/vorba-web/browser/
+
       - name: Post build inspection
         run: |
           echo "=== POST-BUILD INSPECTION ==="

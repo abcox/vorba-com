@@ -16,13 +16,13 @@ export class ApplicationInitializerService {
       console.log('Initializing PDF viewer assets...');
       
       // Load the main PDF viewer module
-      await this.loadScript('/assets/viewer-5.4.793.min.js', 'module');
+      await this.loadScript('/assets/viewer-5.4.793.min.mjs', 'module');
       
       // Load the PDF worker module
-      await this.loadScript('/assets/pdf.worker-5.4.793.min.js', 'module');
+      await this.loadScript('/assets/pdf.worker-5.4.793.min.mjs', 'module');
       
       // Load the PDF sandbox module
-      await this.loadScript('/assets/pdf.sandbox-5.4.793.min.js', 'module');
+      await this.loadScript('/assets/pdf.sandbox-5.4.793.min.mjs', 'module');
       
       console.log('PDF viewer assets loaded successfully');
     } catch (error) {
@@ -59,12 +59,12 @@ export class ApplicationInitializerService {
    * Check if PDF viewer assets are available
    */
   async checkPdfViewerAssets(): Promise<boolean> {
-    try {
-      const assets = [
-        '/assets/viewer-5.4.793.min.js',
-        '/assets/pdf.worker-5.4.793.min.js',
-        '/assets/pdf.sandbox-5.4.793.min.js'
-      ];
+          try {
+        const assets = [
+          '/assets/viewer-5.4.793.min.mjs',
+          '/assets/pdf.worker-5.4.793.min.mjs',
+          '/assets/pdf.sandbox-5.4.793.min.mjs'
+        ];
       
       for (const asset of assets) {
         const response = await fetch(asset, { method: 'HEAD' });

@@ -12,7 +12,7 @@ import { ApplicationInitializerService } from '../../core/services/application-i
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class ExamplePdfViewerComponent implements OnInit {
+export class ExamplePdfViewerComponent /* implements OnInit */ {
   /** In most cases, you don't need the NgxExtendedPdfViewerService. It allows you
    *  to use the "find" api, to extract text and images from a PDF file,
    *  to print programmatically, and to show or hide layers by a method call.
@@ -31,11 +31,11 @@ export class ExamplePdfViewerComponent implements OnInit {
     // trading image quality for performance.
 
     // Configure the assets path for the PDF viewer
-      pdfDefaultOptions.assetsFolder = 'assets';
-      pdfDefaultOptions.workerSrc = () => 'assets/pdf.worker-5.4.793.min.js';
+    //pdfDefaultOptions.assetsFolder = 'assets';
+    //pdfDefaultOptions.workerSrc = () => 'assets/pdf.worker-5.4.793.min.js';
   }
 
-  async ngOnInit() {
+  /* async ngOnInit() {
     // Ensure PDF viewer assets are loaded
     const assetsAvailable = await this.appInitializer.checkPdfViewerAssets();
     if (!assetsAvailable) {
@@ -46,5 +46,5 @@ export class ExamplePdfViewerComponent implements OnInit {
         console.error('Failed to load PDF viewer assets:', error);
       }
     }
-  }
+  } */
 }
