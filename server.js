@@ -1,3 +1,5 @@
+console.log('--- server.js starting up ---'); // First line
+
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
