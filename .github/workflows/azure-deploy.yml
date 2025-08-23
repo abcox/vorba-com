@@ -72,15 +72,26 @@ jobs:
             echo "Build successful"
           fi
 
+      - name: Install production dependencies
+        run: npm install --omit=dev
+
       # see angular.json fileReplacements
       #- name: Copy environment.ts file to dist
       #  run: cp src/environments/environment.${{ env.DEPLOY_ENV_ABBREV }}.ts dist/vorba-web/environment.ts
+
+      - name: Prepare deployment package
+        run: |
+          mkdir -p dist/deploy
+          cp -r dist/vorba-web/browser/* dist/deploy/
+          cp server.js dist/deploy/
+          cp package.json dist/deploy/
+          cp -r node_modules dist/deploy/
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: dist/vorba-web/browser/
+          path: dist/deploy/
           retention-days: 10
           if-no-files-found: error
 
