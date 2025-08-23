@@ -3,11 +3,11 @@
 param(
     [string]$resourceGroupName = "vorba-web-rg", # Azure Resource Group Name
     [string]$appServicePlanName = "vorba-web-asp-linux", # Azure App Service Plan Name
-    [string]$webAppName = "vorba-web-2", # Name of the Azure Web App
+    [string]$webAppName = "vorba-web-3", # Name of the Azure Web App
     [string]$location = "canadaeast", # Azure region (e.g., eastus, westus)
     [string]$projectName = "vorba-web", # Name of the Angular Project
     [string]$distFolder = "dist", # Location of the Angular build folder
-    [string]$runtime = "NODE:18-lts", # Web App run-time
+    [string]$runtime = "NODE:22-lts", # Web App run-time
     [switch]$UseServicePrincipal, # Use service principal authentication
     [string]$ServicePrincipalId, # Service Principal ID
     [string]$ServicePrincipalSecret, # Service Principal Secret
