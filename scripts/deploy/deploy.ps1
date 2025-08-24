@@ -1,4 +1,7 @@
 # deploy.ps1 -- builds and deploys this angular project to azure
+
+# TODO: make a new copy with only the infrastructure and no code deployment (use github actions)
+
 # Define parameters for the script
 param(
     [string]$resourceGroupName = "vorba-web-rg", # Azure Resource Group Name
