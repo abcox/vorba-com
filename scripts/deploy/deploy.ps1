@@ -509,7 +509,8 @@ Write-Host "Configuring App Settings..."
 az webapp config set `
     --name "vorba-web-2" `
     --resource-group "vorba-web-rg" `
-    --startup-file "pm2 serve /home/site/wwwroot `$PORT --no-daemon --spa"
+    --startup-file "node server.js"
+    #--startup-file "pm2 serve /home/site/wwwroot `$PORT --no-daemon --spa"
 
 # DEPRECATED -- using zip deploy
 # Step 6: Deploy Angular app to Azure
