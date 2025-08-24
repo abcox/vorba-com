@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 
 console.log(`📁 __dirname: ${__dirname}`);
 
-const DIST_FOLDER = path.join(__dirname, 'dist', 'vorba-web', 'browser');
+const DIST_FOLDER = path.join(__dirname);
 
 console.log(`📁 DIST_FOLDER: ${DIST_FOLDER}`);
 
@@ -29,7 +29,7 @@ app.use(express.static(DIST_FOLDER, {
   }
 }));
 
-app.get('*', (req, res) => {
+app.use((req, res) => {
   console.log(`📨 Received request: ${req.url}`);
   res.sendFile(path.join(DIST_FOLDER, 'index.html'));
 });
