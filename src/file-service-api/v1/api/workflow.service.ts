@@ -16,6 +16,8 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
+// @ts-ignore
+import { WorkflowControllerDownloadFileReportJson200Response } from '../model/workflowControllerDownloadFileReportJson200Response';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -97,6 +99,84 @@ export class WorkflowService extends BaseService {
         let localVarPath = `/api/workflow/file/report/download`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Generate analysis report and return as JSON with base64 PDF data
+     * Uploads a file from blob storage to OpenAI, generates an analysis report, and returns JSON with base64 PDF data and metadata
+     * @param fileId The ID of the file to analyze
+     * @param userId The ID of the user requesting the analysis
+     * @param analysisType Type of analysis to perform
+     * @param customPrompt Custom prompt for the analysis (optional)
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public workflowControllerDownloadFileReportJson(fileId: string, userId: string, analysisType: 'contract' | 'document' | 'general', customPrompt?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<WorkflowControllerDownloadFileReportJson200Response>;
+    public workflowControllerDownloadFileReportJson(fileId: string, userId: string, analysisType: 'contract' | 'document' | 'general', customPrompt?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<WorkflowControllerDownloadFileReportJson200Response>>;
+    public workflowControllerDownloadFileReportJson(fileId: string, userId: string, analysisType: 'contract' | 'document' | 'general', customPrompt?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<WorkflowControllerDownloadFileReportJson200Response>>;
+    public workflowControllerDownloadFileReportJson(fileId: string, userId: string, analysisType: 'contract' | 'document' | 'general', customPrompt?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (fileId === null || fileId === undefined) {
+            throw new Error('Required parameter fileId was null or undefined when calling workflowControllerDownloadFileReportJson.');
+        }
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling workflowControllerDownloadFileReportJson.');
+        }
+        if (analysisType === null || analysisType === undefined) {
+            throw new Error('Required parameter analysisType was null or undefined when calling workflowControllerDownloadFileReportJson.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>fileId, 'fileId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>userId, 'userId');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>analysisType, 'analysisType');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>customPrompt, 'customPrompt');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/workflow/file/report/download/json`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<WorkflowControllerDownloadFileReportJson200Response>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

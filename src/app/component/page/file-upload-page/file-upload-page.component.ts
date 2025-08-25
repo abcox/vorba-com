@@ -114,20 +114,19 @@ export class FileUploadPageComponent {
                     customPrompt: 'Please analyze the file and provide a report.'
                 };
                 if (fileInfo && fileUrl) {
-                    this.workflowService.workflowControllerDownloadFileReport(
+                    this.workflowService.workflowControllerDownloadFileReportJson(
                         request.fileId,
                         request.userId,
                         request.analysisType as 'contract' | 'document' | 'general',
-                        request.customPrompt,
-                        'response', // Get full response instead of just body
-                        true // Report progress
+                        request.customPrompt
                     ).pipe(
-                        tap((httpResponse) => {
-                            console.log('workflowControllerDownloadFileReport response:', httpResponse);
+                        tap((response) => {
+                            console.log('workflowControllerDownloadFileReportJson response:', response);
                             
-                            // Handle PDF blob response
-                            if (httpResponse.body instanceof Blob) {
-                                const pdfBlob = httpResponse.body;
+                            // Handle JSON response with base64 PDF data
+                            if (response && response.success && response.pdfData) {
+                                // Convert base64 to blob
+                                const pdfBlob = this.base64ToBlob(response.pdfData, 'application/pdf');
                                 const pdfUrl = URL.createObjectURL(pdfBlob);
                                 
                                 // Navigate to report page with PDF URL
@@ -135,14 +134,14 @@ export class FileUploadPageComponent {
                                     queryParams: { pdfUrl: pdfUrl }
                                 });
                             } else {
-                                console.error('Expected PDF blob but got:', typeof httpResponse.body);
+                                console.error('Invalid response format:', response);
                             }
                             // TODO: need to develop the file uploader component
                             // so that it can show progress for each file, and prevent file
                             // in progress from being removed from the list once upload has started
                         }),
                         catchError((error) => {
-                            console.error('workflowControllerDownloadFileReport error:', error);
+                            console.error('workflowControllerDownloadFileReportJson error:', error);
                             this.selectedFiles = [];
                             this.loading.set(false);
                             return of(false);
@@ -158,5 +157,18 @@ export class FileUploadPageComponent {
             }),
             //finalize(() => this.loading.set(false)) // incorrect
         ).subscribe();
+    }
+
+    /**
+     * Convert base64 string to Blob
+     */
+    private base64ToBlob(base64: string, mimeType: string): Blob {
+        const byteCharacters = atob(base64);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        return new Blob([byteArray], { type: mimeType });
     }
 }

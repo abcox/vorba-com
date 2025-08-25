@@ -38,6 +38,8 @@ model/userLoginResponse.ts
 model/userQuizActionMetadataDto.ts
 model/userRegistrationRequest.ts
 model/userRegistrationResponse.ts
+model/workflowControllerDownloadFileReportJson200Response.ts
+model/workflowControllerDownloadFileReportJson200ResponseUsage.ts
 ng-package.json
 package.json
 param.ts

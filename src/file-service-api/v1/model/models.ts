@@ -18,3 +18,5 @@ export * from './userLoginResponse';
 export * from './userQuizActionMetadataDto';
 export * from './userRegistrationRequest';
 export * from './userRegistrationResponse';
+export * from './workflowControllerDownloadFileReportJson200Response';
+export * from './workflowControllerDownloadFileReportJson200ResponseUsage';
