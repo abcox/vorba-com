@@ -76,7 +76,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
   border-bottom: 2px solid var(--primary-grayscale-200);
   
   h3 {
@@ -146,6 +145,7 @@
 .file-details {
   display: flex;
   flex-direction: column;
+  flex: 1;
   gap: 0.25rem;
 }
 
@@ -180,7 +180,7 @@
   
   h3 {
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 500;
     color: var(--primary-grayscale-900);
     margin: 0;
     text-align: center;

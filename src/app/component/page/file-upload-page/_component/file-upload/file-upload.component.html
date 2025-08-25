@@ -45,7 +45,7 @@
 }
 
 <!-- Selected Files List -->
-@if (selectedFiles.length > 0 && !isUploading) {
+@if (selectedFiles.length > 0) {
     <div class="selected-files">
         <div class="files-header">
             @if (selectedFiles.length === 1) {
@@ -86,8 +86,8 @@
     </div>
 }
 
-<!-- Upload Progress (when uploading) -->
-@if (isUploading) {
+<!-- Upload Progress (when uploading)
+@if (loading()) {
     <div class="upload-progress">
     <h3>Uploading files...</h3>
     <mat-progress-bar 
@@ -97,4 +97,4 @@
     </mat-progress-bar>
     <p class="progress-text">{{ uploadProgress }}% Complete</p>
     </div>
-}
+} -->

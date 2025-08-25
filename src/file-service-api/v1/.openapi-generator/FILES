@@ -7,7 +7,9 @@ api/auth.service.ts
 api/config.service.ts
 api/file.service.ts
 api/gPT.service.ts
+api/pDF.service.ts
 api/quiz.service.ts
+api/submitUserQuizResults.service.ts
 api/user.service.ts
 api/userQuizResults.service.ts
 api/workflow.service.ts
@@ -15,9 +17,11 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/createPdfDto.ts
 model/createUserDto.ts
 model/idelSessionConfigDto.ts
 model/models.ts
+model/pdfResponseDto.ts
 model/quizDto.ts
 model/quizQuestionDto.ts
 model/quizQuestionOptionDto.ts

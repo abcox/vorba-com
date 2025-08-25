@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit, Input } from '@angular/core';
 import {  NgxExtendedPdfViewerModule,NgxExtendedPdfViewerService, pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 import { ApplicationInitializerService } from '../../core/services/application-initializer.service';
 
@@ -13,6 +13,7 @@ import { ApplicationInitializerService } from '../../core/services/application-i
   encapsulation: ViewEncapsulation.None
 })
 export class ExamplePdfViewerComponent /* implements OnInit */ {
+  @Input() pdfSrc: string = '/assets/pdfs/Bootstrap-vs-Material-Design-vs-Prime-vs-Tailwind.pdf';
   /** In most cases, you don't need the NgxExtendedPdfViewerService. It allows you
    *  to use the "find" api, to extract text and images from a PDF file,
    *  to print programmatically, and to show or hide layers by a method call.

@@ -1,5 +1,7 @@
+export * from './createPdfDto';
 export * from './createUserDto';
 export * from './idelSessionConfigDto';
+export * from './pdfResponseDto';
 export * from './quizDto';
 export * from './quizQuestionDto';
 export * from './quizQuestionOptionDto';

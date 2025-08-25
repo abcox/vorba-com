@@ -1,5 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, OnInit, signal } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { ExamplePdfViewerComponent } from "src/app/component/example-pdf-viewer/example-pdf-viewer.component";
 
 @Component({
@@ -26,7 +27,7 @@ import { ExamplePdfViewerComponent } from "src/app/component/example-pdf-viewer/
             </div>
         </div>
         <div class="bottom-right-container">
-            <app-example-pdf-viewer></app-example-pdf-viewer>
+            <app-example-pdf-viewer [pdfSrc]="pdfSrc()"></app-example-pdf-viewer>
         </div>
     </div>`,
     styles: `
@@ -110,6 +111,18 @@ import { ExamplePdfViewerComponent } from "src/app/component/example-pdf-viewer/
     }
     `
   })
-  export class FileReportPageComponent {
+  export class FileReportPageComponent implements OnInit {
+    pdfSrc = signal<string>('/assets/pdfs/Bootstrap-vs-Material-Design-vs-Prime-vs-Tailwind.pdf');
 
+    constructor(private route: ActivatedRoute) {}
+
+    ngOnInit() {
+      // Get PDF URL from query parameters
+      this.route.queryParams.subscribe(params => {
+        const pdfUrl = params['pdfUrl'];
+        if (pdfUrl) {
+          this.pdfSrc.set(pdfUrl);
+        }
+      });
+    }
   }

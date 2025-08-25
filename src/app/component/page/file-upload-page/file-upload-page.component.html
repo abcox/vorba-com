@@ -11,7 +11,8 @@
     <div class="bottom-right-container">
         <app-file-upload
             (filesSelected)="updateSelectedFiles($event)"
-            [selectedFiles]="selectedFiles">
+            [selectedFiles]="selectedFiles"
+            [loading]="loading()">
         </app-file-upload>
         @if (selectedFiles.length > 0) {
             <div class="upload-button">

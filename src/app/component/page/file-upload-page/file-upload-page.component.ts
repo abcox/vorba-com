@@ -10,7 +10,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService as UserApiService } from '@file-service-api/v1';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { catchError, finalize, of } from 'rxjs';
+import { catchError, finalize, of, tap } from 'rxjs';
+import { WorkflowService as WorkflowApiService } from '@file-service-api/v1';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-file-upload-page',
@@ -34,6 +36,8 @@ export class FileUploadPageComponent {
     private userService = inject(UserApiService);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
+    private workflowService = inject(WorkflowApiService);
+    private authService = inject(AuthService);
 
     private _selectedFiles: File[] = [];
     loading = signal(false);
@@ -83,13 +87,7 @@ export class FileUploadPageComponent {
         // path /api/file/upload
         // should be /api/user/file/upload (and use request.user.id)
         this.userService.userControllerUploadFile(files[0]).pipe(
-            catchError((error) => {
-                console.error('fileControllerUploadFile error:', error);
-                return of(false);
-            }),
-            finalize(() => this.loading.set(false))
-        ).subscribe({
-            next: (response) => {
+            tap((response) => {
                 // TODO:  make userFileUploadResponse (dto) like:
                 // {
                 //     id: string;
@@ -108,14 +106,57 @@ export class FileUploadPageComponent {
                 // because each time, user may wait even for a second...
                 console.log('fileControllerUploadFile response:', response);
                 const { fileInfo, fileUrl } = response;
+                // TODO:  make request a DTO
+                const request = {
+                    fileId: fileInfo.filename,
+                    userId: this.authService.user()?.id ?? '', // TODO: this should be derived by API from the token
+                    analysisType: 'contract',
+                    customPrompt: 'Please analyze the file and provide a report.'
+                };
                 if (fileInfo && fileUrl) {
-                    this.selectedFiles = [];
-                    this.router.navigate(['/quiz', this.quizId, 'report']);
+                    this.workflowService.workflowControllerDownloadFileReport(
+                        request.fileId,
+                        request.userId,
+                        request.analysisType as 'contract' | 'document' | 'general',
+                        request.customPrompt,
+                        'response', // Get full response instead of just body
+                        true // Report progress
+                    ).pipe(
+                        tap((httpResponse) => {
+                            console.log('workflowControllerDownloadFileReport response:', httpResponse);
+                            
+                            // Handle PDF blob response
+                            if (httpResponse.body instanceof Blob) {
+                                const pdfBlob = httpResponse.body;
+                                const pdfUrl = URL.createObjectURL(pdfBlob);
+                                
+                                // Navigate to report page with PDF URL
+                                this.router.navigate(['/quiz', this.quizId, 'report'], {
+                                    queryParams: { pdfUrl: pdfUrl }
+                                });
+                            } else {
+                                console.error('Expected PDF blob but got:', typeof httpResponse.body);
+                            }
+                            // TODO: need to develop the file uploader component
+                            // so that it can show progress for each file, and prevent file
+                            // in progress from being removed from the list once upload has started
+                        }),
+                        catchError((error) => {
+                            console.error('workflowControllerDownloadFileReport error:', error);
+                            this.selectedFiles = [];
+                            this.loading.set(false);
+                            return of(false);
+                        }),
+                    ).subscribe();
                 }
-            },
-            error: (error) => {
+            }),
+            catchError((error) => {
                 console.error('fileControllerUploadFile error:', error);
-            }
-        });
+                this.selectedFiles = [];
+                this.loading.set(false);
+                return of(false);
+            }),
+            //finalize(() => this.loading.set(false)) // incorrect
+        ).subscribe();
     }
 }

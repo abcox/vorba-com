@@ -21,10 +21,10 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 export class FileUploadComponent {
   @Input() selectedFiles: File[] = [];
   selectedFilesCountMax = input(1);
+  loading = input(false);
   @Output() filesSelected = new EventEmitter<File[]>();
 
   isDragOver = false;
-  isUploading = false;
   uploadProgress = 0;
 
   onDragOver(event: DragEvent) {
@@ -58,6 +58,15 @@ export class FileUploadComponent {
   }
 
   private handleFiles(files: File[]) {
+    const invalidFiles = files.filter(file => {
+      const maxSize = 100 * 1024 * 1024; // 100MB
+      return file.size > maxSize;
+    });
+    if (invalidFiles.length > 0) {
+      //this.invalidFiles.emit(invalidFiles);
+      // TODO: show these files in the list with some warning icon
+      console.warn('invalidFiles', invalidFiles);
+    }
     // Filter out invalid files
     const validFiles = files.filter(file => {
       // Add your file validation logic here
@@ -132,12 +141,5 @@ export class FileUploadComponent {
       default:
         return 'insert_drive_file';
     }
-  }
-
-  uploadFiles() {
-    console.log('uploadFiles...', this.selectedFiles);
-    this.isUploading = true;
-    this.uploadProgress = 0;
-    //this.uploadFiles();
   }
 }
