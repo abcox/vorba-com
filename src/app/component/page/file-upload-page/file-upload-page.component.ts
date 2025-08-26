@@ -86,7 +86,17 @@ export class FileUploadPageComponent {
         // TODO:  fix issue from test where "Auth audience invalid"
         // path /api/file/upload
         // should be /api/user/file/upload (and use request.user.id)
-        this.userService.userControllerUploadFile(files[0]).pipe(
+
+        // TODO: need request DTO for userControllerUploadFile
+        // {
+        //     overwrite: boolean;
+        //     file: File;
+        // }
+        //const request = {
+        //    overwrite: true,
+        //    file: files[0]
+        //};
+        this.userService.userControllerUploadFile(true, files[0]).pipe(
             tap((response) => {
                 // TODO:  make userFileUploadResponse (dto) like:
                 // {
