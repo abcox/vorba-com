@@ -1,0 +1,28 @@
+@if (service(); as o) {
+    <section class="footer-section mt-16 p-8 bg-gray-800">
+        <h2>{{ o.title }}</h2>
+        <p>
+            {{ o.description }}
+        </p>
+        @if (o.list) {
+            <div class="flex flex-row gap-8 flex-wrap">
+                @for (serviceItem of o.list; track serviceItem.title) {
+                    <div class="vertical-container">
+                        <div class="title">{{ serviceItem.title }}</div>
+                        <ul>
+                            @for (link of serviceItem.links; track link.label) {
+                                <li>
+                                    <a [href]="link.url">
+                                        <p>
+                                            {{ link.label }}
+                                        </p>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+}

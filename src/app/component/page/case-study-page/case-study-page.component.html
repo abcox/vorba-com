@@ -1,0 +1,59 @@
+<!-- WebGL Canvas Background -->
+<canvas #webglCanvas class="webgl-background"></canvas>
+
+<div class="test-container">
+    <h1>
+        Test
+    </h1>
+    <!-- Main Content -->
+    <div class="flex m-10">
+        <app-carousel [options]="carourselOptions" class="w-full sm:w-3/4 lg:w-3/4 xl:w-2/3 max-w-5xl mx-auto">
+            <ng-container *ngIf="stories$ | async as stories">
+                @for(story of stories; track $index) {
+                    <ng-template #slide>
+                        <mat-card class="px-12 py-12 case-study-card">
+                        <mat-card-header class="sticky-header">
+                            <div class="flex flex-col">
+                            <h6>{{ story?.title }}:</h6>
+                            <h4 class="!mb-0">{{ story?.subtitle }}</h4>
+                            </div>
+                        </mat-card-header>
+                        <mat-card-content class="scrollable-content">
+                            <h6>Overview</h6>
+                            <p>
+                            {{ story?.overview }}
+                            </p>
+                            <section class="mt-3">
+                            <h6>Benefits</h6>
+                            <ul>
+                            @for (item of story?.benefits; track $index) {
+                                <li>
+                                - {{ item }}
+                                </li>
+                            }
+                            </ul>
+                            </section>
+                            <section class="mt-3">
+                            <h6>Approach</h6>
+                            <ul>
+                                @for (item of story?.approach; track $index) {
+                                <li>
+                                    - {{ item }}
+                                </li>
+                                }
+                            </ul>
+                            </section>
+                            <section class="mt-3">
+                            <h6>Summary</h6>
+                            <p>
+                            {{ story?.summary }}
+                            </p>
+                        </section>
+                        </mat-card-content>
+                        </mat-card>
+                    </ng-template>
+                }
+            </ng-container>
+        </app-carousel>
+    </div>
+</div>

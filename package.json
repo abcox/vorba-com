@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
-    "start:dev": "ng serve",
+    "start:web:dev": "ng serve --port 5200",
     "start": "node server.js",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
@@ -44,6 +44,7 @@
     "@ng-idle/keepalive": "^16.0.0",
     "express": "^5.1.0",
     "ngx-extended-pdf-viewer": "^25.0.0-alpha.2",
+    "ogl": "^1.0.11",
     "primeng": "^17.7.0",
     "rxjs": "~7.8.0",
     "swiper": "^11.1.15",

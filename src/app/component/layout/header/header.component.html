@@ -1,14 +1,14 @@
-<div class="header flex justify-between items-center m-3 mx-4">
+<div class="header flex justify-between items-center">
     <div class="left-side flex flex-row">
-        <button mat-icon-button (click)="layoutService.toggleDrawer()">
+        <button class="px-5" mat-icon-button (click)="layoutService.toggleDrawer()">
             <mat-icon>menu_open</mat-icon>
         </button>
-        <app-logo></app-logo>
+        <app-logo class="m-3"></app-logo>
         <div class="mx-4 mt-4"><!-- TODO: we should center vertically rather than use top margin -->
             <h2>{{ titlePrefix() }} Vorba {{ titlePrefix() ? '' : 'Software Consulting' }}</h2>
         </div>
     </div>
-    <div class="right-side mr-4">
+    <div class="right-side mr-10">
         <app-menu-toggle></app-menu-toggle>
         <app-menu-dialog></app-menu-dialog>
     </div>

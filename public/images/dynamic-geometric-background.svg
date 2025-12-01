@@ -1,0 +1,57 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Dynamic gradients -->
+    <linearGradient id="dynamicGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.2"/>
+      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#f093fb;stop-opacity:0.15"/>
+    </linearGradient>
+    
+    <linearGradient id="dynamicGradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:0.2"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="transparent"/>
+  
+  <!-- Dynamic diagonal band -->
+  <path d="M -200 400 L 2120 200 L 2120 500 L -200 700 Z" 
+        fill="url(#dynamicGradient1)" 
+        opacity="0.4"/>
+  
+  <!-- Intersecting rotated rectangles -->
+  <rect x="200" y="100" width="600" height="200" rx="100" ry="100" 
+        fill="url(#dynamicGradient2)" 
+        transform="rotate(20 500 200)" 
+        opacity="0.5"/>
+  
+  <rect x="1100" y="600" width="500" height="180" rx="90" ry="90" 
+        fill="url(#dynamicGradient1)" 
+        transform="rotate(-15 1350 690)" 
+        opacity="0.4"/>
+  
+  <!-- Modern organic shapes -->
+  <ellipse cx="1600" cy="300" rx="150" ry="80" 
+           fill="url(#dynamicGradient2)" 
+           transform="rotate(45 1600 300)" 
+           opacity="0.3"/>
+  
+  <ellipse cx="400" cy="800" rx="120" ry="60" 
+           fill="url(#dynamicGradient1)" 
+           transform="rotate(-30 400 800)" 
+           opacity="0.35"/>
+  
+  <!-- Flowing lines -->
+  <path d="M 0 600 Q 300 400 600 600 T 1200 500 T 1920 600" 
+        stroke="url(#dynamicGradient2)" 
+        stroke-width="3" 
+        fill="none" 
+        opacity="0.6"/>
+  
+  <!-- Accent dots -->
+  <circle cx="800" cy="200" r="8" fill="#667eea" opacity="0.4"/>
+  <circle cx="1200" cy="400" r="6" fill="#4facfe" opacity="0.5"/>
+  <circle cx="300" cy="600" r="10" fill="#f093fb" opacity="0.3"/>
+</svg>

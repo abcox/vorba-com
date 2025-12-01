@@ -10,6 +10,7 @@
 
 @include mat.core();
 
+
 /* Custom button variants */
 .secondary-btn {
   @include mat.button-color(m3-theme.$light-theme, $color-variant: secondary);
@@ -114,8 +115,7 @@ h2 {
   scrollbar-color: var(--sys-outline) var(--sys-surface);
 }
 
-/* Apply light theme by default */
-:root {
+:root { /* Light theme (default) */
   @include mat.all-component-themes(m3-theme.$light-theme);
   @include mat.typography-hierarchy(m3-theme.$light-theme);
   @include mat.system-level-colors(m3-theme.$light-theme);
@@ -135,6 +135,22 @@ h2 {
   --grayscale-900: #262626;
   --grayscale-950: #000;
   /* Black */
+
+  /* Secondary Color Palette - Blue Base */
+  --secondary-color-50: #f0f6ff;   /* Very light blue */
+  --secondary-color-100: #dbeafe;  /* Light blue */
+  --secondary-color-200: #bfdbfe;  /* Soft blue */
+  --secondary-color-300: #93c5fd;  /* Medium-light blue */
+  --secondary-color-400: #60a5fa;  /* Medium blue */
+  --secondary-color-500: #1f6ee2;  /* Base blue (your specified color) */
+  --secondary-color-600: #1d63d1;  /* Medium-dark blue */
+  --secondary-color-700: #2c3551;  /* Dark blue-gray (existing) */
+  --secondary-color-800: #1f2436;  /* Darker blue-gray */
+  --secondary-color-900: #14161f;  /* Very dark blue-gray */
+  --secondary-color-950: #0a0b0f;  /* Almost black blue-gray */
+  
+  /* Text color for use on dark backgrounds */
+  --secondary-text-light: rgb(149, 159, 190); /* Light blue-gray text for dark backgrounds */
 
   /* MDC Shape System */
   --mdc-shape-small: 4px;
@@ -182,6 +198,15 @@ h2 {
   --hot-red: oklch(61.42% 0.238 15.34deg);
   --orange-red: oklch(63.32% 0.24 31.68deg);
 
+  --bright-green: oklch(72.15% 0.23 142.12deg);
+  --medium-green: oklch(60% 0.25 140deg);
+  --dark-green: oklch(50% 0.3 138deg);
+  
+  /* Material */
+  /* Buttons */
+  --action-button-background-color: #55f44d; // #43e43b; // rgb(0, 178, 0);
+  --action-button-label-color: black;
+
   --red-to-pink-to-purple-vertical-gradient: linear-gradient(180deg,
       var(--orange-red) 0%,
       var(--vivid-pink) 50%,
@@ -197,9 +222,11 @@ h2 {
   /* dark theme (default) */
   --background-color: #070437;
   --text-color: var(--grayscale-400);
-  --primary-color: #bb86fc;
+  --primary-color: var(--primary-grayscale-800); // #bb86fc;
+  --on-primary-color: var(--primary-grayscale-200);
   --error-color: #cf6679;
-  --background-image: url("assets/images/background-blue-1-dark.jpeg");
+  //--background-image: url("assets/images/background-blue-1-dark.jpeg");
+  //--background-image: url("assets/images/modern-geometric-background-dark.svg");
   
   // TODO & DEV-NOTE:  R&D how to compose theme with efficiency.
   // there should be a way to quickly create new from existing (as template) and
@@ -246,6 +273,57 @@ h2 {
 
   --mdc-protected-button-disabled-container-color: var(--grayscale-600);
   --mdc-protected-button-container-shape: var(--mdc-shape-small);
+
+    /* Carousel styles (swiper) */
+  --swiper-pagination-color: var(--primary-color);
+  --swiper-pagination-bullet-inactive-color: var(--primary-color);
+  --swiper-pagination-bullet-inactive-opacity: 0.5;
+    
+  /* Material */
+  /* Buttons */
+  .action-button.mdc-button {
+    //margin: 1rem;
+    padding: 1.2rem;
+    font-size: 1rem;
+    border-radius: 0.175rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    //background-color: red !important;
+    //--mdc-protected-button-container-color: rgba(20, 234, 20, 0.804);
+    background-color: var(--action-button-background-color);
+    //--mdc-protected-button-label-text-color: black;
+    color: var(--action-button-label-color);
+
+    /* &:not(.dark-theme) {
+      --mdc-protected-button-container-color: rgb(32, 69, 255);
+      --mdc-protected-button-label-text-color: black;
+    } */
+     &.large {
+      padding: 1.5rem 2rem;
+      font-size: 1.25rem;
+     }
+  }
+  
+  /* swiper content */
+  .offer-slide {
+    h1 {
+      font-size: 4rem;
+    }
+  }
+  .light-theme .offer-slide {
+    h1, p {
+      color: white; /* Still white since background is blue */
+    }    
+    /* h1 {
+      font-size: 3rem;
+    } */
+  }
+  .light-theme {
+    /* Carousel styles (swiper) */
+    --swiper-pagination-color: var(--gray-900);
+    --swiper-pagination-bullet-inactive-color: var(--gray-400);
+    --swiper-pagination-bullet-inactive-opacity: 0.5;
+  }
 }
 
 /* Apply dark theme when dark-theme class is present */
@@ -254,6 +332,11 @@ h2 {
   @include mat.typography-hierarchy(m3-theme.$dark-theme);
   @include mat.system-level-colors(m3-theme.$dark-theme);
   @include mat.system-level-typography(m3-theme.$dark-theme);
+
+  /* Material */
+  /* Buttons */
+  --action-button-background-color: #43e43b; // #81E979; // #08c408; // Emerald: #2dd881 / rgb(8, 196, 8);
+  --action-button-label-color: black;
 }
 
 :host {
@@ -270,6 +353,7 @@ h2 {
   --vivid-pink: oklch(69.02% 0.277 332.77deg);
   --hot-red: oklch(61.42% 0.238 15.34deg);
   --orange-red: oklch(63.32% 0.24 31.68deg);
+
   /* 
   --gray-900: oklch(19.37% 0.006 300.98);
   --gray-700: oklch(36.98% 0.014 302.71);
@@ -311,9 +395,11 @@ h2 {
 .light-theme {
   --background-color: #fff;
   --text-color: var(--grayscale-700);
-  --primary-color: #1976d2;
+  --primary-color: var(--primary-light-grayscale-500); // #1976d2;
+  --on-primary-color: var(--grayscale-50);
   --error-color: #d32f2f;
-  --background-image: url('assets/images/background-blue-1-light.jpeg');
+  //--background-image: url('assets/images/background-blue-1-light.jpeg');
+  //--background-image: url("assets/images/modern-geometric-background-light.svg");
 
   // Material form field theme
   --mdc-outlined-text-field-container-color: transparent;
@@ -340,6 +426,11 @@ h2 {
   --mdc-checkbox-unselected-icon-color: var(--grayscale-600);
   --mdc-checkbox-selected-focus-icon-color: var(--primary-color);
   --mdc-checkbox-selected-hover-icon-color: var(--primary-color);
+  
+    /* Carousel styles (swiper) */
+  --swiper-pagination-color: var(--primary-color);
+  --swiper-pagination-bullet-inactive-color: var(--primary-color);
+  --swiper-pagination-bullet-inactive-opacity: 0.5;
   
   p {
     margin: 0;
@@ -461,3 +552,4 @@ p {
 .mat-mdc-checkbox-label {
   color: var(--text-color) !important;
 }
+

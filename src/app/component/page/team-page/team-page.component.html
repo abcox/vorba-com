@@ -1,0 +1,81 @@
+<div class="team-page">
+  <div class="hero-banner">
+    <div class="hero-content"><!-- 
+      <h1>Meet Our Team</h1>
+      <p>The talented individuals driving our success and innovation forward</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">{{ team().length }}</span>
+          <span class="stat-label">Team Members</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">25+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Dedicated</span>
+        </div>
+      </div> -->
+      <!-- card with c2a -->
+        <div class="hero-card">
+            <h2>Join Our Team</h2>
+            <p>We're always looking for talented individuals to join our growing team. Check out our current openings and apply today!</p>
+            <div class="button-group">
+                <button class="action-button">Hire Us</button>
+                <button class="action-button">Join Us</button>
+            </div>
+            <!-- <a href="/careers" class="cta-button">View Open Positions</a> -->
+        </div>
+    </div>
+  </div>
+    <!-- Option 3 — Enrolling & Vision-Driven (About-page storytelling) -->
+    <section class="intro-section">
+        <h2>Our Team</h2>
+        <p>
+            At <strong>Vorba</strong>, we believe great software starts with great people.
+        </p>
+        <p>
+            Our team blends <strong>leadership</strong>, deep technical expertise, and a relentless
+            drive to modernize complex systems.
+        </p>
+        <!-- <p>
+            We're builders, thinkers, and problem solvers—united by a passion for creating software
+            that scales, performs, and endures. Together, we transform challenges into systems that
+            work beautifully for the people who rely on them.
+        </p> -->
+    </section>
+    <!-- todo: make this section? -->
+  <div class="team-grid">
+    @for (member of team(); track member.name) {
+      @if (member.linkedInUrl) {
+        <a [href]="member.linkedInUrl" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="team-member team-member-clickable">
+          <div class="member-photo">
+            <img [src]="member.profileImageUrl" 
+                 [alt]="member.name + ' profile photo'"
+                 loading="lazy">
+          </div>
+          <div class="member-info">
+            <h1>{{ member.name }}</h1>
+            <h4>{{ member.role }}</h4>
+          </div>
+        </a>
+      } @else {
+        <div class="team-member">
+          <div class="member-photo">
+            <img [src]="member.profileImageUrl" 
+                 [alt]="member.name + ' profile photo'"
+                 loading="lazy">
+          </div>
+          <div class="member-info">
+            <h1>{{ member.name }}</h1>
+            <h4>{{ member.role }}</h4>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

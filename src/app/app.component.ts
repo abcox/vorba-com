@@ -16,6 +16,7 @@ import { YouTubePlayer/* , YOUTUBE_PLAYER_CONFIG */ } from '@angular/youtube-pla
 import { HeaderComponent } from './component/layout/header/header.component';
 import { FooterComponent } from './component/layout/footer/footer.component';
 import { SessionService } from './core/session/session.service';
+import { MenuBannerComponent } from './component/layout/header/_component/menu-banner/menu-banner.component';
 
 interface StoryModel {
   title: string;
@@ -30,7 +31,8 @@ interface StoryModel {
   standalone: true,
   imports: [CommonModule, FormsModule, MatButtonToggleModule,
     MatCardModule, MatDialogModule, MatIconModule, MatSlideToggleModule, MatSnackBarModule, RouterOutlet,
-    CarouselComponent, YouTubePlayer, HeaderComponent, FooterComponent
+    CarouselComponent, YouTubePlayer, HeaderComponent, FooterComponent,
+    MenuBannerComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -1,0 +1,17 @@
+/* Hotkey activation visual feedback */
+.hotkey-activated {
+  transform: scale(0.95);
+  transition: transform 0.1s ease-in-out;
+  box-shadow: 0 0 0 2px var(--secondary-color-500);
+  border-radius: 4px;
+}
+
+/* Optional: Add a subtle glow effect */
+.hotkey-activated.mat-mdc-slide-toggle {
+  filter: brightness(1.1);
+}
+
+/* Ensure smooth transitions */
+[appHotkey] {
+  transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+}

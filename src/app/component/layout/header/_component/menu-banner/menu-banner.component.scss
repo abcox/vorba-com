@@ -1,0 +1,171 @@
+.menu-banner {
+    width: 100%;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    //display: flex;
+    //align-items: center;
+    //justify-content: center;
+    font-size: 1.25rem;
+    //font-weight: bold;
+}
+
+.menu-banner-item {
+    margin: 0 0px;
+    text-decoration: none;
+    color: var(--grayscale-200);
+    transition: color 0.3s ease;
+    //border: 1px solid red; // For debugging
+    padding: 17px 24px;
+
+    &:hover {
+        color: var(--accent-color);
+    }
+
+    &:nth-child(1) {
+        padding-left: 3rem; // First item
+    }
+    
+    &:nth-last-child(1) {
+        padding-right: 3rem; // Last item
+    }
+}
+
+/* Dialog Styles */
+.menu-banner-dialog-overlay {
+    position: fixed;
+    top: 59px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 59px); // Cover full remaining viewport height
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; // Align dialog to top instead of center
+    z-index: 1000;
+}
+
+.menu-banner-dialog {
+    background: white;
+    padding: 32px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    height: auto;
+    // Remove min-height here - let content determine size
+    max-height: 70vh;
+    overflow-y: auto;
+    transition: all 0.3s ease; // Animate all properties for smooth transitions
+}
+.menu-banner-dialog h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: var(--secondary-color-700);
+}
+
+.menu-banner-dialog ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Dialog Content Layout */
+.menu-dialog-content {
+    //margin-top: 15px; // only if we will have a title area above content
+    // Ensure content doesn't create unnecessary space
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-dialog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    // Remove min-height - let content determine the actual height needed
+    // This allows each template to be as tall or short as needed
+}
+
+.menu-dialog-section {
+    // Ensure sections only take needed space
+    display: flex;
+    flex-direction: column;
+    
+    h4 {
+        margin: 0 0 12px 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-bottom: 2px solid var(--secondary-color-200);
+        padding-bottom: 8px;
+        
+        a {
+            color: var(--secondary-color-600);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            
+            &:hover {
+                color: var(--secondary-color-500);
+            }
+        }
+        
+        // If no link, keep original color
+        &:not(:has(a)) {
+            color: var(--secondary-color-600);
+        }
+    }
+
+    ul {
+        margin: 0;
+        // Remove any default bottom margin that might create space
+        margin-bottom: 0;
+        
+        li {
+            margin-bottom: 8px;
+            
+            &:last-child {
+                margin-bottom: 0; // Remove margin from last item
+            }
+            
+            a {
+                color: var(--secondary-color-700);
+                text-decoration: none;
+                font-size: 0.95rem;
+                transition: color 0.3s ease;
+                
+                &:hover {
+                    color: var(--secondary-color-500);
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .price {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--secondary-color-500);
+        margin: 8px 0 12px 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .menu-banner-dialog {
+        width: 80%;
+        height: auto;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .menu-dialog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-banner-dialog {
+        width: 100%;
+    }
+}

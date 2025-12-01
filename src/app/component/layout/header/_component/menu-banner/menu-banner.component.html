@@ -1,0 +1,203 @@
+<div class="menu-banner flex justify-between items-center">
+    <div class="flex bg-black ml-3 pr-3 align-middle middle cursor-pointer"
+        routerLink="/">
+        <div class="logo-text ml-2 font-bold text-2xl">
+            <!-- <app-logo></app-logo> -->
+            <div class="circle-logo flex items-center justify-center">
+                 <img src="/images/vorba-v-logo.jpg"
+                    alt="Vorba Logo"
+                    class="object-contain"
+                    style="width: 60px; height: 60px; clip-path: inset(0 0 0 0);"/>
+             </div>
+        </div>
+        <div class="flex items-center ml-2 text-3xl text-white tracking-widest">
+            VORBA
+        </div>
+    </div>
+    <div class="flex">
+        @for (item of menuList(); track item.label) {
+            <a
+                class="menu-banner-item"
+                (mouseenter)="showDialog(item)"
+                (mouseleave)="hideDialog()"
+                [href]="item.url"
+                >{{ item.label }}</a
+            >
+        }
+    </div>
+    <div class="flex flex-end">
+        <button
+            mat-flat-button
+            color="primary"
+            class="action-button mr-3"
+            (click)="navigateHome()"
+            aria-label="Toggle Menu Banner">
+            Get a Quote
+        </button>
+    </div>
+</div>
+@if (selectedMenuItem()) {
+    <div class="menu-banner-dialog-overlay">
+        <div class="menu-banner-dialog"
+            (mouseenter)="cancelDialogVisibilitySchedule()"
+            (mouseleave)="hideDialog()">
+            <!-- <h3>{{ selectedMenuItem()?.label }}</h3>
+            <p>Select a section to explore more.</p> -->
+            
+            <!-- Template switching based on selected menu item -->
+            @switch (selectedMenuItem()?.label) {
+                @case ('Services') {
+                    <ng-container [ngTemplateOutlet]="servicesTemplate"></ng-container>
+                }
+                @case ('Pricing') {
+                    <ng-container [ngTemplateOutlet]="pricingTemplate"></ng-container>
+                }
+                @case ('Our Work') {
+                    <ng-container [ngTemplateOutlet]="ourWorkTemplate"></ng-container>
+                }
+                @case ('Company') {
+                    <ng-container [ngTemplateOutlet]="companyTemplate"></ng-container>
+                }
+                @default {
+                    <p>More information coming soon...</p>
+                }
+            }
+        </div>
+    </div>
+}
+
+<!-- Services Template -->
+<ng-template #servicesTemplate>
+    <div class="menu-dialog-content" (click)="hideDialog()">
+        <div class="menu-dialog-grid">
+            <div class="menu-dialog-section">
+                <h4><a href="/services#modernize">Modernize</a></h4>
+                <ul>
+                    <li><a href="/services#modernize-legacy-renewal">Legacy Renewal</a></li>
+                    <li><a href="/services#modernize-system-migration">System Migration</a></li>
+                    <li><a href="/services#modernize-systems-integration">Systems Integration</a></li>
+                    <li><a href="/services#modernize-code-reviews">Code Reviews</a></li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4><a href="/services#develop">Develop</a></h4>
+                <ul>
+                    <li><a href="/services#develop-business-analysis">Business Analysis</a></li>
+                    <li><a href="/services#develop-systems-analysis">Systems Analysis</a></li>
+                    <li><a href="/services#develop-systems-architecture">System Architecture</a></li>
+                    <li><a href="/services#develop-performance-optimization">Performance Optimization</a></li>
+                    <li><a href="/services#develop-security-audits">Security Audits</a></li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4><a href="/services#support">Support</a></h4>
+                <ul>
+                    <li><a href="/services#support-backlog-management">Backlog Management</a></li>
+                    <li><a href="/services#support-documentation">Documentation</a></li>
+                    <li><a href="/services#support-maintenance">Maintenance</a></li>
+                    <li><a href="/services#support-training">Training</a></li>
+                    <li><a href="/services#support-talent-growth">Talent Growth</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Pricing Template -->
+<ng-template #pricingTemplate>
+    <div class="menu-dialog-content">
+        <div class="menu-dialog-grid">
+            <div class="menu-dialog-section">
+                <h4>Starter Package</h4>
+                <p class="price">$2,500/month</p>
+                <ul>
+                    <li>Basic web development</li>
+                    <li>Email support</li>
+                    <li>Monthly reports</li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4>Professional</h4>
+                <p class="price">$5,000/month</p>
+                <ul>
+                    <li>Full-stack development</li>
+                    <li>Priority support</li>
+                    <li>Weekly meetings</li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4>Enterprise</h4>
+                <p class="price">Custom Quote</p>
+                <ul>
+                    <li>Custom solutions</li>
+                    <li>Dedicated team</li>
+                    <li>24/7 support</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Our Work Template -->
+<ng-template #ourWorkTemplate>
+    <div class="menu-dialog-content">
+        <div class="menu-dialog-grid">
+            <div class="menu-dialog-section">
+                <h4>Recent Projects</h4>
+                <ul>
+                    <li><a href="/case-studies/ecommerce-platform">E-commerce Platform</a></li>
+                    <li><a href="/case-studies/healthcare-app">Healthcare Mobile App</a></li>
+                    <li><a href="/case-studies/fintech-solution">FinTech Solution</a></li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4>Industries</h4>
+                <ul>
+                    <li><a href="/work/healthcare">Healthcare</a></li>
+                    <li><a href="/work/finance">Financial Services</a></li>
+                    <li><a href="/work/retail">Retail & E-commerce</a></li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4>Technologies</h4>
+                <ul>
+                    <li>Angular & React</li>
+                    <li>.NET & Node.js</li>
+                    <li>Azure & AWS</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Company Template -->
+<ng-template #companyTemplate>
+    <div class="menu-dialog-content">
+        <div class="menu-dialog-grid">
+            <div class="menu-dialog-section">
+                <h4>About Us</h4>
+                <ul>
+                    <li><a href="/about/story">Our Story</a></li>
+                    <li><a href="/about/mission">Mission & Values</a></li>
+                    <li><a href="/about/team">Leadership Team</a></li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4>Careers</h4>
+                <ul>
+                    <li><a href="/careers/openings">Current Openings</a></li>
+                    <li><a href="/careers/culture">Company Culture</a></li>
+                    <li><a href="/careers/benefits">Benefits</a></li>
+                </ul>
+            </div>
+            <div class="menu-dialog-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="/contact">Get in Touch</a></li>
+                    <li><a href="/contact/locations">Our Locations</a></li>
+                    <li><a href="/contact/press">Press Inquiries</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-template>

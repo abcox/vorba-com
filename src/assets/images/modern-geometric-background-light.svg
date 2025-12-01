@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <!-- Shape with beveled bottom edge rising 10 degrees -->
+  <!-- 80% width (1536px), with diagonal bottom edge -->
+  <path d="M 0 0
+L 1580 0
+L 1657 222
+L 1580 497
+L 0 731
+           Z"
+           fill="#1f6ee2"
+      stroke="#1f6ee2"
+      stroke-width="100"
+      stroke-linejoin="round"/>
+</svg>
