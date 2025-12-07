@@ -1,0 +1,127 @@
+<ng-container *ngIf="vm() as vm">
+    <div class="flex flex-col md:flex-row gap-8 p-8 m-8" [class]="containerClasses()">
+        <!-- Info panel -->
+        <mat-card class="w-full md:w-1/2 p-6" [class]="infoPanelClasses()">
+            <ng-content select="[slot=info]"></ng-content>
+        </mat-card>
+        
+        <!-- Form panel -->
+        <mat-card class="w-full md:w-1/2 p-6 max-w-2xl mx-auto" [class]="formPanelClasses()">
+            <!-- Header Section
+            <div class="mb-6">
+            <h1 class="text-2xl font-bold mb-2">{{ vm.title }}</h1>
+            <p class="text-gray-600 dark:text-gray-300">{{ vm.subtitle }}</p>
+            </div> -->
+
+            <!-- Contact Form -->
+            <form 
+                #formDirective="ngForm"
+                [formGroup]="formGroup"
+                (ngSubmit)="submit(formDirective)"
+                class="space-y-4">
+            
+                <!-- Name Fields Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- First Name -->
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-label>First Name</mat-label>
+                        <input 
+                            formControlName="firstName" 
+                            matInput 
+                            type="text"
+                            placeholder="Enter your first name" />
+                        <mat-icon matSuffix>person</mat-icon>
+                        @if (firstName.touched && firstName.invalid) {
+                            <mat-error *ngIf="hasError('firstName')">
+                                {{ getErrorMessage('firstName') }}
+                            </mat-error>
+                        }
+                    </mat-form-field>
+                    <!-- Last Name -->
+                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                        <mat-label>Last Name</mat-label>
+                        <input 
+                            formControlName="lastName" 
+                            matInput 
+                            type="text"
+                            placeholder="Enter your last name" />
+                        <mat-icon matSuffix>person</mat-icon>
+                        <mat-error *ngIf="hasError('lastName')">
+                            {{ getErrorMessage('lastName') }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Business Email -->
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
+                    <mat-label>Business Email</mat-label>
+                    <input 
+                        formControlName="email" 
+                        matInput 
+                        type="email"
+                        placeholder="your.email@company.com" />
+                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-error *ngIf="hasError('email')">
+                        {{ getErrorMessage('email') }}
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Company -->
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
+                    <mat-label>Company</mat-label>
+                    <input 
+                        formControlName="company" 
+                        matInput 
+                        type="text"
+                        placeholder="Your company name" />
+                    <mat-icon matSuffix>business</mat-icon>
+                    <mat-error *ngIf="hasError('company')">
+                        {{ getErrorMessage('company') }}
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Project Details -->
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full">
+                    <mat-label>Project Details</mat-label>
+                    <textarea 
+                        formControlName="projectDetails" 
+                        matInput 
+                        rows="4"
+                        placeholder="Tell us about your project, requirements, timeline, and how we can help..."></textarea>
+                    <mat-icon matSuffix>description</mat-icon>
+                    <mat-error *ngIf="hasError('projectDetails')">
+                        {{ getErrorMessage('projectDetails') }}
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button
+                        type="submit"
+                        mat-flat-button
+                        color="primary"
+                        [disabled]="formGroup.invalid || vm.isSubmitting"
+                        class="w-full py-3">
+                        <mat-icon *ngIf="vm.isSubmitting" class="animate-spin mr-2">refresh</mat-icon>
+                        <mat-icon *ngIf="!vm.isSubmitting && vm.submitButtonText === 'Message Sent!'" class="mr-2">check_circle</mat-icon>
+                        <mat-icon *ngIf="!vm.isSubmitting && vm.submitButtonText === 'Send Message'" class="mr-2">send</mat-icon>
+                        
+                        {{ vm.submitButtonText }}
+                    </button>
+                </div>
+
+                <!-- Optional: Form Status Indicator -->
+                <div class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    <p *ngIf="formGroup.valid" class="text-green-600 dark:text-green-400 flex items-center">
+                        <mat-icon class="mr-1 text-sm">check_circle</mat-icon>
+                        Form is ready to submit
+                    </p>
+                    <p *ngIf="formGroup.invalid && formGroup.touched" class="text-red-600 dark:text-red-400 flex items-center">
+                        <mat-icon class="mr-1 text-sm">error</mat-icon>
+                        Please complete all required fields
+                    </p>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+</ng-container>

@@ -17,6 +17,8 @@ import { HeaderComponent } from './component/layout/header/header.component';
 import { FooterComponent } from './component/layout/footer/footer.component';
 import { SessionService } from './core/session/session.service';
 import { MenuBannerComponent } from './component/layout/header/_component/menu-banner/menu-banner.component';
+import { DialogService } from './component/dialog/dialog.service';
+import { HotkeyDirective } from "./directive/hotkey-directive";
 
 interface StoryModel {
   title: string;
@@ -32,8 +34,7 @@ interface StoryModel {
   imports: [CommonModule, FormsModule, MatButtonToggleModule,
     MatCardModule, MatDialogModule, MatIconModule, MatSlideToggleModule, MatSnackBarModule, RouterOutlet,
     CarouselComponent, YouTubePlayer, HeaderComponent, FooterComponent,
-    MenuBannerComponent
-  ],
+    MenuBannerComponent, HotkeyDirective],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -44,6 +45,8 @@ export class AppComponent {
   title = 'Vorba';
   //theme = 'dark';
   isLightTheme = false;
+
+  dialogService = inject(DialogService);
 
   stories$ = of<StoryModel[]>([
     {
@@ -186,5 +189,9 @@ export class AppComponent {
     //    'assets/img/examples/thumbup-icon.svg'
     //  )
     //);
+  }
+
+  presentAdminLoginDialog  = (): void => {
+    this.dialogService.openAdminLoginDialog();
   }
 }

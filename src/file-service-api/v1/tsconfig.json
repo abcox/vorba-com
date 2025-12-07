@@ -16,7 +16,7 @@
         "lib": [ "es6", "dom" ],
         "typeRoots": [
             "node_modules/@types"
-        ]
+        ],
     },
     "exclude": [
         "node_modules",

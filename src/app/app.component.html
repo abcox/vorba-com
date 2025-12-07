@@ -1,5 +1,7 @@
 <main class="main">
     <app-menu-banner class="sticky top-0 z-50 shadow-md"></app-menu-banner>
     <router-outlet />
+    <pre appHotkey="ctrl+a"
+        [hotkeyCallback]="presentAdminLoginDialog"></pre>
     <app-footer></app-footer>
 </main>

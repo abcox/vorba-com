@@ -14,7 +14,11 @@ import { of } from 'rxjs';
 import { CarouselComponent, CarouselOptions, DEFAULT_CAROUSEL_AUTOPLAY_OPTIONS } from '../../carousel/carousel.component';
 import { MatButtonModule } from '@angular/material/button';
 import { ClientLogoSectionComponent } from "./_component/client-logo/client-logo-section.component";
+import { ContactFormComponent, ContactFormOptions, ContactFormPanelOrder } from '../../forms/contact-form/contact-form.component';
 import { DialogModule } from "@angular/cdk/dialog";
+import { TestamonySectionComponent } from '../../section/testamony-section/testamony-section.component';
+//import { HotkeyDirective } from '../../../directive/hotkey-directive/hotkey.directive';
+import { HotkeyDirective } from "src/app/directive/hotkey-directive";
 
 interface OfferAction {
   label: string;
@@ -37,7 +41,10 @@ interface OfferViewModel {
     SocialMediaLinksComponent,
     CarouselComponent,
     ClientLogoSectionComponent,
-    DialogModule
+    ContactFormComponent,
+    DialogModule,
+    TestamonySectionComponent,
+    HotkeyDirective
 ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -59,6 +66,10 @@ export class HomePageComponent {
       videoId: 'mVjYG9TSN88',
     },
   ]);
+
+  contactFormOptions = signal<ContactFormOptions>({
+    panelOrder: ContactFormPanelOrder.FormFirst,
+  });
 
   //overlayContainer = inject(OverlayContainer);
 
@@ -107,6 +118,10 @@ export class HomePageComponent {
   constructor() {
     //this.applyTheme('dark-theme');
     this.layoutService.clearTitlePrefix();
+  }
+
+  toggleThemeHotkey = (): void => {
+    this.layoutService.toggleTheme();
   }
 
   toggleTheme2(event: any): void {

@@ -22,10 +22,10 @@ export class MenuBannerComponent {
     menuList = signal([
         //{ label: 'Solutions', url: '/solutions' },
         { label: 'Services', url: '/services' },
-        { label: 'Pricing', url: '/pricing' },
+        //{ label: 'Pricing', url: '/pricing' },
         //{ label: 'Resources', url: '/resources' },
         { label: 'Our Work', url: '/case-studies' },
-        { label: 'Company', url: '/about' },
+        { label: 'About Us', url: '/about' },
     ] as MenuItem[])
     isDialogVisible = signal(false);
     selectedMenuItem = signal<MenuItem | undefined>(undefined);

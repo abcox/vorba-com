@@ -1,0 +1,234 @@
+// Contact Us Intake Component Styles
+:host {
+  display: block;
+  width: 100%;
+}
+
+mat-card {
+  box-shadow: var(--mdc-elevated-card-container-elevation);
+  border-radius: 12px;
+  
+  // Ensure proper spacing and layout
+  .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 1rem;
+  }
+}
+
+// Form field styling
+mat-form-field {
+  width: 100%;
+  
+  // Consistent input styling
+  .mat-mdc-text-field-wrapper {
+    border-radius: 8px;
+  }
+  
+  // Icon styling in form fields
+  mat-icon {
+    color: var(--mat-form-field-label-text-color);
+    opacity: 0.7;
+    
+    &.animate-spin {
+      animation: spin 1s linear infinite;
+    }
+  }
+  
+  // Focus states and accessibility
+  &.mat-focused {
+    .mat-mdc-form-field-focus-overlay {
+      opacity: 0.12;
+    }
+  }
+}
+
+// Grid layout for name fields
+.grid {
+  display: grid;
+  
+  &.grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  @media (min-width: 768px) {
+    &.md\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  
+  &.gap-4 {
+    gap: 1rem;
+  }
+}
+
+// Textarea specific styling
+textarea.mat-mdc-input-element {
+  min-height: 100px;
+  resize: vertical;
+}
+
+// Submit button styling
+button[mat-flat-button] {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-radius: 0%;
+  height: 44px;
+  
+  &:disabled {
+    //opacity: 0.9;
+  }
+  
+  mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    
+    &.animate-spin {
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+// Status indicator styling
+.text-green-600 {
+  color: rgb(22, 163, 74);
+  
+  &.dark\:text-green-400 {
+    @media (prefers-color-scheme: dark) {
+      color: rgb(74, 222, 128);
+    }
+  }
+}
+
+.text-red-600 {
+  color: rgb(220, 38, 38);
+  
+  &.dark\:text-red-400 {
+    @media (prefers-color-scheme: dark) {
+      color: rgb(248, 113, 113);
+    }
+  }
+}
+
+.text-gray-500 {
+  color: rgb(107, 114, 128);
+  
+  &.dark\:text-gray-400 {
+    @media (prefers-color-scheme: dark) {
+      color: rgb(156, 163, 175);
+    }
+  }
+}
+
+.text-gray-600 {
+  color: rgb(75, 85, 99);
+  
+  &.dark\:text-gray-300 {
+    @media (prefers-color-scheme: dark) {
+      color: rgb(209, 213, 219);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 767px) {
+  mat-card {
+    margin: 1rem;
+    padding: 1rem !important;
+  }
+  
+  .grid.md\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Animation keyframes
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Dark theme adjustments
+@media (prefers-color-scheme: dark) {
+  mat-card {
+    background-color: var(--mat-card-container-color);
+    color: var(--mat-card-subtitle-text-color);
+  }
+}
+
+// Focus states and accessibility - merged into main mat-form-field block above
+
+// Error states
+mat-error {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+// Custom utility classes
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.mr-1 {
+  margin-right: 0.25rem;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}

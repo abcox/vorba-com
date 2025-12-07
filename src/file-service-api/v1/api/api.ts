@@ -1,7 +1,11 @@
+export * from './asset.service';
+import { AssetService } from './asset.service';
 export * from './auth.service';
 import { AuthService } from './auth.service';
 export * from './config.service';
 import { ConfigService } from './config.service';
+export * from './contact.service';
+import { ContactService } from './contact.service';
 export * from './file.service';
 import { FileService } from './file.service';
 export * from './gPT.service';
@@ -18,4 +22,4 @@ export * from './userQuizResults.service';
 import { UserQuizResultsService } from './userQuizResults.service';
 export * from './workflow.service';
 import { WorkflowService } from './workflow.service';
-export const APIS = [AuthService, ConfigService, FileService, GPTService, PDFService, QuizService, SubmitUserQuizResultsService, UserService, UserQuizResultsService, WorkflowService];
+export const APIS = [AssetService, AuthService, ConfigService, ContactService, FileService, GPTService, PDFService, QuizService, SubmitUserQuizResultsService, UserService, UserQuizResultsService, WorkflowService];
