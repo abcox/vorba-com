@@ -9,6 +9,7 @@ import { CaseStudyPageComponent } from './component/page/case-study-page/case-st
 import { HomePageComponent } from './component/page/home-page/home-page.component';
 import { TeamPageComponent } from './component/page/team-page/team-page.component';
 import { ServicePageComponent } from './component/page/service-page/service-page.component';
+import { PaymentPageComponent } from './component/page/payment-page';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -70,6 +71,10 @@ export const routes: Routes = [
     {
         path: 'services',
         component: ServicePageComponent
+    },
+    {
+        path: 'payment',
+        component: PaymentPageComponent
     },
     // Catch all - redirect to nav layout
     {

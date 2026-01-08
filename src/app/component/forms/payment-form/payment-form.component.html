@@ -1,0 +1,21 @@
+@if (!intent()) {
+    <div class="flex flex-col items-center justify-center mt-10">
+        <p>Loading payment details...</p>
+    </div>
+} @else if (paymentReceived()) {
+        <h1>Thank you!</h1>
+        <div class="flex flex-col items-center justify-center mt-10">
+            <p>Payment complete.
+                <a [href]="receiptUrl()" target="_blank">View your receipt
+                    <mat-icon class="icon-small">open_in_new</mat-icon>
+                </a>
+            </p>
+        </div>
+} @else {
+    <h1>Payment</h1>
+    <form id="payment-form" (submit)="onSubmit($event)">
+        <!-- Stripe Payment Element will be mounted here -->
+        <div id="payment-element"></div>
+        <button type="submit">Pay</button>
+    </form>
+}
