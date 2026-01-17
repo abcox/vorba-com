@@ -15,6 +15,15 @@ export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
   const token = authService.token();
   console.log('AuthInterceptor - token:', token);
   
+  // inspect route path for segments
+  // todo: make this configurable or refactor to a better approach
+  const routeSegmentsWhitelist = ['/public/', '/auth/', '/invoice/', '/payment/'];
+  for (const segment of routeSegmentsWhitelist) {
+    if (request.url.includes(segment)) {
+      console.log(`AuthInterceptor - segment (${segment}) whitelisted, skipping auth header validation (i.e. token may not exist)`);
+      return next(request);
+    }
+  }
   // Clone the request and add auth header if token exists
   if (token) {
     request = request.clone({

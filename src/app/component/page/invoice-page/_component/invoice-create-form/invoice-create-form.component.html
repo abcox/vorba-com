@@ -1,0 +1,44 @@
+
+<form class="invoice-create-form" [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+	<mat-form-field appearance="outline" class="w-full mb-4">
+		<mat-label>Recipient Name</mat-label>
+		<input matInput formControlName="recipientName" required />
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="w-full mb-4">
+		<mat-label>Recipient Email</mat-label>
+		<input matInput formControlName="recipientEmail" type="email" required />
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="w-full mb-4">
+		<mat-label>Amount</mat-label>
+		<input matInput formControlName="amount" type="number" min="1" required />
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="w-full mb-4">
+		<mat-label>Currency</mat-label>
+		<mat-select formControlName="currency" required>
+			<mat-option value="usd">USD</mat-option>
+			<mat-option value="cad">CAD</mat-option>
+			<mat-option value="eur">EUR</mat-option>
+			<!-- Add more as needed -->
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="w-full mb-4">
+		<mat-label>Payment Type</mat-label>
+		<mat-select formControlName="paymentType" required>
+			<mat-option value="card">Card</mat-option>
+			<mat-option value="klarna">Klarna</mat-option>
+			<mat-option value="link">Link</mat-option>
+			<!-- Add more as needed -->
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="w-full mb-4">
+		<mat-label>Description</mat-label>
+		<textarea matInput formControlName="description" rows="2" placeholder="Description (optional)"></textarea>
+	</mat-form-field>
+
+	<button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Create Invoice</button>
+</form>

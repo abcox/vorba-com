@@ -58,6 +58,7 @@ model/googleCalendarEventDto.ts
 model/idelSessionConfigDto.ts
 model/models.ts
 model/paymentIntentCreateRequestDto.ts
+model/paymentIntentListResponseDto.ts
 model/pdfResponseDto.ts
 model/productCreateDto.ts
 model/quizDto.ts
@@ -71,6 +72,7 @@ model/refreshTokenResponseDto.ts
 model/sendEmailDto.ts
 model/sendEmailFromTemplateDto.ts
 model/socialMediaDto.ts
+model/stripePaymentIntentDto.ts
 model/submitQuizActionDto.ts
 model/updateAssetDto.ts
 model/updateContactDto.ts
@@ -82,6 +84,7 @@ model/userLoginResponse.ts
 model/userQuizActionMetadataDto.ts
 model/userRegistrationRequest.ts
 model/userRegistrationResponse.ts
+model/userSearchRequest.ts
 model/workflowControllerDownloadFileReportJson200Response.ts
 model/workflowControllerDownloadFileReportJson200ResponseUsage.ts
 ng-package.json

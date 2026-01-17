@@ -10,6 +10,9 @@ import { HomePageComponent } from './component/page/home-page/home-page.componen
 import { TeamPageComponent } from './component/page/team-page/team-page.component';
 import { ServicePageComponent } from './component/page/service-page/service-page.component';
 import { PaymentPageComponent } from './component/page/payment-page';
+import { InvoicePageComponent } from './component/page/invoice-page';
+import { InvoiceListViewComponent } from './component/page/invoice-page/_component/invoice-list-view/invoice-list-view.component';
+import { InvoiceDetailComponent } from './component/page/invoice-page/_component/invoice-detail';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -75,6 +78,19 @@ export const routes: Routes = [
     {
         path: 'payment',
         component: PaymentPageComponent
+    },
+    {
+        path: 'invoice/new',
+        component: InvoicePageComponent
+    },
+    {
+        path: 'invoice/list',
+        component: InvoiceListViewComponent
+    },
+    {
+        path: 'invoice/:id/detail',
+        //loadComponent: () => import('./component/page/invoice-page/_component/invoice-detail/invoice-detail.component').then(m => m.InvoiceDetailComponent)
+        component: InvoiceDetailComponent
     },
     // Catch all - redirect to nav layout
     {

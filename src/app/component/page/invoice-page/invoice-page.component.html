@@ -1,0 +1,29 @@
+<div class="m-10">
+    <h3>Payment & Invoice admin</h3>
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Create (Payment Intent)
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-invoice-create-form></app-invoice-create-form>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Detail {{selectedDetailView() ? selectedDetailView()?.id : '(select from List)'}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-invoice-detail [detail]="selectedDetailView()"></app-invoice-detail>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        List
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-invoice-list-view [intentList]="intentList()" [activeRowId]="this.selectedId()" (selected)="this.selectedDetailView.set($event)"></app-invoice-list-view>
+            </mat-expansion-panel>
+        </mat-accordion>
+</div>

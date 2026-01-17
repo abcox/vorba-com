@@ -36,16 +36,16 @@ export class PeopleService extends BaseService {
     }
 
     /**
-     * @param resourceName 
+     * @param resourceNameId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public peopleControllerGetContactGroupMembers(resourceName: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public peopleControllerGetContactGroupMembers(resourceName: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public peopleControllerGetContactGroupMembers(resourceName: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public peopleControllerGetContactGroupMembers(resourceName: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (resourceName === null || resourceName === undefined) {
-            throw new Error('Required parameter resourceName was null or undefined when calling peopleControllerGetContactGroupMembers.');
+    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (resourceNameId === null || resourceNameId === undefined) {
+            throw new Error('Required parameter resourceNameId was null or undefined when calling peopleControllerGetContactGroupMembers.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -75,7 +75,7 @@ export class PeopleService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/google/people/contact-groups/${this.configuration.encodeParam({name: "resourceName", value: resourceName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/members`;
+        let localVarPath = `/api/google/people/contact/group/${this.configuration.encodeParam({name: "resourceNameId", value: resourceNameId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/member/list`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -91,6 +91,7 @@ export class PeopleService extends BaseService {
     }
 
     /**
+     * Get list of contact groups
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
@@ -126,7 +127,7 @@ export class PeopleService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/google/people/contact-groups`;
+        let localVarPath = `/api/google/people/contact/group/list`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -142,25 +143,23 @@ export class PeopleService extends BaseService {
     }
 
     /**
-     * @param resourceName 
-     * @param fields 
+     * Get person details by resource name ID (admin only)
+     * @param resourceNameId The resource name ID of the person (e.g., c8354119414991994057)
+     * @param fieldNameList Comma-separated list of fields to include in the response (default: names,emailAddresses)
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public peopleControllerGetPerson(resourceName: string, fields: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public peopleControllerGetPerson(resourceName: string, fields: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public peopleControllerGetPerson(resourceName: string, fields: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public peopleControllerGetPerson(resourceName: string, fields: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (resourceName === null || resourceName === undefined) {
-            throw new Error('Required parameter resourceName was null or undefined when calling peopleControllerGetPerson.');
-        }
-        if (fields === null || fields === undefined) {
-            throw new Error('Required parameter fields was null or undefined when calling peopleControllerGetPerson.');
+    public peopleControllerGetPersonDetail(resourceNameId: string, fieldNameList?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public peopleControllerGetPersonDetail(resourceNameId: string, fieldNameList?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public peopleControllerGetPersonDetail(resourceNameId: string, fieldNameList?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public peopleControllerGetPersonDetail(resourceNameId: string, fieldNameList?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (resourceNameId === null || resourceNameId === undefined) {
+            throw new Error('Required parameter resourceNameId was null or undefined when calling peopleControllerGetPersonDetail.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>fields, 'fields');
+          <any>fieldNameList, 'fieldNameList');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -189,7 +188,7 @@ export class PeopleService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/google/people/person/${this.configuration.encodeParam({name: "resourceName", value: resourceName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/google/people/person/${this.configuration.encodeParam({name: "resourceNameId", value: resourceNameId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/detail`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -206,18 +205,18 @@ export class PeopleService extends BaseService {
     }
 
     /**
-     * @param resourceName 
+     * @param resourceNameId 
      * @param key 
      * @param timeZone 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public peopleControllerGetUserDefinedField(resourceName: string, key: string, timeZone?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public peopleControllerGetUserDefinedField(resourceName: string, key: string, timeZone?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public peopleControllerGetUserDefinedField(resourceName: string, key: string, timeZone?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public peopleControllerGetUserDefinedField(resourceName: string, key: string, timeZone?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (resourceName === null || resourceName === undefined) {
-            throw new Error('Required parameter resourceName was null or undefined when calling peopleControllerGetUserDefinedField.');
+    public peopleControllerGetUserDefinedField(resourceNameId: string, key: string, timeZone?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public peopleControllerGetUserDefinedField(resourceNameId: string, key: string, timeZone?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public peopleControllerGetUserDefinedField(resourceNameId: string, key: string, timeZone?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public peopleControllerGetUserDefinedField(resourceNameId: string, key: string, timeZone?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (resourceNameId === null || resourceNameId === undefined) {
+            throw new Error('Required parameter resourceNameId was null or undefined when calling peopleControllerGetUserDefinedField.');
         }
         if (key === null || key === undefined) {
             throw new Error('Required parameter key was null or undefined when calling peopleControllerGetUserDefinedField.');
@@ -256,7 +255,7 @@ export class PeopleService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/google/people/person/${this.configuration.encodeParam({name: "resourceName", value: resourceName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/user-defined-field`;
+        let localVarPath = `/api/google/people/person/${this.configuration.encodeParam({name: "resourceNameId", value: resourceNameId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/user-defined-field`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {
@@ -273,17 +272,17 @@ export class PeopleService extends BaseService {
     }
 
     /**
-     * @param resourceName 
+     * @param resourceNameId 
      * @param upsertUserDefinedFieldRequest User defined field data to upsert
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public peopleControllerUpsertUserDefinedField(resourceName: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public peopleControllerUpsertUserDefinedField(resourceName: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public peopleControllerUpsertUserDefinedField(resourceName: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public peopleControllerUpsertUserDefinedField(resourceName: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (resourceName === null || resourceName === undefined) {
-            throw new Error('Required parameter resourceName was null or undefined when calling peopleControllerUpsertUserDefinedField.');
+    public peopleControllerUpsertUserDefinedField(resourceNameId: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public peopleControllerUpsertUserDefinedField(resourceNameId: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public peopleControllerUpsertUserDefinedField(resourceNameId: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public peopleControllerUpsertUserDefinedField(resourceNameId: string, upsertUserDefinedFieldRequest: UpsertUserDefinedFieldRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (resourceNameId === null || resourceNameId === undefined) {
+            throw new Error('Required parameter resourceNameId was null or undefined when calling peopleControllerUpsertUserDefinedField.');
         }
         if (upsertUserDefinedFieldRequest === null || upsertUserDefinedFieldRequest === undefined) {
             throw new Error('Required parameter upsertUserDefinedFieldRequest was null or undefined when calling peopleControllerUpsertUserDefinedField.');
@@ -325,7 +324,7 @@ export class PeopleService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/google/people/person/${this.configuration.encodeParam({name: "resourceName", value: resourceName, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/user-defined-field`;
+        let localVarPath = `/api/google/people/person/${this.configuration.encodeParam({name: "resourceNameId", value: resourceNameId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/user-defined-field`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
             {

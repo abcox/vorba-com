@@ -1,0 +1,49 @@
+/* empty */
+
+.icon-small {
+  font-size: 16px;
+  vertical-align: text-top;
+}
+
+.icon-right {
+  margin-left: 0.5rem;
+  vertical-align: text-top;
+}
+
+.active-row {
+  background-color: #212a31; // or any highlight color you prefer
+  //opacity: 0.8;
+}
+
+.detail-row {
+  height: 0;
+  td {
+    padding: 0 !important;
+    border-bottom: none !important;
+    .detail-content {
+      overflow: hidden;
+      height: 0;
+    }
+  }
+}
+
+// When detail-content has content (via *ngIf), expand the row
+.detail-row td .detail-content:not(:empty) {
+  height: auto;
+  overflow: visible;
+  padding: 16px 24px;
+  background-color: #1a1a2e;
+}
+
+.detail-row:has(.detail-content:not(:empty)) {
+  height: auto;
+  td {
+    padding: 0 !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+  }
+}
+
+.expanded {
+  background-color: #16213e;
+  font-weight: 500;
+}

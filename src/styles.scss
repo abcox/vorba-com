@@ -553,3 +553,22 @@ p {
   color: var(--text-color) !important;
 }
 
+//#region / Material button with trailing icon -- START //
+/* Make the Material button lay out icon + label via flex */
+.mat-mdc-button.mdc-button.trailing-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Put label first */
+.mat-mdc-button.mdc-button.trailing-icon .mdc-button__label {
+  order: 1;
+}
+
+/* Put icon after label */
+.mat-mdc-button.mdc-button.trailing-icon > .mat-icon {
+  order: 2;
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+//#endregion / Material button with trailing icon -- END //

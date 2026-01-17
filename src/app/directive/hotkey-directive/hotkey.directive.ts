@@ -70,9 +70,9 @@ export class HotkeyDirective implements OnInit, OnDestroy {
     if (event.ctrlKey || event.metaKey) parts.push('ctrl');
     if (event.altKey) parts.push('alt');
     if (event.shiftKey) parts.push('shift');
-    
+
     // Handle special keys
-    let key = event.key.toLowerCase();
+    let key = event.key?.toLowerCase();
     
     // Normalize common key variations
     switch (key) {

@@ -1,0 +1,21 @@
+@if (detail()) {
+    <div class="detail-container">
+    <h2>Invoice Detail</h2>
+    <!-- Display intent/payment intent details here -->
+    <div *ngIf="detail() as intent">
+        <!-- <pre>{{ intent | json }}</pre> -->
+        <p><strong>ID:</strong> {{ intent.id }}</p>
+        <p><strong>Status:</strong> {{ intent.status }}</p>
+        <!-- <p><strong>Amount:</strong> {{ intent.amount / 100 | currency:intent.currency:'symbol':'1.2-2' }} {{ intent.currency | uppercase }}</p> -->
+        <p><strong>Amount:</strong> {{ amount }} {{ intent.currency | uppercase }}</p>
+        <p><strong>Description:</strong> {{ intent.description }}</p>
+        <!-- <p><strong>Recipient:</strong> {{ intent.recipientName }} ({{ intent.recipientEmail }})</p>
+        --><!-- Add more fields as needed -->
+    </div>
+    <div *ngIf="!detail()">
+        <p>Loading...</p>
+    </div>
+    </div>
+} @else {
+    Select an Id from the List
+}
