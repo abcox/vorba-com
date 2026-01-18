@@ -461,10 +461,10 @@ h2 {
   border-right: 0px;
 }
 
-button {
+/* button {
   background-color: var(--primary-color);
   color: var(--text-color);
-}
+} */
 
 .social-links path {
   transition: fill 0.3s ease;
@@ -572,3 +572,23 @@ p {
   margin-right: 0;
 }
 //#endregion / Material button with trailing icon -- END //
+
+
+/* button {
+    background-color: transparent;
+} */
+
+// Fix mat-icon-button vertical alignment inside expansion panel header
+button[mat-icon-button] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    
+    mat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+

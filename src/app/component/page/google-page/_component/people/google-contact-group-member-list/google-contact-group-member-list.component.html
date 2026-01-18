@@ -1,0 +1,6 @@
+@let members = groupMembers();
+@for (member of members; track $index) {
+    <app-google-contact-group-member-list-item
+        [memberInput]="member">
+    </app-google-contact-group-member-list-item>
+}

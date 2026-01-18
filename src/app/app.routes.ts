@@ -13,6 +13,7 @@ import { PaymentPageComponent } from './component/page/payment-page';
 import { InvoicePageComponent } from './component/page/invoice-page';
 import { InvoiceListViewComponent } from './component/page/invoice-page/_component/invoice-list-view/invoice-list-view.component';
 import { InvoiceDetailComponent } from './component/page/invoice-page/_component/invoice-detail';
+import { GooglePageComponent } from './component/page/google-page/google-page.component';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -91,6 +92,11 @@ export const routes: Routes = [
         path: 'invoice/:id/detail',
         //loadComponent: () => import('./component/page/invoice-page/_component/invoice-detail/invoice-detail.component').then(m => m.InvoiceDetailComponent)
         component: InvoiceDetailComponent
+    },
+    {
+        path: 'google/sandbox',
+        //loadComponent: () => import('./component/page/google-page/google-page.component').then(m => m.GooglePageComponent)
+        component: GooglePageComponent
     },
     // Catch all - redirect to nav layout
     {

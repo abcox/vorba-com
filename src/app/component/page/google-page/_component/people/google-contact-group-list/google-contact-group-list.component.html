@@ -1,0 +1,12 @@
+@if (groupList()) {
+    <h4>Contact Groups ({{ groupList().contactGroups.length }})</h4>
+    <ul>
+        @for (group of groupList().contactGroups; track group.resourceName) {
+            <app-google-contact-group-list-item 
+                [groupInput]="group">
+            </app-google-contact-group-list-item>
+        }
+    </ul>    
+} @else {
+    <span>Loading...</span>
+}

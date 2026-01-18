@@ -1,0 +1,29 @@
+@let group = groupInput();
+<mat-accordion>
+    <mat-expansion-panel (opened)="expanded.set(true)" (closed)="expanded.set(false)">
+        <mat-expansion-panel-header>
+            <mat-panel-title class="w-full">
+                <div class="flex justify-between items-center w-full">
+                    <div class="flex items-center">
+                        {{ group?.name }}
+                        <mat-chip class="ml-4" *ngIf="group?.groupType">
+                            {{ group?.groupType }}
+                        </mat-chip>
+                        <mat-chip class="ml-4">
+                            {{ memberCount }}
+                        </mat-chip>
+                        <button class="ml-4" *ngIf="hasMembers"
+                            mat-icon-button (click)="refreshMembers(); $event.stopPropagation()">
+                            <mat-icon>refresh</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <!-- <pre>{{ group | json }}</pre> -->
+        <app-google-contact-group-member-list
+            [groupMembers]="groupMembersMap()[group?.resourceName] || []">
+        </app-google-contact-group-member-list>
+    </mat-expansion-panel>
+</mat-accordion>
+    

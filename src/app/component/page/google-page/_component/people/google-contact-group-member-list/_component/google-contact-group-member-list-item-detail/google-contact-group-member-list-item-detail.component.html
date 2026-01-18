@@ -1,0 +1,9 @@
+<div class="member-item">
+    <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
+        <div class="member-name">{{ displayName }}</div>
+        <div class="member-email" *ngIf="emailAddresses.length > 0">
+            {{ emailAddresses[0] }}
+        </div>
+        <div>{{primaryPhone}}</div>
+    </div>
+</div>
