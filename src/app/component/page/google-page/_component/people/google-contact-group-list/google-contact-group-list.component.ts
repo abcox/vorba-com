@@ -17,12 +17,13 @@ export interface ContactGroupMember {
 @Component({
     standalone: true,
     imports: [CommonModule, MatChipsModule, MatIconModule, MatExpansionModule, GoogleContactGroupListItemComponent],
-    selector: 'app-google-people-list-view',
+    selector: 'app-google-contact-group-list',
     templateUrl: './google-contact-group-list.component.html',
     styleUrls: ['./google-contact-group-list.component.scss']
 })
 export class GoogleContactGroupListComponent {
     peopleService = inject(PeopleService);
+    initialized = signal(false);
     
     groupList$ = this.peopleService.peopleControllerGetContactGroups().pipe(
         tap(response => console.log('Contact Groups response:', response)),
@@ -38,5 +39,12 @@ export class GoogleContactGroupListComponent {
             const groups = this.groupList();
             console.log('Groups signal updated:', groups);
         });
+    }
+
+    ngAfterViewInit() {
+        // Enable animations and content after initial render to prevent flash
+        setTimeout(() => {
+            this.initialized.set(true);
+        }, 0);
     }
 }

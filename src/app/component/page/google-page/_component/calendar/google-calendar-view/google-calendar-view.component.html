@@ -1,0 +1,48 @@
+@let calendars = calendarList();
+<mat-accordion>
+    <mat-expansion-panel #expansionPanel
+        [disabled]="disableExpansionPanel"
+        [expanded]="false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Calendars
+                @if (calendars && initialized() && !loading()) {
+                    <span *ngIf="eventCount">
+                        <mat-chip class="ml-4">
+                            Total: {{ calendars?.items?.length || 0 }}
+                        </mat-chip>
+                    </span>
+                } @else {
+                    &nbsp;loading...
+                }
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-form-field appearance="outline" class="w-full mt-4">
+            <mat-label>Select Calendar</mat-label>
+            <mat-select placeholder="Select Calendar"
+                [value]="selectedCalendarResourceId()"
+                (selectionChange)="onCalendarSelectionChange($event)">
+                <mat-option value="" disabled>-- Select a calendar --</mat-option>
+                @for (calendar of calendars?.items; track calendar.id) {
+                    <mat-option [value]="calendar.id">
+                        {{ calendar.summary }}
+                    </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+        <app-angular-calendar-control-view
+            *ngIf="selectedCalendarResourceId()"
+            [events]="calendarEvents()">
+        </app-angular-calendar-control-view>
+
+        <app-google-calendar-event-list
+            *ngIf="selectedCalendarResourceId()"
+            [events]="eventsForDisplay"
+            [loading]="loadingEvents()"
+            [resourceId]="selectedCalendarResourceId()">
+        </app-google-calendar-event-list>
+
+    </mat-expansion-panel>
+</mat-accordion>

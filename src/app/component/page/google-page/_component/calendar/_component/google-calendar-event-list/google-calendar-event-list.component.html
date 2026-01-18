@@ -1,0 +1,26 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            {{ resourceId() }}
+            @if (loading()) {
+                &nbsp;loading...
+            } @else {
+                <mat-chip class="ml-4">
+                    Events: {{ eventCount }}
+                </mat-chip>
+            }
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    @if (loading()) {
+        <app-skeleton-loader [options]="skeletonLoaderOptions"></app-skeleton-loader>
+    } @else {
+        @for (event of events(); track event.id) {
+            <ul>
+                <li>
+                    {{ event.summary || '(Summary empty)' }} - {{ event.start?.dateTime || event.start?.date }}
+                </li>
+            </ul>
+        }
+    }
+</mat-expansion-panel>

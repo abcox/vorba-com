@@ -1,6 +1,6 @@
 @let group = groupInput();
 <mat-accordion>
-    <mat-expansion-panel (opened)="expanded.set(true)" (closed)="expanded.set(false)">
+    <mat-expansion-panel [expanded]="false" (opened)="expanded.set(true)" (closed)="expanded.set(false)">
         <mat-expansion-panel-header>
             <mat-panel-title class="w-full">
                 <div class="flex justify-between items-center w-full">

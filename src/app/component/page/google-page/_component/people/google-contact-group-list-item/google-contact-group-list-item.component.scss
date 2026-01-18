@@ -1,1 +1,27 @@
-/* empty */
+// Prevent flash of expanded content on initial load
+/* stylelint-disable selector-pseudo-element-no-unknown */
+:host ::ng-deep {
+    .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-content {
+        visibility: hidden;
+        height: 0 !important;
+    }
+}
+/* stylelint-enable selector-pseudo-element-no-unknown */
+
+button {
+    background-color: transparent;
+}
+
+// Fix mat-icon-button vertical alignment inside expansion panel header
+button[mat-icon-button] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    
+    mat-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
