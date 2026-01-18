@@ -1,9 +1,10 @@
 import { Component } from "@angular/core";
 import { GoogleContactGroupListComponent } from "./_component/people/google-contact-group-list/google-contact-group-list.component";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @Component({
     standalone: true,
-    imports: [GoogleContactGroupListComponent],
+    imports: [GoogleContactGroupListComponent, MatExpansionModule],
     selector: 'app-google-page',
     templateUrl: './google-page.component.html',
     styleUrls: ['./google-page.component.scss']

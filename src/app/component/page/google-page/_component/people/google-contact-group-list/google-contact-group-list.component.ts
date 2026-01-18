@@ -7,6 +7,7 @@ import { PeopleService } from "@file-service-api/v1";
 import { catchError, of, tap } from "rxjs";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { GoogleContactGroupListItemComponent } from "../google-contact-group-list-item/google-contact-group-list-item.component";
+import { MatChipsModule } from "@angular/material/chips";
 
 export interface ContactGroupMember {
     resourceName: string;
@@ -15,7 +16,7 @@ export interface ContactGroupMember {
 
 @Component({
     standalone: true,
-    imports: [CommonModule, MatIconModule, MatExpansionModule, GoogleContactGroupListItemComponent],
+    imports: [CommonModule, MatChipsModule, MatIconModule, MatExpansionModule, GoogleContactGroupListItemComponent],
     selector: 'app-google-people-list-view',
     templateUrl: './google-contact-group-list.component.html',
     styleUrls: ['./google-contact-group-list.component.scss']

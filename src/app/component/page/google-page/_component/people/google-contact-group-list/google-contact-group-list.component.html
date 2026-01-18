@@ -1,12 +1,21 @@
 @if (groupList()) {
-    <h4>Contact Groups ({{ groupList().contactGroups.length }})</h4>
-    <ul>
-        @for (group of groupList().contactGroups; track group.resourceName) {
-            <app-google-contact-group-list-item 
-                [groupInput]="group">
-            </app-google-contact-group-list-item>
-        }
-    </ul>    
+    <mat-accordion>
+        <mat-expansion-panel #expansionPanel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Contacts
+                    <mat-chip class="ml-4">
+                        Groups: {{ groupList().contactGroups.length }}
+                    </mat-chip>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            @for (group of groupList().contactGroups; track group.resourceName) {
+                <app-google-contact-group-list-item 
+                    [groupInput]="group">
+                </app-google-contact-group-list-item>
+            }
+        </mat-expansion-panel>
+    </mat-accordion>
 } @else {
     <span>Loading...</span>
 }
