@@ -1,0 +1,80 @@
+<!-- <h2 class="mt-4" mat-dialog-title>{{ data.action }} Event</h2> -->
+
+<div class="flex justify-between items-center mx-6 mt-2">
+    <div class="flex items-center">
+        <h3 mat-dialog-title>{{ title }}</h3>
+        <button mat-icon-button 
+                (click)="openEventInGoogleCalendar()" 
+                matTooltip="Open event in Google Calendar">
+            <mat-icon>open_in_new</mat-icon>
+        </button>
+    </div>
+    <button mat-icon-button  mat-dialog-close
+            matTooltip="Close dialog">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content class="mat-typography">
+    <mat-form-field class="w-full mb-4">
+        <mat-label>Title</mat-label>
+        <input matInput [(ngModel)]="title" placeholder="Event title">
+    </mat-form-field>
+    
+    <mat-checkbox [(ngModel)]="allDay" class="mb-4">All day event</mat-checkbox>
+
+    <div class="date-time-container">
+        <!-- Start Date/Time Box -->
+        <div class="date-time-box" [class.all-day]="allDay">
+            @if (!allDay) {
+                <div class="date-time-box-label">Start</div>
+            }
+            <mat-form-field class="w-full">
+                <mat-label>{{ allDay ? 'Start' : 'Date' }}</mat-label>
+                <input matInput [matDatepicker]="startPicker" [formControl]="startDate">
+                <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+            @if (!allDay) {
+                <div class="time-input">
+                    <label>Time</label>
+                    <input type="time" [(ngModel)]="startTime">
+                </div>
+            }
+        </div>
+
+        <!-- Arrow separator -->
+        <div class="range-arrow">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+            </svg>
+        </div>
+
+        <!-- End Date/Time Box -->
+        <div class="date-time-box" [class.all-day]="allDay">
+            @if (!allDay) {
+                <div class="date-time-box-label">End</div>
+            }
+            <mat-form-field class="w-full">
+                <mat-label>{{ allDay ? 'End' : 'Date' }}</mat-label>
+                <input matInput [matDatepicker]="endPicker" [formControl]="endDate">
+                <mat-datepicker-toggle matIconSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+            @if (!allDay) {
+                <div class="time-input">
+                    <label>Time</label>
+                    <input type="time" [(ngModel)]="endTime">
+                </div>
+            }
+        </div>
+    </div>
+
+    <details class="mt-4">
+        <summary class="cursor-pointer text-sm text-gray-500">Raw Event Data</summary>
+        <pre class="text-xs mt-2 p-2 bg-gray-100 dark:bg-gray-800 rounded overflow-auto max-h-48">{{ data.event | json }}</pre>
+    </details>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-flat-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

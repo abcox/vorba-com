@@ -1,0 +1,65 @@
+
+<div  [class.dark-theme]="isDarkMode()">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Angular Calendar Control View
+                <button mat-icon-button 
+                        (click)="refreshData($event)" 
+                        [disabled]="isRefreshing()"
+                        matTooltip="Refresh events"
+                        class="refresh-button">
+                    <mat-icon [class.spinning]="isRefreshing()">refresh</mat-icon>
+                </button>
+                <button mat-icon-button 
+                        (click)="openGoogleCalendar()" 
+                        matTooltip="Open event in Google Calendar">
+                    <mat-icon>open_in_new</mat-icon>
+                </button>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <button mat-button mwlCalendarPreviousView
+                    [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Previous
+                </button>
+                <button mat-button mwlCalendarToday
+                    [(viewDate)]="viewDate">
+                    Today
+                </button>
+                <button mat-button mwlCalendarNextView
+                    [view]="view" [(viewDate)]="viewDate"
+                    (viewDateChange)="closeOpenMonthViewDay()">
+                    Next
+                </button>
+            </div>
+            <div class="inline-block ml-4 mr-4 text-gray-500">
+                <h3>{{ viewDate | calendarDate: view + 'ViewTitle' : 'en' }}</h3>
+            </div>
+            <div>
+                <button mat-button (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">Month</button>
+                <button mat-button (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">Week</button>
+                <button mat-button (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">Day</button>
+            </div>
+        </div>
+        @switch (view) {
+            @case (CalendarView.Month) {
+                <mwl-calendar-month-view
+                    [viewDate]="viewDate"
+                    [events]="displayEventsSignal()"
+                    [refresh]="refresh$"
+                    [activeDayIsOpen]="activeDayIsOpen"
+                    (dayClicked)="dayClicked($event.day)"
+                    (eventClicked)="handleEvent('Clicked', $event.event)"/>
+            }
+            @case (CalendarView.Week) {
+                <mwl-calendar-week-view [viewDate]="viewDate" [events]="displayEventsSignal()" [refresh]="refresh$" />
+            }
+            @case (CalendarView.Day) {
+                <mwl-calendar-day-view [viewDate]="viewDate" [events]="displayEventsSignal()" [refresh]="refresh$" />
+            }
+        }
+    </mat-expansion-panel>
+</div>

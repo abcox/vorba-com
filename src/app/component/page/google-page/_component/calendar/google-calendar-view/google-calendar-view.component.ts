@@ -4,17 +4,20 @@ import { toSignal } from "@angular/core/rxjs-interop";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { CalendarService } from "@file-service-api/v1/api/api";
 import { MatSelectModule } from "@angular/material/select";
-import { MatChip } from "@angular/material/chips";
+import { MatChipsModule } from "@angular/material/chips";
 import { GoogleCalendarEventListComponent } from "../_component/google-calendar-event-list/google-calendar-event-list.component";
-import { AngularCalendarControlViewComponent } from "../_component/angular-calendar-control-view/angular-calendar-control-view";
+import { AngularCalendarControlViewComponent } from "../_component/angular-calendar-control-view/angular-calendar-control-view.component";
 import { tap } from "rxjs";
+import { calendar_v3 } from "googleapis/build/src/apis/calendar/v3";
+
+export type GoogleCalendarEventDto = calendar_v3.Schema$Event;
 
 @Component({
     standalone: true,
     imports: [
         AngularCalendarControlViewComponent,
         CommonModule, MatExpansionModule, MatSelectModule,
-        MatChip, GoogleCalendarEventListComponent],
+        MatChipsModule, GoogleCalendarEventListComponent],
     selector: 'app-google-calendar-view',
     templateUrl: './google-calendar-view.component.html',
     styleUrls: ['./google-calendar-view.component.scss']
@@ -88,5 +91,21 @@ export class GoogleCalendarViewComponent implements AfterViewInit {
     onCalendarSelectionChange(event: any) {
         const selectedResource = event.value;
         this.selectedCalendarResourceId.set(selectedResource);
+    }
+
+    refreshCalendarEvents(): void {
+        const resourceId = this.selectedCalendarResourceId();
+        if (!resourceId) return;
+        
+        this.loadingEvents.set(true);
+        this.calendarService.calendarControllerGetCalendarEventList(resourceId)
+            .subscribe({
+                next: events => {
+                    this.calendarEvents.set(events);
+                    this.eventCount.set(events?.items?.length || 0);
+                },
+                complete: () => this.loadingEvents.set(false),
+                error: () => this.loadingEvents.set(false)
+            });
     }
 }

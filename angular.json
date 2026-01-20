@@ -47,7 +47,8 @@
               "src/themes/typography-variables.css",
               "src/themes/mat-mdc-variables.css",
               "src/themes/light.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/angular-calendar/css/angular-calendar.css"
             ],
             "scripts": []
           },

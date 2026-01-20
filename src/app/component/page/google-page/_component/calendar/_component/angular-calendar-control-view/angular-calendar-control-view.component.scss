@@ -1,0 +1,165 @@
+//$cal-event-color-secondary: #ff6347;
+
+//@import 'angular-calendar/scss/angular-calendar';
+
+// Refresh button in expansion panel header
+.refresh-button {
+  margin-left: 0.5rem;
+  //margin-right: auto;
+}
+
+.refresh-button .spinning {
+  animation: spin 1s linear infinite;
+}
+
+/* stylelint-disable selector-pseudo-element-no-unknown */
+:host ::ng-deep .refresh-button .mat-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+/* stylelint-enable selector-pseudo-element-no-unknown */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// In your component's scss or global styles
+:host-context(.dark-theme), .dark-theme {
+  --cal-bg-primary: #1e1e1e;
+  --cal-bg-secondary: #2d2d2d;
+  --cal-border-color: #404040;
+  --cal-text-color: #e0e0e0;
+  --cal-text-secondary-color: #808080;
+  --cal-today-bg: #3d3d3d;
+  --cal-weekend-color: #a0a0a0;
+  --cal-event-color-primary: #1e90ff;
+  --cal-event-color-secondary: #ff6347;
+}
+
+/* stylelint-disable selector-pseudo-element-no-unknown */
+:host ::ng-deep {
+    .cal-days,
+    .cal-month-view,
+    .cal-week-view,
+  .cal-calendar {
+    background-color: #1d1b1e !important; // var(--cal-bg-primary);
+    color: var(--cal-text-color);
+    border-color: var(--cal-border-color) !important;
+  }
+
+  .cal-hour {
+    color: var(--cal-text-secondary-color) !important;
+    font-weight: lighter;
+  }
+
+    .cal-header.cal-today {
+        background-color: var(--cal-today-bg) !important;
+    }
+    
+    /* .cal-week-view .cal-day-headers .cal-header:hover, .cal-week-view .cal-day-headers .cal-drag-over {
+        background-color: #2a272a !important;
+    } */
+
+    .cal-week-view .cal-header.cal-weekend span {
+        color: var(--cal-weekend-color) !important; // todo: verify
+    }
+
+    .cal-week-view .cal-day-headers,
+    .cal-week-view .cal-time-events,
+    .cal-week-view .cal-day-column {
+        border-color: var(--cal-border-color) !important;
+    }
+    .cal-week-view .cal-hour:not(:last-child) .cal-hour-segment, .cal-week-view .cal-hour:last-child :not(:last-child) .cal-hour-segment {
+        border-bottom: 1px solid var(--cal-border-color) !important;
+    }
+
+   .cal-week-view .cal-hour-odd {
+        background-color: #2a272a !important; // var(--cal-bg-secondary);
+    }
+
+    .cal-header,
+  .cal-cell-row {
+    &:hover {
+        background-color: #2a272a !important; // var(--cal-bg-secondary);
+      }
+    border-color: var(--cal-border-color) !important;
+  }
+
+  .cal-hour-segment {
+    &:hover {
+        background-color: var(--cal-border-color) !important;
+    }
+  }
+
+  .cal-month-view .cal-cell-row .cal-cell:hover,
+  .cal-month-view .cal-cell.cal-has-events.cal-open {
+    background-color: var(--cal-today-bg) !important;
+  }
+
+  .cal-month-view .cal-open-day-events {
+    background-color: var(--cal-bg-secondary) !important;
+    border-color: var(--cal-border-color) !important;
+
+    --web-kit-box-shadow: inset 0 0 5px var(--cal-border-color);
+    //-moz-box-shadow: inset 0 0 5px var(--cal-border-color);
+    box-shadow: inset 0 0 5px var(--cal-border-color);
+  }
+
+  /* .cal-cell .cal-day-cell .cal-past .cal-weekend .cal-in-month .ng-star-inserted .cal-has-events .cal-event-highlighted {
+    background-color: var(--cal-today-bg) !important;
+    border-color: var(--cal-event-color-primary) !important;
+  } */
+
+  .cal-cell {
+    &:hover {
+      background-color: var(--cal-today-bg) !important;
+      //border: 2px solid lightgreen; // var(--cal-border-color);
+    }
+  }
+
+  .cal-header {
+    font-weight: lighter;
+    color: var(--cal-text-secondary-color);
+  }
+
+  .cal-day-cell {
+    border-color: var(--cal-border-color) !important;
+
+    &.cal-today {
+        background-color: var(--cal-today-bg) !important;
+        //color: var(--cal-text-color);
+    }
+
+    &.cal-weekend .cal-day-number {
+        color: var(--cal-weekend-color) !important;
+    }
+  }
+
+  .cal-day-cell-cal-header,
+  .cal-day-cell-cal-body {
+    background-color: var(--cal-bg-secondary);
+  }
+
+  .cal-day-cell-cal-header {
+    color: var(--cal-text-secondary-color);
+  }
+
+  .cal-today {
+    background-color: var(--cal-today-bg);
+  }
+
+  .cal-weekend .cal-day-cell-cal-header {
+    color: var(--cal-weekend-color);
+  }
+
+  .cal-event {
+    background-color: var(--cal-event-color-primary);
+    border-color: var(--cal-event-color-primary);
+    color: #fff;
+  }
+}

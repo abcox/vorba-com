@@ -514,10 +514,15 @@ p {
 // Material Dialog customization
 .mat-mdc-dialog-container {
   --mdc-dialog-container-shape: 12px;
-  --mdc-dialog-container-color: var(--primary-light-grayscale-200);
+  --mdc-dialog-container-color: var(--grayscale-900);
   --mdc-dialog-container-elevation: 0;
   --mdc-dialog-container-padding: 0;
   max-width: 400px !important;
+}
+
+// Calendar event dialog - allow larger width
+.calendar-event-dialog .mat-mdc-dialog-container {
+  max-width: 700px !important;
 }
 
 // Dialog backdrop
@@ -527,7 +532,7 @@ p {
 
 // Dialog text colors
 .mat-mdc-dialog-title {
-  color: var(--grayscale-800) !important;
+  color: var(--grayscale-500) !important;
 }
 
 .mat-mdc-dialog-content {

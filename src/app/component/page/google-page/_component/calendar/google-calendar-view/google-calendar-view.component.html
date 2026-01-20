@@ -34,15 +34,19 @@
 
         <app-angular-calendar-control-view
             *ngIf="selectedCalendarResourceId()"
-            [events]="calendarEvents()">
+            [eventsInput]="calendarEvents()"
+            [resourceId]="selectedCalendarResourceId()"
+            (refreshRequested)="refreshCalendarEvents()">
         </app-angular-calendar-control-view>
 
-        <app-google-calendar-event-list
-            *ngIf="selectedCalendarResourceId()"
-            [events]="eventsForDisplay"
-            [loading]="loadingEvents()"
-            [resourceId]="selectedCalendarResourceId()">
-        </app-google-calendar-event-list>
+        <div class="mt-4">
+            <app-google-calendar-event-list
+                *ngIf="selectedCalendarResourceId()"           
+                [events]="eventsForDisplay"
+                [loading]="loadingEvents()"
+                [resourceId]="selectedCalendarResourceId()">
+            </app-google-calendar-event-list>
+        </div>
 
     </mat-expansion-panel>
 </mat-accordion>
