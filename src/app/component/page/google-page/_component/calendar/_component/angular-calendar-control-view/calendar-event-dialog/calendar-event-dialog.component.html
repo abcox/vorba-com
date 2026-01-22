@@ -2,7 +2,10 @@
 
 <div class="flex justify-between items-center mx-6 mt-2">
     <div class="flex items-center">
-        <h3 mat-dialog-title>{{ title }}</h3>
+        <span class="text-md font-semibold max-w-[380px] truncate block"
+            mat-dialog-title>
+            {{ title }}
+        </span>
         <button mat-icon-button 
                 (click)="openEventInGoogleCalendar()" 
                 matTooltip="Open event in Google Calendar">
