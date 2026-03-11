@@ -1,18 +1,22 @@
 <div class="menu-banner flex justify-between items-center">
-    <div class="flex bg-black ml-3 pr-3 align-middle middle cursor-pointer"
+    <div class="flex bg-black ml-12 pr-3 align-middle middle cursor-pointer"
         routerLink="/">
         <div class="logo-text ml-2 font-bold text-2xl">
             <!-- <app-logo></app-logo> -->
-            <div class="circle-logo flex items-center justify-center">
-                 <img src="/images/vorba-v-logo.jpg"
+            <div class="circle-logo flex items-center">
+                 <!-- <img src="/images/vorba-v-logo.jpg"
                     alt="Vorba Logo"
                     class="object-contain"
-                    style="width: 60px; height: 60px; clip-path: inset(0 0 0 0);"/>
+                    style="width: 60px; height: 60px; clip-path: inset(0 0 0 0);"/> -->
+                <img src="assets/images/vorba-logo.svg"
+                    alt="Green Triangle Accent"
+                    class="triangle-accent absolute"
+                    style="width: 200px; height: 200px; margin-top: 0px;"/>
              </div>
         </div>
-        <div class="flex items-center ml-2 text-3xl text-white tracking-widest">
+        <!-- <div class="flex items-center ml-2 text-3xl text-white tracking-widest">
             VORBA
-        </div>
+        </div> -->
     </div>
     <div class="flex">
         @for (item of menuList(); track item.label) {
