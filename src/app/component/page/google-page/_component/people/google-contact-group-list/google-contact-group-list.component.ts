@@ -1,4 +1,3 @@
-import { group } from "@angular/animations";
 import { CommonModule } from "@angular/common";
 import { Component, effect, inject, signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
