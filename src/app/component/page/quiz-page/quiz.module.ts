@@ -5,7 +5,6 @@ import { QuizEndPageComponent } from './quiz-end-page/quiz-end-page.component';
 import { QuizAdminPageComponent } from './quiz-admin-page/quiz-admin-page.component';
 import { adminGuard, authGuard } from '../../../core/auth/auth.guard';
 import { FileUploadPageComponent } from '../file-upload-page/file-upload-page.component';
-import { FileReportPageComponent } from '../file-upload-page/_component/file-report-page/file-report-page.component';
 
 // Quiz Routes for standalone components
 export const quizRoutes: Routes = [
@@ -27,7 +26,8 @@ export const quizRoutes: Routes = [
   },
   {
     path: ':id/report',
-    component: FileReportPageComponent,
+    loadComponent: () => import('../file-upload-page/_component/file-report-page/file-report-page.component')
+      .then(m => m.FileReportPageComponent),
     title: 'File report',
     canActivate: [authGuard({redirectTo: '/quiz/start'})]
   },
