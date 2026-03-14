@@ -8,9 +8,22 @@ import { MatChipsModule } from "@angular/material/chips";
 import { GoogleCalendarEventListComponent } from "../_component/google-calendar-event-list/google-calendar-event-list.component";
 import { AngularCalendarControlViewComponent } from "../_component/angular-calendar-control-view/angular-calendar-control-view.component";
 import { tap } from "rxjs";
-import { calendar_v3 } from "googleapis/build/src/apis/calendar/v3";
 
-export type GoogleCalendarEventDto = calendar_v3.Schema$Event;
+/** Google Calendar Event type (subset of calendar_v3.Schema$Event) */
+export interface GoogleCalendarEventDto {
+    id?: string | null;
+    summary?: string | null;
+    description?: string | null;
+    location?: string | null;
+    start?: { date?: string | null; dateTime?: string | null; timeZone?: string | null } | null;
+    end?: { date?: string | null; dateTime?: string | null; timeZone?: string | null } | null;
+    attendees?: Array<{ email?: string | null; displayName?: string | null; responseStatus?: string | null }> | null;
+    htmlLink?: string | null;
+    status?: string | null;
+    created?: string | null;
+    updated?: string | null;
+    organizer?: { email?: string | null; displayName?: string | null } | null;
+}
 
 @Component({
     standalone: true,
