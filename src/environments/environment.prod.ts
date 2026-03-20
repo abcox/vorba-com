@@ -1,4 +1,5 @@
 export const environment = {
+  name: 'Production',
   production: true,
   apiUrl: 'https://api.yourdomain.com/api',  // DEPRECATED
   backendApiUrl: 'https://demo-app5-api.azurewebsites.net',

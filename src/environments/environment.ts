@@ -1,4 +1,5 @@
 export const environment = {
+  name: 'Development (Local)',
   production: false,
   //apiUrl: 'http://localhost:3000/api'  // Adjust this to match your backend URL
   backendApiUrl: 'http://localhost:3000/api',
