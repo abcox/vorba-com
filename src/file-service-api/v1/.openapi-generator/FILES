@@ -8,6 +8,7 @@ api/auth.service.ts
 api/calendar.service.ts
 api/config.service.ts
 api/contact.service.ts
+api/diagnostic.service.ts
 api/emailTemplate.service.ts
 api/file.service.ts
 api/gPT.service.ts
@@ -38,6 +39,9 @@ model/calendarEventPatchDetailRequestDto.ts
 model/calendarEventPatchRequestDto.ts
 model/contactAddressDto.ts
 model/contactEmailDto.ts
+model/contactGroupDto.ts
+model/contactGroupMemberDto.ts
+model/contactGroupsListDto.ts
 model/contactListResponseDto.ts
 model/contactPhoneDto.ts
 model/contactResponseDto.ts
@@ -47,6 +51,7 @@ model/createPdfDto.ts
 model/createPdfFromHtmlDto.ts
 model/createUserDto.ts
 model/customerCreateRequestDto.ts
+model/diagnosticReportDto.ts
 model/emailTemplateControllerRenderTemplateJson200Response.ts
 model/emailTemplateControllerRenderTemplateJsonRequest.ts
 model/gmailControllerSendEmail200Response.ts
@@ -60,6 +65,8 @@ model/models.ts
 model/paymentIntentCreateRequestDto.ts
 model/paymentIntentListResponseDto.ts
 model/pdfResponseDto.ts
+model/personEmailAddressDto.ts
+model/personNameDto.ts
 model/productCreateDto.ts
 model/quizDto.ts
 model/quizQuestionDto.ts
@@ -71,6 +78,7 @@ model/refreshTokenRequestDto.ts
 model/refreshTokenResponseDto.ts
 model/sendEmailDto.ts
 model/sendEmailFromTemplateDto.ts
+model/serviceStatusDto.ts
 model/socialMediaDto.ts
 model/stripePaymentIntentDto.ts
 model/submitQuizActionDto.ts

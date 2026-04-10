@@ -140,8 +140,8 @@ export class ContactFormComponent {
         emails: [{
           address: formData.email,
           type: ContactEmailDto.TypeEnum.Work,
-          primary: true
-        } as ContactEmailDto],
+          isPrimary: true
+        }],
         // todo: review the following fields:
         company: formData.company,
         notes: formData.projectDetails,
@@ -154,7 +154,7 @@ export class ContactFormComponent {
         socialMedia: [],
         isActive: true,
       };
-      this.contactService.contactControllerCreateContact(
+      this.contactService.contactControllerUpsertContact(
         contactDto
       ).subscribe({
         next: (response) => {

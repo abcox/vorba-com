@@ -7,6 +7,7 @@ import { ContactGroupMember } from "../google-contact-group-list/google-contact-
 import { GoogleContactGroupMemberListComponent } from "../google-contact-group-member-list/google-contact-group-member-list.component";
 import { MatIconModule } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";
+import { ContactGroupMemberDto } from "@src/file-service-api/v1";
 
 @Component({
     standalone: true,
@@ -20,7 +21,7 @@ import { MatChipsModule } from "@angular/material/chips";
 export class GoogleContactGroupListItemComponent {
     peopleService = inject(PeopleService);
     groupInput = input<any>(null);
-    groupMembersMap = signal<{ [groupId: string]: ContactGroupMember[] }>({});
+    groupMembersMap = signal<{ [groupId: string]: ContactGroupMemberDto[] }>({});
     expanded = signal(false);
 
     constructor() {
@@ -57,8 +58,8 @@ export class GoogleContactGroupListItemComponent {
     getGroupMembers(resourceName?: string) {
         if (!resourceName) return;
         const resourceNameId = resourceName.split('/').pop() || '';
-        this.peopleService.peopleControllerGetContactGroupMembers(resourceNameId).pipe(
-            tap((response: ContactGroupMember[]) => {
+        this.peopleService.getContactGroupMembers(resourceNameId).pipe(
+            tap((response: ContactGroupMemberDto[]) => {
                 console.log(`Contacts in group ${resourceName}:`, response);
                 this.groupMembersMap.update(map => ({ ...map, [resourceName]: response }));
             }),

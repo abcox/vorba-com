@@ -17,6 +17,10 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
+import { ContactGroupMemberDto } from '../model/contactGroupMemberDto';
+// @ts-ignore
+import { ContactGroupsListDto } from '../model/contactGroupsListDto';
+// @ts-ignore
 import { UpsertUserDefinedFieldRequest } from '../model/upsertUserDefinedFieldRequest';
 
 // @ts-ignore
@@ -36,16 +40,18 @@ export class PeopleService extends BaseService {
     }
 
     /**
-     * @param resourceNameId 
+     * Get contact group members by group resource name ID
+     * Fetches all members of a contact group with their names and email addresses.
+     * @param resourceNameId The resource name ID of the contact group (e.g., 6d88e59889afe55)
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public peopleControllerGetContactGroupMembers(resourceNameId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public getContactGroupMembers(resourceNameId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ContactGroupMemberDto>>;
+    public getContactGroupMembers(resourceNameId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ContactGroupMemberDto>>>;
+    public getContactGroupMembers(resourceNameId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ContactGroupMemberDto>>>;
+    public getContactGroupMembers(resourceNameId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (resourceNameId === null || resourceNameId === undefined) {
-            throw new Error('Required parameter resourceNameId was null or undefined when calling peopleControllerGetContactGroupMembers.');
+            throw new Error('Required parameter resourceNameId was null or undefined when calling getContactGroupMembers.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -54,6 +60,7 @@ export class PeopleService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -77,7 +84,7 @@ export class PeopleService extends BaseService {
 
         let localVarPath = `/api/google/people/contact/group/${this.configuration.encodeParam({name: "resourceNameId", value: resourceNameId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}/member/list`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ContactGroupMemberDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -95,10 +102,10 @@ export class PeopleService extends BaseService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public peopleControllerGetContactGroups(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public peopleControllerGetContactGroups(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public peopleControllerGetContactGroups(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public peopleControllerGetContactGroups(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public peopleControllerGetContactGroups(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ContactGroupsListDto>;
+    public peopleControllerGetContactGroups(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ContactGroupsListDto>>;
+    public peopleControllerGetContactGroups(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ContactGroupsListDto>>;
+    public peopleControllerGetContactGroups(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -106,6 +113,7 @@ export class PeopleService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -129,7 +137,7 @@ export class PeopleService extends BaseService {
 
         let localVarPath = `/api/google/people/contact/group/list`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ContactGroupsListDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

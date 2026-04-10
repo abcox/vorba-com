@@ -6,7 +6,7 @@
                 Contacts
                 @if (groups && initialized()) {
                     <mat-chip class="ml-4">
-                        Groups: {{ groups?.contactGroups.length }}
+                        Groups: {{ groups?.contactGroups?.length }}
                     </mat-chip>
                 } @else {
                     &nbsp;loading...
