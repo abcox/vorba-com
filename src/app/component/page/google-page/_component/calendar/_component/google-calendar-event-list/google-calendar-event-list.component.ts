@@ -2,8 +2,11 @@ import { CommonModule } from "@angular/common";
 import { Component, input } from "@angular/core";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatExpansionModule } from "@angular/material/expansion";
-import { SkeletonLoaderComponent, SkeletonLoaderOptions, SkeletonLoaderStyle } from "src/app/component/skeleton-loader/skeleton-loader.component";
-
+import {
+    SkeletonLoaderComponent,
+    SkeletonLoaderOptions,
+    SkeletonLoaderStyle
+} from "@app/component/skeleton-loader/skeleton-loader.component";
 
 @Component({
     standalone: true,

@@ -18,7 +18,7 @@ import { ContactFormComponent, ContactFormOptions, ContactFormPanelOrder } from 
 import { DialogModule } from "@angular/cdk/dialog";
 import { TestamonySectionComponent } from '../../section/testamony-section/testamony-section.component';
 //import { HotkeyDirective } from '../../../directive/hotkey-directive/hotkey.directive';
-import { HotkeyDirective } from "src/app/directive/hotkey-directive";
+import { HotkeyDirective } from "@src/app/directive/hotkey-directive";
 
 interface OfferAction {
   label: string;

@@ -9,8 +9,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Theme, ThemeService } from 'src/app/services/theme.service';
-import { DeviceService } from 'src/app/services/device.service';
+import { Theme, ThemeService } from '@src/app/services/theme.service';
+import { DeviceService } from '@src/app/services/device.service';
 import { FileUploadComponent } from '../file-upload-page/_component/file-upload/file-upload.component';
 
 interface UploadStep {

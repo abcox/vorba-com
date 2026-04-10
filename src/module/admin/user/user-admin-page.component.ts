@@ -15,8 +15,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router, RouterModule } from '@angular/router';
 import { UserService, UserDto } from '@file-service-api/v1';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { Theme, ThemeService } from 'src/app/services/theme.service';
-import { ConfirmDialogService } from 'src/app/component/dialog/confirm-dialog';
+import { Theme, ThemeService } from '@src/app/services/theme.service';
+import { ConfirmDialogService } from '@src/app/component/dialog/confirm-dialog';
 
 @Component({
   selector: 'app-user-admin-page',

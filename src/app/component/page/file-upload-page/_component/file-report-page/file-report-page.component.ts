@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, OnInit, signal } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ExamplePdfViewerComponent } from "src/app/component/example-pdf-viewer/example-pdf-viewer.component";
+import { ExamplePdfViewerComponent } from "@src/app/component/example-pdf-viewer/example-pdf-viewer.component";
 
 @Component({
     selector: 'app-file-report-page',

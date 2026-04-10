@@ -1,9 +1,9 @@
 import { Route, Routes } from '@angular/router';
 import { navRoutes } from './component/layout/nav-layout.module';
 import { quizRoutes } from './component/page/quiz-page/quiz.module';
-import { adminRoutes } from 'src/module/admin/admin.module';
+import { adminRoutes } from '@src/module/admin/admin.module';
 import { adminGuard } from './core/auth/auth.guard';
-import { AdminLayoutPageComponent } from 'src/module/admin/_component/layout/admin-layout-page.component';
+import { AdminLayoutPageComponent } from '@src/module/admin/_component/layout/admin-layout-page.component';
 import { SessionTimeoutPageComponent } from './component/page/session-timeout-page/session-timeout-page.component';
 import { CaseStudyPageComponent } from './component/page/case-study-page/case-study-page.component';
 import { HomePageComponent } from './component/page/home-page/home-page.component';

@@ -7,15 +7,15 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { Theme, ThemeService } from 'src/app/services/theme.service';
-import { AuthService } from 'src/app/core/auth/auth.service';
-import { environment } from 'src/environments/environment';
-import { UserRegistrationRequest } from '../../../../../file-service-api/v1';
+import { Theme, ThemeService } from '@src/app/services/theme.service';
+import { AuthService } from '@src/app/core/auth/auth.service';
+import { environment } from '@src/environments/environment';
+import { UserRegistrationRequest } from '@file-service-api/v1';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { NotifyService } from 'src/app/core/notify/notify.service';
+import { NotifyService } from '@src/app/core/notify/notify.service';
 
 @Component({
   selector: 'app-quiz-start-page',
@@ -37,14 +37,14 @@ import { NotifyService } from 'src/app/core/notify/notify.service';
 })
 export class QuizStartPageComponent {
   private authService = inject(AuthService);
+  private themeService = inject(ThemeService);
+  private notifyService = inject(NotifyService);
   quizForm: FormGroup;
   loading = signal(false);
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private themeService: ThemeService,
-    private notifyService: NotifyService
   ) {
     this.quizForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],

@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { LayoutService } from '../../layout/_service/layout.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EmailService } from '@backend-api/v1/api/email.service';
 import { EmailServiceRequest } from '@backend-api/v1/model/emailServiceRequest';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,15 +10,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { finalize, delay } from 'rxjs/operators';
-import { Observable, of, throwError } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { ContactDialogComponent } from './_component/contact-dialog.component';
-
-interface FakeApiConfig {
-  shouldSucceed: boolean;
-  delayMs?: number;
-  errorMessage?: string;
-}
+import { EmailProvider } from '@src/app/services/email-provider.service';
 
 @Component({
   selector: 'app-contact-page',
@@ -38,20 +31,14 @@ interface FakeApiConfig {
   templateUrl: './contact-page.component.html',
   styleUrl: './contact-page.component.scss'
 })
-export class ContactPageComponent {
-  private emailService = inject(EmailService);
+export class ContactPageComponent implements OnInit {
+  private emailProvider = inject(EmailProvider);
   private dialog = inject(MatDialog);
   layoutService = inject(LayoutService);
   private fb = inject(FormBuilder);
   
   contactForm: FormGroup;
   isSubmitting = false;
-  useFakeApi = true; // Toggle this to switch between real and fake API
-  fakeApiConfig: FakeApiConfig = {
-    shouldSucceed: true,
-    delayMs: 2000,
-    errorMessage: 'Failed to send email. Please try again later.'
-  };
 
   constructor() {
     this.contactForm = this.fb.group({
@@ -80,23 +67,6 @@ export class ContactPageComponent {
       return `Must be at least ${requiredLength} characters`;
     }
     return '';
-  }
-
-  private fakeEmailApi(request: EmailServiceRequest): Observable<any> {
-    const { shouldSucceed, delayMs = 2000, errorMessage } = this.fakeApiConfig;
-    
-    const response$ = shouldSucceed
-      ? of({ success: true })
-      : throwError(() => new Error(errorMessage));
-
-    return response$.pipe(
-      delay(delayMs)
-    );
-  }
-
-  // Helper method to toggle fake API success/failure
-  toggleFakeApiSuccess(shouldSucceed: boolean) {
-    this.fakeApiConfig.shouldSucceed = shouldSucceed;
   }
 
   private showSuccessDialog() {
@@ -135,10 +105,7 @@ export class ContactPageComponent {
         htmlContent: this.contactForm.value.message
       };
 
-      // Choose between real and fake API
-      const apiCall$ = this.useFakeApi 
-        ? this.fakeEmailApi(request)
-        : this.emailService.sendEmail(request);
+      const apiCall$ = this.emailProvider.sendEmail(request);
 
       apiCall$.pipe(
         finalize(() => {

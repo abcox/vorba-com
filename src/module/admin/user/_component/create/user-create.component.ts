@@ -12,7 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { UserService, UserDto } from '@file-service-api/v1';
-import { Theme, ThemeService } from 'src/app/services/theme.service';
+import { Theme, ThemeService } from '@src/app/services/theme.service';
 
 @Component({
   selector: 'app-user-create',

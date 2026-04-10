@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LayoutService } from '../../../_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from 'src/app/core/auth/auth.service';
+import { AuthService } from '@src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-menu-dialog',

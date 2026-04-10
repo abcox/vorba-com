@@ -8,15 +8,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Theme, ThemeService } from 'src/app/services/theme.service';
+import { Theme, ThemeService } from '@src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
-import { DeviceService } from 'src/app/services/device.service';
+import { DeviceService } from '@src/app/services/device.service';
 import { QuizResponseDto, QuizDto, QuizService, QuizQuestionDto, QuizQuestionOptionDto, UserService, SubmitQuizActionDto } from '@file-service-api/v1';
 import { catchError, finalize, map, switchMap, tap } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, of } from 'rxjs';
-import { clearSessionId, getSessionId } from 'src/app/shared/utils';
+import { clearSessionId, getSessionId } from '@src/app/shared/utils';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Example: http://localhost:4200/quiz/2?title=Quiz%202
@@ -44,6 +44,7 @@ export class QuizPageComponent implements OnInit {
   quizService = inject(QuizService);
   userService = inject(UserService);
   isMobile = inject(DeviceService).isMobile;
+  private themeService = inject(ThemeService);
   @ViewChild('stepper') stepper!: MatStepper;
   loading = signal(false);
   quizForm: FormGroup;
@@ -57,7 +58,6 @@ export class QuizPageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private themeService: ThemeService,
     private router: Router
   ) {
     // Initialize with empty form - will be populated when quiz data loads

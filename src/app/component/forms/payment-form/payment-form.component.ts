@@ -1,7 +1,7 @@
 
 import { Component, effect, input, ElementRef, inject, computed, signal } from '@angular/core';
 import { PaymentIntentResult, Stripe, StripeElements, StripePaymentElement } from '@stripe/stripe-js';
-import { StripeService, } from 'src/app/core/services/payment/stripe.service';
+import { StripeService, } from '@src/app/core/services/payment/stripe.service';
 import { PaymentIntent } from '@stripe/stripe-js';
 import { PaymentService } from '@file-service-api/v1';
 import { map } from 'rxjs';
