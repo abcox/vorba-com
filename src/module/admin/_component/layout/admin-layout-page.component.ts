@@ -50,6 +50,12 @@ export class AdminLayoutPageComponent {
   // Admin-specific navigation items
   adminNavItems = [
     {
+      label: 'Contacts',
+      icon: 'group',
+      route: '/admin/contact',
+      description: 'Manage contacts'
+    },
+    {
       label: 'Users',
       icon: 'group',
       route: '/admin/user',

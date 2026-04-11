@@ -3,6 +3,7 @@ import { QuizAdminPageComponent } from "@src/app/component/page/quiz-page/quiz-a
 import { UserAdminPageComponent } from "./user/user-admin-page.component";
 import { UserEditComponent } from "./user/_component/edit/user-edit.component";
 import { UserCreateComponent } from "./user/_component/create/user-create.component";
+import { contactAdminRoutes } from "./_module/contact-admin/contact-admin.module";
 
 // Admin Routes for standalone components
 export const adminRoutes: Routes = [
@@ -10,6 +11,10 @@ export const adminRoutes: Routes = [
         path: '',
         redirectTo: 'user',
         pathMatch: 'full'
+    },
+    {
+        path: 'contact',
+        children: contactAdminRoutes
     },
     {
         path: 'user',

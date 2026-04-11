@@ -1,0 +1,155 @@
+.admin-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: var(--sys-surface);
+  color: var(--sys-on-surface);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 0;
+  border-bottom: 2px solid var(--sys-outline);
+
+  h3 {
+    margin: 0;
+    color: var(--sys-on-surface);
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+}
+
+.admin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .mat-card-content {
+    padding: 0;
+  }
+}
+
+.management-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  .mat-card-header {
+    background-color: var(--sys-surface-container);
+    border-radius: 8px 8px 0 0;
+    padding: 16px 24px;
+    margin: -24px -24px 24px -24px;
+  }
+}
+
+.table-container {
+  .contact-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    .mat-header-cell {
+      background-color: var(--sys-surface-container);
+      color: var(--sys-on-surface);
+      font-weight: 600;
+      padding: 16px 12px;
+      border-bottom: 2px solid var(--sys-outline);
+    }
+
+    .mat-cell {
+      padding: 12px;
+      border-bottom: 1px solid var(--sys-outline-variant);
+      color: var(--sys-on-surface);
+    }
+
+    .mat-row:hover {
+      background-color: var(--sys-surface-container-low);
+    }
+
+    .mat-row:last-child .mat-cell {
+      border-bottom: none;
+    }
+  }
+
+  .action-cell {
+    button {
+      min-width: 64px;
+    }
+  }
+
+  .no-data,
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    color: var(--sys-on-surface-variant);
+    text-align: center;
+
+    mat-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      opacity: 0.75;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+  }
+}
+
+.spin {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-container {
+    padding: 16px;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+
+    .admin-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .contact-table {
+      min-width: 760px;
+    }
+  }
+}
