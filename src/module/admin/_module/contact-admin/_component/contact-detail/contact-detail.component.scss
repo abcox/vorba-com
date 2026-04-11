@@ -5,9 +5,15 @@
 }
 
 .detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
   margin-bottom: 16px;
 
-  button {
+  button,
+  a {
     display: inline-flex;
     align-items: center;
     gap: 8px;

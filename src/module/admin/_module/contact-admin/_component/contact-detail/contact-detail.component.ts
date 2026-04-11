@@ -37,12 +37,14 @@ export class ContactDetailComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly contactService = inject(ContactService);
 
+  contactId: string | null = null;
   contact?: ContactDetail;
   isLoading = false;
   errorMessage = '';
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
+    this.contactId = id;
     if (!id) {
       this.errorMessage = 'Missing contact id';
       return;

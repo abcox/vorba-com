@@ -4,6 +4,15 @@
       <mat-icon>arrow_back</mat-icon>
       Back to contacts
     </button>
+
+    <a
+      *ngIf="contactId"
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/admin/contact', contactId, 'edit']">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </a>
   </div>
 
   <mat-card class="detail-card">

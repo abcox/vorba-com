@@ -1,0 +1,81 @@
+<div class="contact-form-container">
+  <div class="form-header">
+    <button mat-stroked-button (click)="cancel()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to contacts
+    </button>
+  </div>
+
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>{{ pageTitle }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ mode === 'edit' ? 'Update contact details' : 'Create a new contact record' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="errorMessage" class="form-error-banner">{{ errorMessage }}</div>
+      <div *ngIf="isLoading" class="form-loading">Loading…</div>
+
+      <form *ngIf="!isLoading" [formGroup]="form" (ngSubmit)="submit()" class="form-grid">
+        <label class="field">
+          <span>First name</span>
+          <input type="text" formControlName="firstName" />
+        </label>
+
+        <label class="field">
+          <span>Last name</span>
+          <input type="text" formControlName="lastName" />
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          <input type="email" formControlName="email" />
+        </label>
+
+        <label class="field">
+          <span>Phone</span>
+          <input type="text" formControlName="phone" />
+        </label>
+
+        <label class="field">
+          <span>Company</span>
+          <input type="text" formControlName="company" />
+        </label>
+
+        <label class="field">
+          <span>Status</span>
+          <input type="text" formControlName="status" />
+        </label>
+
+        <label class="field">
+          <span>Source</span>
+          <input type="text" formControlName="source" />
+        </label>
+
+        <label class="field">
+          <span>Title</span>
+          <input type="text" formControlName="title" />
+        </label>
+
+        <label class="field">
+          <span>Department</span>
+          <input type="text" formControlName="department" />
+        </label>
+
+        <label class="field full">
+          <span>Notes</span>
+          <textarea rows="5" formControlName="notes"></textarea>
+        </label>
+
+        <div class="actions full">
+          <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
+          <button mat-raised-button color="primary" type="submit">
+            {{ mode === 'edit' ? 'Save changes' : 'Create contact' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
