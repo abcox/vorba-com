@@ -283,14 +283,16 @@ export class ContactService extends BaseService {
      * @param page Page number (default: 1)
      * @param limit Items per page (default: 10)
      * @param status Filter by contact status
-     * @param isActive Filter by active status (default: true)
+     * @param isActive DEPRECATED: filter by active status (default: true). Prefer archive-aware filters in future endpoints.
+     * @param sortBy Sort field. Allowed values: updatedAt, createdAt, nextFollowUpAt, lastContactedAt, name, company
+     * @param sortDir Sort direction (asc or desc, default: desc)
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ContactListResponseDto>;
-    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ContactListResponseDto>>;
-    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ContactListResponseDto>>;
-    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<ContactListResponseDto>;
+    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ContactListResponseDto>>;
+    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ContactListResponseDto>>;
+    public contactControllerGetContactList(page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
@@ -301,6 +303,10 @@ export class ContactService extends BaseService {
           <any>status, 'status');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>isActive, 'isActive');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sortBy, 'sortBy');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sortDir, 'sortDir');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -347,26 +353,37 @@ export class ContactService extends BaseService {
     }
 
     /**
-     * Search contacts by name, email, or company
-     * @param searchTerm Search term to find contacts
+     * Search contacts (optional q). When q is omitted, returns filtered/sorted/paginated contacts.
+     * @param q Optional free-text search term across name, firstName, lastName, company, and emails.address
      * @param page Page number (default: 1)
      * @param limit Items per page (default: 10)
+     * @param status Filter by contact status
+     * @param isActive DEPRECATED: filter by active status (default: true). Prefer archive-aware filters in future endpoints.
+     * @param sortBy Sort field. Allowed values: updatedAt, createdAt, nextFollowUpAt, lastContactedAt, name, company
+     * @param sortDir Sort direction (asc or desc, default: desc)
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public contactControllerSearchContacts(searchTerm: string, page?: string, limit?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public contactControllerSearchContacts(searchTerm: string, page?: string, limit?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public contactControllerSearchContacts(searchTerm: string, page?: string, limit?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public contactControllerSearchContacts(searchTerm: string, page?: string, limit?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (searchTerm === null || searchTerm === undefined) {
-            throw new Error('Required parameter searchTerm was null or undefined when calling contactControllerSearchContacts.');
-        }
+    public contactControllerSearchContacts(q?: string, page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public contactControllerSearchContacts(q?: string, page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public contactControllerSearchContacts(q?: string, page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public contactControllerSearchContacts(q?: string, page?: string, limit?: string, status?: string, isActive?: string, sortBy?: string, sortDir?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>q, 'q');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>page, 'page');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>limit, 'limit');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>status, 'status');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>isActive, 'isActive');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sortBy, 'sortBy');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>sortDir, 'sortDir');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -395,7 +412,7 @@ export class ContactService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/contact/search/${this.configuration.encodeParam({name: "searchTerm", value: searchTerm, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/api/contact/search`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
             {

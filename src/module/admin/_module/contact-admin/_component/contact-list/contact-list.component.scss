@@ -57,6 +57,53 @@
   }
 }
 
+.filter-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 2fr) repeat(3, minmax(140px, 1fr)) auto;
+  gap: 12px;
+  align-items: end;
+  margin: 0 0 16px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--sys-outline-variant);
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  span {
+    font-size: 0.8rem;
+    color: var(--sys-on-surface-variant);
+    font-weight: 600;
+  }
+
+  input,
+  select {
+    height: 38px;
+    border: 1px solid var(--sys-outline-variant);
+    border-radius: 8px;
+    background: var(--sys-surface);
+    color: var(--sys-on-surface);
+    padding: 0 10px;
+    font-size: 0.95rem;
+  }
+}
+
+.search-field {
+  min-width: 220px;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+
+  button {
+    height: 38px;
+  }
+}
+
 .table-container {
   .contact-table {
     width: 100%;
@@ -150,6 +197,18 @@
 
     .contact-table {
       min-width: 760px;
+    }
+  }
+
+  .filter-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-actions {
+    justify-content: stretch;
+
+    button {
+      flex: 1;
     }
   }
 }

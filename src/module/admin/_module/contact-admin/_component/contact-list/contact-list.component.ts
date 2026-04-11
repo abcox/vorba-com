@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -27,18 +28,28 @@ interface ContactListRow {
 }
 
 interface ContactListPayload {
-  data?: ContactListRow[];
-  contacts?: ContactListRow[];
+  items?: ContactListRow[];
   total?: number;
   page?: number;
   limit?: number;
 }
+
+type ContactSortField =
+  | 'updatedAt'
+  | 'createdAt'
+  | 'nextFollowUpAt'
+  | 'lastContactedAt'
+  | 'name'
+  | 'company';
+
+type SortDirection = 'asc' | 'desc';
 
 @Component({
   selector: 'app-contact-list',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
@@ -60,6 +71,18 @@ export class ContactListComponent implements OnInit, OnDestroy {
   isLoading = false;
   autoRefreshEnabled = false;
   autoRefreshSeconds = 15;
+  searchTerm = '';
+  statusFilter = 'all';
+  sortBy: ContactSortField = 'createdAt';
+  sortDir: SortDirection = 'desc';
+  readonly sortOptions: ReadonlyArray<{ value: ContactSortField; label: string }> = [
+    { value: 'createdAt', label: 'Created date' },
+    { value: 'updatedAt', label: 'Updated date' },
+    { value: 'name', label: 'Name' },
+    { value: 'company', label: 'Company' },
+    { value: 'lastContactedAt', label: 'Last contacted' },
+    { value: 'nextFollowUpAt', label: 'Next follow-up' },
+  ];
   private refreshSub?: Subscription;
 
   ngOnInit(): void {
@@ -77,20 +100,25 @@ export class ContactListComponent implements OnInit, OnDestroy {
   loadContacts(): void {
     this.isLoading = true;
 
-    this.contactService.contactControllerGetContactList('1', '100').subscribe({
+    const normalizedSearchTerm = this.searchTerm.trim();
+    const status = this.statusFilter === 'all' ? undefined : this.statusFilter;
+
+    this.contactService
+      .contactControllerSearchContacts(
+        normalizedSearchTerm || undefined,
+        '1',
+        '100',
+        status,
+        'true',
+        this.sortBy,
+        this.sortDir,
+      )
+      .subscribe({
       next: (response) => {
         const payload = (response.data ?? {}) as ContactListPayload;
-        const rawList = Array.isArray(payload.data)
-          ? payload.data
-          : Array.isArray(payload.contacts)
-            ? payload.contacts
-            : [];
+        const rawList = Array.isArray(payload.items) ? payload.items : [];
 
-        this.contacts = [...rawList].sort((a, b) => {
-          const aTime = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-          const bTime = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-          return bTime - aTime;
-        });
+        this.contacts = rawList;
 
         this.total = Number(payload.total ?? this.contacts.length);
         this.isLoading = false;
@@ -100,6 +128,19 @@ export class ContactListComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     });
+  }
+
+  applyFilters(): void {
+    this.loadContacts();
+  }
+
+  clearSearch(): void {
+    if (!this.searchTerm) {
+      return;
+    }
+
+    this.searchTerm = '';
+    this.loadContacts();
   }
 
   toggleAutoRefresh(enabled: boolean): void {

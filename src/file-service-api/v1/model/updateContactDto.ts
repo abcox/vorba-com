@@ -68,9 +68,18 @@ export interface UpdateContactDto {
     socialMedia?: Array<SocialMediaDto>;
     notes?: string;
     /**
-     * Active status flag
+     * DEPRECATED: transitional active status flag. Prefer archivedAt/archivedBy.
+     * @deprecated
      */
     isActive?: boolean;
+    /**
+     * Archive timestamp. When set, the contact is considered archived.
+     */
+    archivedAt?: string;
+    /**
+     * User ID or system marker that archived the contact.
+     */
+    archivedBy?: string;
     /**
      * Creator user ID
      */

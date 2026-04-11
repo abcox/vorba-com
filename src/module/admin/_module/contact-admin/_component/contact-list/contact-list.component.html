@@ -28,6 +28,52 @@
       </mat-card-header>
 
       <mat-card-content>
+        <div class="filter-toolbar">
+          <label class="filter-field search-field">
+            <span>Search</span>
+            <input
+              type="text"
+              [(ngModel)]="searchTerm"
+              (keyup.enter)="applyFilters()"
+              placeholder="Name, company, or email" />
+          </label>
+
+          <label class="filter-field">
+            <span>Status</span>
+            <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+              <option value="all">All</option>
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="qualified">Qualified</option>
+              <option value="closed">Closed</option>
+            </select>
+          </label>
+
+          <label class="filter-field">
+            <span>Sort by</span>
+            <select [(ngModel)]="sortBy" (change)="applyFilters()">
+              <option *ngFor="let option of sortOptions" [value]="option.value">{{ option.label }}</option>
+            </select>
+          </label>
+
+          <label class="filter-field">
+            <span>Direction</span>
+            <select [(ngModel)]="sortDir" (change)="applyFilters()">
+              <option value="desc">Newest first</option>
+              <option value="asc">Oldest first</option>
+            </select>
+          </label>
+
+          <div class="filter-actions">
+            <button mat-stroked-button (click)="clearSearch()" [disabled]="!searchTerm || isLoading">
+              Clear search
+            </button>
+            <button mat-raised-button color="primary" (click)="applyFilters()" [disabled]="isLoading">
+              Apply
+            </button>
+          </div>
+        </div>
+
         <div class="table-container">
           <table mat-table [dataSource]="contacts" class="contact-table">
             <ng-container matColumnDef="name">
