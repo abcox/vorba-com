@@ -2,6 +2,10 @@
   <div class="admin-header">
     <h3>Contact admin</h3>
     <div class="admin-actions">
+      <button mat-raised-button color="accent" (click)="createContact()">
+        <mat-icon>add</mat-icon>
+        Create new
+      </button>
       <mat-slide-toggle
         [checked]="autoRefreshEnabled"
         (change)="toggleAutoRefresh($event.checked)">

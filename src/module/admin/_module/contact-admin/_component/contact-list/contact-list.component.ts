@@ -106,6 +106,10 @@ export class ContactListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
   }
 
+  createContact(): void {
+    this.router.navigate(['/admin/contact/new']);
+  }
+
   loadContacts(): void {
     this.isLoading = true;
 
