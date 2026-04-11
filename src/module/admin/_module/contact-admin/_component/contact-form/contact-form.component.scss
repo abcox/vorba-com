@@ -29,53 +29,26 @@
   }
 }
 
+.form-card {
+  mat-card-header {
+    padding-bottom: 16px;
+  }
+
+  mat-card-content {
+    padding-top: 8px;
+  }
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(220px, 1fr));
   gap: 14px;
-}
 
-.field {
-  display: grid;
-  gap: 6px;
-
-  span {
-    font-size: 0.8rem;
-    color: var(--sys-on-surface-variant);
-    font-weight: 600;
+  mat-form-field {
+    width: 100%;
   }
 
-  input,
-  textarea {
-    border: 2px solid var(--sys-outline, #79747e);
-    border-radius: 4px;
-    background: transparent;
-    color: var(--sys-on-surface);
-    padding: 10px 14px;
-    font-size: 0.95rem;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.15s ease;
-
-    &:focus {
-      border-color: var(--sys-primary, #6750a4);
-    }
-
-    &:hover:not(:focus) {
-      border-color: var(--sys-on-surface, #1c1b1f);
-    }
-  }
-
-  input {
-    height: 42px;
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
-
-  &.full {
+  mat-form-field.full {
     grid-column: 1 / -1;
   }
 }
@@ -95,7 +68,7 @@
     grid-template-columns: 1fr;
   }
 
-  .field.full,
+  .form-grid mat-form-field.full,
   .actions.full {
     grid-column: auto;
   }
