@@ -124,6 +124,30 @@
             <mat-icon class="spin">autorenew</mat-icon>
             <p>Loading contacts...</p>
           </div>
+
+          <div class="pagination-bar" *ngIf="!isLoading && total > 0">
+            <div class="pagination-meta">
+              <span>Showing {{ getPageStart() }}-{{ getPageEnd() }} of {{ total }}</span>
+              <label>
+                Per page
+                <select [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+                  <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="pagination-actions">
+              <button mat-stroked-button (click)="goToPreviousPage()" [disabled]="currentPage <= 1 || isLoading">
+                <mat-icon>chevron_left</mat-icon>
+                Prev
+              </button>
+              <span>Page {{ currentPage }} of {{ totalPages }}</span>
+              <button mat-stroked-button (click)="goToNextPage()" [disabled]="currentPage >= totalPages || isLoading">
+                Next
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+            </div>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>

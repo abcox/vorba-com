@@ -32,6 +32,7 @@ interface ContactListPayload {
   total?: number;
   page?: number;
   limit?: number;
+  totalPages?: number;
 }
 
 type ContactSortField =
@@ -68,6 +69,10 @@ export class ContactListComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['name', 'email', 'status', 'source', 'createdAt', 'actions'];
   contacts: ContactListRow[] = [];
   total = 0;
+  currentPage = 1;
+  pageSize = 25;
+  totalPages = 1;
+  readonly pageSizeOptions: ReadonlyArray<number> = [10, 25, 50, 100];
   isLoading = false;
   autoRefreshEnabled = false;
   autoRefreshSeconds = 15;
@@ -106,8 +111,8 @@ export class ContactListComponent implements OnInit, OnDestroy {
     this.contactService
       .contactControllerSearchContacts(
         normalizedSearchTerm || undefined,
-        '1',
-        '100',
+        this.currentPage.toString(),
+        this.pageSize.toString(),
         status,
         'true',
         this.sortBy,
@@ -121,6 +126,11 @@ export class ContactListComponent implements OnInit, OnDestroy {
         this.contacts = rawList;
 
         this.total = Number(payload.total ?? this.contacts.length);
+        this.currentPage = Number(payload.page ?? this.currentPage);
+        this.pageSize = Number(payload.limit ?? this.pageSize);
+        this.totalPages = Number(
+          payload.totalPages ?? Math.max(1, Math.ceil(this.total / this.pageSize)),
+        );
         this.isLoading = false;
       },
       error: (error) => {
@@ -131,6 +141,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
   }
 
   applyFilters(): void {
+    this.currentPage = 1;
     this.loadContacts();
   }
 
@@ -140,7 +151,53 @@ export class ContactListComponent implements OnInit, OnDestroy {
     }
 
     this.searchTerm = '';
+    this.currentPage = 1;
     this.loadContacts();
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage <= 1 || this.isLoading) {
+      return;
+    }
+
+    this.currentPage -= 1;
+    this.loadContacts();
+  }
+
+  goToNextPage(): void {
+    if (this.currentPage >= this.totalPages || this.isLoading) {
+      return;
+    }
+
+    this.currentPage += 1;
+    this.loadContacts();
+  }
+
+  onPageSizeChange(rawValue: string): void {
+    const parsed = Number(rawValue);
+    if (!Number.isFinite(parsed) || parsed <= 0 || parsed === this.pageSize) {
+      return;
+    }
+
+    this.pageSize = parsed;
+    this.currentPage = 1;
+    this.loadContacts();
+  }
+
+  getPageStart(): number {
+    if (this.total === 0 || this.contacts.length === 0) {
+      return 0;
+    }
+
+    return (this.currentPage - 1) * this.pageSize + 1;
+  }
+
+  getPageEnd(): number {
+    if (this.total === 0 || this.contacts.length === 0) {
+      return 0;
+    }
+
+    return Math.min(this.currentPage * this.pageSize, this.total);
   }
 
   toggleAutoRefresh(enabled: boolean): void {

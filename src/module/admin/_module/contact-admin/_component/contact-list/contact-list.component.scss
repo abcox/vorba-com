@@ -161,6 +161,58 @@
       font-size: 1.05rem;
     }
   }
+
+  .pagination-bar {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--sys-outline-variant);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .pagination-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--sys-on-surface-variant);
+    font-size: 0.92rem;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    select {
+      height: 32px;
+      border: 1px solid var(--sys-outline-variant);
+      border-radius: 8px;
+      background: var(--sys-surface);
+      color: var(--sys-on-surface);
+      padding: 0 8px;
+    }
+  }
+
+  .pagination-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    span {
+      color: var(--sys-on-surface-variant);
+      font-size: 0.92rem;
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 34px;
+    }
+  }
 }
 
 .spin {
@@ -198,6 +250,16 @@
     .contact-table {
       min-width: 760px;
     }
+
+    .pagination-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .pagination-meta,
+    .pagination-actions {
+      justify-content: space-between;
+    }
   }
 
   .filter-toolbar {
@@ -211,4 +273,5 @@
       flex: 1;
     }
   }
+
 }
