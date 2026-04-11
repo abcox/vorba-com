@@ -70,9 +70,9 @@
         </mat-form-field>
 
         <div class="actions full">
-          <button mat-stroked-button type="button" (click)="cancel()">Cancel</button>
-          <button mat-raised-button color="primary" type="submit">
-            {{ mode === 'edit' ? 'Save changes' : 'Create contact' }}
+          <button mat-stroked-button type="button" (click)="cancel()" [disabled]="isSaving">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="isSaving || form.invalid">
+            {{ isSaving ? 'Saving...' : mode === 'edit' ? 'Save changes' : 'Create contact' }}
           </button>
         </div>
       </form>

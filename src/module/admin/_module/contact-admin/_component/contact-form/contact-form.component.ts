@@ -7,7 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ContactService } from '@file-service-api/v1';
+import {
+  ContactEmailDto,
+  ContactPhoneDto,
+  ContactService,
+  CreateContactDto,
+  UpdateContactDto,
+} from '@file-service-api/v1';
 
 interface ContactData {
   firstName?: string;
@@ -47,6 +53,7 @@ export class ContactFormComponent implements OnInit {
   mode: 'create' | 'edit' = 'create';
   contactId: string | null = null;
   isLoading = false;
+  isSaving = false;
   errorMessage = '';
 
   readonly form = this.fb.nonNullable.group({
@@ -80,12 +87,42 @@ export class ContactFormComponent implements OnInit {
   }
 
   submit(): void {
+    if (this.isSaving) {
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    // Implementation intentionally deferred until routes/API flow are wired.
+    this.errorMessage = '';
+    this.isSaving = true;
+
+    const request$ =
+      this.mode === 'edit' && this.contactId
+        ? this.contactService.contactControllerUpdateContact(this.contactId, this.buildUpdatePayload())
+        : this.contactService.contactControllerCreateContact(this.buildCreatePayload());
+
+    request$.subscribe({
+      next: (response) => {
+        const createdOrUpdatedId = this.extractContactId(response.data);
+        const targetId = createdOrUpdatedId ?? this.contactId;
+        this.isSaving = false;
+
+        if (targetId) {
+          this.router.navigate(['/admin/contact', targetId]);
+          return;
+        }
+
+        this.router.navigate(['/admin/contact']);
+      },
+      error: (error) => {
+        this.errorMessage =
+          typeof error?.error?.message === 'string' ? error.error.message : 'Unable to save contact';
+        this.isSaving = false;
+      },
+    });
   }
 
   private loadContact(id: string): void {
@@ -124,5 +161,101 @@ export class ContactFormComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  private buildCreatePayload(): CreateContactDto {
+    const value = this.form.getRawValue();
+    const firstName = this.normalize(value.firstName);
+    const lastName = this.normalize(value.lastName);
+
+    return {
+      name: this.buildDisplayName(firstName, lastName, value.company, value.email),
+      firstName,
+      lastName,
+      emails: this.buildEmailPayload(value.email),
+      phones: this.buildPhonePayload(value.phone),
+      addresses: [],
+      company: this.normalize(value.company),
+      title: this.normalize(value.title),
+      department: this.normalize(value.department),
+      status: this.normalize(value.status) ?? 'new',
+      source: this.normalize(value.source) ?? 'admin',
+      tags: [],
+      socialMedia: [],
+      notes: this.normalize(value.notes),
+      isActive: true,
+    };
+  }
+
+  private buildUpdatePayload(): UpdateContactDto {
+    const value = this.form.getRawValue();
+    const firstName = this.normalize(value.firstName);
+    const lastName = this.normalize(value.lastName);
+
+    return {
+      name: this.buildDisplayName(firstName, lastName, value.company, value.email),
+      firstName,
+      lastName,
+      emails: this.buildEmailPayload(value.email),
+      phones: this.buildPhonePayload(value.phone),
+      company: this.normalize(value.company),
+      title: this.normalize(value.title),
+      department: this.normalize(value.department),
+      status: this.normalize(value.status),
+      source: this.normalize(value.source),
+      notes: this.normalize(value.notes),
+    };
+  }
+
+  private buildEmailPayload(emailValue: string): ContactEmailDto[] {
+    const email = this.normalize(emailValue);
+    if (!email) {
+      return [];
+    }
+
+    return [{ address: email, type: ContactEmailDto.TypeEnum.Work, isPrimary: true }];
+  }
+
+  private buildPhonePayload(phoneValue: string): ContactPhoneDto[] {
+    const phone = this.normalize(phoneValue);
+    if (!phone) {
+      return [];
+    }
+
+    return [{ number: phone, type: ContactPhoneDto.TypeEnum.Mobile, isPrimary: true }];
+  }
+
+  private buildDisplayName(
+    firstName?: string,
+    lastName?: string,
+    companyValue?: string,
+    emailValue?: string,
+  ): string {
+    const fullName = `${firstName ?? ''} ${lastName ?? ''}`.trim();
+    const company = this.normalize(companyValue);
+    const email = this.normalize(emailValue);
+
+    return fullName || company || email || 'New Contact';
+  }
+
+  private normalize(value?: string): string | undefined {
+    const trimmed = value?.trim();
+    return trimmed ? trimmed : undefined;
+  }
+
+  private extractContactId(data: unknown): string | undefined {
+    if (!data || typeof data !== 'object') {
+      return undefined;
+    }
+
+    const candidate = data as { _id?: unknown; id?: unknown };
+    if (typeof candidate._id === 'string' && candidate._id) {
+      return candidate._id;
+    }
+    if (typeof candidate.id === 'string' && candidate.id) {
+      return candidate.id;
+    }
+
+    return undefined;
   }
 }
