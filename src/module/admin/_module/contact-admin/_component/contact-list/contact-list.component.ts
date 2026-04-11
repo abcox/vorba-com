@@ -9,7 +9,6 @@ import { MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { ContactService } from '@file-service-api/v1';
 import { Subscription, interval } from 'rxjs';
-import { ConfirmDialogService } from '@src/app/component/dialog/confirm-dialog';
 
 interface ContactListRow {
   _id?: string;
@@ -21,6 +20,8 @@ interface ContactListRow {
   source?: string;
   createdAt?: string;
   updatedAt?: string;
+  archivedAt?: string;
+  archivedBy?: string;
   emails?: Array<{
     address?: string;
     isPrimary?: boolean;
@@ -45,6 +46,7 @@ type ContactSortField =
 
 type SortDirection = 'asc' | 'desc';
 type ContactViewMode = 'table' | 'card';
+type ArchiveFilter = 'active' | 'archived' | 'all';
 
 @Component({
   selector: 'app-contact-list',
@@ -65,7 +67,6 @@ type ContactViewMode = 'table' | 'card';
 export class ContactListComponent implements OnInit, OnDestroy {
   private contactService = inject(ContactService);
   private router = inject(Router);
-  private confirmDialog = inject(ConfirmDialogService);
 
   displayedColumns: string[] = ['name', 'email', 'status', 'source', 'createdAt', 'actions'];
   contacts: ContactListRow[] = [];
@@ -79,6 +80,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
   autoRefreshSeconds = 15;
   searchTerm = '';
   statusFilter = 'all';
+  archiveFilter: ArchiveFilter = 'active';
   sortBy: ContactSortField = 'createdAt';
   sortDir: SortDirection = 'desc';
   viewMode: ContactViewMode = 'table';
@@ -109,6 +111,11 @@ export class ContactListComponent implements OnInit, OnDestroy {
 
     const normalizedSearchTerm = this.searchTerm.trim();
     const status = this.statusFilter === 'all' ? undefined : this.statusFilter;
+    const isActive = this.archiveFilter === 'all'
+      ? undefined
+      : this.archiveFilter === 'active'
+        ? 'true'
+        : 'false';
 
     this.contactService
       .contactControllerSearchContacts(
@@ -116,7 +123,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
         this.currentPage.toString(),
         this.pageSize.toString(),
         status,
-        'true',
+        isActive,
         this.sortBy,
         this.sortDir,
       )
@@ -225,27 +232,53 @@ export class ContactListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/contact', id]);
   }
 
-  deleteContact(contact: ContactListRow): void {
+  archiveContact(contact: ContactListRow): void {
     const id = contact._id;
     if (!id) {
       return;
     }
 
-    const displayName = this.getDisplayName(contact);
-    this.confirmDialog.confirmDelete(displayName).subscribe((confirmed) => {
-      if (!confirmed) {
+    if (contact.isActive === false) {
+      const displayName = this.getDisplayName(contact);
+      const confirmedRestore = window.confirm(
+        `Restore ${displayName}? This contact will return to active lists.`,
+      );
+      if (!confirmedRestore) {
         return;
       }
 
-      this.contactService.contactControllerDeleteContact(id).subscribe({
-        next: () => {
-          this.contacts = this.contacts.filter((c) => c._id !== id);
-          this.total = Math.max(0, this.total - 1);
-        },
-        error: (error) => {
-          console.error('Error deleting contact:', error);
-        }
-      });
+      this.contactService
+        .contactControllerUpdateContact(id, {
+          isActive: true,
+          archivedAt: null as never,
+          archivedBy: null as never,
+        })
+        .subscribe({
+          next: () => {
+            this.loadContacts();
+          },
+          error: (error) => {
+            console.error('Error restoring contact:', error);
+          }
+        });
+      return;
+    }
+
+    const displayName = this.getDisplayName(contact);
+    const confirmed = window.confirm(
+      `Archive ${displayName}? This contact will be hidden from active lists.`,
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    this.contactService.contactControllerSoftDeleteContact(id).subscribe({
+      next: () => {
+        this.loadContacts();
+      },
+      error: (error) => {
+        console.error('Error archiving contact:', error);
+      }
     });
   }
 
