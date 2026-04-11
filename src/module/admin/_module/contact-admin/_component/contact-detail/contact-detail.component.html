@@ -1,0 +1,43 @@
+<div class="contact-detail-container">
+  <div class="detail-header">
+    <button mat-stroked-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back to contacts
+    </button>
+  </div>
+
+  <mat-card class="detail-card">
+    <mat-card-header>
+      <mat-card-title>{{ getDisplayName() }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ contact?.isActive === false ? 'Archived contact' : 'Active contact' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="isLoading" class="state loading">
+        <mat-icon class="spin">autorenew</mat-icon>
+        <p>Loading contact details...</p>
+      </div>
+
+      <div *ngIf="!isLoading && errorMessage" class="state error">
+        <mat-icon>error_outline</mat-icon>
+        <p>{{ errorMessage }}</p>
+      </div>
+
+      <div *ngIf="!isLoading && !errorMessage && contact" class="detail-grid">
+        <div class="field"><span>Name</span><strong>{{ getDisplayName() }}</strong></div>
+        <div class="field"><span>Email</span><strong>{{ getPrimaryEmail() }}</strong></div>
+        <div class="field"><span>Phone</span><strong>{{ getPrimaryPhone() }}</strong></div>
+        <div class="field"><span>Company</span><strong>{{ contact.company || 'N/A' }}</strong></div>
+        <div class="field"><span>Status</span><strong>{{ contact.status || 'N/A' }}</strong></div>
+        <div class="field"><span>Source</span><strong>{{ contact.source || 'N/A' }}</strong></div>
+        <div class="field"><span>Title</span><strong>{{ contact.title || 'N/A' }}</strong></div>
+        <div class="field"><span>Department</span><strong>{{ contact.department || 'N/A' }}</strong></div>
+        <div class="field"><span>Created</span><strong>{{ contact.createdAt ? (contact.createdAt | date:'medium') : 'N/A' }}</strong></div>
+        <div class="field"><span>Updated</span><strong>{{ contact.updatedAt ? (contact.updatedAt | date:'medium') : 'N/A' }}</strong></div>
+        <div class="field full"><span>Notes</span><strong>{{ contact.notes || 'N/A' }}</strong></div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
