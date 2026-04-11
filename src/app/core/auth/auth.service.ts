@@ -113,10 +113,10 @@ export class AuthService {
           this.activityConfig.set({...activityConfig/* , warningCountdownSeconds: 300 */ });
         } else {
           console.log('⚠️ AuthService: No stored activity config found, using defaults');
-          // Set default activity config for stored sessions
+          // Set default activity config — 0 = disabled (no idle timeout)
           this.activityConfig.set({
-            inactivityWarningSeconds: 30, // 30 seconds
-            warningCountdownSeconds: 60, // 60 seconds
+            inactivityWarningSeconds: 0,
+            warningCountdownSeconds: 0,
           });
         }
       } else {

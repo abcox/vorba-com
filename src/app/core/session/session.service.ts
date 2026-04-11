@@ -309,6 +309,14 @@ export class SessionService {
       }
 
       console.log('✅ SessionService: Initializing session with config');
+
+      // 0 means disabled (infinite / no timeout)
+      if (!config.inactivityWarningSeconds || !config.warningCountdownSeconds) {
+        console.log('⏭️ SessionService: Idle timeout disabled (value is 0). Stopping monitoring.');
+        this.stopMonitoring();
+        return;
+      }
+
       this.initializeSession({
         idleTime: config.inactivityWarningSeconds,
         timeout: config.warningCountdownSeconds,
