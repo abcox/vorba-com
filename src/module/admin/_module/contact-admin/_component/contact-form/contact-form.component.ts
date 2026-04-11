@@ -86,6 +86,24 @@ export class ContactFormComponent implements OnInit {
     this.router.navigate(['/admin/contact']);
   }
 
+  clearForm(): void {
+    this.form.reset({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      company: '',
+      status: '',
+      source: '',
+      title: '',
+      department: '',
+      notes: '',
+    });
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+    this.errorMessage = '';
+  }
+
   submit(): void {
     if (this.isSaving) {
       return;

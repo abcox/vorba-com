@@ -71,6 +71,7 @@
 
         <div class="actions full">
           <button mat-stroked-button type="button" (click)="cancel()" [disabled]="isSaving">Cancel</button>
+          <button mat-stroked-button type="button" (click)="clearForm()" [disabled]="isSaving">Clear</button>
           <button mat-raised-button color="primary" type="submit" [disabled]="isSaving || form.invalid">
             {{ isSaving ? 'Saving...' : mode === 'edit' ? 'Save changes' : 'Create contact' }}
           </button>
