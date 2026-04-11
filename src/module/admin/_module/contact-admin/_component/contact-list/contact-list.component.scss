@@ -59,7 +59,7 @@
 
 .filter-toolbar {
   display: grid;
-  grid-template-columns: minmax(220px, 2fr) repeat(3, minmax(140px, 1fr)) auto;
+  grid-template-columns: minmax(220px, 2fr) repeat(4, minmax(130px, 1fr)) auto;
   gap: 12px;
   align-items: end;
   margin: 0 0 16px;
@@ -130,6 +130,61 @@
     .mat-row:last-child .mat-cell {
       border-bottom: none;
     }
+  }
+
+  .contact-card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .contact-card {
+    border: 1px solid var(--sys-outline-variant);
+    border-radius: 10px;
+    background: var(--sys-surface-container-low);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+
+    h4 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--sys-on-surface);
+    }
+  }
+
+  .status-pill {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--sys-surface-container-high);
+    color: var(--sys-on-surface-variant);
+    white-space: nowrap;
+  }
+
+  .card-body {
+    display: grid;
+    gap: 4px;
+
+    p {
+      margin: 0;
+      color: var(--sys-on-surface-variant);
+      font-size: 0.9rem;
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
   }
 
   .action-cell {

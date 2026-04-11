@@ -44,6 +44,7 @@ type ContactSortField =
   | 'company';
 
 type SortDirection = 'asc' | 'desc';
+type ContactViewMode = 'table' | 'card';
 
 @Component({
   selector: 'app-contact-list',
@@ -80,6 +81,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
   statusFilter = 'all';
   sortBy: ContactSortField = 'createdAt';
   sortDir: SortDirection = 'desc';
+  viewMode: ContactViewMode = 'table';
   readonly sortOptions: ReadonlyArray<{ value: ContactSortField; label: string }> = [
     { value: 'createdAt', label: 'Created date' },
     { value: 'updatedAt', label: 'Updated date' },
