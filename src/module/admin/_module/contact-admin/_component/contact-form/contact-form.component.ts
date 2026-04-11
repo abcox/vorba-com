@@ -55,6 +55,8 @@ export class ContactFormComponent implements OnInit {
   isLoading = false;
   isSaving = false;
   errorMessage = '';
+  private readonly newContactStatus = 'Active';
+  private readonly newContactSource = 'admin';
 
   readonly form = this.fb.nonNullable.group({
     firstName: ['', [Validators.maxLength(100)]],
@@ -73,7 +75,13 @@ export class ContactFormComponent implements OnInit {
     this.contactId = this.route.snapshot.paramMap.get('id');
     this.mode = this.contactId ? 'edit' : 'create';
 
+    if (this.mode === 'create') {
+      this.applyNewContactDefaults();
+    }
+
     if (this.mode === 'edit' && this.contactId) {
+      this.form.controls.status.enable({ emitEvent: false });
+      this.form.controls.source.enable({ emitEvent: false });
       this.loadContact(this.contactId);
     }
   }
@@ -93,12 +101,18 @@ export class ContactFormComponent implements OnInit {
       email: '',
       phone: '',
       company: '',
-      status: '',
-      source: '',
+      status: this.mode === 'create' ? this.newContactStatus : '',
+      source: this.mode === 'create' ? this.newContactSource : '',
       title: '',
       department: '',
       notes: '',
     });
+
+    if (this.mode === 'create') {
+      this.form.controls.status.disable({ emitEvent: false });
+      this.form.controls.source.disable({ emitEvent: false });
+    }
+
     this.form.markAsPristine();
     this.form.markAsUntouched();
     this.errorMessage = '';
@@ -196,8 +210,8 @@ export class ContactFormComponent implements OnInit {
       company: this.normalize(value.company),
       title: this.normalize(value.title),
       department: this.normalize(value.department),
-      status: this.normalize(value.status) ?? 'new',
-      source: this.normalize(value.source) ?? 'admin',
+      status: this.newContactStatus,
+      source: this.newContactSource,
       tags: [],
       socialMedia: [],
       notes: this.normalize(value.notes),
@@ -275,5 +289,17 @@ export class ContactFormComponent implements OnInit {
     }
 
     return undefined;
+  }
+
+  private applyNewContactDefaults(): void {
+    this.form.patchValue(
+      {
+        status: this.newContactStatus,
+        source: this.newContactSource,
+      },
+      { emitEvent: false },
+    );
+    this.form.controls.status.disable({ emitEvent: false });
+    this.form.controls.source.disable({ emitEvent: false });
   }
 }
