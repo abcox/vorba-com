@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   ContactEmailDto,
@@ -28,6 +29,11 @@ interface ContactData {
   phones?: Array<{ number?: string; isPrimary?: boolean }>;
 }
 
+interface SelectOption {
+  value: string;
+  label: string;
+}
+
 @Component({
   selector: 'app-contact-form',
   standalone: true,
@@ -39,6 +45,7 @@ interface ContactData {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatSelectModule,
     RouterModule,
   ],
   templateUrl: './contact-form.component.html',
@@ -55,8 +62,22 @@ export class ContactFormComponent implements OnInit {
   isLoading = false;
   isSaving = false;
   errorMessage = '';
-  private readonly newContactStatus = 'Active';
+  private readonly newContactStatus = 'active';
   private readonly newContactSource = 'admin';
+  readonly statusOptions: ReadonlyArray<SelectOption> = [
+    { value: 'active', label: 'Active' },
+    { value: 'new', label: 'New' },
+    { value: 'contacted', label: 'Contacted' },
+    { value: 'qualified', label: 'Qualified' },
+    { value: 'closed', label: 'Closed' },
+  ];
+  readonly sourceOptions: ReadonlyArray<SelectOption> = [
+    { value: 'admin', label: 'Admin' },
+    { value: 'website', label: 'Website' },
+    { value: 'referral', label: 'Referral' },
+    { value: 'import', label: 'Import' },
+    { value: 'manual', label: 'Manual' },
+  ];
 
   readonly form = this.fb.nonNullable.group({
     firstName: ['', [Validators.maxLength(100)]],
@@ -176,8 +197,8 @@ export class ContactFormComponent implements OnInit {
             email: primaryEmail,
             phone: primaryPhone,
             company: data.company ?? '',
-            status: data.status ?? '',
-            source: data.source ?? '',
+            status: this.resolveOptionValue(data.status, this.statusOptions) ?? '',
+            source: this.resolveOptionValue(data.source, this.sourceOptions) ?? '',
             title: data.title ?? '',
             department: data.department ?? '',
             notes: data.notes ?? '',
@@ -233,8 +254,8 @@ export class ContactFormComponent implements OnInit {
       company: this.normalize(value.company),
       title: this.normalize(value.title),
       department: this.normalize(value.department),
-      status: this.normalize(value.status),
-      source: this.normalize(value.source),
+      status: this.resolveOptionValue(value.status, this.statusOptions) ?? this.normalize(value.status),
+      source: this.resolveOptionValue(value.source, this.sourceOptions) ?? this.normalize(value.source),
       notes: this.normalize(value.notes),
     };
   }
@@ -273,6 +294,21 @@ export class ContactFormComponent implements OnInit {
   private normalize(value?: string): string | undefined {
     const trimmed = value?.trim();
     return trimmed ? trimmed : undefined;
+  }
+
+  private resolveOptionValue(value: string | undefined, options: ReadonlyArray<SelectOption>): string | undefined {
+    const normalized = this.normalize(value)?.toLowerCase();
+    if (!normalized) {
+      return undefined;
+    }
+
+    const matchByValue = options.find((option) => option.value.toLowerCase() === normalized);
+    if (matchByValue) {
+      return matchByValue.value;
+    }
+
+    const matchByLabel = options.find((option) => option.label.toLowerCase() === normalized);
+    return matchByLabel?.value;
   }
 
   private extractContactId(data: unknown): string | undefined {
