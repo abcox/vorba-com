@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
@@ -55,7 +55,7 @@ type ArchiveFilter = 'active' | 'archived' | 'all';
     CommonModule,
     FormsModule,
     MatButtonModule,
-    MatCardModule,
+    MatExpansionModule,
     MatIconModule,
     MatSlideToggleModule,
     MatTableModule,
@@ -67,6 +67,11 @@ type ArchiveFilter = 'active' | 'archived' | 'all';
 export class ContactListComponent implements OnInit, OnDestroy {
   private contactService = inject(ContactService);
   private router = inject(Router);
+  private readonly defaultStatusFilter = 'all';
+  private readonly defaultArchiveFilter: ArchiveFilter = 'all';
+  private readonly defaultSortBy: ContactSortField = 'createdAt';
+  private readonly defaultSortDir: SortDirection = 'desc';
+  private readonly defaultViewMode: ContactViewMode = 'table';
 
   displayedColumns: string[] = ['name', 'email', 'status', 'source', 'createdAt', 'actions'];
   contacts: ContactListRow[] = [];
@@ -79,11 +84,11 @@ export class ContactListComponent implements OnInit, OnDestroy {
   autoRefreshEnabled = false;
   autoRefreshSeconds = 15;
   searchTerm = '';
-  statusFilter = 'all';
-  archiveFilter: ArchiveFilter = 'active';
-  sortBy: ContactSortField = 'createdAt';
-  sortDir: SortDirection = 'desc';
-  viewMode: ContactViewMode = 'table';
+  statusFilter = this.defaultStatusFilter;
+  archiveFilter: ArchiveFilter = this.defaultArchiveFilter;
+  sortBy: ContactSortField = this.defaultSortBy;
+  sortDir: SortDirection = this.defaultSortDir;
+  viewMode: ContactViewMode = this.defaultViewMode;
   readonly sortOptions: ReadonlyArray<{ value: ContactSortField; label: string }> = [
     { value: 'createdAt', label: 'Created date' },
     { value: 'updatedAt', label: 'Updated date' },
@@ -156,6 +161,46 @@ export class ContactListComponent implements OnInit, OnDestroy {
   applyFilters(): void {
     this.currentPage = 1;
     this.loadContacts();
+  }
+
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.statusFilter = this.defaultStatusFilter;
+    this.archiveFilter = this.defaultArchiveFilter;
+    this.sortBy = this.defaultSortBy;
+    this.sortDir = this.defaultSortDir;
+    this.viewMode = this.defaultViewMode;
+    this.currentPage = 1;
+    this.loadContacts();
+  }
+
+  hasActiveFilters(): boolean {
+    return (
+      this.searchTerm.trim().length > 0
+      || this.statusFilter !== this.defaultStatusFilter
+      || this.archiveFilter !== this.defaultArchiveFilter
+      || this.sortBy !== this.defaultSortBy
+      || this.sortDir !== this.defaultSortDir
+      || this.viewMode !== this.defaultViewMode
+    );
+  }
+
+  getFilterSummary(): string {
+    const parts: string[] = [];
+    const search = this.searchTerm.trim();
+
+    if (search) {
+      parts.push(`Search: ${search}`);
+    }
+
+    parts.push(`Scope: ${this.labelize(this.archiveFilter)}`);
+    parts.push(`Status: ${this.labelize(this.statusFilter)}`);
+
+    const sortLabel = this.sortOptions.find((option) => option.value === this.sortBy)?.label ?? 'Created date';
+    const directionLabel = this.sortDir === 'desc' ? 'Newest first' : 'Oldest first';
+    parts.push(`Sort: ${sortLabel} (${directionLabel})`);
+
+    return parts.join(' • ');
   }
 
   clearSearch(): void {
@@ -303,5 +348,13 @@ export class ContactListComponent implements OnInit, OnDestroy {
   private stopAutoRefresh(): void {
     this.refreshSub?.unsubscribe();
     this.refreshSub = undefined;
+  }
+
+  private labelize(value: string): string {
+    if (value === 'all') {
+      return 'All';
+    }
+
+    return value.charAt(0).toUpperCase() + value.slice(1);
   }
 }

@@ -38,23 +38,29 @@
 .admin-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+}
 
-  .mat-card-content {
-    padding: 0;
+.filter-panel {
+  border: 1px solid var(--sys-outline-variant);
+  border-radius: 10px;
+  background: var(--sys-surface-container-lowest);
+
+  .mat-expansion-panel-header {
+    padding: 0 16px;
   }
 }
 
-.management-card {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+.filter-summary {
+  color: var(--sys-on-surface-variant);
+  font-size: 0.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  .mat-card-header {
-    background-color: var(--sys-surface-container);
-    border-radius: 8px 8px 0 0;
-    padding: 16px 24px;
-    margin: -24px -24px 24px -24px;
-  }
+.clear-filters-button {
+  margin-right: 8px;
 }
 
 .filter-toolbar {
@@ -62,9 +68,8 @@
   grid-template-columns: minmax(220px, 2fr) repeat(5, minmax(120px, 1fr)) auto;
   gap: 12px;
   align-items: end;
-  margin: 0 0 16px;
-  padding: 0 0 16px;
-  border-bottom: 1px solid var(--sys-outline-variant);
+  margin: 6px 0 0;
+  padding: 6px 0 2px;
 }
 
 .filter-field {
@@ -105,6 +110,11 @@
 }
 
 .table-container {
+  border: 1px solid var(--sys-outline-variant);
+  border-radius: 10px;
+  background: var(--sys-surface-container-lowest);
+  padding: 14px;
+
   .contact-table {
     width: 100%;
     border-collapse: collapse;
@@ -319,6 +329,10 @@
 
   .filter-toolbar {
     grid-template-columns: 1fr;
+  }
+
+  .filter-summary {
+    display: none;
   }
 
   .filter-actions {
