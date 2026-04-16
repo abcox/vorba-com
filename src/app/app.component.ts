@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
@@ -47,6 +47,13 @@ export class AppComponent {
   isLightTheme = false;
 
   dialogService = inject(DialogService);
+
+  // Track current route to hide main layout components when in admin
+  isAdminRoute = computed(() => {
+    // Check if current URL starts with /admin
+    const url = window.location.pathname;
+    return url.startsWith('/admin');
+  });
 
   stories$ = of<StoryModel[]>([
     {
