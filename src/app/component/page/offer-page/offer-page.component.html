@@ -1,0 +1,107 @@
+<div class="offer-page">
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Offer Rate Card</p>
+      <h1>Engagement offers built for speed and durable execution.</h1>
+      <p class="purpose">{{ content.purpose }}</p>
+
+      <div class="pricing-notes">
+        <h2>Pricing Notes</h2>
+        <ul>
+          @for (note of content.pricingNotes; track $index) {
+            <li>{{ note }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="offer-grid container">
+    @for (offer of content.offers; track offer.id) {
+      <article class="offer-card" [id]="offer.id">
+        <header>
+          <h2>{{ offer.title }}</h2>
+          <p class="duration">{{ offer.duration }}</p>
+          <p class="rate">{{ offer.rate }}</p>
+          <p class="minimum-term" *ngIf="offer.minimumTerm">{{ offer.minimumTerm }}</p>
+        </header>
+
+        <div class="card-section">
+          <h3>Scope</h3>
+          <ul>
+            @for (item of offer.scope; track $index) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </div>
+
+        <div class="card-section">
+          <h3>Typical Fit</h3>
+          <ul>
+            @for (fit of offer.typicalFit; track $index) {
+              <li>{{ fit }}</li>
+            }
+          </ul>
+        </div>
+
+        <button mat-flat-button color="primary" (click)="requestQuote(offer)">
+          Discuss This Offer
+        </button>
+      </article>
+    }
+  </section>
+
+  <section class="add-ons container">
+    <h2>Add-On Services</h2>
+    <div class="add-on-grid">
+      @for (item of content.addOns; track item.name) {
+        <article class="add-on-item">
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description }}</p>
+          <p class="add-on-rate">{{ item.rate }}</p>
+        </article>
+      }
+    </div>
+  </section>
+
+  <section class="guidance container">
+    <div class="guidance-card">
+      <h2>Discount and Packaging Guidance</h2>
+      <ul>
+        @for (discount of content.discounts; track $index) {
+          <li>{{ discount }}</li>
+        }
+      </ul>
+    </div>
+
+    <div class="guidance-card">
+      <h2>Commercial Terms</h2>
+      <ul>
+        @for (term of content.commercialTerms; track $index) {
+          <li>{{ term }}</li>
+        }
+      </ul>
+    </div>
+
+    <div class="guidance-card">
+      <h2>Internal Deal Guardrails</h2>
+      <ul>
+        @for (guardrail of content.guardrails; track $index) {
+          <li>{{ guardrail }}</li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="cta container">
+    <h2>Need help selecting the right entry point?</h2>
+    <p>Book a working session and we can shape the right offer around your current constraints.</p>
+    <div class="actions">
+      <button mat-flat-button color="primary" (click)="scheduleCall()">Schedule a Call</button>
+      <button mat-stroked-button (click)="requestQuote()">Request a Quote</button>
+    </div>
+    <p class="versioning">
+      Owner: {{ content.versioning.owner }}. Review cadence: {{ content.versioning.reviewCadence }}.
+    </p>
+  </section>
+</div>

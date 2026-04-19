@@ -30,6 +30,10 @@
             >
         }
     </div>
+    <div class="right-side mr-10">
+        <app-menu-toggle></app-menu-toggle>
+        <app-menu-dialog></app-menu-dialog>
+    </div>
     <div class="flex flex-end">
         <button
             mat-flat-button
@@ -54,8 +58,8 @@
                 @case ('Services') {
                     <ng-container [ngTemplateOutlet]="servicesTemplate"></ng-container>
                 }
-                @case ('Pricing') {
-                    <ng-container [ngTemplateOutlet]="pricingTemplate"></ng-container>
+                @case ('Offers') {
+                    <ng-container [ngTemplateOutlet]="offersTemplate"></ng-container>
                 }
                 @case ('Our Work') {
                     <ng-container [ngTemplateOutlet]="ourWorkTemplate"></ng-container>
@@ -108,35 +112,35 @@
     </div>
 </ng-template>
 
-<!-- Pricing Template -->
-<ng-template #pricingTemplate>
+<!-- Offers Template -->
+<ng-template #offersTemplate>
     <div class="menu-dialog-content">
         <div class="menu-dialog-grid">
             <div class="menu-dialog-section">
-                <h4>Starter Package</h4>
-                <p class="price">$2,500/month</p>
+                <h4><a href="/offers#discovery-sprint">Discovery Sprint</a></h4>
+                <p class="price">$8,500 - $15,000</p>
                 <ul>
-                    <li>Basic web development</li>
-                    <li>Email support</li>
-                    <li>Monthly reports</li>
+                    <li>2-week engagement</li>
+                    <li>Current-state snapshot</li>
+                    <li>30-day plan</li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4>Professional</h4>
-                <p class="price">$5,000/month</p>
+                <h4><a href="/offers#systems-assessment">Systems Assessment</a></h4>
+                <p class="price">$22,000 - $48,000</p>
                 <ul>
-                    <li>Full-stack development</li>
-                    <li>Priority support</li>
-                    <li>Weekly meetings</li>
+                    <li>4-6 week engagement</li>
+                    <li>Bottleneck and risk analysis</li>
+                    <li>Prioritized roadmap</li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4>Enterprise</h4>
-                <p class="price">Custom Quote</p>
+                <h4><a href="/offers#evaluation-optimization-retainer">Optimization Retainer</a></h4>
+                <p class="price">$6,500 - $18,000 / month</p>
                 <ul>
-                    <li>Custom solutions</li>
-                    <li>Dedicated team</li>
-                    <li>24/7 support</li>
+                    <li>Monthly advisory support</li>
+                    <li>KPI and workflow health review</li>
+                    <li>Suggested minimum 3 months</li>
                 </ul>
             </div>
         </div>

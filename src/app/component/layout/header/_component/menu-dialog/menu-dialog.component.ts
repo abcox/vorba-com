@@ -7,6 +7,7 @@ import { LayoutService } from '../../../_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '@src/app/core/auth/auth.service';
+import { ThemeSwatch } from '@src/app/services/theme.service';
 
 @Component({
   selector: 'app-menu-dialog',
@@ -23,6 +24,13 @@ export class MenuDialogComponent implements AfterViewInit {
   menuOpen = this.menuService.menuOpen;
   @ViewChild('themeTemplate') themeTemplate!: TemplateRef<any>;  
   menuItems: MenuItem[] = [];
+  swatchOptions = [
+    { value: ThemeSwatch.Default, label: 'System Default' },
+    { value: ThemeSwatch.Classic, label: 'Classic Offer' },
+    { value: ThemeSwatch.Ocean, label: 'Ocean' },
+    { value: ThemeSwatch.Forest, label: 'Forest' },
+    { value: ThemeSwatch.Ember, label: 'Ember' }
+  ];
 
   ngAfterViewInit() {
     this.menuItems = this.getMenuItems();
@@ -65,7 +73,10 @@ export class MenuDialogComponent implements AfterViewInit {
         template: this.themeTemplate,
         templateContext: {
           isLightThemeSignal: this.layoutService.isLightTheme,
-          toggleTheme: () => this.layoutService.toggleTheme()
+          toggleTheme: () => this.layoutService.toggleTheme(),
+          swatchSignal: this.layoutService.swatchSignal,
+          swatchOptions: this.swatchOptions,
+          setSwatch: (swatch: string) => this.layoutService.setSwatch(swatch as ThemeSwatch)
         }
       }
     ];

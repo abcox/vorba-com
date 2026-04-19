@@ -1,0 +1,285 @@
+:host {
+  display: block;
+}
+
+.offer-page {
+  --offer-surface: var(--sys-surface, #f8fafc);
+  --offer-card: var(--sys-surface-container-low, #fff);
+  --offer-text: var(--sys-on-surface, #111827);
+  --offer-muted: color-mix(in srgb, var(--offer-text) 72%, transparent);
+  --offer-edge: color-mix(in srgb, var(--sys-outline, #64748b) 36%, transparent);
+  --offer-accent: var(--sys-primary, #1f6ee2);
+  --offer-accent-alt: var(--sys-tertiary, #0f766e);
+  --offer-accent-soft: color-mix(in srgb, var(--offer-accent) 14%, var(--offer-card));
+  --offer-card-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  color: var(--offer-text);
+  background:
+    radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--offer-accent-alt) 22%, transparent), transparent 42%),
+    radial-gradient(circle at 10% 30%, rgba(249, 115, 22, 0.12), transparent 45%),
+    var(--offer-surface);
+  padding-bottom: 3rem;
+}
+
+:host-context(.light-theme) .offer-page {
+  --offer-surface: color-mix(in srgb, var(--sys-surface, #fff) 94%, #f6f8ff);
+  --offer-card: color-mix(in srgb, var(--sys-surface-container-low, #fff) 88%, #fff);
+  --offer-card-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+:host-context(.dark-theme) .offer-page {
+  --offer-surface: color-mix(in srgb, var(--sys-surface, #0f172a) 85%, #020617);
+  --offer-card: color-mix(in srgb, var(--sys-surface-container-high, #111827) 88%, #0f172a);
+  --offer-text: var(--sys-on-surface, #e5e7eb);
+  --offer-muted: color-mix(in srgb, var(--offer-text) 74%, transparent);
+  --offer-edge: color-mix(in srgb, var(--sys-outline, #94a3b8) 42%, transparent);
+  --offer-accent-soft: color-mix(in srgb, var(--offer-accent) 20%, var(--offer-card));
+  --offer-card-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+  background:
+    radial-gradient(circle at 85% 0%, color-mix(in srgb, var(--offer-accent-alt) 26%, transparent), transparent 44%),
+    radial-gradient(circle at 12% 24%, color-mix(in srgb, var(--offer-accent) 18%, transparent), transparent 46%),
+    var(--offer-surface);
+}
+
+/* Optional swatch hooks for future theme expansion. */
+:host-context(.theme-swatch-ocean) .offer-page {
+  --offer-accent: #1f6ee2;
+  --offer-accent-alt: #0ea5e9;
+}
+
+:host-context(.theme-swatch-classic) .offer-page {
+  --offer-accent: #0f766e;
+  --offer-accent-alt: #f97316;
+}
+
+:host-context(.light-theme.theme-swatch-classic) .offer-page {
+  --offer-surface: #fbfaf7;
+  --offer-card: #fff;
+  --offer-text: #1f2937;
+  --offer-muted: #5b6470;
+  --offer-edge: #e5e7eb;
+}
+
+:host-context(.dark-theme.theme-swatch-classic) .offer-page {
+  --offer-accent: #34d399;
+  --offer-accent-alt: #fb923c;
+}
+
+:host-context(.theme-swatch-forest) .offer-page {
+  --offer-accent: #0f766e;
+  --offer-accent-alt: #16a34a;
+}
+
+:host-context(.theme-swatch-ember) .offer-page {
+  --offer-accent: #c2410c;
+  --offer-accent-alt: #dc2626;
+}
+
+.container {
+  width: min(1120px, 92vw);
+  margin: 0 auto;
+}
+
+.hero {
+  padding: 4.5rem 0 2.5rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--offer-accent);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.1;
+  margin: 0;
+  max-width: 18ch;
+}
+
+.purpose {
+  margin: 1rem 0 0;
+  color: var(--offer-muted);
+  max-width: 76ch;
+  font-size: 1.05rem;
+}
+
+.pricing-notes {
+  margin-top: 1.5rem;
+  border: 1px solid var(--offer-edge);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--offer-card) 84%, transparent);
+  padding: 1.2rem 1.2rem 0.7rem;
+}
+
+.pricing-notes h2 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+}
+
+.offer-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.offer-card {
+  border: 1px solid var(--offer-edge);
+  border-radius: 20px;
+  background: var(--offer-card);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--offer-card-shadow);
+}
+
+.offer-card h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.duration {
+  margin: 0.5rem 0 0;
+  color: var(--offer-muted);
+}
+
+.rate {
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+  color: var(--offer-accent);
+}
+
+.minimum-term {
+  margin-top: 0.35rem;
+  color: var(--offer-muted);
+  font-size: 0.95rem;
+}
+
+.card-section h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--offer-muted);
+}
+
+.card-section ul,
+.pricing-notes ul,
+.guidance-card ul {
+  margin: 0.65rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.card-section li,
+.pricing-notes li,
+.guidance-card li {
+  margin-bottom: 0.45rem;
+  color: color-mix(in srgb, var(--offer-text) 90%, transparent);
+  line-height: 1.4;
+}
+
+.offer-card button {
+  margin-top: auto;
+}
+
+.add-ons,
+.guidance,
+.cta {
+  margin-top: 2rem;
+}
+
+.add-ons h2,
+.guidance-card h2,
+.cta h2 {
+  margin: 0 0 1rem;
+}
+
+.add-on-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.add-on-item {
+  border-radius: 14px;
+  border: 1px solid var(--offer-edge);
+  padding: 1rem;
+  background: color-mix(in srgb, var(--offer-card) 94%, transparent);
+}
+
+.add-on-item h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.add-on-item p {
+  margin: 0.6rem 0 0;
+  color: var(--offer-muted);
+}
+
+.add-on-rate {
+  color: var(--offer-accent) !important;
+  font-weight: 700;
+}
+
+.guidance {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.guidance-card {
+  border: 1px solid var(--offer-edge);
+  background: var(--offer-card);
+  border-radius: 14px;
+  padding: 1rem;
+}
+
+.guidance-card h2 {
+  font-size: 1.05rem;
+}
+
+.cta {
+  border: 1px solid color-mix(in srgb, var(--offer-accent) 30%, transparent);
+  border-radius: 18px;
+  padding: 1.3rem;
+  background: linear-gradient(135deg, var(--offer-accent-soft), var(--offer-card));
+}
+
+.cta p {
+  color: var(--offer-muted);
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.versioning {
+  margin-top: 1rem;
+  font-size: 0.92rem;
+}
+
+@media (max-width: 1024px) {
+  .offer-grid,
+  .add-on-grid,
+  .guidance {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-top: 2.8rem;
+  }
+
+  .offer-grid,
+  .add-on-grid,
+  .guidance {
+    grid-template-columns: 1fr;
+  }
+}

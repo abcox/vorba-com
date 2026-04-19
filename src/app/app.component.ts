@@ -1,22 +1,10 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { MatIconRegistry } from '@angular/material/icon';
 //import { OverlayContainer } from '@angular/cdk/overlay'; // todo: review what this is about
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { CarouselComponent } from './component/carousel/carousel.component';
 import { of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { YouTubePlayer/* , YOUTUBE_PLAYER_CONFIG */ } from '@angular/youtube-player';
-import { HeaderComponent } from './component/layout/header/header.component';
-import { FooterComponent } from './component/layout/footer/footer.component';
 import { SessionService } from './core/session/session.service';
-import { MenuBannerComponent } from './component/layout/header/_component/menu-banner/menu-banner.component';
 import { DialogService } from './component/dialog/dialog.service';
 import { HotkeyDirective } from "./directive/hotkey-directive";
 
@@ -31,10 +19,7 @@ interface StoryModel {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonToggleModule,
-    MatCardModule, MatDialogModule, MatIconModule, MatSlideToggleModule, MatSnackBarModule, RouterOutlet,
-    CarouselComponent, YouTubePlayer, HeaderComponent, FooterComponent,
-    MenuBannerComponent, HotkeyDirective],
+  imports: [RouterOutlet, HotkeyDirective],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -47,13 +32,6 @@ export class AppComponent {
   isLightTheme = false;
 
   dialogService = inject(DialogService);
-
-  // Track current route to hide main layout components when in admin
-  isAdminRoute = computed(() => {
-    // Check if current URL starts with /admin
-    const url = window.location.pathname;
-    return url.startsWith('/admin');
-  });
 
   stories$ = of<StoryModel[]>([
     {

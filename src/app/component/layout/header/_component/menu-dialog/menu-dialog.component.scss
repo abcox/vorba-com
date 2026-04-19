@@ -3,3 +3,39 @@
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   //border: 1px solid var(--grayscale-200);
 }
+
+.theme-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 180px;
+}
+
+.theme-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.theme-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  //color: var(--sys-on-surface-variant, var(--md-sys-color-on-surface-variant, #475569));
+}
+
+:host-context(.light-theme) .theme-label {
+  color: var(--sys-on-surface, #1f2937);
+}
+/* 
+:host-context(.dark-theme) .theme-label {
+  color: var(--sys-on-surface-variant, #cbd5e1);
+} */
+
+.swatch-select {
+  width: 100%;
+  border: 1px solid var(--sys-outline-variant, var(--md-sys-color-outline-variant));
+  background: var(--sys-surface-container-low, var(--md-sys-color-surface-container-low));
+  color: var(--sys-on-surface, var(--md-sys-color-on-surface));
+  border-radius: 8px;
+  padding: 0.35rem 0.5rem;
+}

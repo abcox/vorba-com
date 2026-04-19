@@ -7,7 +7,9 @@
         @if (item.template) {
           <!-- Debug: {{ item.template ? 'Template exists' : 'No template' }} -->
           <ng-container *ngTemplateOutlet="item.template; context: item.templateContext"></ng-container>
-          {{ item.label }}
+          @if (item.label) {
+            <div class="theme-label pt-3" [innerHTML]="item.label"></div>
+          }
         } @else {
           <button mat-button class="flex items-center gap-2"
             (click)="item.action ? item.action() :
@@ -15,7 +17,9 @@
             @if (item.icon) {
               <mat-icon>{{ item.icon }}</mat-icon>
             }
-            <span>{{ item.label }}</span>
+            @if (item.label) {
+              <div class="pt-3" [innerHTML]="item.label"></div>
+            }
           </button>
           <!-- <div>
             <a [routerLink]="item.routerLink" 

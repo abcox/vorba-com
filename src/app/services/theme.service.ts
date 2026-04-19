@@ -5,22 +5,35 @@ export enum Theme {
   Dark = 'dark'
 }
 
+export enum ThemeSwatch {
+  Default = 'default',
+  Classic = 'classic',
+  Ocean = 'ocean',
+  Forest = 'forest',
+  Ember = 'ember'
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
   private readonly THEME_KEY = 'app-theme';
+  private readonly SWATCH_KEY = 'app-theme-swatch';
+  private readonly SWATCH_CLASS_PREFIX = 'theme-swatch-';
   
   // Signal for theme state
   private _themeSignal = signal<Theme>(this.getInitialTheme());
+  private _swatchSignal = signal<ThemeSwatch>(this.getInitialSwatch());
   
   // Computed values
   readonly theme = this._themeSignal.asReadonly();
+  readonly swatch = this._swatchSignal.asReadonly();
   readonly isDarkTheme = computed(() => this.theme() === Theme.Dark);
   readonly isLightTheme = computed(() => this.theme() === Theme.Light);
 
   constructor() {
     this.applyTheme(this.theme());
+    this.applySwatch(this.swatch());
   }
 
   private getInitialTheme(): Theme {
@@ -37,6 +50,15 @@ export class ThemeService {
     
     // Default to light theme
     return Theme.Light;
+  }
+
+  private getInitialSwatch(): ThemeSwatch {
+    const savedSwatch = localStorage.getItem(this.SWATCH_KEY);
+    if (savedSwatch && Object.values(ThemeSwatch).includes(savedSwatch as ThemeSwatch)) {
+      return savedSwatch as ThemeSwatch;
+    }
+
+    return ThemeSwatch.Default;
   }
 
   private applyTheme(theme: Theme): void {
@@ -59,10 +81,28 @@ export class ThemeService {
     }
   }
 
+  private applySwatch(swatch: ThemeSwatch): void {
+    const body = document.body;
+    const swatchClassNames = Object.values(ThemeSwatch)
+      .filter((value) => value !== ThemeSwatch.Default)
+      .map((value) => `${this.SWATCH_CLASS_PREFIX}${value}`);
+
+    body.classList.remove(...swatchClassNames);
+    if (swatch !== ThemeSwatch.Default) {
+      body.classList.add(`${this.SWATCH_CLASS_PREFIX}${swatch}`);
+    }
+  }
+
   setTheme(theme: Theme): void {
     this._themeSignal.set(theme);
     this.applyTheme(theme);
     localStorage.setItem(this.THEME_KEY, theme);
+  }
+
+  setSwatch(swatch: ThemeSwatch): void {
+    this._swatchSignal.set(swatch);
+    this.applySwatch(swatch);
+    localStorage.setItem(this.SWATCH_KEY, swatch);
   }
 
   toggleTheme(): void {
@@ -83,5 +123,9 @@ export class ThemeService {
   // Method to check if theme is light
   isLight(): boolean {
     return this.isLightTheme();
+  }
+
+  getCurrentSwatch(): ThemeSwatch {
+    return this.swatch();
   }
 } 

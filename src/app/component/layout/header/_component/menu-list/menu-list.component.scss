@@ -1,0 +1,13 @@
+.theme-label {
+	font-size: 1rem;
+	font-weight: 500;
+	color: var(--sys-on-surface-variant, var(--md-sys-color-on-surface-variant, #64748b));
+}
+
+:host-context(.light-theme) .theme-label {
+	color: var(--sys-on-surface, #1f2937);
+}
+
+:host-context(.dark-theme) .theme-label {
+	color: var(--sys-on-surface-variant, #cbd5e1);
+}

@@ -11,12 +11,30 @@
     #themeTemplate
     let-isLightThemeSignal="isLightThemeSignal"
     let-toggleTheme="toggleTheme"
+    let-swatchSignal="swatchSignal"
+    let-swatchOptions="swatchOptions"
+    let-setSwatch="setSwatch"
     >
-    <mat-slide-toggle
-        class="theme-toggle mt-5"
-        [ngModel]="isLightThemeSignal()"
-        (change)="toggleTheme()">         
-        <!-- (ngModelChange)="toggleTheme()" -->
-    </mat-slide-toggle>
+    <div class="theme-controls mt-4">
+        <div class="theme-toggle-row">
+            <span class="theme-label">Dark Mode</span>
+            <mat-slide-toggle
+                class="theme-toggle"
+                [ngModel]="!isLightThemeSignal()"
+                (change)="toggleTheme()">
+            </mat-slide-toggle>
+        </div>
+
+        <label class="theme-label" for="swatch-select">Color Swatch</label>
+        <select
+            id="swatch-select"
+            class="swatch-select"
+            [ngModel]="swatchSignal()"
+            (ngModelChange)="setSwatch($event)">
+            @for (swatch of swatchOptions; track swatch.value) {
+                <option [value]="swatch.value">{{ swatch.label }}</option>
+            }
+        </select>
+    </div>
 </ng-template>
 

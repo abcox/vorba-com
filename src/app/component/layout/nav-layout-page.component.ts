@@ -4,8 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { RouterOutlet, RouterModule } from '@angular/router';
 import { Component, inject, viewChild } from '@angular/core';
-import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { MenuBannerComponent } from './header/_component/menu-banner/menu-banner.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { DrawerMode, LayoutService } from './_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -20,8 +20,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatButtonToggleModule,
     MatIconModule,
     MatCardModule,
-    HeaderComponent,
     FooterComponent,
+    MenuBannerComponent,
     MatSidenavModule,
     MatSlideToggleModule
   ],

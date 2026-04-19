@@ -1,5 +1,5 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { ThemeService, Theme } from '../../../services/theme.service';
+import { ThemeService, Theme, ThemeSwatch } from '../../../services/theme.service';
 
 export enum DrawerMode {
   Side = 'side',
@@ -49,12 +49,20 @@ export class LayoutService {
     return this.themeService.isLightTheme;
   }
 
+  get swatchSignal() {
+    return this.themeService.swatch;
+  }
+
   toggleTheme() {
     this.themeService.toggleTheme();
   }
 
   setTheme(theme: Theme) {
     this.themeService.setTheme(theme);
+  }
+
+  setSwatch(swatch: ThemeSwatch) {
+    this.themeService.setSwatch(swatch);
   }
 
   //#region Drawer  

@@ -1,19 +1,9 @@
 import { Route, Routes } from '@angular/router';
-import { navRoutes } from './component/layout/nav-layout.module';
-import { quizRoutes } from './component/page/quiz-page/quiz.module';
+import { DEFAULT_ENTRY, navRoutes } from './component/layout/nav-layout.module';
 import { adminRoutes } from '@src/module/admin/admin.module';
 import { adminGuard } from './core/auth/auth.guard';
 import { AdminLayoutPageComponent } from '@src/module/admin/_component/layout/admin-layout-page.component';
 import { SessionTimeoutPageComponent } from './component/page/session-timeout-page/session-timeout-page.component';
-import { CaseStudyPageComponent } from './component/page/case-study-page/case-study-page.component';
-import { HomePageComponent } from './component/page/home-page/home-page.component';
-import { TeamPageComponent } from './component/page/team-page/team-page.component';
-import { ServicePageComponent } from './component/page/service-page/service-page.component';
-import { PaymentPageComponent } from './component/page/payment-page';
-import { InvoicePageComponent } from './component/page/invoice-page';
-import { InvoiceListViewComponent } from './component/page/invoice-page/_component/invoice-list-view/invoice-list-view.component';
-import { InvoiceDetailComponent } from './component/page/invoice-page/_component/invoice-detail';
-import { GooglePageComponent } from './component/page/google-page/google-page.component';
 
 export interface MenuItem extends Route {
     title?: string;
@@ -40,68 +30,25 @@ export const menuItems: MenuItem[] = [
 ];
 
 export const routes: Routes = [
-    // Root route - must come BEFORE navRoutes
     {
         path: '',
-        component: HomePageComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        redirectTo: DEFAULT_ENTRY
     },
     ...navRoutes,
-    // Admin routes
     {
         path: 'admin',
         component: AdminLayoutPageComponent,
         children: adminRoutes,
         canActivate: [adminGuard()]
     },
-    // Quiz routes
-    {
-        path: 'quiz',
-        children: quizRoutes
-    },
-    // Session timeout routes
     {
         path: 'session-timeout',
         component: SessionTimeoutPageComponent
     },
     {
-        path: 'study',
-        component: CaseStudyPageComponent
-    },
-    {
-        path: 'about/team',
-        component: TeamPageComponent
-    },
-    {
-        path: 'services',
-        component: ServicePageComponent
-    },
-    {
-        path: 'payment',
-        component: PaymentPageComponent
-    },
-    {
-        path: 'invoice/new',
-        component: InvoicePageComponent
-    },
-    {
-        path: 'invoice/list',
-        component: InvoiceListViewComponent
-    },
-    {
-        path: 'invoice/:id/detail',
-        //loadComponent: () => import('./component/page/invoice-page/_component/invoice-detail/invoice-detail.component').then(m => m.InvoiceDetailComponent)
-        component: InvoiceDetailComponent
-    },
-    {
-        path: 'google/sandbox',
-        //loadComponent: () => import('./component/page/google-page/google-page.component').then(m => m.GooglePageComponent)
-        component: GooglePageComponent
-    },
-    // Catch all - redirect to nav layout
-    {
         path: '**',
-        redirectTo: '/',
+        redirectTo: DEFAULT_ENTRY,
         pathMatch: 'full'
     }
 ];

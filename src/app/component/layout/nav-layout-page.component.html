@@ -1,3 +1,5 @@
+<app-menu-banner class="sticky top-0 z-50 shadow-md"></app-menu-banner>
+
 <mat-drawer-container>
   <mat-drawer #drawer [mode]="drawerModeSignal()" [opened]="drawerOpenedSignal()" [position]="drawerPositionSignal()">
     <!-- {{ drawerPositionSignal() }}
@@ -22,7 +24,6 @@
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <app-header></app-header>
     <!-- <ng-container *ngTemplateOutlet="drawerControls"></ng-container> -->
     <div class="content">
       <router-outlet />

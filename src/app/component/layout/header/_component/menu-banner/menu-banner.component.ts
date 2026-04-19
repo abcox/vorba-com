@@ -3,6 +3,8 @@ import { Component, signal, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { RouterModule, Router } from "@angular/router";
 import { LogoComponent } from "../logo/logo.component";
+import { MenuToggleComponent } from "../menu-toggle/menu-toggle.component";
+import { MenuDialogComponent } from "../menu-dialog/menu-dialog.component";
 
 export interface MenuItem {
   label: string;
@@ -12,7 +14,9 @@ export interface MenuItem {
 @Component({
   selector: 'app-menu-banner',
   standalone: true,
-  imports: [LogoComponent, CommonModule, MatButtonModule, RouterModule],
+  imports: [LogoComponent, CommonModule, MatButtonModule, RouterModule,
+    MenuToggleComponent, MenuDialogComponent
+  ],
   templateUrl: './menu-banner.component.html',
   styleUrl: './menu-banner.component.scss'
 })
@@ -22,7 +26,7 @@ export class MenuBannerComponent {
     menuList = signal([
         //{ label: 'Solutions', url: '/solutions' },
         { label: 'Services', url: '/services' },
-        //{ label: 'Pricing', url: '/pricing' },
+        { label: 'Offers', url: '/offers' },
         //{ label: 'Resources', url: '/resources' },
         { label: 'Our Work', url: '/case-studies' },
         { label: 'About Us', url: '/about' },
