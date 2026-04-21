@@ -121,7 +121,7 @@
 .offer-grid {
   display: grid;
   gap: 1.25rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
 }
 
 .offer-card {
@@ -198,7 +198,7 @@
 
 .add-on-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
@@ -226,7 +226,7 @@
 
 .guidance {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
 }
 
@@ -262,14 +262,6 @@
 .versioning {
   margin-top: 1rem;
   font-size: 0.92rem;
-}
-
-@media (max-width: 1024px) {
-  .offer-grid,
-  .add-on-grid,
-  .guidance {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 720px) {
