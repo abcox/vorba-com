@@ -1,0 +1,44 @@
+// =============================================================================
+// _classic.scss — Classic (teal + amber) swatch
+// =============================================================================
+//
+// PALETTE
+// -------
+// Light accent: teal (#0f766e). Dark accent: emerald (#34d399).
+// Secondary: amber/orange (#f97316 / #fb923c).
+//
+// AUTHORING GUIDE
+// ---------------
+// Same rules as _monochrome.scss — see index.scss for the full guide.
+// Only override tokens that differ from _base.scss.
+// =============================================================================
+
+body.theme-swatch-classic {
+  --app-accent: #0f766e;
+  --app-accent-alt: #f97316;
+  --mdc-text-button-label-text-color: var(--app-text);
+}
+
+body.light-theme.theme-swatch-classic {
+  --app-surface: #fbfaf7;
+  --app-card: #fff;
+  --app-text: #1f2937;
+  --app-muted: #5b6470;
+  --app-edge: #e5e7eb;
+  --app-accent-soft: color-mix(in srgb, var(--app-accent) 14%, var(--app-card));
+  // Legacy bridges
+  --primary-color: var(--app-accent);
+  --on-primary-color: var(--app-card);
+  --background-color: var(--app-surface);
+  --mdc-dialog-container-color: var(--app-card);
+}
+
+body.dark-theme.theme-swatch-classic {
+  --app-accent: #34d399;
+  --app-accent-alt: #fb923c;
+  // Legacy bridges
+  --primary-color: var(--app-accent);
+  --on-primary-color: var(--app-surface);
+  --background-color: var(--app-surface);
+  --mdc-dialog-container-color: var(--app-card);
+}

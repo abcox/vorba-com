@@ -1,13 +1,24 @@
-.theme-label {
+.menu-section-label {
 	font-size: 1rem;
 	font-weight: 500;
-	color: var(--sys-on-surface-variant, var(--md-sys-color-on-surface-variant, #64748b));
+	color: var(--app-text);
 }
 
-:host-context(.light-theme) .theme-label {
-	color: var(--sys-on-surface, #1f2937);
+.menu-item-button {
+	color: var(--app-text);
+	--mdc-text-button-label-text-color: var(--app-text);
+	--mat-text-button-state-layer-color: var(--app-accent);
 }
 
-:host-context(.dark-theme) .theme-label {
-	color: var(--sys-on-surface-variant, #cbd5e1);
+.menu-item-button .mat-icon {
+	color: var(--app-muted);
+}
+
+.menu-item-button:hover .mat-icon,
+.menu-item-button:focus-visible .mat-icon {
+	color: var(--app-accent);
+}
+
+.menu-item-label {
+	color: var(--app-text);
 }

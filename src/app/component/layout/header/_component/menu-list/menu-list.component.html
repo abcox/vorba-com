@@ -1,24 +1,24 @@
 <ul class="flex flex-col gap-2">
   @for (item of menuItems(); track $index) {
     @if (item.type === 'divider') {
-      <li class="h-px" style="background-color: var(--md-sys-color-outline-variant);"></li>
+      <li class="h-px" style="background-color: var(--app-edge);"></li>
     } @else {
       <li>
         @if (item.template) {
           <!-- Debug: {{ item.template ? 'Template exists' : 'No template' }} -->
           <ng-container *ngTemplateOutlet="item.template; context: item.templateContext"></ng-container>
           @if (item.label) {
-            <div class="theme-label pt-3" [innerHTML]="item.label"></div>
+            <div class="menu-section-label pt-3" [innerHTML]="item.label"></div>
           }
         } @else {
-          <button mat-button class="flex items-center gap-2"
+          <button mat-button class="menu-item-button flex items-center gap-2"
             (click)="item.action ? item.action() :
               item.routerLink ? router.navigate([item.routerLink]) : null">
             @if (item.icon) {
               <mat-icon>{{ item.icon }}</mat-icon>
             }
             @if (item.label) {
-              <div class="pt-3" [innerHTML]="item.label"></div>
+              <div class="menu-item-label pt-3" [innerHTML]="item.label"></div>
             }
           </button>
           <!-- <div>

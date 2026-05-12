@@ -1,0 +1,46 @@
+// =============================================================================
+// SWATCH SYSTEM — index.scss
+// =============================================================================
+//
+// HOW IT WORKS
+// ------------
+// 1. _base.scss defines the default (no-swatch) values for all --app-* tokens
+//    for both light-theme and dark-theme body classes.
+//    These are what you see when ThemeSwatch.Default is selected.
+//
+// 2. Each swatch file below overrides only the tokens that differ from _base.
+//    Tokens NOT redefined fall through to the _base values automatically.
+//
+// 3. TO SET A DEFAULT SWATCH:
+//    Copy the palette + token block you want as default into :root and
+//    body.light-theme / body.dark-theme in _base.scss.
+//    The named swatch file can still exist for explicit selection — it just
+//    becomes a no-op for that palette since :root already matches it.
+//
+// TO ADD A NEW SWATCH
+// -------------------
+// 1. Create src/themes/swatches/_my-swatch.scss  (see _classic.scss as template)
+// 2. @import it here below the others
+// 3. Add  MySwatch = 'my-swatch'  to the ThemeSwatch enum in theme.service.ts
+// 4. Add  { value: ThemeSwatch.MySwatch, label: 'My Swatch' }  to swatchOptions
+//    in menu-dialog.component.ts
+//
+// COMPONENT COVERAGE CHECKLIST (add --background-color + --mdc-dialog-container-color
+// bridges in each swatch file once you confirm the control surface looks correct)
+// - [x] --app-accent / --app-accent-alt  (menu-banner bg, h4, links, price)
+// - [x] --app-surface / --app-card       (dialogs, cards, dropdowns)
+// - [x] --app-text / --app-muted         (body copy, labels)
+// - [x] --app-edge                       (borders, dividers)
+// - [x] --app-accent-soft               (pill backgrounds, hover tints)
+// - [x] --primary-color bridge           (form fields, checkboxes, caret)
+// - [x] --on-primary-color bridge        (text on primary bg)
+// - [ ] --background-color bridge        (page background — add per swatch below)
+// - [ ] --mdc-dialog-container-color     (Material dialog bg — add per swatch)
+// =============================================================================
+
+@import './base';
+@import './classic';
+@import './ocean';
+@import './forest';
+@import './ember';
+@import './monochrome';

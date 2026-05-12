@@ -10,7 +10,8 @@ export enum ThemeSwatch {
   Classic = 'classic',
   Ocean = 'ocean',
   Forest = 'forest',
-  Ember = 'ember'
+  Ember = 'ember',
+  Monochrome = 'monochrome'
 }
 
 @Injectable({
@@ -127,5 +128,16 @@ export class ThemeService {
 
   getCurrentSwatch(): ThemeSwatch {
     return this.swatch();
+  }
+
+  /**
+   * Returns the path to a themed asset.
+   * Convention: dark variant = `{name}.{ext}`, light variant = `{name}-light.{ext}`.
+   * Example: themedAsset('vorba-logo') → 'assets/images/vorba-logo.svg' (dark)
+   *                                    → 'assets/images/vorba-logo-light.svg' (light)
+   */
+  themedAsset(name: string, ext = 'svg', folder = 'assets/images'): string {
+    const suffix = this.isLightTheme() ? '-light' : '';
+    return `${folder}/${name}${suffix}.${ext}`;
   }
 } 

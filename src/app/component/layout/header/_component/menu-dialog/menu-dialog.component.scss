@@ -17,25 +17,17 @@
   justify-content: space-between;
 }
 
-.theme-label {
+.menu-control-label {
   font-size: 0.85rem;
   font-weight: 500;
-  //color: var(--sys-on-surface-variant, var(--md-sys-color-on-surface-variant, #475569));
+  color: var(--app-text);
 }
-
-:host-context(.light-theme) .theme-label {
-  color: var(--sys-on-surface, #1f2937);
-}
-/* 
-:host-context(.dark-theme) .theme-label {
-  color: var(--sys-on-surface-variant, #cbd5e1);
-} */
 
 .swatch-select {
   width: 100%;
-  border: 1px solid var(--sys-outline-variant, var(--md-sys-color-outline-variant));
-  background: var(--sys-surface-container-low, var(--md-sys-color-surface-container-low));
-  color: var(--sys-on-surface, var(--md-sys-color-on-surface));
+  border: 1px solid var(--app-edge, var(--sys-outline-variant));
+  background: var(--app-card, var(--sys-surface-container-low));
+  color: var(--app-text, var(--sys-on-surface));
   border-radius: 8px;
   padding: 0.35rem 0.5rem;
 }

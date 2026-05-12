@@ -1,0 +1,69 @@
+// =============================================================================
+// _monochrome.scss — Monochrome (neutral grayscale) swatch
+// =============================================================================
+//
+// PALETTE
+// -------
+// Neutral grayscale scale. Accent = mid-gray. No hue.
+//
+// AUTHORING GUIDE
+// ---------------
+// 1. Define palette primitives in :root below (named custom properties).
+// 2. Override --app-* tokens per mode using palette vars — avoid raw hex here.
+// 3. Add --primary-color + --on-primary-color bridges for legacy controls.
+// 4. Add --background-color for page bg, --mdc-dialog-container-color for dialogs.
+// 5. Only override tokens that differ from _base.scss — everything else inherits.
+// =============================================================================
+
+:root {
+  --grayscale-50: #fff;
+  /* White */
+  --grayscale-100: #fafafa;
+  --grayscale-200: #f5f5f5;
+  --grayscale-300: #e5e5e5;
+  --grayscale-400: #d4d4d4;
+  --grayscale-500: #a3a3a3;
+  --grayscale-600: #737373;
+  --grayscale-700: #525252;
+  --grayscale-800: #404040;
+  --grayscale-900: #262626;
+  --grayscale-915: #171717;
+  --grayscale-925: #0f1115;
+  --grayscale-950: #000;
+}
+
+body.theme-swatch-monochrome {
+  --app-accent: #6b7280;
+  --app-accent-alt: #9ca3af;
+  --mdc-text-button-label-text-color: var(--app-text);
+}
+
+body.light-theme.theme-swatch-monochrome {
+  --app-surface: #f6f7f8;
+  --app-card: var(--grayscale-50);
+  --app-text: #1f2933;
+  --app-muted: #4b5563;
+  --app-edge: #d1d5db;
+  --app-accent-soft: color-mix(in srgb, var(--app-accent) 16%, var(--app-card));
+  // Legacy bridges
+  --primary-color: var(--app-accent);
+  --on-primary-color: var(--app-card);
+  --background-color: var(--app-surface);
+  --mdc-dialog-container-color: var(--app-card);
+}
+
+body.dark-theme.theme-swatch-monochrome {
+  --app-surface: var(--grayscale-925); // #0f1115
+  --app-card: var(--grayscale-915);    // #171717
+  --app-text: #e5e7eb;
+  --app-muted: #9ca3af;
+  --app-edge: #374151;
+  --app-accent: #a1a1aa;
+  --app-accent-alt: #d4d4d8;
+  --app-accent-soft: color-mix(in srgb, var(--app-accent) 22%, var(--app-card));
+  // Legacy bridges
+  --primary-color: var(--app-accent);
+  --on-primary-color: var(--app-surface);
+  --background-color: var(--app-surface);
+  --mdc-dialog-container-color: var(--app-card);
+}

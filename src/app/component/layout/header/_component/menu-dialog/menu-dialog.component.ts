@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef, ViewChild, viewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, inject, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
 import { MenuItem, MenuListComponent } from '../menu-list/menu-list.component';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../../../../service/menu/menu.service';
@@ -22,14 +22,15 @@ export class MenuDialogComponent implements AfterViewInit {
   private authService = inject(AuthService);
   
   menuOpen = this.menuService.menuOpen;
-  @ViewChild('themeTemplate') themeTemplate!: TemplateRef<any>;  
+  @ViewChild('themeTemplate') themeTemplate!: TemplateRef<unknown>;  
   menuItems: MenuItem[] = [];
   swatchOptions = [
     { value: ThemeSwatch.Default, label: 'System Default' },
     { value: ThemeSwatch.Classic, label: 'Classic Offer' },
     { value: ThemeSwatch.Ocean, label: 'Ocean' },
     { value: ThemeSwatch.Forest, label: 'Forest' },
-    { value: ThemeSwatch.Ember, label: 'Ember' }
+    { value: ThemeSwatch.Ember, label: 'Ember' },
+    { value: ThemeSwatch.Monochrome, label: 'Monochrome' }
   ];
 
   ngAfterViewInit() {

@@ -6,6 +6,7 @@
 @import './styles.css'; // stylelint-disable-line no-invalid-position-at-import-rule
 //@import './themes/light.css'; // stylelint-disable-line no-invalid-position-at-import-rule
 //@import './themes/dark.css'; // stylelint-disable-line no-invalid-position-at-import-rule
+@import './themes/swatches/index'; // stylelint-disable-line no-invalid-position-at-import-rule
 @import './app/core/notify/notify.styles.scss'; // stylelint-disable-line no-invalid-position-at-import-rule
 
 @include mat.core();

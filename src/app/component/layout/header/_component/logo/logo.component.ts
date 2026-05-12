@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ThemeService } from '@app/services/theme.service';
 
 @Component({
   selector: 'app-logo',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './logo.component.scss'
 })
 export class LogoComponent {
-
+  readonly themeService = inject(ThemeService);
 }

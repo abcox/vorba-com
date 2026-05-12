@@ -1,0 +1,81 @@
+// =============================================================================
+// _base.scss — Default (no-swatch) semantic token definitions
+// =============================================================================
+//
+// PURPOSE
+// -------
+// Defines the fallback values for all --app-* semantic tokens used across the
+// app when no named swatch is active (ThemeSwatch.Default).
+//
+// TOKEN LAYERS
+// ------------
+// 1. Palette primitives  — raw color values (defined per swatch file)
+// 2. Semantic app roles  — --app-* (defined here; overridden by swatch files)
+// 3. Legacy bridges      — --primary-color, --background-color, etc.
+//                          Keep these so older controls still respond to swatches
+//                          until they are fully migrated to --app-* tokens.
+// 4. Material bridges    — --mdc-dialog-container-color, etc.
+//
+// TO CHANGE THE DEFAULT SWATCH
+// ------------------------------
+// Copy the palette + :root / body.light-theme / body.dark-theme blocks from
+// the swatch file you want as the default, and paste them here replacing the
+// values below.  The named swatch file can still remain — it just becomes a
+// no-op when the default matches.
+//
+// TOKEN REFERENCE — every --app-* token components may consume:
+//   --app-accent           Primary interactive / brand color
+//   --app-accent-alt       Secondary interactive / highlight color
+//   --app-accent-soft      Tinted bg for pills, hover areas
+//   --app-surface          Page / section background
+//   --app-card             Card / panel / dialog background
+//   --app-text             Primary body text
+//   --app-muted            Secondary / subdued text
+//   --app-edge             Borders and dividers
+//   --app-card-shadow      Card elevation shadow
+//   --app-font-family      Base font family
+// =============================================================================
+
+:root {
+  --app-accent: var(--sys-primary, #1f6ee2);
+  --app-accent-alt: var(--sys-tertiary, #0f766e);
+  --app-surface: color-mix(in srgb, var(--sys-surface, #fff) 94%, #f6f8ff);
+  --app-card: color-mix(in srgb, var(--sys-surface-container-low, #fff) 88%, #fff);
+  --app-text: var(--sys-on-surface, #111827);
+  --app-button-text: var(--app-text);
+  --app-muted: color-mix(in srgb, var(--app-text) 72%, transparent);
+  --app-edge: color-mix(in srgb, var(--sys-outline, #64748b) 36%, transparent);
+  --app-accent-soft: color-mix(in srgb, var(--app-accent) 14%, var(--app-card));
+  --app-card-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --app-font-family: var(--font-family-primary, "Segoe UI", sans-serif);
+}
+
+body.light-theme {
+  --app-surface: color-mix(in srgb, var(--sys-surface, #fff) 94%, #f6f8ff);
+  --app-card: color-mix(in srgb, var(--sys-surface-container-low, #fff) 88%, #fff);
+  --app-text: var(--sys-on-surface, #111827);
+  --app-button-text: var(--app-text);
+  --app-muted: color-mix(in srgb, var(--app-text) 72%, transparent);
+  --app-edge: color-mix(in srgb, var(--sys-outline, #64748b) 36%, transparent);
+  --app-accent-soft: color-mix(in srgb, var(--app-accent) 14%, var(--app-card));
+  --app-card-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  // Legacy bridges — keep until all components migrate to --app-* tokens
+  --background-color: var(--app-surface);
+  --mdc-dialog-container-color: var(--app-card);
+  --mdc-text-button-label-text-color: var(--app-button-text);
+}
+
+body.dark-theme {
+  --app-surface: color-mix(in srgb, var(--sys-surface, #0f172a) 85%, #020617);
+  --app-card: color-mix(in srgb, var(--sys-surface-container-high, #111827) 88%, #0f172a);
+  --app-text: var(--sys-on-surface, #e5e7eb);
+  --app-button-text: var(--app-text);
+  --app-muted: color-mix(in srgb, var(--app-text) 74%, transparent);
+  --app-edge: color-mix(in srgb, var(--sys-outline, #94a3b8) 42%, transparent);
+  --app-accent-soft: color-mix(in srgb, var(--app-accent) 20%, var(--app-card));
+  --app-card-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+  // Legacy bridges
+  --background-color: var(--app-surface);
+  --mdc-dialog-container-color: var(--app-card);
+  --mdc-text-button-label-text-color: var(--app-button-text);
+}
