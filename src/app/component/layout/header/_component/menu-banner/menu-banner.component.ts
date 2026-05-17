@@ -8,8 +8,9 @@ import { MenuDialogComponent } from "../menu-dialog/menu-dialog.component";
 import { DeviceService } from "@src/app/services/device.service";
 
 export interface MenuItem {
-  label: string;
-  url?: string;
+    label: string;
+    url?: string;
+    routerLink?: string; // todo: unify url vs routerLink usage across the app
 }
 
 @Component({
@@ -28,11 +29,11 @@ export class MenuBannerComponent {
     isMobile = this.deviceService.isMobile;
     menuList = signal([
         //{ label: 'Solutions', url: '/solutions' },
-        { label: 'Services', url: '/services' },
-        { label: 'Offers', url: '/offers' },
+        { label: 'Services', url: '/services', routerLink: '/services' },
+        { label: 'Offers', url: '/offers', routerLink: '/offers' },
         //{ label: 'Resources', url: '/resources' },
-        { label: 'Our Work', url: '/case-studies' },
-        { label: 'About Us', url: '/about' },
+        { label: 'Our Work', url: '/case-studies', routerLink: '/case-studies' },
+        { label: 'About Us', url: '/about', routerLink: '/about' },
     ] as MenuItem[])
     isDialogVisible = signal(false);
     selectedMenuItem = signal<MenuItem | undefined>(undefined);
