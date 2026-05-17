@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, inject, TemplateRef, ViewChild, AfterViewInit, input, computed } from '@angular/core';
 import { MenuItem, MenuListComponent } from '../menu-list/menu-list.component';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../../../../service/menu/menu.service';
@@ -8,6 +8,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '@src/app/core/auth/auth.service';
 import { ThemeSwatch } from '@src/app/services/theme.service';
+import { DeviceService } from '@src/app/services/device.service';
 
 @Component({
   selector: 'app-menu-dialog',
@@ -17,10 +18,15 @@ import { ThemeSwatch } from '@src/app/services/theme.service';
   styleUrl: './menu-dialog.component.scss'
 })
 export class MenuDialogComponent implements AfterViewInit {
+  menuList = input<MenuItem[]>([]);
+
+  private deviceService = inject(DeviceService);  
+  isMobile = this.deviceService.isMobile;
+
   private menuService = inject(MenuService);
   private layoutService = inject(LayoutService);
   private authService = inject(AuthService);
-  
+
   menuOpen = this.menuService.menuOpen;
   @ViewChild('themeTemplate') themeTemplate!: TemplateRef<unknown>;  
   menuItems: MenuItem[] = [];
@@ -37,8 +43,18 @@ export class MenuDialogComponent implements AfterViewInit {
     this.menuItems = this.getMenuItems();
   }
 
+  menuListForDisplay = computed(() => {
+    const menuItems = this.getMenuItems();
+  
+    if (this.isMobile()) {
+      // splice in the menuList items before the theme item
+      const themeItemIndex = menuItems.findIndex(item => item.template === this.themeTemplate);
+      menuItems.splice(themeItemIndex, 0, ...this.menuList());
+    }
+    return menuItems;
+  });
+
   getMenuItems(): MenuItem[] {
-    // TODO: use menu items from the config file
     return [
       /* {
         label: 'Home',
@@ -80,7 +96,7 @@ export class MenuDialogComponent implements AfterViewInit {
           setSwatch: (swatch: string) => this.layoutService.setSwatch(swatch as ThemeSwatch)
         }
       }
-    ];
+    ] as MenuItem[];
   }
 
   closeMenu() {

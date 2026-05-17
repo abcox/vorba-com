@@ -20,7 +20,7 @@
         </div> -->
     </div>
     <div class="flex">
-        @for (item of menuList(); track item.label) {
+        @for (item of menuListForDisplay(); track item.label) {
             <a
                 class="menu-banner-item"
                 (mouseenter)="showDialog(item)"
@@ -32,7 +32,7 @@
     </div>
     <div class="right-side mr-10">
         <app-menu-toggle></app-menu-toggle>
-        <app-menu-dialog></app-menu-dialog>
+        <app-menu-dialog [menuList]="menuList()"></app-menu-dialog>
     </div>
     <div class="flex flex-end">
         <button
