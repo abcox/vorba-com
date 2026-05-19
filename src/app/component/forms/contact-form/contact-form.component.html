@@ -1,5 +1,5 @@
 <ng-container *ngIf="vm() as vm">
-    <div class="flex flex-col md:flex-row gap-8 p-8 m-8" [class]="containerClasses()">
+    <div class="flex flex-col md:flex-row gap-8 md:p-8 md:m-8" [class]="containerClasses()">
         <!-- Info panel -->
         <mat-card class="w-full md:w-1/2 p-6" [class]="infoPanelClasses()">
             <ng-content select="[slot=info]"></ng-content>
