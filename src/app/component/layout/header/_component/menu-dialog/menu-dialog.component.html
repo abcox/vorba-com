@@ -17,14 +17,25 @@
     >
     <div class="theme-controls mt-4">
         <div class="theme-toggle-row">
-            <span class="menu-control-label">Dark Mode</span>
-            <mat-slide-toggle
+            <span class="menu-control-label">{{ isLightThemeSignal() ? 'Dark mode' : 'Light mode' }}</span>
+            <!-- <mat-slide-toggle
                 class="theme-toggle"
                 [ngModel]="!isLightThemeSignal()"
                 (change)="toggleTheme()">
+            </mat-slide-toggle> -->            
+            <!-- <button mat-icon-button (click)="toggleTheme()" class="theme-toggle">
+                <mat-icon>{{ isLightThemeSignal() ? 'dark_mode' : 'light_mode' }}</mat-icon>
+            </button> -->
+            <mat-slide-toggle
+                class="theme-toggle ml-5"
+                [ngModel]="isLightThemeSignal()"
+                (change)="toggleTheme()">
+                <span
+                appHotkey="alt+t"
+                [hotkeyCallback]="toggleThemeHotkey"
+                hotkeyDescription="Toggle light/dark theme"></span>
             </mat-slide-toggle>
         </div>
-
         <label class="menu-control-label" for="swatch-select">Color Swatch</label>
         <select
             id="swatch-select"
