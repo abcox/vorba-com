@@ -1,6 +1,7 @@
 .service-page {
   min-height: 100vh;
   --service-section-header-bg: linear-gradient(135deg, var(--secondary-color-50) 0%, var(--secondary-color-100) 100%);
+  --service-section-heading: var(--secondary-color-600);
   --service-card-bg: #fff;
   --service-card-border: var(--secondary-color-100);
   --service-card-hover-border: var(--secondary-color-200);
@@ -20,6 +21,7 @@
 
 :host-context(.dark-theme) .service-page {
   --service-section-header-bg: linear-gradient(135deg, rgba(70, 93, 145, 0.22) 0%, rgba(44, 53, 81, 0.48) 100%);
+  --service-section-heading: var(--secondary-color-400);
   --service-card-bg: rgba(20, 31, 54, 0.82);
   --service-card-border: rgba(175, 198, 255, 0.28);
   --service-card-hover-border: rgba(175, 198, 255, 0.48);
@@ -54,7 +56,7 @@
 
     h1 {
       font-size: 2.8rem;
-      color: var(--secondary-color-700);
+      color: var(--service-section-heading);
       margin-bottom: 20px;
       font-weight: 700;
     }
