@@ -37,6 +37,7 @@
 // =============================================================================
 
 :root {
+  --font-family-primary: 'Outfit', 'Segoe UI', sans-serif;
   --app-accent: var(--sys-primary, #1f6ee2);
   --app-accent-alt: var(--sys-tertiary, #0f766e);
   --app-surface: color-mix(in srgb, var(--sys-surface, #fff) 94%, #f6f8ff);

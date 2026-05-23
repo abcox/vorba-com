@@ -1,5 +1,7 @@
 .service-page {
   min-height: 100vh;
+  --service-font-body: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
+  --service-font-heading: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
   --service-section-header-bg: linear-gradient(
     135deg,
     color-mix(in srgb, var(--app-accent-soft) 72%, var(--app-surface)) 0%,
@@ -26,6 +28,7 @@
   --service-cta-bg-end: color-mix(in srgb, var(--app-accent) 70%, var(--app-card));
   --service-cta-text: color-mix(in srgb, white 92%, var(--app-card));
   --service-cta-text-muted: color-mix(in srgb, white 78%, var(--app-card));
+  font-family: var(--service-font-body);
 
   .container {
     max-width: 1200px;
@@ -82,10 +85,11 @@
     border-radius: 12px;
 
     h1 {
-      font-size: 2.8rem;
+      font-size: 2.2rem;
       color: var(--service-section-heading);
       margin-bottom: 20px;
       font-weight: 700;
+      font-family: var(--service-font-heading);
     }
 
     .section-description {
@@ -141,10 +145,11 @@
       flex: 1;
 
       h2 {
-        font-size: 2rem;
+        font-size: 1.8rem;
         color: var(--service-card-heading);
         margin-bottom: 12px;
         font-weight: 600;
+        font-family: var(--service-font-heading);
       }
 
       .service-description {
@@ -167,9 +172,10 @@
         font-size: 1.2rem;
         color: var(--service-card-heading);
         margin-bottom: 16px;
-        font-weight: 600;
+        font-weight: 500;
         border-bottom: 1px solid var(--service-card-divider);
         padding-bottom: 8px;
+        font-family: var(--service-font-heading);
       }
     }
 
@@ -220,12 +226,14 @@
         button[mat-raised-button] {
           --mdc-protected-button-container-color: var(--service-btn-filled-bg);
           --mdc-protected-button-label-text-color: var(--service-btn-filled-text);
+          --mdc-protected-button-label-text-font: var(--service-font-body);
         }
 
         button[mat-stroked-button] {
           --mdc-outlined-button-label-text-color: var(--service-btn-outline-text);
           --mdc-outlined-button-outline-color: var(--service-btn-outline-border);
           --mat-outlined-button-state-layer-color: var(--service-btn-outline-text);
+          --mdc-outlined-button-label-text-font: var(--service-font-body);
           background-color: color-mix(in srgb, var(--service-btn-outline-hover-bg) 0%, transparent);
 
           &:hover {
@@ -252,6 +260,7 @@
       margin-bottom: 16px;
       font-weight: 500;
       color: var(--service-cta-text);
+      font-family: var(--service-font-heading);
     }
 
     p {
@@ -264,9 +273,10 @@
     .cta-button {
       padding: 15px 40px;
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: 500;
       --mdc-protected-button-container-color: var(--service-btn-filled-bg);
       --mdc-protected-button-label-text-color: var(--service-btn-filled-text);
+      --mdc-protected-button-label-text-font: var(--service-font-body);
     }
   }
 }
@@ -298,10 +308,6 @@
     .section-header {
       padding: 30px 20px;
       margin-bottom: 40px;
-
-      h1 {
-        font-size: 2.2rem;
-      }
 
       .section-description {
         font-size: 1.1rem;
