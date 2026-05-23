@@ -106,10 +106,10 @@ export class ThemeService {
     localStorage.setItem(this.SWATCH_KEY, swatch);
   }
 
-  toggleTheme(): void {
+  toggleTheme = (): void => {
     const newTheme = this.isDarkTheme() ? Theme.Light : Theme.Dark;
     this.setTheme(newTheme);
-  }
+  };
 
   // Method to get current theme as string
   getCurrentTheme(): string {
