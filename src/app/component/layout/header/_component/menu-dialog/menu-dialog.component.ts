@@ -10,15 +10,16 @@ import { AuthService } from '@src/app/core/auth/auth.service';
 import { ThemeSwatch } from '@src/app/services/theme.service';
 import { DeviceService } from '@src/app/services/device.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { HotkeyDirective } from '@src/app/directive/hotkey-directive/hotkey.directive';
+import { MatTooltip, MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-menu-dialog',
   standalone: true,
   imports: [CommonModule, FormsModule, MenuListComponent, MatIconModule,
-    MatFormFieldModule,    
+    MatFormFieldModule,
     MatSlideToggleModule,
-    HotkeyDirective
+    MatTooltipModule,
+    MatTooltip
   ],
   templateUrl: './menu-dialog.component.html',
   styleUrl: './menu-dialog.component.scss'
@@ -47,10 +48,6 @@ export class MenuDialogComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.menuItems = this.getMenuItems();
-  }
-  
-  toggleThemeHotkey = (): void => {
-    this.layoutService.toggleTheme();
   }
 
   menuListForDisplay = computed(() => {

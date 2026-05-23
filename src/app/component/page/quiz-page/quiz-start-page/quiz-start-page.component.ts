@@ -7,7 +7,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
-import { Theme, ThemeService } from '@src/app/services/theme.service';
 import { AuthService } from '@src/app/core/auth/auth.service';
 import { environment } from '@src/environments/environment';
 import { UserRegistrationRequest } from '@file-service-api/v1';
@@ -37,7 +36,6 @@ import { NotifyService } from '@src/app/core/notify/notify.service';
 })
 export class QuizStartPageComponent {
   private authService = inject(AuthService);
-  private themeService = inject(ThemeService);
   private notifyService = inject(NotifyService);
   quizForm: FormGroup;
   loading = signal(false);
@@ -52,9 +50,6 @@ export class QuizStartPageComponent {
       subscribeNewsletter: [false, [Validators.requiredTrue]]
       //termsAccepted: [false, [Validators.requiredTrue]]
     });
-    
-    // set theme to light
-    this.themeService.setTheme(Theme.Light);
   }
 
   onSubmit() {

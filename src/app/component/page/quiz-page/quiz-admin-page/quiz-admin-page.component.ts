@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,7 +13,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
-import { Theme, ThemeService } from '../../../../services/theme.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { ConfirmDialogService } from '../../../dialog/confirm-dialog/confirm-dialog.service';
@@ -41,7 +40,6 @@ import { ConfirmDialogService } from '../../../dialog/confirm-dialog/confirm-dia
   styleUrl: './quiz-admin-page.component.scss'
 })
 export class QuizAdminPageComponent implements OnInit {
-  private themeService = inject(ThemeService);
   private router = inject(Router);  
   private quizService = inject(QuizService);
   private confirmDialogService = inject(ConfirmDialogService);
@@ -50,8 +48,6 @@ export class QuizAdminPageComponent implements OnInit {
   displayedColumns: string[] = ['title', 'questionCount', 'createdAt', 'actions'];
 
   ngOnInit() {
-    this.themeService.setTheme(Theme.Dark);
-
     this.loadQuizList();
   }
     

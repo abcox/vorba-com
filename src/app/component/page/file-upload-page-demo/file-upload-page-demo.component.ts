@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Theme, ThemeService } from '@src/app/services/theme.service';
 import { DeviceService } from '@src/app/services/device.service';
 import { FileUploadComponent } from '../file-upload-page/_component/file-upload/file-upload.component';
 
@@ -41,7 +40,6 @@ interface UploadStep {
   encapsulation: ViewEncapsulation.None
 })
 export class FileUploadPageDemoComponent implements OnInit {
-  private themeService = inject(ThemeService);
   private deviceService = inject(DeviceService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
@@ -91,8 +89,6 @@ export class FileUploadPageDemoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.themeService.setTheme(Theme.Dark);
-
     // Get quiz data from route params and query params
     this.route.params.subscribe(params => {
       this.quizId = params['id'];

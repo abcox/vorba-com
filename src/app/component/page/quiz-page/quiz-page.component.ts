@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Theme, ThemeService } from '@src/app/services/theme.service';
 import { MatIconModule } from '@angular/material/icon';
 import { DeviceService } from '@src/app/services/device.service';
 import { QuizResponseDto, QuizDto, QuizService, QuizQuestionDto, QuizQuestionOptionDto, UserService, SubmitQuizActionDto } from '@file-service-api/v1';
@@ -44,7 +43,6 @@ export class QuizPageComponent implements OnInit {
   quizService = inject(QuizService);
   userService = inject(UserService);
   isMobile = inject(DeviceService).isMobile;
-  private themeService = inject(ThemeService);
   @ViewChild('stepper') stepper!: MatStepper;
   loading = signal(false);
   quizForm: FormGroup;
@@ -91,9 +89,6 @@ export class QuizPageComponent implements OnInit {
 
   ngOnInit() {
     this.quizId = this.route.snapshot.paramMap.get('id');
-
-    // set theme to light
-    this.themeService.setTheme(Theme.Light);
   }
 
   private createFormControls(quiz: QuizDto) {

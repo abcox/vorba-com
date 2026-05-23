@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal, ViewEncapsulation } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core'; // ViewEncapsulation
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterModule } from '@angular/router';
-import { YouTubePlayer } from '@angular/youtube-player';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SocialMediaLinksComponent } from '../../layout/_component/social-media-links/social-media-links.component';
 import { LayoutService } from '../../layout/_service/layout.service';
 import { of } from 'rxjs';
 import { CarouselComponent, CarouselOptions, DEFAULT_CAROUSEL_AUTOPLAY_OPTIONS } from '../../carousel/carousel.component';
@@ -17,8 +15,9 @@ import { ClientLogoSectionComponent } from "./_component/client-logo/client-logo
 import { ContactFormComponent, ContactFormOptions, ContactFormPanelOrder } from '../../forms/contact-form/contact-form.component';
 import { DialogModule } from "@angular/cdk/dialog";
 import { TestamonySectionComponent } from '../../section/testamony-section/testamony-section.component';
-//import { HotkeyDirective } from '../../../directive/hotkey-directive/hotkey.directive';
-import { HotkeyDirective } from "@src/app/directive/hotkey-directive";
+//import { YouTubePlayer } from '@angular/youtube-player';
+//import { SocialMediaLinksComponent } from '../../layout/_component/social-media-links/social-media-links.component';
+//import { HotkeyDirective } from "@src/app/directive/hotkey-directive";
 
 interface OfferAction {
   label: string;
@@ -31,20 +30,23 @@ interface OfferViewModel {
   action?: OfferAction;
 }
 
+interface VideoShortItem {
+  videoId: string;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     CommonModule, FormsModule, MatButtonModule, MatButtonToggleModule,
     MatCardModule, MatIconModule, MatSlideToggleModule,
-    YouTubePlayer, RouterModule,
-    SocialMediaLinksComponent,
-    CarouselComponent,
+    RouterModule, CarouselComponent,
     ClientLogoSectionComponent,
     ContactFormComponent,
     DialogModule,
     TestamonySectionComponent,
-    HotkeyDirective
+    // unused / available for future use: MatTooltipModule
+    // YouTubePlayer, HotkeyDirective, SocialMediaLinksComponent
 ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',
@@ -58,7 +60,7 @@ export class HomePageComponent {
   isLightTheme = computed(() => this.layoutService.themeSignal() === 'light');
 
   placeholderImageQuality: 'high' | 'low' | 'standard' = 'standard';
-  shorts$ = of<any[]>([
+  shorts$ = of<VideoShortItem[]>([
     {
       videoId: 'fS4cH2fky5M',
     },
@@ -116,33 +118,6 @@ export class HomePageComponent {
   ]);
 
   constructor() {
-    //this.applyTheme('dark-theme');
     this.layoutService.clearTitlePrefix();
-  }
-
-  toggleThemeHotkey = (): void => {
-    this.layoutService.toggleTheme();
-  }
-
-  toggleTheme2(event: any): void {
-    const isDarkTheme = event.value === 'dark'
-    const themeClass = isDarkTheme ? 'dark-theme' : 'light-theme';
-    this.applyTheme(themeClass);
-  }
-  /* toggleTheme(isLight: boolean) {
-    this.isLightTheme = isLight;
-    if (isLight) {
-      document.body.classList.add('light-theme');
-    } else {
-      document.body.classList.remove('light-theme');
-    }
-  } */
-
-  applyTheme(themeClass: string) {
-    document.body.classList.remove('light-theme', 'dark-theme');
-    document.body.classList.add(themeClass);
-
-    //this.overlayContainer.getContainerElement().classList.remove('light-theme', 'dark-theme');
-    //this.overlayContainer.getContainerElement().classList.add(themeClass);
   }
 }
