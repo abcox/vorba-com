@@ -273,7 +273,10 @@ h2 {
   --mdc-checkbox-selected-hover-icon-color: var(--primary-color);
 
   --mdc-protected-button-disabled-container-color: var(--grayscale-600);
+  --mdc-text-button-container-shape: var(--mdc-shape-small);
   --mdc-protected-button-container-shape: var(--mdc-shape-small);
+  --mdc-filled-button-container-shape: var(--mdc-shape-small);
+  --mdc-outlined-button-container-shape: var(--mdc-shape-small);
 
     /* Carousel styles (swiper) */
   --swiper-pagination-color: var(--primary-color);
@@ -338,6 +341,11 @@ h2 {
   /* Buttons */
   --action-button-background-color: #43e43b; // #81E979; // #08c408; // Emerald: #2dd881 / rgb(8, 196, 8);
   --action-button-label-color: black;
+
+  --mdc-text-button-container-shape: var(--mdc-shape-small);
+  --mdc-protected-button-container-shape: var(--mdc-shape-small);
+  --mdc-filled-button-container-shape: var(--mdc-shape-small);
+  --mdc-outlined-button-container-shape: var(--mdc-shape-small);
 }
 
 :host {
