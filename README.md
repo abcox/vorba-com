@@ -20,7 +20,25 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Playwright is configured for end-to-end testing.
+
+1. Install browser binaries (first time only): `npm run e2e:install`
+2. Run tests headless: `npm run e2e`
+3. Run tests in headed mode: `npm run e2e:headed`
+4. Open Playwright UI mode: `npm run e2e:ui`
+5. Debug a test interactively: `npm run e2e:debug`
+
+E2E specs live in `tests/e2e` and use `playwright.config.ts`.
+
+## Documentation
+
+Detailed project and implementation documentation lives in `docs/`.
+
+- Redesign and style direction: `docs/redesign-2025.md`
+- UX testing setup: `docs/UX_TESTING_SETUP.md`
+- Service page theme baseline assessment: `docs/theme-assessment-service-page.md`
+
+The root-level `CHANGELOG.md` is intentionally kept at the repository root for release/version tracking.
 
 ## Further help
 

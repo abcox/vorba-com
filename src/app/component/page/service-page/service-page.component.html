@@ -4,6 +4,7 @@
     <div class="container">
       @for (category of serviceCategories(); track category.id) {
         <section 
+          [attr.data-testid]="'service-section-' + category.id"
           [id]="category.id" 
           class="service-section">
           
@@ -15,6 +16,7 @@
           <!-- Service Subsections -->
           @for (service of category.services; track service.id) {
             <div 
+              [attr.data-testid]="'service-subsection-' + category.id + '-' + service.id"
               [id]="category.id + '-' + service.id"
               class="service-subsection">
               

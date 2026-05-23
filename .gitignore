@@ -47,3 +47,8 @@ logs
 # puppeteer logs
 activity-debug-results
 ux-analysis-results
+
+# Playwright artifacts
+/playwright-report/
+/test-results/
+/.playwright/

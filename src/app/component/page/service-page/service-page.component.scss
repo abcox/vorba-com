@@ -1,11 +1,34 @@
 .service-page {
   min-height: 100vh;
+  --service-section-header-bg: linear-gradient(135deg, var(--secondary-color-50) 0%, var(--secondary-color-100) 100%);
+  --service-card-bg: #fff;
+  --service-card-border: var(--secondary-color-100);
+  --service-card-hover-border: var(--secondary-color-200);
+  --service-card-hover-shadow: 0 4px 20px rgba(44, 53, 81, 0.08);
+  --service-card-divider: var(--secondary-color-100);
+  --service-card-heading: var(--secondary-color-700);
+  --service-card-text: var(--secondary-color-600);
+  --service-tag-bg: var(--secondary-color-200);
+  --service-tag-text: var(--secondary-color-700);
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
   }
+}
+
+:host-context(.dark-theme) .service-page {
+  --service-section-header-bg: linear-gradient(135deg, rgba(70, 93, 145, 0.22) 0%, rgba(44, 53, 81, 0.48) 100%);
+  --service-card-bg: rgba(20, 31, 54, 0.82);
+  --service-card-border: rgba(175, 198, 255, 0.28);
+  --service-card-hover-border: rgba(175, 198, 255, 0.48);
+  --service-card-hover-shadow: 0 10px 28px rgba(4, 10, 22, 0.45);
+  --service-card-divider: rgba(175, 198, 255, 0.24);
+  --service-card-heading: #dce7ff;
+  --service-card-text: #bfcef5;
+  --service-tag-bg: rgba(70, 93, 145, 0.45);
+  --service-tag-text: #f2f5ff;
 }
 
 /* Services Content */
@@ -26,7 +49,7 @@
     text-align: center;
     margin-bottom: 60px;
     padding: 40px 0;
-    background: linear-gradient(135deg, var(--secondary-color-50) 0%, var(--secondary-color-100) 100%);
+    background: var(--service-section-header-bg);
     border-radius: 12px;
 
     h1 {
@@ -50,15 +73,15 @@
 .service-subsection {
   margin-bottom: 60px;
   padding: 40px;
-  background: white;
+  background: var(--service-card-bg);
   border-radius: 12px;
-  border: 2px solid var(--secondary-color-100);
+  border: 2px solid var(--service-card-border);
   transition: all 0.3s ease;
   scroll-margin-top: 80px;
 
   &:hover {
-    border-color: var(--secondary-color-200);
-    box-shadow: 0 4px 20px rgba(44, 53, 81, 0.08);
+    border-color: var(--service-card-hover-border);
+    box-shadow: var(--service-card-hover-shadow);
   }
 
   &:last-child {
@@ -71,7 +94,7 @@
     gap: 20px;
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 2px solid var(--secondary-color-100);
+    border-bottom: 2px solid var(--service-card-divider);
 
     .service-icon {
       flex-shrink: 0;
@@ -90,14 +113,14 @@
 
       h2 {
         font-size: 2rem;
-        color: var(--secondary-color-700);
+        color: var(--service-card-heading);
         margin-bottom: 12px;
         font-weight: 600;
       }
 
       .service-description {
         font-size: 1.1rem;
-        color: var(--secondary-color-600);
+        color: var(--service-card-text);
         line-height: 1.6;
         margin: 0;
       }
@@ -113,10 +136,10 @@
 
       h3 {
         font-size: 1.2rem;
-        color: var(--secondary-color-700);
+        color: var(--service-card-heading);
         margin-bottom: 16px;
         font-weight: 600;
-        border-bottom: 1px solid var(--secondary-color-200);
+        border-bottom: 1px solid var(--service-card-divider);
         padding-bottom: 8px;
       }
     }
@@ -127,7 +150,7 @@
         padding-left: 20px;
 
         li {
-          color: var(--secondary-color-600);
+          color: var(--service-card-text);
           margin-bottom: 8px;
           line-height: 1.5;
 
@@ -145,8 +168,8 @@
         gap: 8px;
 
         .tech-tag {
-          background: var(--secondary-color-200);
-          color: var(--secondary-color-700);
+          background: var(--service-tag-bg);
+          color: var(--service-tag-text);
           padding: 6px 14px;
           border-radius: 20px;
           font-size: 0.9rem;
@@ -174,7 +197,7 @@
 /* Call to Action */
 .cta-section {
   background: linear-gradient(135deg, var(--secondary-color-600) 0%, var(--secondary-color-700) 100%);
-  color: var(--secondary-text-light);
+  //color: var(--secondary-text-light);
   padding: 80px 0;
   text-align: center;
 
@@ -182,19 +205,22 @@
     h2 {
       font-size: 2.2rem;
       margin-bottom: 16px;
-      font-weight: 700;
+      font-weight: 500;
+      color: var(--secondary-color-100); // #89caf8;
     }
 
     p {
       font-size: 1.1rem;
       margin-bottom: 30px;
       opacity: 0.9;
+      color: var(--secondary-color-100); // #89caf8;
     }
 
     .cta-button {
       padding: 15px 40px;
       font-size: 1.1rem;
       font-weight: 600;
+      background-color: var(--secondary-color-100); // #89caf8;
     }
   }
 }
