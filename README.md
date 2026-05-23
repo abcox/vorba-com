@@ -37,6 +37,7 @@ Detailed project and implementation documentation lives in `docs/`.
 - Redesign and style direction: `docs/redesign-2025.md`
 - UX testing setup: `docs/UX_TESTING_SETUP.md`
 - Service page theme baseline assessment: `docs/theme-assessment-service-page.md`
+- General development practices: `docs/development-practices.md`
 
 The root-level `CHANGELOG.md` is intentionally kept at the repository root for release/version tracking.
 
