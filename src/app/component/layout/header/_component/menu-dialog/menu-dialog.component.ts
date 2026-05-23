@@ -11,6 +11,7 @@ import { ThemeSwatch } from '@src/app/services/theme.service';
 import { DeviceService } from '@src/app/services/device.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltip, MatTooltipModule } from "@angular/material/tooltip";
+import { FontPreset } from '@src/app/services/font.service';
 
 @Component({
   selector: 'app-menu-dialog',
@@ -44,6 +45,15 @@ export class MenuDialogComponent implements AfterViewInit {
     { value: ThemeSwatch.Forest, label: 'Forest' },
     { value: ThemeSwatch.Ember, label: 'Ember' },
     { value: ThemeSwatch.Monochrome, label: 'Monochrome' }
+  ];
+  fontOptions = [
+    { value: FontPreset.Default, label: 'Default Font' },
+    { value: FontPreset.RobotoFlex, label: 'Roboto Flex' },
+    { value: FontPreset.Ubuntu, label: 'Ubuntu' },
+    { value: FontPreset.Savate, label: 'Savate' },
+    { value: FontPreset.Caprasimo, label: 'Caprasimo' },
+    { value: FontPreset.Outfit, label: 'Outfit' },
+    { value: FontPreset.OpenSans, label: 'Open Sans' }
   ];
 
   ngAfterViewInit() {
@@ -100,7 +110,10 @@ export class MenuDialogComponent implements AfterViewInit {
           toggleTheme: () => this.layoutService.toggleTheme(),
           swatchSignal: this.layoutService.swatchSignal,
           swatchOptions: this.swatchOptions,
-          setSwatch: (swatch: string) => this.layoutService.setSwatch(swatch as ThemeSwatch)
+          setSwatch: (swatch: string) => this.layoutService.setSwatch(swatch as ThemeSwatch),
+          fontSignal: this.layoutService.fontSignal,
+          fontOptions: this.fontOptions,
+          setFont: (font: string) => this.layoutService.setFont(font as FontPreset)
         }
       }
     ] as MenuItem[];

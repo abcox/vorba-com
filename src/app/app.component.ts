@@ -8,6 +8,7 @@ import { SessionService } from './core/session/session.service';
 import { DialogService } from './component/dialog/dialog.service';
 import { HotkeyDirective } from "./directive/hotkey-directive";
 import { ThemeService } from './services/theme.service';
+import { FontService } from './services/font.service';
 
 interface StoryModel {
   title: string;
@@ -26,6 +27,7 @@ interface StoryModel {
 })
 export class AppComponent {
   themeService = inject(ThemeService);
+  fontService = inject(FontService);
   sanitizer = inject(DomSanitizer);
   // TODO: is there a better way to assure a service is instantiated?  this way seems hacky
   private sessionService = inject(SessionService);
@@ -89,5 +91,9 @@ export class AppComponent {
 
   toggleSelectNextThemeSwatchColor = (): void => {
     this.themeService.selectNextSwatch();
+  }
+
+  toggleSelectNextThemeSwatchFont = (): void => {
+    this.fontService.selectNextFont();
   }
 }

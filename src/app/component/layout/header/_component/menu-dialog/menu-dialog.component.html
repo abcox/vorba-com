@@ -14,6 +14,9 @@
     let-swatchSignal="swatchSignal"
     let-swatchOptions="swatchOptions"
     let-setSwatch="setSwatch"
+    let-fontSignal="fontSignal"
+    let-fontOptions="fontOptions"
+    let-setFont="setFont"
     >
     <div class="theme-controls mt-4">
         <div class="theme-toggle-row">
@@ -42,6 +45,18 @@
             (ngModelChange)="setSwatch($event)">
             @for (swatch of swatchOptions; track swatch.value) {
                 <option [value]="swatch.value">{{ swatch.label }}</option>
+            }
+        </select>
+
+        <label class="menu-control-label" for="font-select">Typography</label>
+        <select
+            data-testid="font-select"
+            id="font-select"
+            class="swatch-select"
+            [ngModel]="fontSignal()"
+            (ngModelChange)="setFont($event)">
+            @for (font of fontOptions; track font.value) {
+                <option [value]="font.value">{{ font.label }}</option>
             }
         </select>
     </div>

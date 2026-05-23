@@ -1,5 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { ThemeService, Theme, ThemeSwatch } from '../../../services/theme.service';
+import { FontService, FontPreset } from '../../../services/font.service';
 
 export enum DrawerMode {
   Side = 'side',
@@ -30,7 +31,10 @@ export class LayoutService {
   readonly drawerPositionSignal = signal<DrawerPosition>(DrawerPosition.Start);
   //#endregion
 
-  constructor(private themeService: ThemeService) { }
+  constructor(
+    private themeService: ThemeService,
+    private fontService: FontService
+  ) { }
 
   setTitlePrefix(value: string) {
     this._titlePrefixSignal.set(value);
@@ -53,6 +57,10 @@ export class LayoutService {
     return this.themeService.swatch;
   }
 
+  get fontSignal() {
+    return this.fontService.font;
+  }
+
   toggleTheme() {
     this.themeService.toggleTheme();
   }
@@ -63,6 +71,10 @@ export class LayoutService {
 
   setSwatch(swatch: ThemeSwatch) {
     this.themeService.setSwatch(swatch);
+  }
+
+  setFont(font: FontPreset) {
+    this.fontService.setFont(font);
   }
 
   //#region Drawer  

@@ -51,6 +51,10 @@
   --app-font-family: var(--font-family-primary, "Segoe UI", sans-serif);
 }
 
+/*
+ * Contrast
+ */
+
 body.light-theme {
   --app-surface: color-mix(in srgb, var(--sys-surface, #fff) 94%, #f6f8ff);
   --app-card: color-mix(in srgb, var(--sys-surface-container-low, #fff) 88%, #fff);
@@ -79,4 +83,38 @@ body.dark-theme {
   --background-color: var(--app-surface);
   --mdc-dialog-container-color: var(--app-card);
   --mdc-text-button-label-text-color: var(--app-button-text);
+}
+
+/*
+ * Typography / font library support
+ */
+
+body.theme-font-roboto-flex {
+  --font-family-primary: 'Roboto Flex', 'Segoe UI', sans-serif;
+  --app-font-family: var(--font-family-primary);
+}
+
+body.theme-font-ubuntu {
+  --font-family-primary: 'Ubuntu', 'Segoe UI', sans-serif;
+  --app-font-family: var(--font-family-primary);
+}
+
+body.theme-font-savate {
+  --font-family-primary: 'Savate', 'Segoe UI', sans-serif;
+  --app-font-family: var(--font-family-primary);
+}
+
+body.theme-font-caprasimo {
+  --font-family-primary: 'Caprasimo', 'Segoe UI', sans-serif;
+  --app-font-family: var(--font-family-primary);
+}
+
+body.theme-font-outfit {
+  --font-family-primary: 'Outfit', 'Segoe UI', sans-serif;
+  --app-font-family: var(--font-family-primary);
+}
+
+body.theme-font-open-sans {
+  --font-family-primary: 'Open Sans', 'Segoe UI', sans-serif;
+  --app-font-family: var(--font-family-primary);
 }
