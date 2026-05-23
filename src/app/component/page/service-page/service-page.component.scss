@@ -7,15 +7,16 @@
   );
   --service-section-heading: var(--app-accent);
   --service-section-description: var(--app-muted);
-  --service-card-bg: #fff;
-  --service-card-border: var(--secondary-color-100);
-  --service-card-hover-border: var(--secondary-color-200);
-  --service-card-hover-shadow: 0 4px 20px rgba(44, 53, 81, 0.08);
-  --service-card-divider: var(--secondary-color-100);
-  --service-card-heading: var(--secondary-color-700);
-  --service-card-text: var(--secondary-color-600);
-  --service-tag-bg: var(--secondary-color-200);
-  --service-tag-text: var(--secondary-color-700);
+  --service-card-bg: var(--app-card);
+  --service-card-border: color-mix(in srgb, var(--app-edge) 78%, transparent);
+  --service-card-hover-border: color-mix(in srgb, var(--app-accent) 34%, var(--app-edge));
+  --service-card-hover-shadow: var(--app-card-shadow);
+  --service-card-divider: color-mix(in srgb, var(--app-edge) 72%, transparent);
+  --service-card-heading: var(--app-text);
+  --service-card-text: var(--app-muted);
+  --service-tag-bg: color-mix(in srgb, var(--app-accent-soft) 68%, var(--app-card));
+  --service-tag-text: var(--app-accent);
+  --service-icon-color: var(--app-accent);
   --service-btn-filled-bg: var(--app-accent);
   --service-btn-filled-text: var(--app-card);
   --service-btn-outline-text: var(--app-accent);
@@ -37,15 +38,16 @@
   );
   --service-section-heading: color-mix(in srgb, var(--app-accent) 82%, white);
   --service-section-description: color-mix(in srgb, var(--app-text) 78%, var(--app-accent) 22%);
-  --service-card-bg: rgba(20, 31, 54, 0.82);
-  --service-card-border: rgba(175, 198, 255, 0.28);
-  --service-card-hover-border: rgba(175, 198, 255, 0.48);
-  --service-card-hover-shadow: 0 10px 28px rgba(4, 10, 22, 0.45);
-  --service-card-divider: rgba(175, 198, 255, 0.24);
-  --service-card-heading: #dce7ff;
-  --service-card-text: #bfcef5;
-  --service-tag-bg: rgba(70, 93, 145, 0.45);
-  --service-tag-text: #f2f5ff;
+  --service-card-bg: color-mix(in srgb, var(--app-card) 94%, #000);
+  --service-card-border: color-mix(in srgb, var(--app-edge) 80%, transparent);
+  --service-card-hover-border: color-mix(in srgb, var(--app-accent) 42%, var(--app-edge));
+  --service-card-hover-shadow: var(--app-card-shadow);
+  --service-card-divider: color-mix(in srgb, var(--app-edge) 72%, transparent);
+  --service-card-heading: color-mix(in srgb, var(--app-text) 92%, white);
+  --service-card-text: var(--app-muted);
+  --service-tag-bg: color-mix(in srgb, var(--app-accent-soft) 62%, var(--app-card));
+  --service-tag-text: color-mix(in srgb, var(--app-accent) 78%, white);
+  --service-icon-color: color-mix(in srgb, var(--app-accent) 78%, white);
   --service-btn-filled-text: color-mix(in srgb, var(--app-card) 15%, black);
   --service-btn-outline-border: color-mix(in srgb, var(--app-accent) 65%, var(--app-edge));
 }
@@ -123,7 +125,7 @@
         font-size: 40px;
         width: 40px;
         height: 40px;
-        color: var(--secondary-color-500);
+        color: var(--service-icon-color);
       }
     }
 
