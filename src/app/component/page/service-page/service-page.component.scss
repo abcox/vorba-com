@@ -22,6 +22,10 @@
   --service-btn-outline-text: var(--app-accent);
   --service-btn-outline-border: color-mix(in srgb, var(--app-accent) 55%, var(--app-edge));
   --service-btn-outline-hover-bg: var(--app-accent-soft);
+  --service-cta-bg-start: color-mix(in srgb, var(--app-surface) 82%, var(--app-card));
+  --service-cta-bg-end: color-mix(in srgb, var(--app-accent) 70%, var(--app-card));
+  --service-cta-text: color-mix(in srgb, white 92%, var(--app-card));
+  --service-cta-text-muted: color-mix(in srgb, white 78%, var(--app-card));
 
   .container {
     max-width: 1200px;
@@ -50,6 +54,10 @@
   --service-icon-color: color-mix(in srgb, var(--app-accent) 88%, white);
   --service-btn-filled-text: color-mix(in srgb, var(--app-card) 15%, black);
   --service-btn-outline-border: color-mix(in srgb, var(--app-accent) 65%, var(--app-edge));
+  --service-cta-bg-start: color-mix(in srgb, var(--app-surface) 74%, #020617 26%);
+  --service-cta-bg-end: color-mix(in srgb, var(--app-accent) 56%, var(--app-card));
+  --service-cta-text: color-mix(in srgb, white 90%, var(--app-text));
+  --service-cta-text-muted: color-mix(in srgb, white 74%, var(--app-text));
 }
 
 /* Services Content */
@@ -233,7 +241,7 @@
 
 /* Call to Action */
 .cta-section {
-  background: linear-gradient(135deg, var(--secondary-color-600) 0%, var(--secondary-color-700) 100%);
+  background: linear-gradient(0deg, var(--service-cta-bg-start) 0%, var(--service-cta-bg-end) 100%);
   //color: var(--secondary-text-light);
   padding: 80px 0;
   text-align: center;
@@ -243,14 +251,14 @@
       font-size: 2.2rem;
       margin-bottom: 16px;
       font-weight: 500;
-      color: var(--secondary-color-100); // #89caf8;
+      color: var(--service-cta-text);
     }
 
     p {
       font-size: 1.1rem;
       margin-bottom: 30px;
       opacity: 0.9;
-      color: var(--secondary-color-100); // #89caf8;
+      color: var(--service-cta-text-muted);
     }
 
     .cta-button {
