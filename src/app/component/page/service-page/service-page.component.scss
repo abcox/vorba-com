@@ -1,7 +1,12 @@
 .service-page {
   min-height: 100vh;
-  --service-section-header-bg: linear-gradient(135deg, var(--secondary-color-50) 0%, var(--secondary-color-100) 100%);
-  --service-section-heading: var(--secondary-color-600);
+  --service-section-header-bg: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--app-accent-soft) 72%, var(--app-surface)) 0%,
+    color-mix(in srgb, var(--app-card) 78%, var(--app-accent-soft)) 100%
+  );
+  --service-section-heading: var(--app-accent);
+  --service-section-description: var(--app-muted);
   --service-card-bg: #fff;
   --service-card-border: var(--secondary-color-100);
   --service-card-hover-border: var(--secondary-color-200);
@@ -20,8 +25,13 @@
 }
 
 :host-context(.dark-theme) .service-page {
-  --service-section-header-bg: linear-gradient(135deg, rgba(70, 93, 145, 0.22) 0%, rgba(44, 53, 81, 0.48) 100%);
-  --service-section-heading: var(--secondary-color-400);
+  --service-section-header-bg: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--app-accent-soft) 82%, var(--app-surface)) 0%,
+    color-mix(in srgb, var(--app-card) 68%, var(--app-accent-soft)) 100%
+  );
+  --service-section-heading: color-mix(in srgb, var(--app-accent) 82%, white);
+  --service-section-description: color-mix(in srgb, var(--app-text) 78%, var(--app-accent) 22%);
   --service-card-bg: rgba(20, 31, 54, 0.82);
   --service-card-border: rgba(175, 198, 255, 0.28);
   --service-card-hover-border: rgba(175, 198, 255, 0.48);
@@ -63,7 +73,7 @@
 
     .section-description {
       font-size: 1.2rem;
-      color: var(--secondary-color-600);
+      color: var(--service-section-description);
       max-width: 700px;
       margin: 0 auto;
       line-height: 1.6;
