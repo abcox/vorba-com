@@ -86,4 +86,8 @@ export class AppComponent {
   toggleThemeHotkey = (): void => {
     this.themeService.toggleTheme();
   }
+
+  toggleSelectNextThemeSwatchColor = (): void => {
+    this.themeService.selectNextSwatch();
+  }
 }

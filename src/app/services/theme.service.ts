@@ -21,6 +21,14 @@ export class ThemeService {
   private readonly THEME_KEY = 'app-theme';
   private readonly SWATCH_KEY = 'app-theme-swatch';
   private readonly SWATCH_CLASS_PREFIX = 'theme-swatch-';
+  private readonly SWATCH_SEQUENCE: ThemeSwatch[] = [
+    ThemeSwatch.Default,
+    ThemeSwatch.Classic,
+    ThemeSwatch.Ocean,
+    ThemeSwatch.Forest,
+    ThemeSwatch.Ember,
+    ThemeSwatch.Monochrome
+  ];
   
   // Signal for theme state
   private _themeSignal = signal<Theme>(this.getInitialTheme());
@@ -104,6 +112,16 @@ export class ThemeService {
     this._swatchSignal.set(swatch);
     this.applySwatch(swatch);
     localStorage.setItem(this.SWATCH_KEY, swatch);
+  }
+
+  selectNextSwatch(): void {
+    const currentSwatch = this.swatch();
+    const currentIndex = this.SWATCH_SEQUENCE.indexOf(currentSwatch);
+    const nextIndex = currentIndex >= 0
+      ? (currentIndex + 1) % this.SWATCH_SEQUENCE.length
+      : 0;
+
+    this.setSwatch(this.SWATCH_SEQUENCE[nextIndex]);
   }
 
   toggleTheme = (): void => {
