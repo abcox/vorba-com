@@ -16,6 +16,11 @@
   --service-card-text: var(--secondary-color-600);
   --service-tag-bg: var(--secondary-color-200);
   --service-tag-text: var(--secondary-color-700);
+  --service-btn-filled-bg: var(--app-accent);
+  --service-btn-filled-text: var(--app-card);
+  --service-btn-outline-text: var(--app-accent);
+  --service-btn-outline-border: color-mix(in srgb, var(--app-accent) 55%, var(--app-edge));
+  --service-btn-outline-hover-bg: var(--app-accent-soft);
 
   .container {
     max-width: 1200px;
@@ -41,6 +46,8 @@
   --service-card-text: #bfcef5;
   --service-tag-bg: rgba(70, 93, 145, 0.45);
   --service-tag-text: #f2f5ff;
+  --service-btn-filled-text: color-mix(in srgb, var(--app-card) 15%, black);
+  --service-btn-outline-border: color-mix(in srgb, var(--app-accent) 65%, var(--app-edge));
 }
 
 /* Services Content */
@@ -199,6 +206,22 @@
         button {
           width: 100%;
         }
+
+        button[mat-raised-button] {
+          --mdc-protected-button-container-color: var(--service-btn-filled-bg);
+          --mdc-protected-button-label-text-color: var(--service-btn-filled-text);
+        }
+
+        button[mat-stroked-button] {
+          --mdc-outlined-button-label-text-color: var(--service-btn-outline-text);
+          --mdc-outlined-button-outline-color: var(--service-btn-outline-border);
+          --mat-outlined-button-state-layer-color: var(--service-btn-outline-text);
+          background-color: color-mix(in srgb, var(--service-btn-outline-hover-bg) 0%, transparent);
+
+          &:hover {
+            background-color: color-mix(in srgb, var(--service-btn-outline-hover-bg) 35%, transparent);
+          }
+        }
       }
     }
   }
@@ -232,7 +255,8 @@
       padding: 15px 40px;
       font-size: 1.1rem;
       font-weight: 600;
-      background-color: var(--secondary-color-100); // #89caf8;
+      --mdc-protected-button-container-color: var(--service-btn-filled-bg);
+      --mdc-protected-button-label-text-color: var(--service-btn-filled-text);
     }
   }
 }
