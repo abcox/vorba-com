@@ -102,6 +102,33 @@ export class ThemeService {
     }
   }
 
+  public get colorOptions() {
+    return this.SWATCH_SEQUENCE.map(swatch => ({
+      value: swatch,
+      label: this.getSwatchLabel(swatch)
+    }));
+  }
+
+  private getSwatchLabel(swatch: ThemeSwatch): string {
+    switch (swatch) {
+      case ThemeSwatch.Default:
+        return 'System Default';
+      case ThemeSwatch.Classic:
+        return 'Classic Offer';
+      case ThemeSwatch.Ocean:
+        return 'Ocean';
+      case ThemeSwatch.Forest:
+        return 'Forest';
+      case ThemeSwatch.Ember:
+        return 'Ember';
+      case ThemeSwatch.Monochrome:
+        return 'Monochrome';
+      default:
+        //return 'Unknown Swatch';        
+        return 'System Default';
+    }
+  }
+
   setTheme(theme: Theme): void {
     this._themeSignal.set(theme);
     this.applyTheme(theme);

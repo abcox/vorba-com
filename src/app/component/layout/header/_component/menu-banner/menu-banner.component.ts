@@ -6,12 +6,8 @@ import { LogoComponent } from "../logo/logo.component";
 import { MenuToggleComponent } from "../menu-toggle/menu-toggle.component";
 import { MenuDialogComponent } from "../menu-dialog/menu-dialog.component";
 import { DeviceService } from "@src/app/services/device.service";
-
-export interface MenuItem {
-    label: string;
-    url?: string;
-    routerLink?: string; // todo: unify url vs routerLink usage across the app
-}
+import { MenuItem } from "../menu-list/menu-list.component";
+//import { MenuItem } from "@src/app/app.routes"
 
 @Component({
   selector: 'app-menu-banner',
@@ -27,13 +23,13 @@ export class MenuBannerComponent {
     private deviceService = inject(DeviceService);
     
     isMobile = this.deviceService.isMobile;
-    menuList = signal([
+    menuList = signal<MenuItem[]>([
         //{ label: 'Solutions', url: '/solutions' },
-        { label: 'Services', url: '/services', routerLink: '/services' },
-        { label: 'Offers', url: '/offers', routerLink: '/offers' },
+        { label: 'Services', routerLink: '/services', icon: 'build' },
+        { label: 'Offers', routerLink: '/offers', icon: 'local_offer' },
         //{ label: 'Resources', url: '/resources' },
-        { label: 'Our Work', url: '/case-studies', routerLink: '/case-studies' },
-        { label: 'About Us', url: '/about', routerLink: '/about' },
+        //{ label: 'Our Work', url: '/case-studies', routerLink: '/case-studies' },
+        { label: 'About Us', routerLink: '/about', icon: 'info' },
     ] as MenuItem[])
     isDialogVisible = signal(false);
     selectedMenuItem = signal<MenuItem | undefined>(undefined);

@@ -14,9 +14,11 @@
     let-swatchSignal="swatchSignal"
     let-swatchOptions="swatchOptions"
     let-setSwatch="setSwatch"
+    let-swatchTooltip="swatchTooltip"
     let-fontSignal="fontSignal"
     let-fontOptions="fontOptions"
     let-setFont="setFont"
+    let-fontTooltip="fontTooltip"
     >
     <div class="theme-controls mt-4">
         <div class="theme-toggle-row">
@@ -42,7 +44,8 @@
             id="swatch-select"
             class="swatch-select"
             [ngModel]="swatchSignal()"
-            (ngModelChange)="setSwatch($event)">
+            (ngModelChange)="setSwatch($event)"
+            matTooltip="{{ swatchTooltip }}">
             @for (swatch of swatchOptions; track swatch.value) {
                 <option [value]="swatch.value">{{ swatch.label }}</option>
             }
@@ -54,7 +57,8 @@
             id="font-select"
             class="swatch-select"
             [ngModel]="fontSignal()"
-            (ngModelChange)="setFont($event)">
+            (ngModelChange)="setFont($event)"
+            matTooltip="{{ fontTooltip }}">
             @for (font of fontOptions; track font.value) {
                 <option [value]="font.value">{{ font.label }}</option>
             }

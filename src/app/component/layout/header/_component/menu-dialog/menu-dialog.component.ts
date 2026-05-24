@@ -7,11 +7,11 @@ import { LayoutService } from '../../../_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '@src/app/core/auth/auth.service';
-import { ThemeSwatch } from '@src/app/services/theme.service';
+import { ThemeService, ThemeSwatch } from '@src/app/services/theme.service';
 import { DeviceService } from '@src/app/services/device.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltip, MatTooltipModule } from "@angular/material/tooltip";
-import { FontPreset } from '@src/app/services/font.service';
+import { FontPreset, FontService } from '@src/app/services/font.service';
 
 @Component({
   selector: 'app-menu-dialog',
@@ -27,6 +27,8 @@ import { FontPreset } from '@src/app/services/font.service';
 })
 export class MenuDialogComponent implements AfterViewInit {
   menuList = input<MenuItem[]>([]);
+  fontService = inject(FontService);
+  themeService = inject(ThemeService);
 
   private deviceService = inject(DeviceService);  
   isMobile = this.deviceService.isMobile;
@@ -38,23 +40,8 @@ export class MenuDialogComponent implements AfterViewInit {
   menuOpen = this.menuService.menuOpen;
   @ViewChild('themeTemplate') themeTemplate!: TemplateRef<unknown>;  
   menuItems: MenuItem[] = [];
-  swatchOptions = [
-    { value: ThemeSwatch.Default, label: 'System Default' },
-    { value: ThemeSwatch.Classic, label: 'Classic Offer' },
-    { value: ThemeSwatch.Ocean, label: 'Ocean' },
-    { value: ThemeSwatch.Forest, label: 'Forest' },
-    { value: ThemeSwatch.Ember, label: 'Ember' },
-    { value: ThemeSwatch.Monochrome, label: 'Monochrome' }
-  ];
-  fontOptions = [
-    { value: FontPreset.Default, label: 'Default Font' },
-    { value: FontPreset.RobotoFlex, label: 'Roboto Flex' },
-    { value: FontPreset.Ubuntu, label: 'Ubuntu' },
-    { value: FontPreset.Savate, label: 'Savate' },
-    { value: FontPreset.Caprasimo, label: 'Caprasimo' },
-    { value: FontPreset.Outfit, label: 'Outfit' },
-    { value: FontPreset.OpenSans, label: 'Open Sans' }
-  ];
+  fontOptions = this.fontService.fontOptions;
+  swatchOptions = this.themeService.colorOptions;
 
   ngAfterViewInit() {
     this.menuItems = this.getMenuItems();
@@ -63,11 +50,18 @@ export class MenuDialogComponent implements AfterViewInit {
   menuListForDisplay = computed(() => {
     const menuItems = this.getMenuItems();
   
-    if (this.isMobile()) {
+    /* if (this.isMobile()) {
       // splice in the menuList items before the theme item
       const themeItemIndex = menuItems.findIndex(item => item.template === this.themeTemplate);
       menuItems.splice(themeItemIndex, 0, ...this.menuList());
-    }
+    } */
+   if (this.isMobile()) {
+    // add menuList items to start of the list, and then a divider
+    menuItems.unshift(
+      ...this.menuList(),
+      { type: 'divider' } as MenuItem
+    );
+   }
     return menuItems;
   });
 
@@ -111,9 +105,11 @@ export class MenuDialogComponent implements AfterViewInit {
           swatchSignal: this.layoutService.swatchSignal,
           swatchOptions: this.swatchOptions,
           setSwatch: (swatch: string) => this.layoutService.setSwatch(swatch as ThemeSwatch),
-          fontSignal: this.layoutService.fontSignal,
+          swatchTooltip: 'Change theme color (Alt + C + < / Alt + C + >)',
+          fontSignal: this.fontService.font,
           fontOptions: this.fontOptions,
-          setFont: (font: string) => this.layoutService.setFont(font as FontPreset)
+          setFont: (font: string) => this.fontService.setFont(font as FontPreset),
+          fontTooltip: 'Change font (Alt + B + < / Alt + B + >)'
         }
       }
     ] as MenuItem[];

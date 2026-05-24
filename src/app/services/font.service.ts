@@ -54,6 +54,34 @@ export class FontService {
     }
   }
 
+  public get fontOptions() {
+    return this.FONT_SEQUENCE.map(font => ({
+      value: font,
+      label: this.getFontLabel(font)
+    }));
+  }
+
+  private getFontLabel(font: FontPreset): string {
+    switch (font) {
+      case FontPreset.Default:
+        return 'Default Font';
+      case FontPreset.RobotoFlex:
+        return 'Roboto Flex';
+      case FontPreset.Ubuntu:
+        return 'Ubuntu';
+      case FontPreset.Savate:
+        return 'Savate';
+      case FontPreset.Caprasimo:
+        return 'Caprasimo';
+      case FontPreset.Outfit:
+        return 'Outfit';
+      case FontPreset.OpenSans:
+        return 'Open Sans';
+      default:
+        return 'Unknown Font';
+    }
+  }
+
   setFont(font: FontPreset): void {
     this._fontSignal.set(font);
     this.applyFont(font);
