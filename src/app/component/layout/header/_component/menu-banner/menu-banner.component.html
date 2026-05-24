@@ -25,7 +25,7 @@
                 class="menu-banner-item"
                 (mouseenter)="showDialog(item)"
                 (mouseleave)="hideDialog()"
-                [href]="item.routerLink"
+                [routerLink]="item.routerLink"
                 >{{ item.label }}</a
             >
         }
@@ -80,32 +80,32 @@
     <div class="menu-dialog-content" (click)="hideDialog()">
         <div class="menu-dialog-grid">
             <div class="menu-dialog-section">
-                <h4><a href="/services#modernize">Modernize</a></h4>
+                <h4><a routerLink="/services" fragment="modernize">Modernize</a></h4>
                 <ul>
-                    <li><a href="/services#modernize-legacy-renewal">Legacy Renewal</a></li>
-                    <li><a href="/services#modernize-system-migration">System Migration</a></li>
-                    <li><a href="/services#modernize-systems-integration">Systems Integration</a></li>
-                    <li><a href="/services#modernize-code-reviews">Code Reviews</a></li>
+                    <li><a routerLink="/services" fragment="modernize-legacy-renewal">Legacy Renewal</a></li>
+                    <li><a routerLink="/services" fragment="modernize-system-migration">System Migration</a></li>
+                    <li><a routerLink="/services" fragment="modernize-systems-integration">Systems Integration</a></li>
+                    <li><a routerLink="/services" fragment="modernize-code-reviews">Code Reviews</a></li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4><a href="/services#develop">Develop</a></h4>
+                <h4><a routerLink="/services" fragment="develop">Develop</a></h4>
                 <ul>
-                    <li><a href="/services#develop-business-analysis">Business Analysis</a></li>
-                    <li><a href="/services#develop-systems-analysis">Systems Analysis</a></li>
-                    <li><a href="/services#develop-systems-architecture">System Architecture</a></li>
-                    <li><a href="/services#develop-performance-optimization">Performance Optimization</a></li>
-                    <li><a href="/services#develop-security-audits">Security Audits</a></li>
+                    <li><a routerLink="/services" fragment="develop-business-analysis">Business Analysis</a></li>
+                    <li><a routerLink="/services" fragment="develop-systems-analysis">Systems Analysis</a></li>
+                    <li><a routerLink="/services" fragment="develop-systems-architecture">System Architecture</a></li>
+                    <li><a routerLink="/services" fragment="develop-performance-optimization">Performance Optimization</a></li>
+                    <li><a routerLink="/services" fragment="develop-security-audits">Security Audits</a></li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4><a href="/services#support">Support</a></h4>
+                <h4><a routerLink="/services" fragment="support">Support</a></h4>
                 <ul>
-                    <li><a href="/services#support-backlog-management">Backlog Management</a></li>
-                    <li><a href="/services#support-documentation">Documentation</a></li>
-                    <li><a href="/services#support-maintenance">Maintenance</a></li>
-                    <li><a href="/services#support-training">Training</a></li>
-                    <li><a href="/services#support-talent-growth">Talent Growth</a></li>
+                    <li><a routerLink="/services" fragment="support-backlog-management">Backlog Management</a></li>
+                    <li><a routerLink="/services" fragment="support-documentation">Documentation</a></li>
+                    <li><a routerLink="/services" fragment="support-maintenance">Maintenance</a></li>
+                    <li><a routerLink="/services" fragment="support-training">Training</a></li>
+                    <li><a routerLink="/services" fragment="support-talent-growth">Talent Growth</a></li>
                 </ul>
             </div>
         </div>
@@ -117,7 +117,7 @@
     <div class="menu-dialog-content">
         <div class="menu-dialog-grid">
             <div class="menu-dialog-section">
-                <h4><a href="/offers#discovery-sprint">Discovery Sprint</a></h4>
+                <h4><a routerLink="/offers" fragment="discovery-sprint">Discovery Sprint</a></h4>
                 <p class="price">$8,500 - $15,000</p>
                 <ul>
                     <li>2-week engagement</li>
@@ -126,7 +126,7 @@
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4><a href="/offers#systems-assessment">Systems Assessment</a></h4>
+                <h4><a routerLink="/offers" fragment="systems-assessment">Systems Assessment</a></h4>
                 <p class="price">$22,000 - $48,000</p>
                 <ul>
                     <li>4-6 week engagement</li>
@@ -135,7 +135,7 @@
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4><a href="/offers#evaluation-optimization-retainer">Optimization Retainer</a></h4>
+                <h4><a routerLink="/offers" fragment="evaluation-optimization-retainer">Optimization Retainer</a></h4>
                 <p class="price">$6,500 - $18,000 / month</p>
                 <ul>
                     <li>Monthly advisory support</li>
@@ -154,17 +154,17 @@
             <div class="menu-dialog-section">
                 <h4>Recent Projects</h4>
                 <ul>
-                    <li><a href="/case-studies/ecommerce-platform">E-commerce Platform</a></li>
-                    <li><a href="/case-studies/healthcare-app">Healthcare Mobile App</a></li>
-                    <li><a href="/case-studies/fintech-solution">FinTech Solution</a></li>
+                    <li><a routerLink="/case-studies/ecommerce-platform">E-commerce Platform</a></li>
+                    <li><a routerLink="/case-studies/healthcare-app">Healthcare Mobile App</a></li>
+                    <li><a routerLink="/case-studies/fintech-solution">FinTech Solution</a></li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
                 <h4>Industries</h4>
                 <ul>
-                    <li><a href="/work/healthcare">Healthcare</a></li>
-                    <li><a href="/work/finance">Financial Services</a></li>
-                    <li><a href="/work/retail">Retail & E-commerce</a></li>
+                    <li><a routerLink="/work/healthcare">Healthcare</a></li>
+                    <li><a routerLink="/work/finance">Financial Services</a></li>
+                    <li><a routerLink="/work/retail">Retail & E-commerce</a></li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
@@ -184,27 +184,27 @@
     <div class="menu-dialog-content">
         <div class="menu-dialog-grid">
             <div class="menu-dialog-section">
-                <h4><a href="/about">About Us</a></h4>
+                <h4><a routerLink="/about">About Us</a></h4>
                 <ul>
-                    <li><a href="/about#story">Our Story</a></li>
-                    <li><a href="/about#mission">Mission & Values</a></li>
-                    <li><a href="/about#team">Our Team</a></li>
+                    <li><a routerLink="/about" fragment="story">Our Story</a></li>
+                    <li><a routerLink="/about" fragment="mission">Mission & Values</a></li>
+                    <li><a routerLink="/about" fragment="team">Our Team</a></li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4><a href="/about#careers">Careers</a></h4>
+                <h4><a routerLink="/about" fragment="careers">Careers</a></h4>
                 <ul>
-                    <li><a href="/about#careers">Current Openings</a></li>
-                    <li><a href="/about#culture">Company Culture</a></li>
-                    <li><a href="/about#benefits">Benefits</a></li>
+                    <li><a routerLink="/about" fragment="careers">Current Openings</a></li>
+                    <li><a routerLink="/about" fragment="culture">Company Culture</a></li>
+                    <li><a routerLink="/about" fragment="benefits">Benefits</a></li>
                 </ul>
             </div>
             <div class="menu-dialog-section">
-                <h4><a href="/about#contact">Contact</a></h4>
+                <h4><a routerLink="/about" fragment="contact">Contact</a></h4>
                 <ul>
-                    <li><a href="/about#contact">Get in Touch</a></li>
-                    <li><a href="/about#locations">Our Locations</a></li>
-                    <li><a href="/about#press">Press Inquiries</a></li>
+                    <li><a routerLink="/about" fragment="contact">Get in Touch</a></li>
+                    <li><a routerLink="/about" fragment="locations">Our Locations</a></li>
+                    <li><a routerLink="/about" fragment="press">Press Inquiries</a></li>
                 </ul>
             </div>
         </div>

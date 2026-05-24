@@ -232,20 +232,7 @@ export class ServicePageComponent implements OnInit {
   ]);
 
   ngOnInit(): void {
-    // Handle fragment navigation (anchor links)
-    this.route.fragment.subscribe(fragment => {
-      if (fragment) {
-        setTimeout(() => {
-          const element = document.getElementById(fragment);
-          if (element) {
-            element.scrollIntoView({ 
-              behavior: 'smooth',
-              block: 'start'
-            });
-          }
-        }, 100);
-      }
-    });
+    // Fragment scrolling is handled centrally in AppComponent.
   }
 
   navigateToService(categoryId: string, serviceId: string): void {

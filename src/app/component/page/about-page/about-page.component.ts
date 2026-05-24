@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ServiceSectionComponent } from '../../layout/footer/_component/service-section/service-section.component';
+import { RouterModule } from '@angular/router';
 
 interface TeamMember {
   name: string;
@@ -13,7 +13,7 @@ interface TeamMember {
 @Component({
   selector: 'app-about-page',
   standalone: true,
-  imports: [CommonModule, ServiceSectionComponent],
+    imports: [CommonModule, RouterModule],
   templateUrl: './about-page.component.html',
   styleUrls: ['./about-page.component.scss']
 })

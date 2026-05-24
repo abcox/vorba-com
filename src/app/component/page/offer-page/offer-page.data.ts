@@ -31,10 +31,6 @@ export interface OfferPageContent {
   discounts: string[];
   commercialTerms: string[];
   guardrails: string[];
-  versioning: {
-    owner: string;
-    reviewCadence: string;
-  };
 }
 
 export const OFFER_PAGE_CONTENT: OfferPageContent = {
@@ -128,8 +124,4 @@ export const OFFER_PAGE_CONTENT: OfferPageContent = {
     'Protect implementation quality by avoiding over-compressed timelines.',
     'Do not over-scope Discovery Sprint deliverables.'
   ],
-  versioning: {
-    owner: 'Vorba sales and marketing',
-    reviewCadence: 'Quarterly or after each 5 closed opportunities'
-  }
 };

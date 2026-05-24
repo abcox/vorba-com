@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { MatIconRegistry } from '@angular/material/icon';
 //import { OverlayContainer } from '@angular/cdk/overlay'; // todo: review what this is about
-import { of } from 'rxjs';
+import { filter, of } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SessionService } from './core/session/session.service';
 import { DialogService } from './component/dialog/dialog.service';
@@ -29,6 +29,7 @@ export class AppComponent {
   themeService = inject(ThemeService);
   fontService = inject(FontService);
   sanitizer = inject(DomSanitizer);
+  private router = inject(Router);
   // TODO: is there a better way to assure a service is instantiated?  this way seems hacky
   private sessionService = inject(SessionService);
   title = 'Vorba';
@@ -51,6 +52,28 @@ export class AppComponent {
     private matIconRegistry: MatIconRegistry,
   ) {
     this.registerSvgIcons();
+    this.bindFragmentScrolling();
+  }
+
+  private bindFragmentScrolling(): void {
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      const fragment = this.router.parseUrl(this.router.url).fragment;
+      if (!fragment) {
+        return;
+      }
+
+      // Run twice to handle async layout shifts (images/content) after navigation.
+      [0, 140].forEach((delayMs) => {
+        setTimeout(() => {
+          const element = document.getElementById(fragment);
+          if (element) {
+            element.scrollIntoView({ behavior: 'auto', block: 'start' });
+          }
+        }, delayMs);
+      });
+    });
   }
   
   registerSvgIcons() {

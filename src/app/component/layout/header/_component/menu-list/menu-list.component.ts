@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
  */
+
 export interface MenuItem {
   label?: string;
   routerLink?: string;

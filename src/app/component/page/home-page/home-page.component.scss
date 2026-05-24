@@ -129,6 +129,11 @@ swiper-slide:nth-of-type(4) {
   }
 }
 
+app-contact-form#contact-form {
+  display: block;
+  scroll-margin-top: 80px;
+}
+
 :host-context(.dark-theme) .banner-section {
   background-image: url('/images/modern-geometric-background-dark.svg');
 }
