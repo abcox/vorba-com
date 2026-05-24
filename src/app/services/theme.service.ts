@@ -124,6 +124,16 @@ export class ThemeService {
     this.setSwatch(this.SWATCH_SEQUENCE[nextIndex]);
   }
 
+  selectPreviousSwatch(): void {
+    const currentSwatch = this.swatch();
+    const currentIndex = this.SWATCH_SEQUENCE.indexOf(currentSwatch);
+    const previousIndex = currentIndex >= 0
+      ? (currentIndex - 1 + this.SWATCH_SEQUENCE.length) % this.SWATCH_SEQUENCE.length
+      : this.SWATCH_SEQUENCE.length - 1;
+
+    this.setSwatch(this.SWATCH_SEQUENCE[previousIndex]);
+  }
+
   toggleTheme = (): void => {
     const newTheme = this.isDarkTheme() ? Theme.Light : Theme.Dark;
     this.setTheme(newTheme);

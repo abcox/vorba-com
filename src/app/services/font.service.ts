@@ -70,6 +70,16 @@ export class FontService {
     this.setFont(this.FONT_SEQUENCE[nextIndex]);
   }
 
+  selectPreviousFont(): void {
+    const currentFont = this.font();
+    const currentIndex = this.FONT_SEQUENCE.indexOf(currentFont);
+    const previousIndex = currentIndex >= 0
+      ? (currentIndex - 1 + this.FONT_SEQUENCE.length) % this.FONT_SEQUENCE.length
+      : this.FONT_SEQUENCE.length - 1;
+
+    this.setFont(this.FONT_SEQUENCE[previousIndex]);
+  }
+
   getCurrentFont(): FontPreset {
     return this.font();
   }

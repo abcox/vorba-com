@@ -22,6 +22,7 @@ export class HotkeyDirective implements OnInit, OnDestroy {
 
   private elementRef = inject(ElementRef);
   private isActive = false;
+  private pressedKeys = new Set<string>();
 
   ngOnInit(): void {
     if (!this.hotkey || !this.hotkeyCallback) {
@@ -35,6 +36,7 @@ export class HotkeyDirective implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isActive = false;
+    this.resetKeyState();
     console.log(`Hotkey unregistered: ${this.hotkey}`);
   }
 
@@ -44,10 +46,16 @@ export class HotkeyDirective implements OnInit, OnDestroy {
       return;
     }
 
-    const pressedKey = this.buildKeyString(event);
-    const targetKey = this.normalizeKeyString(this.hotkey);
+    if (event.repeat) {
+      return;
+    }
 
-    if (pressedKey === targetKey) {
+    const key = this.normalizeKey(event.key);
+    if (!this.isModifierKey(key)) {
+      this.pressedKeys.add(key);
+    }
+
+    if (this.matchesHotkey(event)) {
       if (this.hotkeyPreventDefault) {
         event.preventDefault();
       }
@@ -64,30 +72,91 @@ export class HotkeyDirective implements OnInit, OnDestroy {
     }
   }
 
-  private buildKeyString(event: KeyboardEvent): string {
-    const parts: string[] = [];
-    
-    if (event.ctrlKey || event.metaKey) parts.push('ctrl');
-    if (event.altKey) parts.push('alt');
-    if (event.shiftKey) parts.push('shift');
-
-    // Handle special keys
-    let key = event.key?.toLowerCase();
-    
-    // Normalize common key variations
-    switch (key) {
-      case ' ':
-        key = 'space';
-        break;
-      case 'escape':
-        key = 'esc';
-        break;
-      default:
-        break;
+  @HostListener('document:keyup', ['$event'])
+  handleKeyUp(event: KeyboardEvent): void {
+    const key = this.normalizeKey(event.key);
+    if (!this.isModifierKey(key)) {
+      this.pressedKeys.delete(key);
     }
-    
-    parts.push(key);
-    return parts.join('+');
+  }
+
+  @HostListener('window:blur')
+  handleWindowBlur(): void {
+    this.resetKeyState();
+  }
+
+  private matchesHotkey(event: KeyboardEvent): boolean {
+    const parsed = this.parseHotkey(this.hotkey);
+
+    if (parsed.ctrl && !(event.ctrlKey || event.metaKey)) {
+      return false;
+    }
+
+    if (parsed.alt && !event.altKey) {
+      return false;
+    }
+
+    if (parsed.shift && !event.shiftKey) {
+      return false;
+    }
+
+    if (parsed.keys.length === 0) {
+      return false;
+    }
+
+    if (this.pressedKeys.size !== parsed.keys.length) {
+      return false;
+    }
+
+    return parsed.keys.every((value) => this.pressedKeys.has(value));
+  }
+
+  private parseHotkey(keyString: string): {
+    ctrl: boolean;
+    alt: boolean;
+    shift: boolean;
+    keys: string[];
+  } {
+    const normalized = this.normalizeKeyString(keyString);
+    const parts = normalized.split('+').filter(Boolean);
+
+    return {
+      ctrl: parts.includes('ctrl'),
+      alt: parts.includes('alt'),
+      shift: parts.includes('shift'),
+      keys: parts
+        .filter((value) => !['ctrl', 'alt', 'shift'].includes(value))
+        .map((value) => this.normalizeKey(value))
+    };
+  }
+
+  private normalizeKey(key: string): string {
+    const normalized = key.toLowerCase();
+
+    switch (normalized) {
+      case ' ':
+        return 'space';
+      case 'escape':
+        return 'esc';
+      case 'control':
+        return 'ctrl';
+      case '>':
+      case '.':
+        return 'period';
+      case '<':
+      case ',':
+        return 'comma';
+      default:
+        return normalized;
+    }
+  }
+
+  private isModifierKey(key: string): boolean {
+    return ['ctrl', 'alt', 'shift', 'meta'].includes(key);
+  }
+
+  private resetKeyState(): void {
+    this.pressedKeys.clear();
   }
 
   private normalizeKeyString(keyString: string): string {

@@ -89,11 +89,19 @@ export class AppComponent {
     this.themeService.toggleTheme();
   }
 
-  toggleSelectNextThemeSwatchColor = (): void => {
+  toggleThemeColorNext = (): void => {
     this.themeService.selectNextSwatch();
   }
 
-  toggleSelectNextThemeSwatchFont = (): void => {
+  toggleThemeColorPrevious = (): void => {
+    this.themeService.selectPreviousSwatch();
+  }
+
+  toggleThemeFontNext = (): void => {
     this.fontService.selectNextFont();
+  }
+
+  toggleThemeFontPrevious = (): void => {
+    this.fontService.selectPreviousFont();
   }
 }

@@ -6,11 +6,19 @@
     data-testid="theme-toggle"
     [hotkeyCallback]="toggleThemeHotkey">
 </pre>
-<pre appHotkey="alt+c"
-    data-testid="theme-color-toggle"
-    [hotkeyCallback]="toggleSelectNextThemeSwatchColor">
+<pre appHotkey="alt+c+<"
+    data-testid="theme-color-toggle-previous"
+    [hotkeyCallback]="toggleThemeColorPrevious">
 </pre>
-<pre appHotkey="alt+f"
-    data-testid="theme-font-toggle"
-    [hotkeyCallback]="toggleSelectNextThemeSwatchFont">
+<pre appHotkey="alt+c+>"
+    data-testid="theme-color-toggle-next"
+    [hotkeyCallback]="toggleThemeColorNext">
+</pre>
+<pre appHotkey="alt+b+<"
+    data-testid="theme-font-toggle-previous"
+    [hotkeyCallback]="toggleThemeFontPrevious">
+</pre>
+<pre appHotkey="alt+b+>"
+    data-testid="theme-font-toggle-next"
+    [hotkeyCallback]="toggleThemeFontNext">
 </pre>
