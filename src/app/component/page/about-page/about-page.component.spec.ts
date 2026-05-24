@@ -1,6 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { AboutPageComponent } from './about-page.component';
 
@@ -10,9 +8,9 @@ describe('AboutPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AboutPageComponent],
-      providers: [provideRouter([]), provideHttpClientTesting()]
-    }).compileComponents();
+      imports: [AboutPageComponent]
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(AboutPageComponent);
     component = fixture.componentInstance;

@@ -1,0 +1,19 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { LayoutService } from '../../layout/_service/layout.service';
+import { AvatarComponent } from '../../profile-card/_component/avatar/avatar.component';
+import { RouterModule } from '@angular/router';
+
+@Component({
+  selector: 'app-about-adam-cox-page',
+  standalone: true,
+  imports: [RouterModule, AvatarComponent],
+  templateUrl: './about-adam-cox-page.component.html',
+  styleUrls: ['./about-adam-cox-page.component.scss']
+})
+export class AboutAdamCoxPageComponent implements OnInit {
+  layoutService = inject(LayoutService);
+
+  ngOnInit() {
+    this.layoutService.setTitlePrefix('About');
+  }
+}

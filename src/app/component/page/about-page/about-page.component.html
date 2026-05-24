@@ -1,26 +1,155 @@
-<div class="w-full sm:w-3/4 lg:w-3/4 xl:w-2/3 max-w-5xl mx-auto my-10">
-  <div class="p-8 rounded-lg shadow-lg bg-[var(--background-color)] text-[var(--text-color)]">
-    <div class="flex flex-row justify-between items-center gap-8 mb-4">
-      <h2 class="text-2xl font-bold mb-6">Hello</h2>
-      <app-avatar src="assets/images/team/AdamCox_400x400.jpg"></app-avatar>
+<div class="team-page">
+  <div class="hero-banner">
+    <div class="hero-content"><!-- 
+      <h1>Meet Our Team</h1>
+      <p>The talented individuals driving our success and innovation forward</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">{{ team().length }}</span>
+          <span class="stat-label">Team Members</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">25+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Dedicated</span>
+        </div>
+      </div> -->
+      <!-- card with c2a -->
+        <div class="hero-card">
+            <h2>Join Our Team</h2>
+            <p>We're always looking for talented individuals to join our growing team. Check out our current openings and apply today!</p>
+            <div class="button-group">
+                <button class="action-button">Hire Us</button>
+                <button class="action-button">Join Us</button>
+            </div>
+            <!-- <a href="/careers" class="cta-button">View Open Positions</a> -->
+        </div>
     </div>
-    <p class="leading-relaxed">
-      <strong>Adam Cox</strong> is a software solutions developer with a long history of delivering supportable, secure solutions at scale. 
-      Throughout his career, he has a proven track record around modernize existing, complex legacy systems. Working with and mentoring existing teams to achieve their full potential.
-    </p>
-    <p class="leading-relaxed mt-4">
-      He specializes in <strong>full-stack development</strong>, <strong>cloud computing</strong>, and <strong>agile practices</strong>, balancing deep technical expertise with a strategic, leadership-driven mindset. 
-      He thrives on challenging problems where alignment of resources depends on assuring clarity of the goals has been achieved in order to meet the business goals and deliver valued success.
-    </p>
-    <p class="leading-relaxed mt-4">
-      Whether you're looking to transform legacy systems, build cutting-edge applications, or lead teams to excellence, Adam brings experience, vision, and clear communications adapted to all players amd stakeholders, and takes ownership of the process. 
-      <strong>Schedule an initial meeting, and let's discuss your goals.</strong>
-    </p>
-    <p class="leading-relaxed mt-4">
-      <a routerLink="/resume" class="text-blue-500 hover:text-blue-700 cursor-pointer">Review and download my latest resume</a>
-    </p>
-    <p class="leading-relaxed mt-4">
-      <a routerLink="/contact" class="text-blue-500 hover:text-blue-700 cursor-pointer">Contact me</a>
-    </p>
   </div>
+  
+  <section id="story" class="story-section">
+    <h2>Our Story</h2>
+    <p>
+      Founded in 2001, Vorba was born from a shared vision to help organizations navigate the
+      complexities of modern software development. Our founders, with backgrounds in both
+      enterprise and startup environments, recognized a gap in how companies approached
+      modernization and digital transformation.
+    </p>
+    <p>
+      Starting as a small team of passionate engineers and strategists, we quickly grew by
+      delivering innovative solutions that helped our clients unlock new value from their
+      technology investments. Today, we're proud to have a diverse team of experts who are
+      dedicated to helping our clients succeed in an ever-evolving digital landscape.
+    </p>
+  </section>
+
+  <section id="mission" class="mission-section">
+    <h2>Mission & Values</h2>
+    <p>
+      Our mission is to empower organizations to achieve their full potential through innovative
+      software solutions. We believe that technology should be a catalyst for growth, not a
+      barrier, and we're committed to helping our clients navigate the complexities of modern
+      software development with confidence and clarity.
+    </p>
+    <p>
+      At Vorba, we live by our core values of integrity, collaboration, and innovation. We
+      believe in building strong relationships with our clients and partners, fostering a culture
+      of continuous learning and improvement, and delivering solutions that drive real business
+      impact.
+    </p>
+  </section>
+
+    <!-- Option 3 — Enrolling & Vision-Driven (About-page storytelling) -->
+    <section id="team" class="intro-section">
+        <h2>Our Team</h2>
+        <p>
+            At <strong>Vorba</strong>, we believe great software starts with great people.
+        </p>
+        <p>
+            Our team blends <strong>leadership</strong>, deep technical expertise, and a relentless
+            drive to modernize complex systems.
+        </p>
+        <!-- <p>
+            We're builders, thinkers, and problem solvers—united by a passion for creating software
+            that scales, performs, and endures. Together, we transform challenges into systems that
+            work beautifully for the people who rely on them.
+        </p> -->
+
+    <div class="team-grid">
+      @for (member of team(); track member.name) {
+        @if (member.linkedInUrl) {
+          <a [href]="member.linkedInUrl" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="team-member team-member-clickable">
+            <div class="member-photo">
+              <img [src]="member.profileImageUrl" 
+                  [alt]="member.name + ' profile photo'"
+                  loading="lazy">
+            </div>
+            <div class="member-info">
+              <h1>{{ member.name }}</h1>
+              <h4>{{ member.role }}</h4>
+            </div>
+          </a>
+        } @else {
+          <div class="team-member">
+            <div class="member-photo">
+              <img [src]="member.profileImageUrl" 
+                  [alt]="member.name + ' profile photo'"
+                  loading="lazy">
+            </div>
+            <div class="member-info">
+              <h1>{{ member.name }}</h1>
+              <h4>{{ member.role }}</h4>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </section>
+
+  <section id="careers" class="careers-section">
+    <h2>Current Openings</h2>
+    <p>
+      We're always looking for talented individuals to join our growing team. Check out our current openings and apply today!
+    </p>
+    <div id="openings" class="openings-list">
+      @for (opening of openings(); track opening.id) {
+        <div class="opening-item">
+          <h3>{{ opening.title }}</h3>
+          <p>{{ opening.description }}</p>
+          <a [href]="opening.applyUrl" class="apply-link" target="_blank" rel="noopener noreferrer">Apply Now</a>
+        </div>
+      }
+    </div>
+
+    <h2 id="culture">Company Culture</h2>
+    <p>
+      At Vorba, we foster a culture of collaboration, innovation, and continuous learning. We believe in empowering our team members to take ownership of their work and grow both personally and professionally. We value diversity and inclusion, and we're committed to creating a supportive and inclusive environment where everyone can thrive.
+    </p>
+
+    <h2 id="benefits">Benefits</h2>
+    <p>
+      We offer a comprehensive benefits package that includes competitive salaries, flexible work arrangements, health insurance, retirement plans, and opportunities for professional development. We also prioritize work-life balance and provide our team members with the resources and support they need to succeed both at work and in their personal lives.
+    </p>
+  </section>
+
+  <section id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+    <p>
+      Interested in learning more about our team or exploring career opportunities? We'd love to hear from you! Reach out to us at <a href="mailto:sales@vorba.com">sales&#64;vorba.com</a>.
+    </p>
+    <h2 id="locations">Locations: Virtual</h2>
+    <p>
+      We operate as a fully remote company, allowing us to attract top talent from around the world and provide flexible work arrangements for our team members.
+    </p>
+    <h2 id="press">Press Inquiries</h2>
+    <p>
+      For press inquiries, please contact our media relations team at <a href="mailto:press@vorba.com">press&#64;vorba.com</a>.
+    </p>
+  </section>
 </div>
