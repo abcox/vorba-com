@@ -8,61 +8,47 @@
 </div>
 
 <ng-template
-    #themeTemplate
-    let-isLightThemeSignal="isLightThemeSignal"
-    let-toggleTheme="toggleTheme"
-    let-swatchSignal="swatchSignal"
-    let-swatchOptions="swatchOptions"
-    let-setSwatch="setSwatch"
-    let-swatchTooltip="swatchTooltip"
-    let-fontSignal="fontSignal"
-    let-fontOptions="fontOptions"
-    let-setFont="setFont"
-    let-fontTooltip="fontTooltip"
+    #sliderTemplate
+    let-displaySignal="displaySignal"
+    let-stateSignal="stateSignal"
+    let-selectorDelegate="selectorDelegate"
+    let-id="id"
     >
     <div class="theme-controls mt-4">
         <div class="theme-toggle-row">
-            <span class="menu-control-label">{{ isLightThemeSignal() ? 'Dark mode' : 'Light mode' }}</span>
-            <!-- <mat-slide-toggle
-                class="theme-toggle"
-                [ngModel]="!isLightThemeSignal()"
-                (change)="toggleTheme()">
-            </mat-slide-toggle> -->            
-            <!-- <button mat-icon-button (click)="toggleTheme()" class="theme-toggle">
-                <mat-icon>{{ isLightThemeSignal() ? 'dark_mode' : 'light_mode' }}</mat-icon>
-            </button> -->
+            <span class="menu-control-label">{{ displaySignal() }}</span>
             <mat-slide-toggle
+                [id]="id"
                 class="theme-toggle ml-5"
-                [ngModel]="isLightThemeSignal()"
-                (change)="toggleTheme()"
+                [ngModel]="stateSignal()"
+                (change)="selectorDelegate()"
                 matTooltip="Alt+T">
             </mat-slide-toggle>
         </div>
-        <label class="menu-control-label" for="swatch-select">Color Swatch</label>
-        <select
-            data-testid="swatch-select"
-            id="swatch-select"
-            class="swatch-select"
-            [ngModel]="swatchSignal()"
-            (ngModelChange)="setSwatch($event)"
-            matTooltip="{{ swatchTooltip }}">
-            @for (swatch of swatchOptions; track swatch.value) {
-                <option [value]="swatch.value">{{ swatch.label }}</option>
-            }
-        </select>
+    </div>
+</ng-template>
 
-        <label class="menu-control-label" for="font-select">Typography</label>
+<ng-template
+    #selectTemplate
+    let-stateSignal="stateSignal"
+    let-stateOptions="stateOptions"
+    let-setState="setState"
+    let-tooltip="tooltip"
+    let-label="label"
+    let-id="id"
+    >
+    <div class="theme-controls mt-4">
+        <label class="menu-control-label" [for]="id">{{ label }}</label>
         <select
-            data-testid="font-select"
-            id="font-select"
-            class="swatch-select"
-            [ngModel]="fontSignal()"
-            (ngModelChange)="setFont($event)"
-            matTooltip="{{ fontTooltip }}">
-            @for (font of fontOptions; track font.value) {
-                <option [value]="font.value">{{ font.label }}</option>
+            data-testid="state-select"
+            [id]="id"
+            class="state-select"
+            [ngModel]="stateSignal()"
+            (ngModelChange)="setState($event)"
+            matTooltip="{{ tooltip }}">
+            @for (option of stateOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
             }
         </select>
     </div>
 </ng-template>
-

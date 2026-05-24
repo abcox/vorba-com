@@ -14,8 +14,8 @@ export interface MenuItem {
   icon?: string;
   subItems?: MenuItem[];
   type?: 'item' | 'divider';
-  template?: TemplateRef<any>;
-  templateContext?: Record<string, any>;
+  template?: TemplateRef<unknown>;
+  templateContext?: Record<string, unknown>;
   action?: () => void;
 }
 

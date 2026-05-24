@@ -53,6 +53,10 @@ export class LayoutService {
     return this.themeService.isLightTheme;
   }
 
+  get getThemeContrastForDisplay() {
+    return computed(() => this.themeService.isLightTheme() ? 'Dark mode' : 'Light mode');
+  }
+
   get swatchSignal() {
     return this.themeService.swatch;
   }

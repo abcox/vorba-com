@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef, ViewChild, AfterViewInit, input, computed } from '@angular/core';
+import { Component, inject, TemplateRef, ViewChild, AfterViewInit, input, computed, signal } from '@angular/core';
 import { MenuItem, MenuListComponent } from '../menu-list/menu-list.component';
 import { CommonModule } from '@angular/common';
 import { MenuService } from '../../../../../service/menu/menu.service';
@@ -38,30 +38,27 @@ export class MenuDialogComponent implements AfterViewInit {
   private authService = inject(AuthService);
 
   menuOpen = this.menuService.menuOpen;
-  @ViewChild('themeTemplate') themeTemplate!: TemplateRef<unknown>;  
-  menuItems: MenuItem[] = [];
+  @ViewChild('selectTemplate') selectTemplate!: TemplateRef<unknown>;  
+  @ViewChild('sliderTemplate') sliderTemplate!: TemplateRef<unknown>;  
+  menuItems = signal<MenuItem[]>([]);
   fontOptions = this.fontService.fontOptions;
   swatchOptions = this.themeService.colorOptions;
 
   ngAfterViewInit() {
-    this.menuItems = this.getMenuItems();
+    this.menuItems.set(this.getMenuItems());
   }
 
   menuListForDisplay = computed(() => {
-    const menuItems = this.getMenuItems();
-  
-    /* if (this.isMobile()) {
-      // splice in the menuList items before the theme item
-      const themeItemIndex = menuItems.findIndex(item => item.template === this.themeTemplate);
-      menuItems.splice(themeItemIndex, 0, ...this.menuList());
-    } */
-   if (this.isMobile()) {
-    // add menuList items to start of the list, and then a divider
-    menuItems.unshift(
-      ...this.menuList(),
-      { type: 'divider' } as MenuItem
-    );
-   }
+    const menuItems = [...this.menuItems()];
+
+    if (this.isMobile()) {
+      // add menuList items to start of the list, and then a divider
+      menuItems.unshift(
+        ...this.menuList(),
+        { type: 'divider' } as MenuItem
+      );
+    }
+
     return menuItems;
   });
 
@@ -97,19 +94,37 @@ export class MenuDialogComponent implements AfterViewInit {
         type: 'divider'
       },
       {
-        label: 'Theme',
-        template: this.themeTemplate,
+        //label: 'Theme',
+        template: this.sliderTemplate,
         templateContext: {
-          isLightThemeSignal: this.layoutService.isLightTheme,
-          toggleTheme: () => this.layoutService.toggleTheme(),
-          swatchSignal: this.layoutService.swatchSignal,
-          swatchOptions: this.swatchOptions,
-          setSwatch: (swatch: string) => this.layoutService.setSwatch(swatch as ThemeSwatch),
-          swatchTooltip: 'Change theme color (Alt + C + < / Alt + C + >)',
-          fontSignal: this.fontService.font,
-          fontOptions: this.fontOptions,
-          setFont: (font: string) => this.fontService.setFont(font as FontPreset),
-          fontTooltip: 'Change font (Alt + B + < / Alt + B + >)'
+          id: 'theme-contrast-toggle',
+          stateSignal: this.layoutService.isLightTheme,
+          displaySignal: this.layoutService.getThemeContrastForDisplay,
+          selectorDelegate: () => this.layoutService.toggleTheme(),
+        }
+      },
+      {
+        //label: 'Theme',
+        template: this.selectTemplate,
+        templateContext: {
+          id: 'color-select',
+          label: 'Color',
+          stateSignal: this.layoutService.swatchSignal,
+          stateOptions: this.swatchOptions,
+          setState: (value: ThemeSwatch) => this.layoutService.setSwatch(value as ThemeSwatch),
+          tooltip: 'Change theme color (Alt + C + < / Alt + C + >)',
+        }
+      },
+      {
+        //label: 'Theme',
+        template: this.selectTemplate,
+        templateContext: {
+          id: 'font-select',
+          label: 'Font',
+          stateSignal: this.fontService.font,
+          stateOptions: this.fontOptions,
+          setState: (value: FontPreset) => this.fontService.setFont(value as FontPreset),
+          tooltip: 'Change font (Alt + B + < / Alt + B + >)'
         }
       }
     ] as MenuItem[];
