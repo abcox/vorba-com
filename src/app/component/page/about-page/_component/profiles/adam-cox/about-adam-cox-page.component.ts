@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { LayoutService } from '../../layout/_service/layout.service';
-import { AvatarComponent } from '../../profile-card/_component/avatar/avatar.component';
 import { RouterModule } from '@angular/router';
+import { AvatarComponent } from '@src/app/component/profile-card/_component/avatar/avatar.component';
+import { LayoutService } from '@src/app/component/layout/_service/layout.service';
 
 @Component({
   selector: 'app-about-adam-cox-page',
