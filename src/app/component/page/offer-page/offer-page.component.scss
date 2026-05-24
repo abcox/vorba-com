@@ -3,6 +3,8 @@
 }
 
 .offer-page {
+  --offer-font-body: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
+  --offer-font-heading: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
   --offer-surface: var(--app-surface, var(--sys-surface, #f8fafc));
   --offer-card: var(--app-card, var(--sys-surface-container-low, #fff));
   --offer-text: var(--app-text, var(--sys-on-surface, #111827));
@@ -12,12 +14,35 @@
   --offer-accent-alt: var(--app-accent-alt, var(--sys-tertiary, #0f766e));
   --offer-accent-soft: var(--app-accent-soft, color-mix(in srgb, var(--offer-accent) 14%, var(--offer-card)));
   --offer-card-shadow: var(--app-card-shadow, 0 10px 24px rgba(15, 23, 42, 0.08));
+  --offer-pricing-notes-bg: color-mix(in srgb, var(--offer-accent-soft) 78%, var(--offer-card));
+  --offer-cta-bg-start: color-mix(in srgb, var(--offer-accent-soft) 74%, var(--offer-card));
+  --offer-cta-bg-end: color-mix(in srgb, var(--offer-card) 82%, var(--offer-accent));
+  --offer-cta-text: color-mix(in srgb, var(--offer-text) 88%, var(--offer-accent));
+  --offer-cta-text-muted: var(--offer-muted);
+  --offer-btn-filled-bg: var(--offer-accent);
+  --offer-btn-filled-text: var(--offer-card);
+  --offer-btn-outline-border: color-mix(in srgb, var(--offer-accent) 55%, var(--offer-edge));
+  --offer-btn-outline-text: var(--offer-accent);
+  --offer-btn-outline-hover-bg: var(--offer-accent-soft);
   color: var(--offer-text);
   background:
     radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--offer-accent-alt) 22%, transparent), transparent 42%),
-    radial-gradient(circle at 10% 30%, rgba(249, 115, 22, 0.12), transparent 45%),
+    radial-gradient(circle at 10% 30%, color-mix(in srgb, var(--offer-accent) 14%, transparent), transparent 45%),
     var(--offer-surface);
   padding-bottom: 3rem;
+  font-family: var(--offer-font-body);
+}
+
+:host-context(.dark-theme) .offer-page {
+  --offer-pricing-notes-bg: color-mix(in srgb, var(--offer-accent-soft) 72%, var(--offer-card));
+  --offer-cta-bg-start: color-mix(in srgb, var(--offer-accent-soft) 68%, var(--offer-card));
+  --offer-cta-bg-end: color-mix(in srgb, var(--offer-card) 62%, var(--offer-accent));
+  --offer-cta-text: color-mix(in srgb, white 88%, var(--offer-accent));
+  --offer-cta-text-muted: color-mix(in srgb, white 74%, var(--offer-text));
+  --offer-btn-filled-text: color-mix(in srgb, var(--offer-card) 18%, black);
+  --offer-btn-outline-border: color-mix(in srgb, var(--offer-accent) 64%, var(--offer-edge));
+  --offer-btn-outline-text: color-mix(in srgb, var(--offer-accent) 90%, white);
+  --offer-btn-outline-hover-bg: color-mix(in srgb, var(--offer-accent-soft) 88%, var(--offer-card));
 }
 
 .container {
@@ -41,6 +66,7 @@
   font-size: clamp(2rem, 3vw, 3rem);
   line-height: 1.25;
   margin: 0;
+  font-family: var(--offer-font-heading);
 }
 
 .purpose {
@@ -56,7 +82,7 @@
   //background: color-mix(in srgb, var(--offer-card) 84%, transparent);
   //background: var(--offer-card);                   /* option 1: solid card — clean, no odd contrast */
   //background: transparent;                    /* option 2: outlined only — minimal, lets page bg show */
-  background: var(--offer-accent-soft);       /* option 3: accent tint — subtle color tie-in */
+  background: var(--offer-pricing-notes-bg);
   margin-top: 1.5rem;
   padding: .5rem 1.5rem 1rem; // top, sides, bottom
 }
@@ -64,6 +90,7 @@
 .pricing-notes h2 {
   font-size: 1.2rem;
   margin: 0 0 0.75rem;
+  font-family: var(--offer-font-heading);
 }
 
 .offer-grid {
@@ -86,6 +113,7 @@
 .offer-card h2 {
   margin: 0;
   font-size: 1.35rem;
+  font-family: var(--offer-font-heading);
 }
 
 .duration {
@@ -111,6 +139,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--offer-muted);
+  font-family: var(--offer-font-heading);
 }
 
 .card-section ul,
@@ -131,6 +160,9 @@
 .offer-card button {
   margin-top: auto;
   --mdc-filled-button-container-shape: 6px;
+  --mdc-filled-button-container-color: var(--offer-btn-filled-bg);
+  --mdc-filled-button-label-text-color: var(--offer-btn-filled-text);
+  --mdc-filled-button-label-text-font: var(--offer-font-body);
 }
 
 .add-ons,
@@ -143,6 +175,7 @@
 .guidance-card h2,
 .cta h2 {
   margin: 0 0 1rem;
+  font-family: var(--offer-font-heading);
 }
 
 .add-on-grid {
@@ -161,6 +194,7 @@
 .add-on-item h3 {
   margin: 0;
   font-size: 1rem;
+  font-family: var(--offer-font-heading);
 }
 
 .add-on-item p {
@@ -194,11 +228,15 @@
   border: 1px solid color-mix(in srgb, var(--offer-accent) 30%, transparent);
   border-radius: 18px;
   padding: 1.3rem;
-  background: linear-gradient(135deg, var(--offer-accent-soft), var(--offer-card));
+  background: linear-gradient(0deg, var(--offer-cta-bg-start) 0%, var(--offer-cta-bg-end) 100%);
 }
 
 .cta p {
-  color: var(--offer-muted);
+  color: var(--offer-cta-text-muted);
+}
+
+.cta h2 {
+  color: var(--offer-cta-text);
 }
 
 .actions {
@@ -206,6 +244,24 @@
   gap: 0.75rem;
   flex-wrap: wrap;
   margin-top: 0.8rem;
+}
+
+.actions button[mat-flat-button] {
+  --mdc-filled-button-container-color: var(--offer-btn-filled-bg);
+  --mdc-filled-button-label-text-color: var(--offer-btn-filled-text);
+  --mdc-filled-button-label-text-font: var(--offer-font-body);
+}
+
+.actions button[mat-stroked-button] {
+  --mdc-outlined-button-label-text-color: var(--offer-btn-outline-text);
+  --mdc-outlined-button-outline-color: var(--offer-btn-outline-border);
+  --mat-outlined-button-state-layer-color: var(--offer-btn-outline-text);
+  --mdc-outlined-button-label-text-font: var(--offer-font-body);
+  background-color: color-mix(in srgb, var(--offer-btn-outline-hover-bg) 0%, transparent);
+
+  &:hover {
+    background-color: color-mix(in srgb, var(--offer-btn-outline-hover-bg) 35%, transparent);
+  }
 }
 
 .versioning {
