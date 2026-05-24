@@ -1,39 +1,124 @@
-
 :host {
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    //padding: 2rem 1rem;
-    background-color: var(--footer-background-color);
-    color: var(--footer-text-color); */
+    display: block;
+}
+
+.footer-section {
+    --footer-services-font-body: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
+    --footer-services-font-heading: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
+    --footer-services-bg-start: color-mix(in srgb, var(--app-surface) 74%, var(--app-card));
+    --footer-services-bg-end: color-mix(in srgb, var(--app-card) 82%, var(--app-accent-soft));
+    --footer-services-bg: linear-gradient(180deg, var(--footer-services-bg-start) 0%, var(--footer-services-bg-end) 100%);
+    --footer-services-edge: color-mix(in srgb, var(--app-accent) 34%, var(--app-edge));
+    --footer-services-shadow: var(--app-card-shadow);
+    --footer-services-title: color-mix(in srgb, var(--app-accent) 32%, var(--app-text));
+    --footer-services-body: var(--app-muted);
+    --footer-services-column-title: color-mix(in srgb, var(--app-accent) 55%, var(--app-text));
+    --footer-services-link: color-mix(in srgb, var(--app-text) 82%, var(--app-accent));
+    --footer-services-link-hover: var(--app-accent);
+    margin-top: 4rem;
+    padding: 2rem;
+    //border-radius: 0.95rem;
+    //border: 1px solid var(--footer-services-edge);
+    background: var(--footer-services-bg);
+    //box-shadow: var(--footer-services-shadow);
+    font-family: var(--footer-services-font-body);
+    color: var(--footer-services-body);
+}
+
+.section-title {
+    margin: 0 0 0.65rem;
+    font-family: var(--footer-services-font-heading);
+    font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--footer-services-title);
+}
+
+.section-description {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--footer-services-body);
+}
+
+.service-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.6rem 2rem;
+    margin-top: 1.4rem;
+}
+
+.service-column {
+    min-width: 15rem;
+    flex: 1 1 16rem;
 }
 
 .title {
-    //font: var(--sys-headline-small);
-    font-family: 'Arial Narrow', Arial, sans-serif;
-    font-size: 1.3rem;
+    margin: 0.25rem 0 0.9rem;
+    font-family: var(--footer-services-font-heading);
+    font-size: 1.1rem;
     font-weight: 500;
-    line-height: 1.5rem;
-    color: var(--secondary-text-light);
-    margin: .25rem 0 1rem 0;
+    line-height: 1.3;
+    color: var(--footer-services-column-title);
 }
 
-p {
-    //font: var(--sys-label-medium);
-    font-family: 'Arial Narrow', Arial, sans-serif;
-    line-height: .875rem;
-    font-size: .875rem;
-    color: var(--grayscale-200);
+.link-list {
     margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-/* 
---sys-label-small: 500 0.688rem / 1rem roboto,
-    sans-serif;
---sys-label-small-font: roboto,
-    sans-serif;
---sys-label-small-line-height: 1rem;
---sys-label-small-size: 0.688rem;
---sys-label-small-tracking: 0.031rem;
---sys-label-small-weight: 500;
- */
+.link-item + .link-item {
+    margin-top: 0.42rem;
+}
+
+.service-link {
+    text-decoration: none;
+}
+
+.link-label {
+    margin: 0;
+    font-size: 0.87rem;
+    line-height: 1.2;
+    color: var(--footer-services-link);
+    transition: color 0.2s ease;
+}
+
+.service-link:hover .link-label,
+.service-link:focus-visible .link-label {
+    color: var(--footer-services-link-hover);
+}
+
+.service-link:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--app-accent) 72%, transparent);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+}
+
+:host-context(.dark-theme) .footer-section {
+    --footer-services-bg-start: color-mix(in srgb, var(--app-surface) 82%, #020617 18%);
+    --footer-services-bg-end: color-mix(in srgb, var(--app-card) 76%, var(--app-accent-soft));
+    --footer-services-bg: linear-gradient(180deg, var(--footer-services-bg-start) 0%, var(--footer-services-bg-end) 100%);
+    --footer-services-edge: color-mix(in srgb, var(--app-accent) 42%, var(--app-edge));
+    --footer-services-title: color-mix(in srgb, var(--app-accent) 84%, white);
+    --footer-services-body: color-mix(in srgb, var(--app-text) 82%, var(--app-accent) 18%);
+    --footer-services-column-title: color-mix(in srgb, var(--app-accent) 74%, white);
+    --footer-services-link: color-mix(in srgb, var(--app-text) 86%, var(--app-accent) 14%);
+    --footer-services-link-hover: color-mix(in srgb, var(--app-accent) 92%, white);
+}
+
+@media (max-width: 768px) {
+    .footer-section {
+        margin-top: 3rem;
+        padding: 1.4rem;
+    }
+
+    .service-grid {
+        gap: 1.2rem;
+    }
+
+    .service-column {
+        min-width: 100%;
+        flex-basis: 100%;
+    }
+}

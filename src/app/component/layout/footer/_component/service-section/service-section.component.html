@@ -1,19 +1,19 @@
 @if (service(); as o) {
-    <section class="footer-section mt-16 p-8 bg-gray-800">
-        <h2>{{ o.title }}</h2>
-        <p>
+    <section class="footer-section">
+        <h2 class="section-title">{{ o.title }}</h2>
+        <p class="section-description">
             {{ o.description }}
         </p>
         @if (o.list) {
-            <div class="flex flex-row gap-8 flex-wrap">
+            <div class="service-grid">
                 @for (serviceItem of o.list; track serviceItem.title) {
-                    <div class="vertical-container">
+                    <div class="service-column">
                         <div class="title">{{ serviceItem.title }}</div>
-                        <ul>
+                        <ul class="link-list">
                             @for (link of serviceItem.links; track link.label) {
-                                <li>
-                                    <a [href]="link.url">
-                                        <p>
+                                <li class="link-item">
+                                    <a class="service-link" [href]="link.url">
+                                        <p class="link-label">
                                             {{ link.label }}
                                         </p>
                                     </a>

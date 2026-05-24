@@ -1,0 +1,75 @@
+.app-footer {
+	--footer-font-body: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
+	--footer-font-heading: var(--app-font-family, var(--font-family-primary, 'Roboto', sans-serif));
+	--footer-bg: color-mix(in srgb, var(--app-surface) 86%, var(--app-card));
+	--footer-panel: color-mix(in srgb, var(--app-card) 84%, var(--app-accent-soft));
+	--footer-edge: color-mix(in srgb, var(--app-accent) 28%, var(--app-edge));
+	--footer-text: var(--app-text);
+	--footer-muted: var(--app-muted);
+	--footer-shadow: var(--app-card-shadow);
+	--footer-divider: color-mix(in srgb, var(--app-accent) 22%, var(--app-edge));
+	background: var(--footer-bg);
+	border-top: 1px solid var(--footer-edge);
+	font-family: var(--footer-font-body);
+	color: var(--footer-text);
+	padding: 1.5rem 1rem;
+}
+
+.footer-container {
+	width: min(100%, 72rem);
+	margin: 0 auto;
+	padding: 0 clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.footer-main {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	//background: var(--footer-panel);
+	//border: 1px solid var(--footer-edge);
+	//border-radius: 0.9rem;
+	//box-shadow: var(--footer-shadow);
+	//padding: 1rem 1.25rem;
+}
+
+.footer-brand {
+	text-align: left;
+}
+
+.footer-copy {
+	margin: 0;
+	font-size: 0.9rem;
+	line-height: 1.45;
+	color: var(--footer-text);
+	font-family: var(--footer-font-heading);
+	font-weight: 500;
+}
+
+.footer-meta {
+	margin-top: 0.75rem;
+	min-height: 1rem;
+	//border-top: 1px solid var(--footer-divider);
+	color: var(--footer-muted);
+}
+
+:host-context(.dark-theme) .app-footer {
+	--footer-bg: color-mix(in srgb, var(--app-surface) 80%, #020617 20%);
+	--footer-panel: color-mix(in srgb, var(--app-card) 78%, var(--app-accent-soft));
+	--footer-edge: color-mix(in srgb, var(--app-accent) 34%, var(--app-edge));
+	--footer-text: color-mix(in srgb, var(--app-text) 92%, white);
+	--footer-muted: color-mix(in srgb, var(--app-text) 72%, var(--app-accent) 28%);
+	--footer-divider: color-mix(in srgb, var(--app-accent) 34%, var(--app-edge));
+}
+
+@media (max-width: 640px) {
+	.footer-main {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+
+	.footer-brand {
+		text-align: center;
+	}
+}
