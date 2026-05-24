@@ -14,7 +14,11 @@
   --offer-accent-alt: var(--app-accent-alt, var(--sys-tertiary, #0f766e));
   --offer-accent-soft: var(--app-accent-soft, color-mix(in srgb, var(--offer-accent) 14%, var(--offer-card)));
   --offer-card-shadow: var(--app-card-shadow, 0 10px 24px rgba(15, 23, 42, 0.08));
-  --offer-pricing-notes-bg: color-mix(in srgb, var(--offer-accent-soft) 78%, var(--offer-card));
+  --offer-card-hover-border: color-mix(in srgb, var(--offer-accent) 50%, var(--offer-edge));
+  --offer-card-hover-shadow: var(--offer-card-shadow);
+  --offer-card-secondary-bg: color-mix(in srgb, var(--offer-card) 94%, var(--offer-accent-soft));
+  --offer-list-text: color-mix(in srgb, var(--offer-text) 90%, transparent);
+  --offer-pricing-notes-bg: color-mix(in srgb, var(--offer-card) 86%, var(--offer-surface));
   --offer-cta-bg-start: color-mix(in srgb, var(--offer-accent-soft) 74%, var(--offer-card));
   --offer-cta-bg-end: color-mix(in srgb, var(--offer-card) 82%, var(--offer-accent));
   --offer-cta-text: color-mix(in srgb, var(--offer-text) 88%, var(--offer-accent));
@@ -24,17 +28,21 @@
   --offer-btn-outline-border: color-mix(in srgb, var(--offer-accent) 55%, var(--offer-edge));
   --offer-btn-outline-text: var(--offer-accent);
   --offer-btn-outline-hover-bg: var(--offer-accent-soft);
+  --offer-page-bg-start: color-mix(in srgb, var(--offer-accent) 16%, var(--offer-card));
+  --offer-page-bg-end: color-mix(in srgb, var(--offer-surface) 90%, var(--offer-card));
   color: var(--offer-text);
-  background:
-    radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--offer-accent-alt) 22%, transparent), transparent 42%),
-    radial-gradient(circle at 10% 30%, color-mix(in srgb, var(--offer-accent) 14%, transparent), transparent 45%),
-    var(--offer-surface);
+  background: linear-gradient(180deg, var(--offer-page-bg-start) 0%, var(--offer-page-bg-end) 100%);
   padding-bottom: 3rem;
   font-family: var(--offer-font-body);
 }
 
 :host-context(.dark-theme) .offer-page {
-  --offer-pricing-notes-bg: color-mix(in srgb, var(--offer-accent-soft) 72%, var(--offer-card));
+  --offer-page-bg-start: color-mix(in srgb, var(--offer-accent) 20%, var(--offer-card));
+  --offer-page-bg-end: color-mix(in srgb, var(--offer-surface) 82%, #020617 18%);
+  --offer-card-hover-border: color-mix(in srgb, var(--offer-accent) 62%, var(--offer-edge));
+  --offer-card-secondary-bg: color-mix(in srgb, var(--offer-card) 88%, var(--offer-accent-soft));
+  --offer-list-text: color-mix(in srgb, var(--offer-text) 86%, var(--offer-accent) 14%);
+  --offer-pricing-notes-bg: color-mix(in srgb, var(--offer-card) 84%, var(--offer-surface));
   --offer-cta-bg-start: color-mix(in srgb, var(--offer-accent-soft) 68%, var(--offer-card));
   --offer-cta-bg-end: color-mix(in srgb, var(--offer-card) 62%, var(--offer-accent));
   --offer-cta-text: color-mix(in srgb, white 88%, var(--offer-accent));
@@ -108,6 +116,12 @@
   flex-direction: column;
   gap: 1rem;
   box-shadow: var(--offer-card-shadow);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.offer-card:hover {
+  border-color: var(--offer-card-hover-border);
+  box-shadow: var(--offer-card-hover-shadow);
 }
 
 .offer-card h2 {
@@ -146,14 +160,14 @@
 .pricing-notes ul,
 .guidance-card ul {
   margin: 0.65rem 0 0;
-  //padding-left: 1.2rem;
+  padding-left: 1.2rem;
 }
 
 .card-section li,
 .pricing-notes li,
 .guidance-card li {
   margin-bottom: 0.45rem;
-  color: color-mix(in srgb, var(--offer-text) 90%, transparent);
+  color: var(--offer-list-text);
   line-height: 1.4;
 }
 
@@ -187,7 +201,7 @@
 .add-on-item {
   border: 1px solid var(--offer-edge);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--offer-card) 94%, transparent);
+  background: var(--offer-card-secondary-bg);
   padding: .5rem 1.5rem 1rem; // top, sides, bottom
 }
 
@@ -216,7 +230,7 @@
 .guidance-card {
   border: 1px solid var(--offer-edge);
   border-radius: 8px;
-  background: var(--offer-card);
+  background: var(--offer-card-secondary-bg);
   padding: .5rem 1.5rem 1rem; // top, sides, bottom
 }
 
@@ -250,6 +264,7 @@
   --mdc-filled-button-container-color: var(--offer-btn-filled-bg);
   --mdc-filled-button-label-text-color: var(--offer-btn-filled-text);
   --mdc-filled-button-label-text-font: var(--offer-font-body);
+  --mdc-filled-button-container-shape: 8px;
 }
 
 .actions button[mat-stroked-button] {
@@ -257,6 +272,7 @@
   --mdc-outlined-button-outline-color: var(--offer-btn-outline-border);
   --mat-outlined-button-state-layer-color: var(--offer-btn-outline-text);
   --mdc-outlined-button-label-text-font: var(--offer-font-body);
+  --mdc-outlined-button-container-shape: 8px;
   background-color: color-mix(in srgb, var(--offer-btn-outline-hover-bg) 0%, transparent);
 
   &:hover {
