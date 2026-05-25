@@ -39,7 +39,8 @@
             mat-flat-button
             color="primary"
             class="action-button mr-3"
-            (click)="navigateHome()"
+            [routerLink]="['/home']"
+            [fragment]="'contact-form'"
             aria-label="Toggle Menu Banner">
             Get a Quote
         </button>

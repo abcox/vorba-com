@@ -1,5 +1,5 @@
 import { /* APP_INITIALIZER,  */ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { withInMemoryScrolling, provideRouter } from '@angular/router';
+import { withInMemoryScrolling, provideRouter, withRouterConfig } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -22,6 +22,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(
       routes,
+      withRouterConfig({
+        onSameUrlNavigation: 'reload',
+      }),
       withInMemoryScrolling({
         anchorScrolling: 'enabled',
         scrollPositionRestoration: 'top'
