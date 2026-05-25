@@ -293,6 +293,11 @@ export class MeetingInviteComponent implements OnInit {
       return null;
     }
 
+    const targetId = items.find((item) => item?.id === 'c_49d7426862f60afeb3f46a25701039049d914d41bb9efb3710f63403946ed398@group.calendar.google.com')?.id;
+    if (targetId) {
+      return targetId;
+    }
+
     const primary = items.find((item) => item?.primary && !!item.id);
     if (primary?.id) {
       return primary.id;
