@@ -23,8 +23,9 @@ export class OfferPageComponent {
    * Navigates to contact and passes the selected offer id when available.
    */
   requestQuote(offer?: OfferPackage): void {
-    this.router.navigate(['/contact'], {
-      queryParams: offer ? { offer: offer.id } : undefined
+    this.router.navigate(['/home'], {
+      queryParams: offer ? { offer: offer.id } : undefined,
+      fragment: 'contact-form'
     });
   }
 

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, inject, input, Output, signal, computed} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
@@ -63,8 +63,9 @@ const DEFAULT_CONTACT_FORM_OPTIONS: ContactFormOptions = {
 })
 export class ContactFormComponent {
   private formBuilder = inject(FormBuilder);
-  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private contactService = inject(ContactService);
+  private lastOfferPrefill = '';
 
   options = input<ContactFormOptions, Partial<ContactFormOptions>>(
     DEFAULT_CONTACT_FORM_OPTIONS, {
@@ -113,10 +114,42 @@ export class ContactFormComponent {
   });
 
   constructor() {
+    this.route.queryParamMap.subscribe((params) => {
+      this.applyOfferPrefill(params.get('offer'));
+    });
+
     // Set up form value changes subscription for real-time validation
     this.formGroup.valueChanges.subscribe(() => {
       // Optional: Add real-time form processing here
     });
+  }
+
+  private applyOfferPrefill(offerId: string | null): void {
+    if (!offerId) {
+      return;
+    }
+
+    const projectDetailsControl = this.formGroup.get('projectDetails');
+    if (!projectDetailsControl) {
+      return;
+    }
+
+    const offerName = offerId
+      .split('-')
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ');
+    const prefillText = `I am interested in the ${offerName} offer. Please share next steps, timeline, and availability.`;
+    const currentValue = String(projectDetailsControl.value ?? '').trim();
+
+    // Only overwrite when empty or replacing an earlier auto-prefill.
+    if (currentValue && currentValue !== this.lastOfferPrefill) {
+      return;
+    }
+
+    projectDetailsControl.setValue(prefillText);
+    projectDetailsControl.markAsPristine();
+    this.lastOfferPrefill = prefillText;
   }
 
   /**
