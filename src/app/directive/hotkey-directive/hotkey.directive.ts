@@ -51,6 +51,10 @@ export class HotkeyDirective implements OnInit, OnDestroy {
     }
 
     const key = this.normalizeKey(event.key);
+    if (!key) {
+      return;
+    }
+
     if (!this.isModifierKey(key)) {
       this.pressedKeys.add(key);
     }
@@ -75,6 +79,10 @@ export class HotkeyDirective implements OnInit, OnDestroy {
   @HostListener('document:keyup', ['$event'])
   handleKeyUp(event: KeyboardEvent): void {
     const key = this.normalizeKey(event.key);
+    if (!key) {
+      return;
+    }
+
     if (!this.isModifierKey(key)) {
       this.pressedKeys.delete(key);
     }
@@ -130,8 +138,11 @@ export class HotkeyDirective implements OnInit, OnDestroy {
     };
   }
 
-  private normalizeKey(key: string): string {
-    const normalized = key.toLowerCase();
+  private normalizeKey(key: string | null | undefined): string {
+    const normalized = String(key ?? '').toLowerCase();
+    if (!normalized) {
+      return '';
+    }
 
     switch (normalized) {
       case ' ':

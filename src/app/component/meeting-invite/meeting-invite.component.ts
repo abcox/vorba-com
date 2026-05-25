@@ -35,6 +35,7 @@ import {
   startWith,
   tap,
 } from 'rxjs';
+import { CalendarEventCreatePostRequestDto, CalendarService, GoogleCalendarEventDto } from '@file-service-api/v1';
 
 @Component({
   selector: 'app-meeting-invite',
@@ -99,7 +100,10 @@ import {
 })
 export class MeetingInviteComponent implements OnInit {
   router = inject(Router);
+  calendarService = inject(CalendarService);
+
   @ViewChild('tabGroup') public tabGroup!: MatTabGroup;
+
   fb = inject(FormBuilder);
   vm = signal<ViewModel>({
     title: 'Virtual Coffee',
@@ -247,27 +251,149 @@ export class MeetingInviteComponent implements OnInit {
     console.log('submit');
     this.sendRequest();
   }
+
+  private extractIanaTimezone(zone: string): string {
+    return zone.split(' ')[0] || this.timezoneOptions[0].split(' ')[0];
+  }
+
+  private parseTime12h(timeValue: string): { hour: number; minute: number } | null {
+    const match = timeValue.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    if (!match) {
+      return null;
+    }
+
+    let hour = Number(match[1]);
+    const minute = Number(match[2]);
+    const meridiem = match[3].toUpperCase();
+
+    if (hour === 12) {
+      hour = 0;
+    }
+    if (meridiem === 'PM') {
+      hour += 12;
+    }
+
+    return { hour, minute };
+  }
+
+  private toCalendarDateTime(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+    const second = String(date.getSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+  }
+
+  private resolveCalendarId(calendarList: unknown): string | null {
+    const list = calendarList as GoogleCalendarListResponse;
+    const items = list?.items ?? [];
+    if (!Array.isArray(items) || items.length === 0) {
+      return null;
+    }
+
+    const primary = items.find((item) => item?.primary && !!item.id);
+    if (primary?.id) {
+      return primary.id;
+    }
+
+    const firstWithId = items.find((item) => !!item?.id);
+    return firstWithId?.id ?? null;
+  }
+
   sendRequest() {
     console.log('sendRequest', this.formGroup.value);
-    const date = this.formGroup.value?.date.toLocaleDateString('en-US', {
+    const selectedDate = this.formGroup.value?.date;
+    const { time, zone } = this.formGroup.value;
+
+    if (!selectedDate || !time) {
+      console.error('Date and time are required to create a calendar event.');
+      return;
+    }
+
+    const parsedTime = this.parseTime12h(time);
+    if (!parsedTime) {
+      console.error(`Invalid time format: ${time}`);
+      return;
+    }
+
+    const dateLabel = selectedDate.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
-    const { time, zone } = this.formGroup.value;
-    this.router.navigate([
-      'thanks',
-      {
-        name: this.formGroup.value.name,
-        message: `I am looking forward to our time on ${date} at ${time} ${zone}!`,
+
+    const timezoneLabel = zone ?? this.timezoneOptions[0];
+    const timezone = this.extractIanaTimezone(timezoneLabel);
+    const startDate = new Date(selectedDate);
+    startDate.setHours(parsedTime.hour, parsedTime.minute, 0, 0);
+
+    const durationMinutes = this.vmr().meeting?.duration?.value ?? 30;
+    const endDate = new Date(startDate.getTime() + durationMinutes * 60 * 1000);
+
+    const event: GoogleCalendarEventDto = {
+      summary: this.formGroup.value.subject ?? 'Meeting',
+      description: this.formGroup.value.comments ?? '',
+      start: {
+        dateTime: this.toCalendarDateTime(startDate),
+        timeZone: timezone,
       },
-    ]);
+      end: {
+        dateTime: this.toCalendarDateTime(endDate),
+        timeZone: timezone,
+      },
+      location: '',
+      attendees: [
+        {
+          email: this.formGroup.value.email ?? '',
+          displayName: this.formGroup.value.name ?? '',
+        },
+      ],
+    };
+    const request: CalendarEventCreatePostRequestDto = {
+      event,
+      sendUpdates: true,
+      createConference: true,
+    };
+    this.calendarService.calendarControllerGetCalendars().subscribe({
+      next: (calendarList: unknown) => {
+        const calendarId = this.resolveCalendarId(calendarList);
+        console.log('Resolved calendar ID:', calendarId);
+        if (!calendarId) {
+          console.error('No calendar ID available for booking.');
+          return;
+        }
+
+        this.calendarService.calendarControllerCreateCalendarEvent(
+          calendarId,
+          request
+        ).subscribe({
+          next: (response: unknown) => {
+            console.log('Event created successfully', response);
+            this.router.navigate(['thanks'], {
+              queryParams: {
+                name: this.formGroup.value.name,
+                message: `I am looking forward to our time on ${dateLabel} at ${time} ${timezoneLabel}!`,
+              },
+            });
+          },
+          error: (error: unknown) => {
+            console.error('Error creating event', error);
+          },
+        });
+      },
+      error: (error: unknown) => {
+        console.error('Error loading calendars', error);
+      },
+    });
+
   }
   getDate() {
     return new Date();
   }
-  onDateSelect(event: any) {
+  onDateSelect(event: Date | null) {
     console.log('onDateSelect', event);
     this.formGroup.patchValue({ date: event });
 
@@ -296,14 +422,16 @@ interface MeetingDurationModel {
   value: number;
 }
 
-interface MeetingInviteForm {
-  dayDate?: FormControl<Date | undefined>;
-  timezone: FormControl<string | undefined>;
-  name: FormControl<string | undefined>;
-  email: FormControl<string | undefined>;
-}
-
 interface TimeSelectionModel {
   selected: boolean;
   value: string;
+}
+
+interface GoogleCalendarListItem {
+  id?: string | null;
+  primary?: boolean | null;
+}
+
+interface GoogleCalendarListResponse {
+  items?: GoogleCalendarListItem[] | null;
 }
