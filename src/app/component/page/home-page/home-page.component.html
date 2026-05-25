@@ -77,14 +77,16 @@
     <app-contact-form id="contact-form" class="my-12"
       [options]="contactFormOptions()">
         <div slot="info" class="max-w-md mx-auto">
-            <h2>What are you working on?</h2>
-            <ul class="list-disc list-inside mt-4 ml-4">
-                <li>New Application Development</li>
-                <li>Legacy System Modernization</li>
-                <li>Cloud Migration</li>
-                <li>Custom Software Solutions</li>
-                <li>Other (Please specify in project details)</li>
-            </ul>
+          <h2>What are you working on?</h2>
+          <ul class="list-disc list-inside mt-4 ml-4">
+              <li>New Application Development</li>
+              <li>Legacy System Modernization</li>
+              <li>Cloud Migration</li>
+              <li>Custom Software Solutions</li>
+              <li>Other (Please specify in project details)</li>
+          </ul>
+          <br/>
+          <a class="meeting-link" routerLink="/meeting/invite">Book a Meeting ></a>
         </div>
         <!-- <div class="p-6 max-w-md mx-auto">
             <h2 class="text-2xl font-bold mb-4">Contact Information</h2>
@@ -100,9 +102,9 @@
 
   <app-testamony-section></app-testamony-section>
 
-  <mat-slide-toggle
+  <!-- <mat-slide-toggle
     class="theme-toggle ml-5"
     [ngModel]="layoutService.isLightTheme()"
     (change)="layoutService.toggleTheme()">
-  </mat-slide-toggle>
+  </mat-slide-toggle> -->
 </div>
