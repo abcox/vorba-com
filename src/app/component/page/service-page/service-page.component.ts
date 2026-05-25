@@ -28,7 +28,7 @@ interface ServiceCategory {
   templateUrl: './service-page.component.html',
   styleUrl: './service-page.component.scss'
 })
-export class ServicePageComponent implements OnInit {
+export class ServicePageComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -231,9 +231,9 @@ export class ServicePageComponent implements OnInit {
     }
   ]);
 
-  ngOnInit(): void {
-    // Fragment scrolling is handled centrally in AppComponent.
-  }
+  //ngOnInit(): void {
+  //  // Fragment scrolling is handled centrally in AppComponent.
+  //}
 
   navigateToService(categoryId: string, serviceId: string): void {
     this.router.navigate([], {
