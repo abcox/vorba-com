@@ -46,6 +46,28 @@
 	font-weight: 500;
 }
 
+.footer-copy-button {
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	text-align: left;
+	text-decoration: underline;
+	text-decoration-color: color-mix(in srgb, var(--footer-text) 55%, transparent);
+	text-underline-offset: 0.18rem;
+}
+
+.footer-copy-button:hover {
+	color: var(--app-accent);
+	text-decoration-color: var(--app-accent);
+}
+
+.footer-copy-button:focus-visible {
+	outline: 2px solid color-mix(in srgb, var(--app-accent) 60%, transparent);
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+
 .footer-meta {
 	margin-top: 0.75rem;
 	min-height: 1rem;

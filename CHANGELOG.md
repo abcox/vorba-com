@@ -10,3 +10,4 @@ All notable changes to this project will be documented in this file.
 - New Offers page at /offers with structured package, add-on, discount, and terms content.
 - Dedicated offer page data model for easier future content updates.
 - Header navigation entry and offers flyout content linking into offer page sections.
+- New /release page to display client and API runtime metadata, replacing the earlier dialog-based approach.

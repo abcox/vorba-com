@@ -1,0 +1,59 @@
+<section class="release-page">
+  <div class="release-shell">
+    <header class="release-header">
+      <div>
+        <h1>{{ title }}</h1>
+        <p>Live runtime metadata for client and connected APIs.</p>
+      </div>
+      <button mat-stroked-button type="button" (click)="refresh()" [disabled]="refreshing()">
+        Refresh
+      </button>
+    </header>
+
+    <article class="manifest-section">
+      <h2>Client Runtime</h2>
+      <div class="manifest-grid">
+        <div class="row"><span>Application</span><strong>{{ clientBuildInfo.appName }}</strong></div>
+        <div class="row"><span>Build Label</span><strong>{{ clientBuildInfo.buildLabel }}</strong></div>
+        <div class="row"><span>Environment</span><strong>{{ clientBuildInfo.environment }}</strong></div>
+        <div class="row"><span>Build Time (hint)</span><strong>{{ clientBuildInfo.buildTimeUtc }}</strong></div>
+      </div>
+    </article>
+
+    <article class="manifest-section">
+      <h2>Service Runtime Manifest</h2>
+
+      @if (loading()) {
+        <div class="loading-state">
+          <mat-progress-spinner mode="indeterminate" diameter="28"></mat-progress-spinner>
+          <span>Loading runtime details...</span>
+        </div>
+      } @else {
+        <div class="service-list">
+          @for (service of serviceStates(); track trackByServiceKey($index, service)) {
+            <section class="service-card" [class.error]="!service.ok">
+              <header>
+                <h3>{{ service.displayName }}</h3>
+                <span class="status" [class.bad]="!service.ok">{{ service.ok ? 'Online' : 'Unavailable' }}</span>
+              </header>
+
+              <div class="manifest-grid">
+                <div class="row"><span>Base URL</span><strong>{{ service.baseUrl }}</strong></div>
+                <div class="row"><span>Endpoint</span><strong>{{ service.endpointUsed || 'n/a' }}</strong></div>
+                <div class="row"><span>Status</span><strong>{{ service.status || 'n/a' }}</strong></div>
+                <div class="row"><span>Version</span><strong>{{ service.serviceVersion || service.version || 'n/a' }}</strong></div>
+                <div class="row"><span>Build ID</span><strong>{{ service.buildId || 'n/a' }}</strong></div>
+                <div class="row"><span>Build Time (UTC)</span><strong>{{ service.buildTimeUtc || 'n/a' }}</strong></div>
+                <div class="row"><span>Environment</span><strong>{{ service.environment || 'n/a' }}</strong></div>
+                <div class="row"><span>Checked At</span><strong>{{ service.checkedAt }}</strong></div>
+                @if (service.error) {
+                  <div class="row error-row"><span>Error</span><strong>{{ service.error }}</strong></div>
+                }
+              </div>
+            </section>
+          }
+        </div>
+      }
+    </article>
+  </div>
+</section>

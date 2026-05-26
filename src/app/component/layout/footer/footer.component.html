@@ -7,7 +7,13 @@
       <!-- Branding / Text -->
       <div class="footer-brand">
         <!-- <h3 class="text-lg font-semibold !mb-0">Adam Cox</h3> -->
-        <p class="footer-copy">Copyright {{ currentYear }} Vorba Software Consulting</p>
+        <button
+          type="button"
+          class="footer-copy footer-copy-button"
+          [routerLink]="['/release']"
+          aria-label="Open release notes and runtime manifest">
+          Copyright {{ currentYear }} Vorba Software Consulting
+        </button>
       </div>
 <!-- <section class="copyright-section p-8 bg-gray-800 text-gray-400">
     <p>Copyright &copy; {{ currentYear() }} Vorba Corporation. All rights reserved.</p>

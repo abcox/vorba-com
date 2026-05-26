@@ -1,0 +1,126 @@
+.release-page {
+  padding: clamp(1rem, 3vw, 2rem) 1rem 2.5rem;
+}
+
+.release-shell {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.release-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.release-header h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+}
+
+.release-header p {
+  margin: 0.35rem 0 0;
+  color: var(--app-muted);
+}
+
+.manifest-section {
+  border: 1px solid color-mix(in srgb, var(--app-edge) 80%, transparent);
+  border-radius: 0.75rem;
+  padding: 0.9rem;
+  background: color-mix(in srgb, var(--app-card) 88%, var(--app-surface));
+}
+
+.manifest-section h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--app-muted);
+}
+
+.service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.service-card {
+  border: 1px solid color-mix(in srgb, var(--app-edge) 76%, transparent);
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--app-surface) 94%, var(--app-card));
+}
+
+.service-card.error {
+  border-color: color-mix(in srgb, #ef4444 55%, var(--app-edge));
+}
+
+.service-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.55rem;
+}
+
+.service-card h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #117a37;
+}
+
+.status.bad {
+  color: #b42318;
+}
+
+.manifest-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(132px, 170px) 1fr;
+  gap: 0.65rem;
+  align-items: baseline;
+}
+
+.row span {
+  color: var(--app-muted);
+  font-size: 0.78rem;
+}
+
+.row strong {
+  font-size: 0.82rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.error-row strong {
+  color: #b42318;
+}
+
+@media (max-width: 720px) {
+  .release-header {
+    flex-direction: column;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
+}
