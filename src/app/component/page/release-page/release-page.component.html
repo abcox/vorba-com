@@ -30,24 +30,24 @@
         </div>
       } @else {
         <div class="service-list">
-          @for (service of serviceStates(); track trackByServiceKey($index, service)) {
-            <section class="service-card" [class.error]="!service.ok">
+          @for (service of serviceStates(); track trackByServiceName($index, service)) {
+            <section class="service-card" [class.error]="!isReady(service)">
               <header>
-                <h3>{{ service.displayName }}</h3>
-                <span class="status" [class.bad]="!service.ok">{{ service.ok ? 'Online' : 'Unavailable' }}</span>
+                <h3>{{ service.displayName || service.name }}</h3>
+                <span class="status" [class.bad]="!isReady(service)">{{ isReady(service) ? 'Online' : 'Unavailable' }}</span>
               </header>
 
               <div class="manifest-grid">
-                <div class="row"><span>Base URL</span><strong>{{ service.baseUrl }}</strong></div>
-                <div class="row"><span>Endpoint</span><strong>{{ service.endpointUsed || 'n/a' }}</strong></div>
+                <div class="row"><span>Base URL</span><strong>{{ service.baseUrl || 'not configured' }}</strong></div>
+                <div class="row"><span>Endpoint</span><strong>{{ service.endpointUsed || '/api/diagnostic/services' }}</strong></div>
                 <div class="row"><span>Status</span><strong>{{ service.status || 'n/a' }}</strong></div>
                 <div class="row"><span>Version</span><strong>{{ service.serviceVersion || service.version || 'n/a' }}</strong></div>
                 <div class="row"><span>Build ID</span><strong>{{ service.buildId || 'n/a' }}</strong></div>
                 <div class="row"><span>Build Time (UTC)</span><strong>{{ service.buildTimeUtc || 'n/a' }}</strong></div>
                 <div class="row"><span>Environment</span><strong>{{ service.environment || 'n/a' }}</strong></div>
-                <div class="row"><span>Checked At</span><strong>{{ service.checkedAt }}</strong></div>
-                @if (service.error) {
-                  <div class="row error-row"><span>Error</span><strong>{{ service.error }}</strong></div>
+                <div class="row"><span>Checked At</span><strong>{{ service.checkedAt || service.timestamp }}</strong></div>
+                @if (service.reason) {
+                  <div class="row error-row"><span>Error</span><strong>{{ service.reason }}</strong></div>
                 }
               </div>
             </section>

@@ -15,6 +15,10 @@ export interface ServiceStatusDto {
      */
     name: string;
     /**
+     * Display label for the service
+     */
+    displayName?: string;
+    /**
      * Current status of the service
      */
     status: ServiceStatusDto.StatusEnum;
@@ -27,7 +31,39 @@ export interface ServiceStatusDto {
      */
     details?: object;
     /**
+     * Service version
+     */
+    version?: string;
+    /**
+     * Detailed service version label
+     */
+    serviceVersion?: string;
+    /**
+     * Build identifier
+     */
+    buildId?: string;
+    /**
+     * Build timestamp in UTC
+     */
+    buildTimeUtc?: string;
+    /**
+     * Service environment name
+     */
+    environment?: string;
+    /**
+     * Service base URL
+     */
+    baseUrl?: string;
+    /**
+     * Endpoint used to obtain the report
+     */
+    endpointUsed?: string;
+    /**
      * Timestamp when status was checked
+     */
+    checkedAt?: string;
+    /**
+     * Timestamp when status was checked (legacy field)
      */
     timestamp: string;
 }
