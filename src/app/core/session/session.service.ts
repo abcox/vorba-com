@@ -80,7 +80,7 @@ export class SessionService {
 
     // Validate config values
     const idleTime = Math.max(1, config.idleTime || 60); // Minimum 1 second
-    const timeout = Math.max(1, config.timeout || 30); // Minimum 1 second
+    const timeout = Math.max(0, config.timeout ?? 30); // 0 means immediate timeout on idle
     const ping = Math.max(1, config.ping || 30); // Minimum 1 second
 
     console.log('🔧 Validated config:', { idleTime, timeout, ping });
@@ -110,6 +110,21 @@ export class SessionService {
     // When user becomes idle
     this.idle.onIdleStart.subscribe(() => {
       console.log('😴 User is now idle');
+
+      if (this.getTimeout() === 0) {
+        console.log('⏰ Direct timeout configured (0 countdown) - timing out now');
+        this._sessionState.update(state => ({
+          ...state,
+          isIdle: true,
+          isWarning: false,
+          isTimedOut: true,
+          timeUntilTimeout: 0
+        }));
+
+        this.handleSessionTimeout();
+        return;
+      }
+
       this._sessionState.update(state => ({ ...state, isIdle: true }));
     });
 
@@ -310,9 +325,9 @@ export class SessionService {
 
       console.log('✅ SessionService: Initializing session with config');
 
-      // 0 means disabled (infinite / no timeout)
-      if (!config.inactivityWarningSeconds || !config.warningCountdownSeconds) {
-        console.log('⏭️ SessionService: Idle timeout disabled (value is 0). Stopping monitoring.');
+      // 0 inactivity warning means disabled (infinite / no idle timeout)
+      if (!config.inactivityWarningSeconds) {
+        console.log('⏭️ SessionService: Idle timeout disabled (inactivity warning is 0). Stopping monitoring.');
         this.stopMonitoring();
         return;
       }
