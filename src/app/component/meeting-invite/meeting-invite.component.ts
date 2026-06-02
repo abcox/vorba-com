@@ -70,26 +70,21 @@ import {
         'selectedHalf',
         style({
           width: '50%',
-          //opacity: 1,
-          backgroundColor: 'gray',
-          color: 'white',
+          opacity: 1,
         })
       ),
       state(
         'selectedHalfConfirm',
         style({
           width: '50%',
-          //opacity: 1,
-          backgroundColor: 'blue',
-          color: 'white',
+          opacity: 1,
         })
       ),
       state(
         'unselectedFull',
         style({
           width: '100%',
-          //opacity: 0.5,
-          //backgroundColor: 'green',
+          opacity: 1,
         })
       ),
       state(
@@ -100,7 +95,7 @@ import {
           //backgroundColor: 'green',
         })
       ),
-      transition('* => *', [animate('.3s')]),
+      transition('* => *', [animate('220ms cubic-bezier(0.2, 0, 0, 1)')]),
     ]),
   ],
   //changeDetection: ChangeDetectionStrategy.OnPush,
@@ -407,12 +402,5 @@ interface TimeSelectionModel {
   selected: boolean;
   value: string;
   startUtc: string;
-  durationMinutes: number;
-}
-
-interface BookingAvailabilitySlot {
-  startUtc: string;
-  endUtc: string;
-  startLabel: string;
   durationMinutes: number;
 }
