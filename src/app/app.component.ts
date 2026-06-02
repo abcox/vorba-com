@@ -105,7 +105,7 @@ export class AppComponent {
   }
 
   presentAdminLoginDialog  = (): void => {
-    this.dialogService.openAdminLoginDialog();
+    this.dialogService.openAdminLoginDialog('/admin');
   }
 
   toggleThemeHotkey = (): void => {
