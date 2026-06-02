@@ -190,8 +190,7 @@
   text-align: left;
 }
 
-.slot-button:hover,
-.slot-confirm-button:hover {
+.slot-button:hover {
   border-color: color-mix(in srgb, var(--app-accent) 52%, var(--app-edge));
   background: color-mix(in srgb, var(--app-accent-soft) 70%, var(--app-card));
 }
@@ -213,6 +212,14 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   margin-left: -1px;
+}
+
+.slot-confirm-button:hover,
+.slot-confirm-button:focus-visible {
+  background: color-mix(in srgb, var(--app-accent) 98%, var(--app-card));
+  border-color: transparent;
+  color: var(--on-primary-color);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 35%, transparent);
 }
 
 .empty-state {

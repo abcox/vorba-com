@@ -110,7 +110,7 @@ export class MeetingInviteComponent implements OnInit {
   vm = signal<ViewModel>({
     title: 'Virtual Coffee',
     meeting: {
-      duration: { unit: 'min', value: 15 },
+      duration: { unit: 'min', value: 20 },
       note: 'Choose a time or email me at adam@adamcox.net',
       timezone: 'America/Toronto (EST)',
       //latestDate: Date.now() + 1000 * 60 * 60 * 24 * 7 * 2, // 2 weeks
@@ -204,7 +204,7 @@ export class MeetingInviteComponent implements OnInit {
       name: new FormControl<string | null>('', [Validators.required]),
       email: new FormControl<string | null>('', [Validators.required, Validators.email]),
       phone: new FormControl<string | null>(''),
-      subject: new FormControl<string | null>(vm.meeting?.subject ?? '', [Validators.required]),
+      subject: new FormControl<string | null>(vm.meeting?.subject ?? ''),
       comments: [vm.meeting?.comments],
     });
   }
@@ -291,6 +291,25 @@ export class MeetingInviteComponent implements OnInit {
       .subscribe({
         next: (response: BookingAvailabilityResponseDto) => {
           const slots = response.availableSlots ?? [];
+          const durationFromConfig =
+            response.config?.defaultMeetingDurationMinutes ??
+            slots[0]?.durationMinutes ??
+            this.vmr().meeting?.duration.value ??
+            30;
+
+          this.vm.update((vm) => ({
+            ...vm,
+            meeting: vm.meeting
+              ? {
+                  ...vm.meeting,
+                  duration: {
+                    ...vm.meeting.duration,
+                    value: durationFromConfig,
+                  },
+                }
+              : vm.meeting,
+          }));
+
           this.availableTimesOfSelectedDay = slots.map((slot: BookingSlotDto) => ({
             selected: false,
             value: slot.startLabel,
