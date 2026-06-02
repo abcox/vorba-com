@@ -1,23 +1,293 @@
-mat-card {
-  box-shadow: unset; // was var(--mdc-elevated-card-container-elevation)
+.meeting-invite-page {
+  padding: clamp(1rem, 3vw, 2rem) 1rem 2.5rem;
 }
 
+.meeting-shell {
+  width: min(100%, 960px);
+  margin: 0 auto;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 1px solid color-mix(in srgb, var(--app-edge) 78%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--app-card) 92%, var(--app-surface));
+  box-shadow: var(--app-card-shadow);
+}
+
+.meeting-header {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-right: 3rem;
+}
+
+.meeting-header-illustration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: color-mix(in srgb, var(--app-accent) 86%, var(--app-text));
+  background: color-mix(in srgb, var(--app-accent-soft) 72%, var(--app-card));
+  border: 1px solid color-mix(in srgb, var(--app-edge) 75%, transparent);
+  pointer-events: none;
+}
+
+.meeting-header-illustration mat-icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.meeting-header h1 {
+  margin: 0;
+  font-size: clamp(2.75rem, 2.4vw, 1.9rem);
+  line-height: 1.15;
+  font-weight: 500;
+}
+
+.meeting-header p {
+  margin: 0.4rem 0 0;
+  color: var(--app-muted);
+}
+
+.meeting-summary {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.summary-row {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  //padding: 0.85rem 0.9rem;
+  //border: 1px solid color-mix(in srgb, var(--app-edge) 72%, transparent);
+  //border-radius: 0.85rem;
+  //background: color-mix(in srgb, var(--app-accent-soft) 60%, var(--app-card));
+}
+
+.summary-copy {
+  display: flex;
+  align-items: center;
+  min-height: 2.25rem;
+}
+
+.summary-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--app-accent) 18%, var(--app-card));
+  color: var(--app-accent);
+}
+
+.summary-icon mat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--app-accent);
+}
+
+/* stylelint-disable selector-pseudo-element-no-unknown */
+.summary-icon ::ng-deep svg {
+  display: block;
+  color: var(--app-accent);
+}
+
+.summary-icon ::ng-deep path {
+  stroke: currentcolor;
+}
+/* stylelint-enable selector-pseudo-element-no-unknown */
+
+.summary-copy p {
+  color: var(--app-text);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.meeting-tabs {
+  --mdc-tab-indicator-active-indicator-color: var(--app-accent);
+  --mat-tab-header-active-label-text-color: var(--app-text);
+  --mat-tab-header-active-hover-label-text-color: var(--app-text);
+  --mat-tab-header-inactive-label-text-color: var(--app-muted);
+}
+
+.tab-panel {
+  padding: 1rem 0.25rem 0.25rem;
+}
+
+.calendar-panel {
+  display: block;
+}
+
+.calendar-control {
+  display: block;
+}
+
+.slot-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.slot-row {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.slot-button,
+.slot-confirm-button {
+  border: 1px solid color-mix(in srgb, var(--app-edge) 82%, transparent);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, var(--app-card) 94%, var(--app-surface));
+  color: var(--app-text);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.slot-button {
+  width: 100%;
+  text-align: left;
+}
+
+.slot-button:hover,
+.slot-confirm-button:hover {
+  border-color: color-mix(in srgb, var(--app-accent) 52%, var(--app-edge));
+  background: color-mix(in srgb, var(--app-accent-soft) 70%, var(--app-card));
+}
+
+.slot-button.selected {
+  background: color-mix(in srgb, var(--app-accent) 18%, var(--app-card));
+  border-color: color-mix(in srgb, var(--app-accent) 60%, var(--app-edge));
+  color: var(--app-text);
+}
+
+.slot-confirm-button {
+  min-width: 9rem;
+  background: color-mix(in srgb, var(--app-accent) 86%, var(--app-card));
+  border-color: transparent;
+  color: var(--on-primary-color);
+}
+
+.empty-state {
+  border: 1px dashed color-mix(in srgb, var(--app-edge) 84%, transparent);
+  border-radius: 0.85rem;
+  padding: 0.95rem 1rem;
+  background: color-mix(in srgb, var(--app-card) 90%, var(--app-surface));
+}
+
+.empty-state p {
+  color: var(--app-muted);
+}
+
+.field-block {
+  margin-top: 0.85rem;
+}
+
+.field-block-top {
+  margin-top: 1rem;
+}
+
+.field-block mat-form-field {
+  width: 100%;
+}
+
+.form-panel {
+  display: block;
+}
+
+.form-actions {
+  margin-top: 1rem;
+}
+
+.submit-button {
+  width: 100%;
+  min-height: 3rem;
+}
+
+/* stylelint-disable selector-pseudo-element-no-unknown */
 ::ng-deep button.p-datepicker-year.p-link {
   margin-left: 10px !important;
 }
+
 ::ng-deep p-calendar {
   width: 100%;
 }
+
 ::ng-deep p-calendar > span {
   width: calc(100% - 2.357em);
 }
 
-mat-icon /* .btn-icon */ {
-  /* &:hover { */
-  /* path {
-      fill: rgba(#00ffff, 1);
-    } */
+::ng-deep .p-datepicker {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--app-edge) 76%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--app-card) 96%, var(--app-surface));
+  color: var(--app-text);
+  margin-top: 0.5rem;
+}
+
+::ng-deep .p-datepicker table td > span,
+::ng-deep .p-datepicker .p-datepicker-header,
+::ng-deep .p-datepicker .p-datepicker-title,
+::ng-deep .p-datepicker .p-datepicker-prev,
+::ng-deep .p-datepicker .p-datepicker-next {
+  color: var(--app-text);
+}
+
+::ng-deep .p-datepicker table td > span:hover {
+  background: color-mix(in srgb, var(--app-accent-soft) 78%, var(--app-card));
+}
+
+::ng-deep .p-datepicker table td.p-datepicker-today > span,
+::ng-deep .p-datepicker table td > span.p-highlight {
+  background: color-mix(in srgb, var(--app-accent) 84%, var(--app-card));
+  color: var(--on-primary-color);
+}
+/* stylelint-enable selector-pseudo-element-no-unknown */
+
+mat-icon {
   height: 20px;
   width: 20px;
-  //}
+}
+
+@media (max-width: 720px) {
+  .meeting-shell {
+    padding: 1rem;
+  }
+
+  .meeting-header {
+    padding-right: 2.4rem;
+  }
+
+  .meeting-header-illustration {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+
+  .meeting-header-illustration mat-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .slot-row {
+    flex-direction: column;
+  }
+
+  .slot-confirm-button {
+    width: 100%;
+    min-width: 0;
+  }
 }

@@ -80,6 +80,7 @@ export class AppComponent {
     const iconRootPath = '../../assets/icons/';
     const icons = [
       { name: 'check-outline' },
+      { name: 'coffee-outline' },
       { name: 'clock-outline' },
       { name: 'note-outline' },
       { name: 'world-outline' },
