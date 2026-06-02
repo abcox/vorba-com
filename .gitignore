@@ -52,3 +52,6 @@ ux-analysis-results
 /playwright-report/
 /test-results/
 /.playwright/
+
+# Local inspection artifacts
+**/_inspect/
