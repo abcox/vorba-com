@@ -158,21 +158,21 @@
                     rows="3"></textarea>
                 </mat-form-field>
               </div>
-
-              <div class="form-actions">
-                <button
-                  type="button"
-                  class="submit-button"
-                  mat-raised-button
-                  color="primary"
-                  [disabled]="!formGroup.valid"
-                  (click)="submit()">
-                  Send Request
-                </button>
-              </div>
             </section>
           </mat-tab>
         </mat-tab-group>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            class="submit-button"
+            mat-raised-button
+            color="primary"
+            [disabled]="!canSubmit"
+            (click)="submit()">
+            Send Request
+          </button>
+        </div>
       </form>
     </ng-container>
   </mat-card>

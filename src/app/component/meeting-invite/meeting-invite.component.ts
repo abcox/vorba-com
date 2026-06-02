@@ -19,6 +19,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -202,15 +203,19 @@ export class MeetingInviteComponent implements OnInit {
   }
   getInitForm(vm: ViewModel) {
     return this.fb.group({
-      date: new FormControl<Date | null>(null),
-      time: new FormControl<string | null>(null),
-      zone: new FormControl<string | null>(this.timezoneOptions[0]),
-      name: new FormControl<string | null>(''),
-      email: new FormControl<string | null>(''),
+      date: new FormControl<Date | null>(null, [Validators.required]),
+      time: new FormControl<string | null>(null, [Validators.required]),
+      zone: new FormControl<string | null>(this.timezoneOptions[0], [Validators.required]),
+      name: new FormControl<string | null>('', [Validators.required]),
+      email: new FormControl<string | null>('', [Validators.required, Validators.email]),
       phone: new FormControl<string | null>(''),
-      subject: [vm.meeting?.subject],
+      subject: new FormControl<string | null>(vm.meeting?.subject ?? '', [Validators.required]),
       comments: [vm.meeting?.comments],
     });
+  }
+
+  get canSubmit(): boolean {
+    return this.formGroup.valid && !!this.selectedSlotStartUtc;
   }
   availableTimesOfSelectedDay: TimeSelectionModel[] = [
     { selected: false, value: '9:00 AM', startUtc: '', durationMinutes: 30 },
@@ -259,6 +264,10 @@ export class MeetingInviteComponent implements OnInit {
     this.tabGroup.selectedIndex = 2;
   }
   submit() {
+    if (!this.canSubmit) {
+      return;
+    }
+
     console.log('submit');
     this.sendRequest();
   }
