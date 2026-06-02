@@ -5,6 +5,7 @@ api.module.ts
 api/api.ts
 api/asset.service.ts
 api/auth.service.ts
+api/booking.service.ts
 api/calendar.service.ts
 api/config.service.ts
 api/contact.service.ts
@@ -32,6 +33,12 @@ model/assetListItem.ts
 model/assetListResponseDto.ts
 model/assetRelationshipDto.ts
 model/assetResponseDto.ts
+model/bookingAvailabilityResponseDto.ts
+model/bookingConfigDto.ts
+model/bookingReserveRequestDto.ts
+model/bookingReserveResponseDto.ts
+model/bookingSlotDto.ts
+model/bookingWindowDto.ts
 model/calendarEventCreatePostRequestDto.ts
 model/calendarEventDeleteBatchPostRequestDto.ts
 model/calendarEventPatchConferenceRequestDto.ts
@@ -98,5 +105,6 @@ model/workflowControllerDownloadFileReportJson200ResponseUsage.ts
 ng-package.json
 package.json
 param.ts
+provide-api.ts
 tsconfig.json
 variables.ts
