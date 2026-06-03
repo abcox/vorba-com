@@ -13,6 +13,7 @@ import { BookingConfigDto } from './bookingConfigDto';
 
 export interface BookingAvailabilityResponseDto { 
     config: BookingConfigDto;
+    earliestBookableDate: string;
     date: string;
     availableSlots: Array<BookingSlotDto>;
     generatedAtUtc: string;

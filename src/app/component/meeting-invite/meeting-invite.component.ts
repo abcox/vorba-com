@@ -149,23 +149,10 @@ export class MeetingInviteComponent implements OnInit {
 
   formGroup!: FormGroup;
 
-  disabledDates: Date[] = [
-    new Date('2/25/2024'),
-    new Date('2/27/2024'),
-    new Date('2/28/2024'),
-    // the following date formats do not work with the primeng calendar
-    //new Date(2024, 2, 28),
-    //new Date('2024-02-28'),
-    /* new Date('2024-02-29'),
-    new Date('2024-03-01'), */
-  ];
+  disabledDates: Date[] = [];
 
   ngOnInit() {
     this.formGroup = this.getInitForm(this.vmr());
-
-    const initialDate = new Date();
-    initialDate.setHours(0, 0, 0, 0);
-    this.formGroup.patchValue({ date: initialDate }, { emitEvent: false });
     this.loadAvailabilityForSelectedDate();
 
     this.formGroup.valueChanges
@@ -260,7 +247,6 @@ export class MeetingInviteComponent implements OnInit {
       'availableTimesOfSelectedDay[index]',
       this.availableTimesOfSelectedDay[index]
     );
-
     this.availableTimesOfSelectedDay[index].selected = true;
     this.pendingSlotStartUtc = this.availableTimesOfSelectedDay[index].startUtc;
   }
@@ -282,10 +268,10 @@ export class MeetingInviteComponent implements OnInit {
   }
   confirmTime() {
     console.log('confirmTime');
+
     const pendingSlot = this.availableTimesOfSelectedDay.find(
       (slot) => slot.startUtc === this.pendingSlotStartUtc,
     );
-
     if (!pendingSlot) {
       return;
     }
@@ -320,32 +306,50 @@ export class MeetingInviteComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
+  private fromDateQuery(date: string): Date {
+    const [year, month, day] = date.split('-').map((value) => Number(value));
+    return new Date(year, month - 1, day);
+  }
+
+  private getStartOfDay(value: Date): Date {
+    const date = new Date(value);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+
   private loadAvailabilityForSelectedDate(): void {
     const selectedDate = this.formGroup.value?.date;
-    if (!selectedDate) {
-      this.availableTimesOfSelectedDay = [];
-      this.selectedSlotStartUtc = null;
-      return;
-    }
+    const dateQuery = selectedDate ? this.toDateQuery(selectedDate) : undefined;
 
     this.bookingApiService
-      .bookingControllerGetAvailability(this.toDateQuery(selectedDate))
+      .bookingControllerGetAvailability(dateQuery)
       .subscribe({
         next: (response: BookingAvailabilityResponseDto) => {
           const slots = response.availableSlots ?? [];
           const includeWeekendDays = response.config?.includeWeekendDays ?? false;
           this.unavailableDays = includeWeekendDays ? [] : [0, 6];
+          const earliestBookableDate = this.fromDateQuery(response.earliestBookableDate);
+
           const durationFromConfig =
             response.config?.defaultMeetingDurationMinutes ??
             slots[0]?.durationMinutes ??
             this.vmr().meeting?.duration.value ??
             30;
+          const maxDaysInFuture = response.config?.maxDaysInFuture;
+          const latestBookableDate = typeof maxDaysInFuture === 'number'
+            ? this.getStartOfDay(new Date())
+            : this.vmr().meeting?.latestDate;
+          if (typeof maxDaysInFuture === 'number') {
+            latestBookableDate?.setDate(latestBookableDate.getDate() + Math.max(0, maxDaysInFuture));
+          }
 
           this.vm.update((vm) => ({
             ...vm,
             meeting: vm.meeting
               ? {
                   ...vm.meeting,
+                  earliestDate: earliestBookableDate,
+                  latestDate: latestBookableDate,
                   duration: {
                     ...vm.meeting.duration,
                     value: durationFromConfig,
@@ -446,14 +450,6 @@ export class MeetingInviteComponent implements OnInit {
   
   getDate() {
     return new Date();
-  }
-
-  onDateSelect(event: Date | null) {
-    console.log('onDateSelect', event);
-    this.formGroup.patchValue({ date: event });
-
-    this.tabGroup.selectedIndex = 1;
-    this.loadAvailabilityForSelectedDate();
   }
 }
 
