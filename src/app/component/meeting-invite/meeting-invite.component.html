@@ -55,11 +55,12 @@
       </section>
 
       <form [formGroup]="formGroup" class="meeting-form">
-        <mat-tab-group #tabGroup class="meeting-tabs">
+        <mat-tab-group #tabGroup class="meeting-tabs" (selectedIndexChange)="onTabIndexChange($event)">
           <mat-tab label="Day">
             <section class="tab-panel calendar-panel">
               <p-calendar
                 [disabledDates]="disabledDates"
+                [disabledDays]="unavailableDays"
                 [inline]="true"
                 [maxDate]="vm.meeting?.latestDate ?? getDate()"
                 [minDate]="vm.meeting?.earliestDate ?? getDate()"
@@ -86,11 +87,13 @@
                       "
                       (click)="selectTime(time)"
                       class="slot-button"
-                      [class.selected]="time.selected">
+                      [class.selected]="time.selected"
+                      [class.confirmed]="time.confirmed">
                       {{ time.value }}
+                      <span *ngIf="time.confirmed" class="slot-status">Confirmed</span>
                     </button>
                     <button
-                      *ngIf="time.selected"
+                      *ngIf="time.selected && !time.confirmed"
                       type="button"
                       [@childAnimation]="
                         time.selected ? 'selectedHalfConfirm' : ''

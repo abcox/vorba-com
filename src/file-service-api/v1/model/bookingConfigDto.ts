@@ -12,6 +12,7 @@ import { BookingWindowDto } from './bookingWindowDto';
 
 export interface BookingConfigDto { 
     enabled: boolean;
+    includeWeekendDays: boolean;
     calendarId?: string;
     timezone: string;
     maxDaysInFuture: number;

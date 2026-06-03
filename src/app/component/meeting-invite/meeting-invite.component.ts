@@ -145,6 +145,7 @@ export class MeetingInviteComponent implements OnInit {
   date1 = new Date();
   date2 = new Date();
   date3 = new Date();
+  unavailableDays = [0, 6];
 
   formGroup!: FormGroup;
 
@@ -161,6 +162,12 @@ export class MeetingInviteComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.getInitForm(this.vmr());
+
+    const initialDate = new Date();
+    initialDate.setHours(0, 0, 0, 0);
+    this.formGroup.patchValue({ date: initialDate }, { emitEvent: false });
+    this.loadAvailabilityForSelectedDate();
+
     this.formGroup.valueChanges
       .pipe(
         debounceTime(500),
@@ -213,30 +220,49 @@ export class MeetingInviteComponent implements OnInit {
     return this.formGroup.valid && !!this.selectedSlotStartUtc;
   }
   availableTimesOfSelectedDay: TimeSelectionModel[] = [
-    { selected: false, value: '9:00 AM', startUtc: '', durationMinutes: 30 },
-    { selected: false, value: '10:00 AM', startUtc: '', durationMinutes: 30 },
-    { selected: false, value: '11:00 AM', startUtc: '', durationMinutes: 30 },
+    {
+      selected: false,
+      confirmed: false,
+      value: '9:00 AM',
+      startUtc: '',
+      durationMinutes: 30,
+    },
+    {
+      selected: false,
+      confirmed: false,
+      value: '10:00 AM',
+      startUtc: '',
+      durationMinutes: 30,
+    },
+    {
+      selected: false,
+      confirmed: false,
+      value: '11:00 AM',
+      startUtc: '',
+      durationMinutes: 30,
+    },
   ];
+  pendingSlotStartUtc: string | null = null;
   selectedSlotStartUtc: string | null = null;
   selectTime(time: TimeSelectionModel) {
     console.log('selectTime', time);
-    this.availableTimesOfSelectedDay.forEach(t => (t.selected = false));
+    this.availableTimesOfSelectedDay.forEach((t) => {
+      t.selected = false;
+    });
     const index = this.availableTimesOfSelectedDay.findIndex(
       t => t.value === time.value
     );
+    if (index < 0) {
+      return;
+    }
     console.log('index', index);
     console.log(
       'availableTimesOfSelectedDay[index]',
       this.availableTimesOfSelectedDay[index]
     );
-    this.availableTimesOfSelectedDay[index].selected =
-      !this.availableTimesOfSelectedDay[index].selected;
-    this.selectedSlotStartUtc = this.availableTimesOfSelectedDay[index].selected
-      ? this.availableTimesOfSelectedDay[index].startUtc
-      : null;
-    this.formGroup.patchValue({
-      time: this.availableTimesOfSelectedDay[index].value,
-    });
+
+    this.availableTimesOfSelectedDay[index].selected = true;
+    this.pendingSlotStartUtc = this.availableTimesOfSelectedDay[index].startUtc;
   }
   timezoneOptions = [
     'America/Toronto (EST)',
@@ -256,6 +282,22 @@ export class MeetingInviteComponent implements OnInit {
   }
   confirmTime() {
     console.log('confirmTime');
+    const pendingSlot = this.availableTimesOfSelectedDay.find(
+      (slot) => slot.startUtc === this.pendingSlotStartUtc,
+    );
+
+    if (!pendingSlot) {
+      return;
+    }
+
+    this.selectedSlotStartUtc = pendingSlot.startUtc;
+    this.pendingSlotStartUtc = pendingSlot.startUtc;
+    this.availableTimesOfSelectedDay.forEach((slot) => {
+      const isConfirmed = slot.startUtc === this.selectedSlotStartUtc;
+      slot.confirmed = isConfirmed;
+      slot.selected = isConfirmed;
+    });
+    this.formGroup.patchValue({ time: pendingSlot.value });
     this.tabGroup.selectedIndex = 2;
   }
   submit() {
@@ -291,6 +333,8 @@ export class MeetingInviteComponent implements OnInit {
       .subscribe({
         next: (response: BookingAvailabilityResponseDto) => {
           const slots = response.availableSlots ?? [];
+          const includeWeekendDays = response.config?.includeWeekendDays ?? false;
+          this.unavailableDays = includeWeekendDays ? [] : [0, 6];
           const durationFromConfig =
             response.config?.defaultMeetingDurationMinutes ??
             slots[0]?.durationMinutes ??
@@ -312,19 +356,34 @@ export class MeetingInviteComponent implements OnInit {
 
           this.availableTimesOfSelectedDay = slots.map((slot: BookingSlotDto) => ({
             selected: false,
+            confirmed: false,
             value: slot.startLabel,
             startUtc: slot.startUtc,
             durationMinutes: slot.durationMinutes,
           }));
+          this.pendingSlotStartUtc = null;
           this.selectedSlotStartUtc = null;
           this.formGroup.patchValue({ time: null });
         },
         error: (error: unknown) => {
           console.error('Failed to load booking availability', error);
           this.availableTimesOfSelectedDay = [];
+          this.pendingSlotStartUtc = null;
           this.selectedSlotStartUtc = null;
         },
       });
+  }
+
+  onTabIndexChange(index: number) {
+    const isTimeTab = index === 1;
+    if (isTimeTab) {
+      return;
+    }
+
+    this.availableTimesOfSelectedDay.forEach((slot) => {
+      slot.selected = slot.confirmed;
+    });
+    this.pendingSlotStartUtc = this.selectedSlotStartUtc;
   }
 
   sendRequest() {
@@ -384,9 +443,11 @@ export class MeetingInviteComponent implements OnInit {
       });
 
   }
+  
   getDate() {
     return new Date();
   }
+
   onDateSelect(event: Date | null) {
     console.log('onDateSelect', event);
     this.formGroup.patchValue({ date: event });
@@ -419,6 +480,7 @@ interface MeetingDurationModel {
 
 interface TimeSelectionModel {
   selected: boolean;
+  confirmed: boolean;
   value: string;
   startUtc: string;
   durationMinutes: number;

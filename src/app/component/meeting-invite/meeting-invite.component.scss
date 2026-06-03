@@ -190,6 +190,18 @@
   text-align: left;
 }
 
+.slot-status {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: color-mix(in srgb, var(--app-accent) 24%, var(--app-card));
+  color: color-mix(in srgb, var(--app-accent) 88%, var(--app-text));
+}
+
 .slot-button:hover {
   border-color: color-mix(in srgb, var(--app-accent) 52%, var(--app-edge));
   background: color-mix(in srgb, var(--app-accent-soft) 70%, var(--app-card));
@@ -202,6 +214,14 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 30%, transparent);
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.slot-button.confirmed {
+  background: color-mix(in srgb, var(--app-accent) 28%, var(--app-card));
+  border-color: color-mix(in srgb, var(--app-accent) 76%, var(--app-edge));
+  color: var(--app-text);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 38%, transparent);
+  border-radius: 0.85rem;
 }
 
 .slot-confirm-button {
@@ -390,10 +410,32 @@
   background: color-mix(in srgb, var(--app-accent-soft) 78%, var(--app-card));
 }
 
-::ng-deep .p-datepicker table td.p-datepicker-today > span,
+::ng-deep .p-datepicker table td > span.p-disabled,
+::ng-deep .p-datepicker table td.p-disabled > span {
+  color: color-mix(in srgb, var(--app-muted) 82%, var(--app-edge));
+  background: transparent;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+::ng-deep .p-datepicker table td > span.p-disabled:hover,
+::ng-deep .p-datepicker table td.p-disabled > span:hover {
+  background: transparent;
+}
+
+::ng-deep .p-datepicker table td.p-datepicker-today > span {
+  background: transparent;
+  color: var(--app-text);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 62%, var(--app-edge));
+}
+
 ::ng-deep .p-datepicker table td > span.p-highlight {
   background: color-mix(in srgb, var(--app-accent) 84%, var(--app-card));
   color: var(--on-primary-color);
+}
+
+::ng-deep .p-datepicker table td.p-datepicker-today > span.p-highlight {
+  box-shadow: none;
 }
 /* stylelint-enable selector-pseudo-element-no-unknown */
 
