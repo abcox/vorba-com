@@ -392,6 +392,19 @@
   width: calc(100% - 2.357em);
 }
 
+/* Keep PrimeNG live-region helpers accessible but out of visual layout. */
+::ng-deep p-calendar .p-hidden-accessible {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 ::ng-deep .p-datepicker {
   width: 100%;
   padding: 1rem;
@@ -403,9 +416,31 @@
   margin-top: 0.5rem;
 }
 
+/* Keep all PrimeNG datepicker text in sync with the active app theme font. */
 ::ng-deep .p-datepicker * {
   font-family: inherit;
 }
+
+/* Date-cell sizing block: keep day cells visually square on wide screens. */
+::ng-deep .p-datepicker table {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0.35rem;
+}
+
+::ng-deep .p-datepicker table td {
+  padding: 0;
+}
+
+::ng-deep .p-datepicker table td > span {
+  width: clamp(2.1rem, 5vw, 2.45rem);
+  height: clamp(2.1rem, 5vw, 2.45rem);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* End date-cell sizing block. */
 
 ::ng-deep .p-datepicker table td > span,
 ::ng-deep .p-datepicker .p-datepicker-header,
@@ -415,8 +450,17 @@
   color: var(--app-text);
 }
 
+/* Center the divider visually by balancing spacing above/below the header border. */
+::ng-deep .p-datepicker .p-datepicker-header {
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-edge) 76%, transparent);
+}
+
+/* Match interaction shape across hover, today outline, and selected states. */
 ::ng-deep .p-datepicker table td > span:hover {
   background: color-mix(in srgb, var(--app-accent-soft) 78%, var(--app-card));
+  border-radius: 0.5rem;
 }
 
 ::ng-deep .p-datepicker table td > span.p-disabled,
@@ -435,12 +479,14 @@
 ::ng-deep .p-datepicker table td.p-datepicker-today > span {
   background: transparent;
   color: var(--app-text);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 62%, var(--app-edge));
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--app-accent) 62%, var(--app-edge));
+  border-radius: 0.5rem;
 }
 
 ::ng-deep .p-datepicker table td > span.p-highlight {
   background: color-mix(in srgb, var(--app-accent) 84%, var(--app-card));
   color: var(--on-primary-color);
+  border-radius: 0.5rem;
 }
 
 ::ng-deep .p-datepicker table td.p-datepicker-today > span.p-highlight {
