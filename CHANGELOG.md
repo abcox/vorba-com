@@ -14,3 +14,4 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Updated quiz start-page copy to focus messaging on the MVP-to-sustainable product development transition.
+- Restyled quiz start-page form and typography to align with active theme tokens, with focused dark-contrast adjustments.
