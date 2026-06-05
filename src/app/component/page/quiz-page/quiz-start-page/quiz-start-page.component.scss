@@ -10,6 +10,8 @@ app-quiz-start-page {
     --quiz-start-body-color: color-mix(in srgb, white 68%, var(--app-accent));
     --quiz-start-list-color: color-mix(in srgb, white 84%, var(--app-accent));
     --quiz-start-star-color: color-mix(in srgb, white 92%, var(--app-accent));
+    --quiz-start-form-text-color: var(--app-text);
+    --quiz-start-form-muted-color: var(--app-muted);
 }
 
 body.light-theme app-quiz-start-page {
@@ -19,6 +21,8 @@ body.light-theme app-quiz-start-page {
     --quiz-start-body-color: color-mix(in srgb, white 70%, var(--app-accent));
     --quiz-start-list-color: color-mix(in srgb, white 84%, var(--app-accent));
     --quiz-start-star-color: #fff;
+    --quiz-start-form-text-color: color-mix(in srgb, var(--app-text) 92%, var(--app-accent) 8%);
+    --quiz-start-form-muted-color: color-mix(in srgb, var(--app-text) 68%, transparent);
 }
 
 body.dark-theme app-quiz-start-page {
@@ -28,6 +32,8 @@ body.dark-theme app-quiz-start-page {
     --quiz-start-body-color: color-mix(in srgb, white 64%, var(--app-accent));
     --quiz-start-list-color: color-mix(in srgb, white 78%, var(--app-accent));
     --quiz-start-star-color: color-mix(in srgb, white 88%, var(--app-accent));
+    --quiz-start-form-text-color: var(--quiz-start-body-color);
+    --quiz-start-form-muted-color: color-mix(in srgb, var(--quiz-start-body-color) 72%, transparent);
 }
 
 // Main page container
@@ -53,7 +59,7 @@ body.dark-theme app-quiz-start-page {
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 1rem;
-        color: var(--accent-color, var(--app-accent));
+        color: var(--quiz-start-subheading-color, var(--secondary-color-100));
         font-family: var(--quiz-start-font-family) !important;
     }
     
@@ -166,18 +172,18 @@ body.dark-theme app-quiz-start-page {
     }
 
     .mat-mdc-form-field-infix {
-        color: var(--app-text) !important;
+        color: var(--quiz-start-form-text-color) !important;
         font-family: var(--quiz-start-font-family) !important;
     }
     
     mat-checkbox {
         margin-top: 0.5rem;
         color: var(--mdc-checkbox-unselected-icon-color, var(--quiz-start-body-color, var(--app-muted))) !important;
-        --mdc-checkbox-label-text-color: var(--mdc-checkbox-unselected-icon-color, var(--quiz-start-body-color, var(--app-muted)));
-        --mdc-checkbox-unselected-icon-color: var(--quiz-start-body-color, var(--app-muted));
-        --mdc-checkbox-unselected-focus-icon-color: var(--quiz-start-body-color, var(--app-muted));
-        --mdc-checkbox-unselected-hover-icon-color: var(--quiz-start-body-color, var(--app-muted));
-        --mdc-checkbox-unselected-pressed-icon-color: var(--quiz-start-body-color, var(--app-muted));
+        --mdc-checkbox-label-text-color: var(--quiz-start-form-text-color);
+        --mdc-checkbox-unselected-icon-color: var(--quiz-start-form-muted-color);
+        --mdc-checkbox-unselected-focus-icon-color: var(--quiz-start-form-muted-color);
+        --mdc-checkbox-unselected-hover-icon-color: var(--quiz-start-form-muted-color);
+        --mdc-checkbox-unselected-pressed-icon-color: var(--quiz-start-form-muted-color);
         --mdc-checkbox-selected-icon-color: var(--accent-color, var(--app-accent));
         --mdc-checkbox-selected-focus-icon-color: var(--accent-color, var(--app-accent));
         --mdc-checkbox-selected-hover-icon-color: var(--accent-color, var(--app-accent));
@@ -186,24 +192,24 @@ body.dark-theme app-quiz-start-page {
 
         /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
         ::ng-deep .mdc-form-field > label {
-            color: var(--mdc-checkbox-unselected-icon-color, var(--quiz-start-body-color, var(--app-muted))) !important;
+            color: var(--quiz-start-form-text-color) !important;
         }
 
         /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
         ::ng-deep .mdc-label {
-            color: var(--mdc-checkbox-unselected-icon-color, var(--quiz-start-body-color, var(--app-muted))) !important;
+            color: var(--quiz-start-form-text-color) !important;
             font-family: var(--quiz-start-font-family) !important;
         }
 
         /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
         ::ng-deep .mat-internal-form-field {
-            color: var(--mdc-checkbox-unselected-icon-color, var(--quiz-start-body-color, var(--app-muted))) !important;
+            color: var(--quiz-start-form-text-color) !important;
             font-family: var(--quiz-start-font-family) !important;
         }
 
         /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
         ::ng-deep label {
-            color: var(--mdc-checkbox-unselected-icon-color, var(--quiz-start-body-color, var(--app-muted))) !important;
+            color: var(--quiz-start-form-text-color) !important;
             font-family: var(--quiz-start-font-family) !important;
         }
     }
@@ -244,50 +250,50 @@ body.dark-theme app-quiz-start-page {
     --mdc-outlined-text-field-outline-color: color-mix(in srgb, var(--accent-color, var(--app-accent)) 42%, var(--app-edge));
     --mdc-outlined-text-field-hover-outline-color: color-mix(in srgb, var(--accent-color, var(--app-accent)) 64%, var(--app-edge));
     --mdc-outlined-text-field-focus-outline-color: var(--accent-color, var(--app-accent));
-    --mdc-outlined-text-field-label-text-color: var(--quiz-start-body-color, var(--app-muted));
-    --mdc-outlined-text-field-hover-label-text-color: var(--quiz-start-body-color, var(--app-muted));
+    --mdc-outlined-text-field-label-text-color: var(--quiz-start-form-text-color);
+    --mdc-outlined-text-field-hover-label-text-color: var(--quiz-start-form-text-color);
     --mdc-outlined-text-field-focus-label-text-color: var(--accent-color, var(--app-accent));
-    --mdc-outlined-text-field-input-text-color: var(--quiz-start-body-color, var(--app-muted));
+    --mdc-outlined-text-field-input-text-color: var(--quiz-start-form-text-color);
     --mdc-outlined-text-field-caret-color: var(--accent-color, var(--app-accent));
     --mat-select-focused-arrow-color: var(--accent-color, var(--app-accent));
 
     --mdc-checkbox-selected-focus-state-layer-color: var(--accent-color, var(--app-accent));
     --mdc-checkbox-selected-hover-state-layer-color: var(--accent-color, var(--app-accent));
     --mdc-checkbox-selected-pressed-state-layer-color: var(--accent-color, var(--app-accent));
-    --mdc-checkbox-unselected-focus-state-layer-color: var(--quiz-start-body-color, var(--app-muted));
-    --mdc-checkbox-unselected-hover-state-layer-color: var(--quiz-start-body-color, var(--app-muted));
-    --mdc-checkbox-unselected-pressed-state-layer-color: var(--quiz-start-body-color, var(--app-muted));
+    --mdc-checkbox-unselected-focus-state-layer-color: var(--quiz-start-form-muted-color);
+    --mdc-checkbox-unselected-hover-state-layer-color: var(--quiz-start-form-muted-color);
+    --mdc-checkbox-unselected-pressed-state-layer-color: var(--quiz-start-form-muted-color);
 
     --mdc-protected-button-container-color: color-mix(in srgb, var(--app-accent) 86%, var(--app-card));
     --mdc-protected-button-label-text-color: var(--on-primary-color);
     --mdc-protected-button-disabled-container-color: color-mix(in srgb, var(--app-edge) 24%, var(--app-card));
-    --mdc-protected-button-disabled-label-text-color: color-mix(in srgb, var(--quiz-start-body-color, var(--app-muted)) 52%, var(--app-edge));
-    --mdc-filled-button-disabled-label-text-color: color-mix(in srgb, var(--quiz-start-body-color, var(--app-muted)) 52%, var(--app-edge));
+    --mdc-protected-button-disabled-label-text-color: color-mix(in srgb, var(--quiz-start-form-text-color) 52%, var(--app-edge));
+    --mdc-filled-button-disabled-label-text-color: color-mix(in srgb, var(--quiz-start-form-text-color) 52%, var(--app-edge));
 
     /* stylelint-disable selector-pseudo-element-no-unknown */
     ::ng-deep .quiz-form .mat-mdc-checkbox .mdc-label,
     ::ng-deep .quiz-form .mat-mdc-checkbox label,
     ::ng-deep .quiz-form .mat-mdc-checkbox .mat-internal-form-field,
     ::ng-deep .quiz-form .mat-mdc-checkbox .mdc-form-field {
-        color: var(--mdc-checkbox-unselected-icon-color, var(--quiz-start-body-color, var(--app-muted))) !important;
+        color: var(--quiz-start-form-text-color) !important;
     }
 
     ::ng-deep .mat-mdc-form-field .mdc-floating-label,
     ::ng-deep .mat-mdc-form-field .mat-mdc-floating-label {
-        color: var(--quiz-start-body-color, var(--app-muted)) !important;
+        color: var(--quiz-start-form-text-color) !important;
         font-family: var(--quiz-start-font-family) !important;
     }
 
     ::ng-deep .mat-mdc-form-field .mdc-text-field__input,
     ::ng-deep .mat-mdc-form-field .mat-mdc-input-element,
     ::ng-deep .mat-mdc-form-field .mat-mdc-select-value-text {
-        color: var(--quiz-start-body-color, var(--app-muted)) !important;
+        color: var(--quiz-start-form-text-color) !important;
         font-family: var(--quiz-start-font-family) !important;
     }
 
     ::ng-deep .mat-mdc-raised-button.mat-mdc-button-disabled .mdc-button__label,
     ::ng-deep .mat-mdc-raised-button[disabled] .mdc-button__label {
-        color: color-mix(in srgb, var(--quiz-start-body-color, var(--app-muted)) 52%, var(--app-edge)) !important;
+        color: color-mix(in srgb, var(--quiz-start-form-text-color) 52%, var(--app-edge)) !important;
         font-family: var(--quiz-start-font-family) !important;
     }
     /* stylelint-enable selector-pseudo-element-no-unknown */
@@ -366,5 +372,5 @@ body.dark-theme app-quiz-start-page {
 app-quiz-start-page .quiz-form mat-checkbox.mat-mdc-checkbox .mdc-label,
 app-quiz-start-page .quiz-form mat-checkbox.mat-mdc-checkbox .mat-internal-form-field,
 app-quiz-start-page .quiz-form mat-checkbox.mat-mdc-checkbox .mdc-form-field {
-    color: var(--mdc-outlined-text-field-input-text-color, var(--quiz-start-body-color, var(--app-muted))) !important;
+    color: var(--quiz-start-form-text-color) !important;
 }
