@@ -1,6 +1,6 @@
 <div class="page-container">
     <div class="intro-container">
-        <h1>Break through your barriers</h1>
+        <h1>Grow your MVP in to sustainable product development</h1>
         <h3>Achieve new momentum in your product development journey.</h3>
         <p>753 professionals are achieving their goals by following our guidance. Renew or begin your journey by taking our quiz, and unlock your potential productivity.</p>
         <p>Designed by expert product and software developer, Adam Cox, this quiz will help
@@ -16,8 +16,8 @@
     <div class="quiz-container">
         <div class="quiz-form-card">
             <div class="quiz-header">
-                <h2>Start Your Journey</h2>
-                <p>Enter your details to begin the quiz</p>
+                <h2>Get started!</h2>
+                <p>Enter your info:</p>
             </div>
             <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
                 <mat-form-field appearance="outline" class="w-full">
@@ -49,7 +49,7 @@
                 <button mat-raised-button color="primary" type="submit" [disabled]="!quizForm.valid" class="w-full">
                     <mat-spinner *ngIf="loading()" diameter="20"></mat-spinner>
                     <mat-icon *ngIf="!loading()">play_arrow</mat-icon>
-                    Start Quiz
+                    Continue
                 </button>
             </form>
         </div>

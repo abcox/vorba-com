@@ -11,3 +11,6 @@ All notable changes to this project will be documented in this file.
 - Dedicated offer page data model for easier future content updates.
 - Header navigation entry and offers flyout content linking into offer page sections.
 - New /release page to display client and API runtime metadata, replacing the earlier dialog-based approach.
+
+### Changed
+- Updated quiz start-page copy to focus messaging on the MVP-to-sustainable product development transition.
