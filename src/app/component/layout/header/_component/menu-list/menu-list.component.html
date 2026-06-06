@@ -1,7 +1,7 @@
 <ul class="flex flex-col gap-2">
   @for (item of menuItems(); track $index) {
     @if (item.type === 'divider') {
-      <li class="h-px" style="background-color: var(--app-edge);"></li>
+      <li class="menu-divider h-px"></li>
     } @else {
       <li>
         @if (item.template) {

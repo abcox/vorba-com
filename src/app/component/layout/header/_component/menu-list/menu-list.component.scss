@@ -1,37 +1,47 @@
 .menu-section-label {
 	font-size: 1rem;
 	font-weight: 500;
-	color: var(--app-text);
+	font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
+	color: var(--menu-theme-foreground-soft, var(--app-text));
+}
+
+.menu-divider {
+	background-color: color-mix(in srgb, var(--menu-theme-foreground-soft, var(--app-edge)) 60%, var(--app-edge, var(--sys-outline-variant)));
 }
 
 .menu-item-button {
 	display: inline-flex;
 	align-items: center;
-	color: var(--app-text);
-	--mdc-text-button-label-text-color: var(--app-text);
+	font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
+	color: var(--menu-theme-foreground-soft, var(--app-text)) !important;
+	--mdc-text-button-label-text-color: var(--menu-theme-foreground-soft, var(--app-text));
 	--mat-text-button-state-layer-color: var(--app-accent);
+}
+
+.menu-item-button .mdc-button__label {
+	color: var(--menu-theme-foreground-soft, var(--app-text)) !important;
 }
 
 .menu-item-button .mat-icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	color: var(--app-muted);
+	color: var(--menu-theme-foreground-soft, var(--app-muted)) !important;
 }
 
 .menu-item-button:hover .mat-icon,
 .menu-item-button:focus-visible .mat-icon {
-	color: var(--app-accent);
+	color: var(--menu-theme-foreground, var(--app-accent));
 }
 
 .menu-item-label {
 	display: inline-flex;
 	align-items: center;
 	line-height: 1.25;
-	color: var(--app-text);
+	color: var(--menu-theme-foreground-soft, var(--app-text));
 }
 
 .menu-item-button:hover .menu-item-label,
 .menu-item-button:focus-visible .menu-item-label {
-	color: var(--app-accent);
+	color: var(--menu-theme-foreground, var(--app-accent));
 }

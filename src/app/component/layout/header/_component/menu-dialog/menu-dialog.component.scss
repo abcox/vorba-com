@@ -1,7 +1,23 @@
 .menu-dialog {
   z-index: 1000;
+  --menu-theme-foreground: color-mix(in srgb, var(--app-accent, var(--sys-primary)) 88%, white 12%);
+  --menu-theme-foreground-soft: color-mix(in srgb, var(--app-accent, var(--sys-primary)) 72%, var(--app-text, var(--sys-on-surface)) 28%);
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   //border: 1px solid var(--grayscale-200);
+}
+
+:host-context(.light-theme) .menu-dialog {
+  --menu-theme-foreground: color-mix(in srgb, var(--app-accent, var(--sys-primary)) 78%, black 22%);
+  --menu-theme-foreground-soft: color-mix(in srgb, var(--app-accent, var(--sys-primary)) 62%, var(--app-text, var(--sys-on-surface)) 38%);
+}
+
+.menu-close-icon {
+  color: var(--menu-theme-foreground);
+}
+
+.menu-close-icon:hover,
+.menu-close-icon:focus-visible {
+  color: var(--menu-theme-foreground-soft);
 }
 
 .theme-controls {
@@ -17,17 +33,116 @@
   justify-content: space-between;
 }
 
+.theme-toggle {
+  --menu-theme-foreground-dark: color-mix(in srgb, var(--app-accent, var(--sys-primary)) 68%, black 32%);
+
+  --mdc-switch-selected-track-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-hover-track-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-focus-track-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-pressed-track-color: var(--menu-theme-foreground);
+
+  --mdc-switch-selected-track-outline-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-hover-track-outline-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-focus-track-outline-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-pressed-track-outline-color: var(--menu-theme-foreground);
+
+  --mdc-switch-selected-handle-color: var(--app-card, var(--sys-surface));
+  --mdc-switch-selected-hover-handle-color: var(--app-card, var(--sys-surface));
+  --mdc-switch-selected-focus-handle-color: var(--app-card, var(--sys-surface));
+  --mdc-switch-selected-pressed-handle-color: var(--app-card, var(--sys-surface));
+
+  --mdc-switch-unselected-track-color: color-mix(in srgb, var(--menu-theme-foreground) 22%, var(--app-card, var(--sys-surface-container-low)));
+  --mdc-switch-unselected-hover-track-color: color-mix(in srgb, var(--menu-theme-foreground) 28%, var(--app-card, var(--sys-surface-container-low)));
+  --mdc-switch-unselected-focus-track-color: color-mix(in srgb, var(--menu-theme-foreground) 28%, var(--app-card, var(--sys-surface-container-low)));
+  --mdc-switch-unselected-pressed-track-color: color-mix(in srgb, var(--menu-theme-foreground) 32%, var(--app-card, var(--sys-surface-container-low)));
+
+  --mdc-switch-unselected-track-outline-color: color-mix(in srgb, var(--menu-theme-foreground) 72%, var(--app-edge, var(--sys-outline-variant)));
+  --mdc-switch-unselected-hover-track-outline-color: color-mix(in srgb, var(--menu-theme-foreground) 78%, var(--app-edge, var(--sys-outline-variant)));
+  --mdc-switch-unselected-focus-track-outline-color: color-mix(in srgb, var(--menu-theme-foreground) 78%, var(--app-edge, var(--sys-outline-variant)));
+  --mdc-switch-unselected-pressed-track-outline-color: color-mix(in srgb, var(--menu-theme-foreground) 82%, var(--app-edge, var(--sys-outline-variant)));
+
+  --mdc-switch-unselected-handle-color: color-mix(in srgb, var(--menu-theme-foreground) 38%, var(--app-text, var(--sys-on-surface)));
+  --mdc-switch-unselected-hover-handle-color: color-mix(in srgb, var(--menu-theme-foreground) 44%, var(--app-text, var(--sys-on-surface)));
+  --mdc-switch-unselected-focus-handle-color: color-mix(in srgb, var(--menu-theme-foreground) 44%, var(--app-text, var(--sys-on-surface)));
+  --mdc-switch-unselected-pressed-handle-color: color-mix(in srgb, var(--menu-theme-foreground) 48%, var(--app-text, var(--sys-on-surface)));
+
+  --mdc-switch-selected-icon-color: var(--menu-theme-foreground-dark);
+  --mdc-switch-unselected-icon-color: var(--menu-theme-foreground-dark);
+
+  --mdc-switch-selected-focus-state-layer-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-hover-state-layer-color: var(--menu-theme-foreground);
+  --mdc-switch-selected-pressed-state-layer-color: var(--menu-theme-foreground);
+  --mdc-switch-unselected-focus-state-layer-color: var(--menu-theme-foreground);
+  --mdc-switch-unselected-hover-state-layer-color: var(--menu-theme-foreground);
+  --mdc-switch-unselected-pressed-state-layer-color: var(--menu-theme-foreground);
+
+  .mdc-switch__icon {
+    color: var(--menu-theme-foreground-dark);
+  }
+
+  .mdc-switch__icon path {
+    fill: currentcolor;
+  }
+}
+
+/* stylelint-disable selector-pseudo-element-no-unknown */
+:host ::ng-deep .theme-toggle .mdc-switch__track::before,
+:host ::ng-deep .theme-toggle .mdc-switch__track::after {
+  border-color: color-mix(in srgb, var(--menu-theme-foreground) 86%, var(--app-edge, var(--sys-outline-variant))) !important;
+}
+/* stylelint-enable selector-pseudo-element-no-unknown */
+
 .menu-control-label {
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--app-text);
+  font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
+  color: var(--menu-theme-foreground-soft);
 }
 
-.swatch-select {
+.state-select {
   width: 100%;
+  --menu-select-chevron-color: var(--menu-theme-foreground);
+  --menu-select-text-color: var(--menu-theme-foreground);
+  --menu-select-focus-ring: color-mix(in srgb, var(--menu-select-chevron-color) 28%, transparent);
+  --menu-select-option-selected-bg: color-mix(in srgb, var(--menu-select-chevron-color) 16%, var(--app-card, var(--sys-surface-container-low)));
   border: 1px solid var(--app-edge, var(--sys-outline-variant));
   background: var(--app-card, var(--sys-surface-container-low));
-  color: var(--app-text, var(--sys-on-surface));
+  color: var(--menu-select-text-color);
   border-radius: 8px;
-  padding: 0.35rem 0.5rem;
+  padding: 0.35rem 2rem 0.35rem 0.5rem;
+  font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
+  appearance: none;
+  background-image:
+    linear-gradient(45deg,
+      transparent 43%,
+      var(--menu-select-chevron-color) 43%,
+      var(--menu-select-chevron-color) 56%,
+      transparent 56%),
+    linear-gradient(-45deg,
+      transparent 43%,
+      var(--menu-select-chevron-color) 43%,
+      var(--menu-select-chevron-color) 56%,
+      transparent 56%);
+  background-position:
+    calc(100% - 0.95rem) calc(50% + 0.02rem),
+    calc(100% - 0.62rem) calc(50% + 0.02rem);
+  background-size: 0.45rem 0.45rem, 0.45rem 0.45rem;
+  background-repeat: no-repeat;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border-color: var(--menu-select-chevron-color);
+    box-shadow: 0 0 0 2px var(--menu-select-focus-ring);
+  }
+}
+
+.state-select option {
+  background: var(--app-card, var(--sys-surface-container-low));
+  color: var(--menu-select-text-color);
+
+  &:checked {
+    background: var(--menu-select-option-selected-bg);
+    color: var(--menu-select-text-color);
+  }
 }

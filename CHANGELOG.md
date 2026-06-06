@@ -16,3 +16,5 @@ All notable changes to this project will be documented in this file.
 - Updated quiz start-page copy to focus messaging on the MVP-to-sustainable product development transition.
 - Restyled quiz start-page form and typography to align with active theme tokens, with focused dark-contrast adjustments.
 - Refined quiz start-page light-contrast styling to better align heading and form readability with the active theme.
+- Aligned menu dialog typography, selectors, divider, and toggle switch states to active theme palette colors, including accent-aware toggle outline/icon coloring.
+- Tuned service page heading token contrast so service card headings better reflect active swatch hues in light and dark themes.
