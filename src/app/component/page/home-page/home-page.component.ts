@@ -86,18 +86,18 @@ export class HomePageComponent {
 
   offers = signal<OfferViewModel[]>([
     {
-      title: 'Your High Tech Partner',
-      description: 'Partner with trusted, experienced professionals to increase your confidence and business success.',
+      title: 'Your Software Product Partner',
+      description: 'Partner with experienced professionals and increase your confidence and business success.',
       action: {
         label: 'Learn More',
         callback: () => {
-          console.log('Learn more about High Tech Partner');
+          console.log('Learn more about Software Product Partner');
         }
       }
     },
     {
       title: 'Your Software Solutions Team',
-      description: 'Team capable of building beautiful, performant, and sexy software solutions tailored to scale your business.',
+      description: 'Team capable of building beautiful, performant, and scalable software solutions tailored to your business needs.',
       action: {
         label: 'Contact Us',
         callback: () => {
@@ -106,8 +106,8 @@ export class HomePageComponent {
       }
     },
     {
-      title: 'Your Growth Leader',
-      description: 'Update legacy systems and remove a massive barrier to growth.',
+      title: 'Your Systems Growth Leader',
+      description: 'Modernize legacy systems, reduce uncertainty, and unlock growth.',
       action: {
         label: 'Case Studies',
         callback: () => {
