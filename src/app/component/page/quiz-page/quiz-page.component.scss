@@ -1,51 +1,69 @@
-:root {
-  --sys-surface: var(--primary-grayscale-500);
-  --mdc-stepper-container-color: white;
-  background-color: var(--sys-surface);
-  //--mdc-stepper-line-color: var(--sys-surface);
-  //--mdc-stepper-header-icon-background-color: var(--sys-surface);
-  //--mdc-stepper-header-icon-foreground-color: var(--sys-surface);
-  //--mdc-stepper-header-selected-state-icon-background-color: var(--sys-surface);
-  //--mdc-stepper-header-selected-state-icon-foreground-color: var(--sys-surface);
-  //--mdc-stepper-header-edit-state-icon-background-color: var(--sys-surface);
+// Token declarations scoped to component
+app-quiz-page {
+  --quiz-font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
+  --quiz-bg: var(--app-surface, var(--sys-surface));
+  --quiz-question-color: color-mix(in srgb, var(--app-accent) 68%, var(--app-text));
+  --quiz-dimension-color: color-mix(in srgb, var(--app-accent) 72%, var(--app-muted));
+  --quiz-option-bg: var(--app-card);
+  --quiz-option-border: var(--app-edge);
+  //--quiz-option-text: var(--app-text);
+  --quiz-option-text: color-mix(in srgb, var(--app-accent) 88%, var(--app-text));
+  --quiz-option-subtext: var(--app-muted);
+  --quiz-option-hover-bg: color-mix(in srgb, var(--app-accent) 10%, var(--app-card));
+  --quiz-option-hover-border: color-mix(in srgb, var(--app-accent) 48%, var(--app-edge));
+  --quiz-option-selected-bg: color-mix(in srgb, var(--app-accent) 18%, var(--app-card));
+  --quiz-option-selected-border: var(--app-accent);
+  --quiz-option-selected-text: color-mix(in srgb, var(--app-accent) 88%, var(--app-text));
+  --quiz-nav-btn-text: color-mix(in srgb, var(--app-accent) 82%, var(--app-text));
+  --quiz-nav-btn-hover-text: color-mix(in srgb, var(--app-accent) 92%, white);
+  --quiz-nav-btn-bg: transparent;
+  --quiz-nav-btn-border: color-mix(in srgb, var(--app-accent) 52%, var(--app-edge));
+  --quiz-nav-btn-hover-border: color-mix(in srgb, var(--app-accent) 92%, white);
+  --quiz-nav-btn-hover-bg: transparent;
+  --quiz-nav-btn-disabled-bg: transparent;
+  --quiz-nav-btn-disabled-text: color-mix(in srgb, var(--app-muted) 58%, var(--app-edge));
+  --quiz-nav-btn-disabled-border: color-mix(in srgb, var(--app-edge) 64%, transparent);
+  --quiz-submit-bg: color-mix(in srgb, var(--app-accent) 18%, var(--app-card));
+  --quiz-submit-text: color-mix(in srgb, var(--app-accent) 84%, var(--app-text));
+  --quiz-submit-hover-bg: color-mix(in srgb, var(--app-accent) 28%, var(--app-card));
+  --quiz-submit-hover-text: color-mix(in srgb, var(--app-accent) 94%, white);
+  --quiz-submit-disabled-bg: transparent;
+  --quiz-submit-disabled-text: color-mix(in srgb, var(--app-muted) 56%, var(--app-edge));
+  --quiz-footer-text: var(--app-muted);
+  --quiz-progress-text: var(--app-accent);
+  --mdc-elevated-card-container-shape: 0;
 
-  --mdc-elevated-card-container-shape: 0px;
-
-  --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
-  --shadow-large: 0 6px 12px rgba(0, 0, 0, 0.2);
-
-    // mobile styles
-    @media (max-width: 600px) {
-        --mat-filled-button-icon-offset: 4px !important;
-        --mat-filled-button-icon-spacing: -4px !important;
-    }
+  --quiz-option-hover-text:var(--quiz-option-selected-text);
 }
 
-.mobile {
-  @apply block md:hidden;
+body.light-theme app-quiz-page {
+  --quiz-question-color: color-mix(in srgb, var(--app-accent) 86%, white);
+  --quiz-option-selected-bg: color-mix(in srgb, var(--app-accent) 12%, var(--app-card));
+  --quiz-option-selected-text: color-mix(in srgb, var(--app-accent) 74%, black);
+  --quiz-dimension-color: color-mix(in srgb, var(--app-accent) 64%, black);
 }
 
-.desktop {
-  @apply hidden md:block;
+body.dark-theme app-quiz-page {
+  --quiz-question-color: color-mix(in srgb, var(--app-accent) 82%, white);
+  --quiz-option-selected-bg: color-mix(in srgb, var(--app-accent) 22%, var(--app-card));
+  --quiz-option-selected-text: color-mix(in srgb, var(--app-accent) 90%, white);
+  --quiz-dimension-color: color-mix(in srgb, var(--app-accent) 78%, white);
 }
 
-.tablet {
-  @apply hidden sm:block lg:hidden;
-}
+// Display utilities
+.mobile { @apply block md:hidden; }
+.desktop { @apply hidden md:block; }
+.tablet { @apply hidden sm:block lg:hidden; }
 
-.page-container.desktop {
-  //@apply hidden md:block;
-}
-
+// Page layout
 .page-container {
   display: flex;
   flex-direction: column;
-  //justify-content: space-between;
   align-items: center;
   min-height: 100vh;
   padding: 2rem;
-  background-color: var(--sys-surface);
+  background-color: var(--quiz-bg);
+  font-family: var(--quiz-font-family);
 }
 
 .quiz-container {
@@ -54,179 +72,106 @@
   flex: 1;
 }
 
-mat-spinner {
-  display: inline-flex;
-  --mdc-circular-progress-active-indicator-color: var(--primary-grayscale-50);
-}
-
-.quiz-footer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 56px;
-  padding: 1rem;
-  width: 100%;
-  .quiz-footer-item {
-    display: flex;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--primary-grayscale-100);
-  }
-}
-
-// Hide stepper header
+// Hide Material stepper header (custom nav used instead)
 .mat-horizontal-stepper-header-container {
   display: none !important;
 }
 
+// Spinner
+mat-spinner {
+  display: inline-flex;
+  --mdc-circular-progress-active-indicator-color: var(--quiz-submit-text);
+}
+
+// Question
 .question-container {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: .25rem 0;
+  padding: 0.25rem 0;
+}
+
+.question-content {
+  margin-bottom: 1rem;
+
   .question-text {
-    gap: 0.5rem;
     font-size: 2.25rem;
     font-weight: 500;
     line-height: 1.2;
-    color: var(--primary-grayscale-100);
+    color: var(--quiz-question-color);
+    font-family: var(--quiz-font-family);
   }
-  .step-position-indicator-text {
-    align-self: flex-end;
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--primary-grayscale-100);
-  }
-}
 
-.step-position-indicator {
-  display: flex;
-  justify-content: center;
-  padding: 1rem 0;
-
-  .step-position-indicator-text {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: var(--primary-grayscale-100);
+  .dimension {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    color: var(--quiz-dimension-color);
   }
 }
 
-h3 {
-  color: var(--primary-grayscale-100);
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: 800;
-}
-
-.dimension {
-  display: none; // testing the removal of this
-  color: var(--primary-grayscale-600);
-  font-size: 0.9rem;
-  margin-bottom: 1.5rem;
-  font-style: italic;
-}
-
-// Legacy radio button styles (no longer used)
-.option-radio {
-  display: block;
-  margin: 1rem 0;
-  color: var(--primary-grayscale-700);
-}
-
-// Override Angular Material button toggle default styling
-.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-  line-height: normal !important;
-  padding: 1.5rem !important;
-}
-
+// Answer option button-toggle group
 .quiz-option-group {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
-  gap: 1rem; // adjust as needed
+  gap: 0.75rem;
   width: 100%;
   border: none !important;
   border-radius: 0 !important;
-  align-items: stretch; // Make all buttons stretch to same height
-  margin: 0 !important;
-  margin-top: 1rem !important;
+  background: transparent !important;
+  overflow: visible !important;
+
+  &.two-column {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
 }
 
-.quiz-option-group.two-column {
-  margin-top: 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: .875rem; // adjust as needed
-  align-items: stretch; // Make all buttons stretch to same height
-}
-
-.quiz-option-group.two-column .quiz-option-button {
-  flex: 1 1 calc(50% - 1rem); // 2 columns, minus gap
-  box-sizing: border-box;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
-}
-
-// Button toggle styling for quiz options
-.quiz-option-button {
-  display: flex; // Change to flex to allow stretching
-  width: 100%;
-  height: 100%; // Allow button to stretch to match tallest sibling
+.quiz-option-group.mat-button-toggle-group-appearance-standard {
   border: none !important;
-  border-radius: 8px !important;
-  //margin: 0 !important;
-  gap: 8px;
-  
-  // Remove connected button appearance
-  &:not(:first-child) {
-    border-left: none !important;
-  }
-  
-  &:not(:last-child) {
-    border-right: none !important;
-  }
-  
-  // Style the button toggle
-  .mat-button-toggle-label-content {
-    display: flex;
-    align-items: center;
-    justify-content: center; // Center content vertically and horizontally
-    width: 100%;
-    height: 100%; // Use 100% to fill the button container
-    min-height: 80px; // Minimum height for consistency
-    padding: 1.5rem; // Consistent padding that will expand with content
-    border: 2px solid var(--primary-grayscale-200);
-    border-radius: 8px;
-    background-color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: normal; // Allow text wrapping
-    word-wrap: break-word;
-    
-    &:hover {
-      border-color: var(--primary-grayscale-100);
-      background-color: var(--primary-grayscale-50);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-  }
-  
-  // Selected state
-  &.mat-button-toggle-checked .mat-button-toggle-label-content {
-    border-color: var(--primary-color);
-    background-color: var(--primary-grayscale-200);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    
-    .option-content,
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+.quiz-option-button {
+  width: 100%;
+  height: auto !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 10px !important;
+  overflow: visible !important;
+  text-align: left !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease !important;
+
+  &:hover:not(.mat-button-toggle-checked) {
+    //background-color: var(--quiz-option-hover-bg) !important;
+    border-color: var(--quiz-option-hover-border) !important;
+
     .option-text {
-      color: var(--primary-grayscale-900);
+      color: var(--quiz-option-hover-text) !important;
     }
   }
-  
-  // Focus state for accessibility
-  .mat-button-toggle-label-content:focus-within {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 2px;
+
+  &.mat-button-toggle-checked {
+    background-color: var(--quiz-option-selected-bg) !important;
+    border-color: var(--quiz-option-selected-border) !important;
+
+    .option-text {
+      color: var(--quiz-option-selected-text) !important;
+    }
+
+    .option-subtext {
+      color: color-mix(in srgb, var(--quiz-option-selected-text) 72%, transparent) !important;
+    }
+  }
+
+  .mat-button-toggle-button {
+    width: 100%;
+    padding: 0.875rem 1.25rem !important;
   }
 }
 
@@ -234,281 +179,250 @@ h3 {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  text-align: left;
+  width: 100%;
 }
 
 .option-text {
+  font-size: 1.05rem;
   font-weight: 500;
-  font-size: 1rem;
+  color: var(--quiz-option-text);
+  line-height: 1.4;
+  white-space: normal;
+  text-align: left;
 }
 
 .option-subtext {
-  display: none; // testing the removal of this
-  font-size: 0.85rem;
-  opacity: 0.8;
-  font-style: italic;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--quiz-option-subtext);
+  line-height: 1.4;
+  white-space: normal;
+  text-align: left;
 }
 
+// Navigation row (desktop)
 .step-actions {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  margin-top: 1rem;
-  //padding-top: 1rem;
-  padding-bottom: 2rem;
-  //border-top: 1px solid var(--primary-grayscale-200);
-  .step-action-button {
-    font-size: 1.5rem;
-    //font-weight: 800;
-    //padding: 0.5rem 1rem;
-    border-radius: 24px;
-    background-color: var(--primary-grayscale-100);
-    color: var(--primary-grayscale-900);
-    mat-icon {
-      font-size: 1.5rem;
-      font-weight: 800;
-      // fix position and prevent content truncation
-      height: unset;
-      width: unset;
+  //margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--quiz-option-border);
+}
+
+.step-action-button {
+  height: 44px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--quiz-font-family) !important;
+  border-radius: 22px !important;
+  color: var(--quiz-nav-btn-text) !important;
+  border: 1.5px solid var(--quiz-nav-btn-border) !important;
+  background-color: var(--quiz-nav-btn-bg) !important;
+  --mdc-filled-button-label-text-color: var(--quiz-nav-btn-text);
+  --mdc-filled-button-container-color: var(--quiz-nav-btn-bg);
+  --mdc-filled-button-disabled-container-color: var(--quiz-nav-btn-disabled-bg);
+  --mdc-filled-button-disabled-label-text-color: var(--quiz-nav-btn-disabled-text);
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+
+  &:not([disabled]):hover {
+    color: var(--quiz-nav-btn-hover-text) !important;
+    border-color: var(--quiz-nav-btn-hover-border) !important;
+    background-color: var(--quiz-nav-btn-hover-bg) !important;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 34%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--app-accent) 18%, transparent);
+  }
+
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    color: var(--quiz-nav-btn-disabled-text) !important;
+    border-color: var(--quiz-nav-btn-disabled-border) !important;
+    background-color: var(--quiz-nav-btn-disabled-bg) !important;
+    opacity: 1 !important;
+  }
+
+  &.submit-button {
+    --mdc-filled-button-container-color: var(--quiz-submit-bg);
+    --mdc-filled-button-label-text-color: var(--quiz-submit-text);
+    --mdc-filled-button-disabled-container-color: var(--quiz-submit-disabled-bg);
+    --mdc-filled-button-disabled-label-text-color: var(--quiz-submit-disabled-text);
+    border-color: color-mix(in srgb, var(--app-accent) 58%, var(--app-edge)) !important;
+    background-color: var(--quiz-submit-bg) !important;
+    color: var(--quiz-submit-text) !important;
+
+    &:not([disabled]):hover {
+      background-color: var(--quiz-submit-hover-bg) !important;
+      border-color: var(--quiz-nav-btn-hover-border) !important;
+      color: var(--quiz-submit-hover-text) !important;
+      box-shadow:
+        inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 36%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--app-accent) 22%, transparent);
     }
-    height: 48px;
-    &:hover {
-      background-color: var(--primary-grayscale-200);
-    }
-    &:disabled {
-      background-color: var(--primary-grayscale-400);
-      opacity: 0.5;
-    }
-    &.submit-button {
-      background-color: var(--primary-light-grayscale-700);
-      color: var(--primary-grayscale-50);
-      &:hover {
-        background-color: var(--primary-light-grayscale-600);
-      }
+
+    &:disabled,
+    &.mat-mdc-button-disabled {
+      background-color: var(--quiz-submit-disabled-bg) !important;
+      color: var(--quiz-submit-disabled-text) !important;
+      border-color: color-mix(in srgb, var(--app-edge) 76%, transparent) !important;
+      opacity: 1 !important;
     }
   }
 }
 
 .form-submit-button {
-  font-size: 2rem;
-  //font-weight: 800;
-  //padding: 0.5rem 1rem;
-  border-radius: 24px;
-  background-color: var(--primary-grayscale-100);
-  color: var(--primary-grayscale-900);
-  mat-icon {
-    font-size: 1.5rem;
-    font-weight: 800;
-    // fix position and prevent content truncation
-    height: unset;
-    width: unset;
-  }
   height: 48px;
-  &:hover {
-    background-color: var(--primary-grayscale-200);
-  }
-  box-shadow: var(--shadow-large);
+  border-radius: 24px !important;
+  border: 1.5px solid color-mix(in srgb, var(--app-accent) 58%, var(--app-edge)) !important;
+  background-color: var(--quiz-submit-bg) !important;
+  color: var(--quiz-submit-text) !important;
+  --mdc-filled-button-container-color: var(--quiz-submit-bg);
+  --mdc-filled-button-label-text-color: var(--quiz-submit-text);
+  --mdc-filled-button-disabled-container-color: var(--quiz-submit-disabled-bg);
+  --mdc-filled-button-disabled-label-text-color: var(--quiz-submit-disabled-text);
 
-  --mdc-filled-button-container-shape: 36px !important;
-  --mdc-filled-button-container-height: 72px !important;
-  --mdc-filled-button-label-text-size: 1.75rem !important;
-  --mdc-filled-button-label-text-weight: 500 !important;
-  --mdc-filled-button-label-text-color: var(--primary-grayscale-50) !important;
-  //--mdc-filled-button-label-text-line-height: 1.2 !important;
-  --mdc-filled-button-label-text-letter-spacing: 0 !important;
-  --mdc-filled-button-label-text-text-transform: none !important;
-  --mdc-filled-button-label-text-text-decoration: none !important;
+  &:not([disabled]):hover {
+    border-color: var(--quiz-nav-btn-hover-border) !important;
+    background-color: var(--quiz-submit-hover-bg) !important;
+    color: var(--quiz-submit-hover-text) !important;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--app-accent) 36%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--app-accent) 22%, transparent);
+  }
+
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    background-color: var(--quiz-submit-disabled-bg) !important;
+    color: var(--quiz-submit-disabled-text) !important;
+    border-color: color-mix(in srgb, var(--app-edge) 76%, transparent) !important;
+    opacity: 1 !important;
+  }
 }
 
-// Mobile styles
+// Step progress indicator
+.step-position-indicator {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.step-position-indicator-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--quiz-progress-text);
+}
+
+// Mobile nav header
+.quiz-nav-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+  padding: 0.5rem 0 1rem;
+}
+
+.quiz-nav-header-title {
+  .step-position-indicator-text {
+    font-size: 1.1rem;
+  }
+}
+
+.quiz-nav-header-back-button,
+.quiz-nav-header-next-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--quiz-nav-btn-text);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:not([disabled]):hover {
+    background: var(--quiz-option-hover-bg);
+    color: var(--quiz-nav-btn-hover-text);
+  }
+
+  &[disabled] {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+// Footer
+.quiz-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  padding: 1rem;
+  width: 100%;
+
+  .quiz-footer-item {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--quiz-footer-text);
+    font-family: var(--quiz-font-family);
+  }
+}
+
+// Mobile responsive
 @media (max-width: 600px) {
+  .page-container {
+    padding: 1rem;
+  }
+
+  .question-content .question-text {
+    font-size: 1.75rem;
+  }
+
+  .quiz-option-group.two-column {
+    grid-template-columns: 1fr !important;
+  }
 
   .quiz-nav-header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 3.5rem;
-    padding: 2rem;
-    background-color: var(--primary-grayscale-50);
+    background-color: var(--quiz-bg);
     width: 100%;
+    padding: 0.75rem 1rem;
+  }
+}
 
-    .quiz-nav-header-next-button,
-    .quiz-nav-header-back-button {
-      font-size: 1.5rem;
-      font-weight: 800;
-      min-width: 20px;
-      background-color: transparent;
-      mat-icon {
-        font-size: 2.25rem;
-        height: 2.25rem;
-        width: 2.25rem;
-        color: var(--primary-grayscale-600);
-        &:hover {
-          //color: var(--primary-grayscale-900);
-          //background-color: var(--primary-grayscale-100);
-          //transform: scale(1.1);
-        }
-      }
-      &:disabled {
-        mat-icon {
-          color: var(--primary-grayscale-200);
-        }
-      }
-    }
-    .quiz-nav-header-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-    }
-    .quiz-nav-header-next-button {
-      font-size: 1.5rem;
-      font-weight: 800;
-      min-width: 20px;
-    }
-  }
-  .page-container {
-    padding: 0;
-  }
-  .question-content {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-  .mdc-label {
-    .option-subtext {
-      display: none;
-    }
-    .option-text {
-      font-size: 1.75rem;
-      line-height: 1.2;
-    }
-  }
-  .dimension {
-    display: none;
-  }
-  .simple-radio-button .mdc-form-field {
-    padding: 1rem 1rem !important;
-  }
-  
-  // Mobile styles for button toggle group
-  .quiz-option-group {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 1rem;
-    width: auto;
-    margin-top: 0 !important;
-  }
-  
-  .quiz-option-group.two-column {
-    display: flex !important;
-    flex-direction: column !important;
-    grid-template-columns: unset !important;
-  }
-  
-  .quiz-option-button {
-    .mat-button-toggle-label-content {
-      padding: 1rem 1rem !important;
-      line-height: normal !important; // Override the default line-height
-      min-height: 80px; // Use min-height instead of fixed height for mobile
-      height: auto; // Allow content to determine height
-      display: flex;
-      align-items: center;
-      
-      .option-text {
-        font-size: 1.75rem;
-        //line-height: 1.2;
-        padding: 1rem;
-      }
-      
-      .option-subtext {
-        display: none;
-      }
-    }
-  }
-  .step-actions {
-      position: fixed;
-      //bottom: 16px;
-      top: 16px;
-      left: 16px;
-      right: 16px;
-      z-index: 1000;
-  }
-  .step-action-button {
-    position: fixed !important;
-    bottom: 32px;
-    //left: 16px;
-    right: 32px;
-    z-index: 1000;
-    border-radius: 36px !important;
-    height: 72px !important;
+// Material button-toggle internal override — ensures option card bg + text always follow theme tokens.
+// Required because ViewEncapsulation.None means Material's generated styles can still win on internals.
+.quiz-option-button .mat-button-toggle-label-content {
+  background-color: var(--quiz-option-bg) !important;
+  border: 1.5px solid var(--quiz-option-border) !important;
+  border-radius: 10px !important;
+  width: 100%;
+  min-height: 80px;
+  padding: 0.875rem 1.25rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  white-space: normal;
+  word-wrap: break-word;
+  line-height: normal !important;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
 
-    .mdc-button__label {
-      //display: none;
-    }
-    mat-icon {
-      height: 48px;
-      //margin: 0 !important;
-      &[iconPositionEnd] {
-          margin: 0 !important;
-      }
-      &[iconPositionStart] {
-          margin-right: 0px !important;
-          margin-left: 4px !important;
-      }
-    }
-    // see same media query in root:
-    /* .mat-mdc-unelevated-button>.mat-icon {
-        margin-right: var(--mat-filled-button-icon-spacing, 8px);
-        margin-left: var(--mat-filled-button-icon-offset, -4px);
-    } */
+.quiz-option-button:not(.mat-button-toggle-checked):hover .mat-button-toggle-label-content {
+  //background-color: var(--quiz-option-hover-bg) !important;
+  border-color: var(--quiz-option-hover-border) !important;
+  color: red;// var(--quiz-option-hover-text) !important;
+}
 
-    box-shadow: var(--shadow-large);
-    
-    &:hover {
-      box-shadow: var(--shadow-large);
-    }
-    
-    &:active {
-      box-shadow: var(--shadow-small);
-    }
-  }
-  .form-submit-button {
-    position: fixed !important;
-    bottom: 64px;
-    //left: 16px;
-    right: 44px;
-    z-index: 1000;
-    /* border-radius: 36px !important;
-    height: 72px !important; */
-    .mdc-button__label {
-      //display: none;
-    }/* 
-    mat-icon {
-      height: 48px;
-      //margin: 0 !important;
-      &[iconPositionEnd] {
-          margin: 0 !important;
-      }
-      &[iconPositionStart] {
-          margin-right: 0px !important;
-          margin-left: 4px !important;
-      }
-    } */
-    // see same media query in root:
-    /* .mat-mdc-unelevated-button>.mat-icon {
-        margin-right: var(--mat-filled-button-icon-spacing, 8px);
-        margin-left: var(--mat-filled-button-icon-offset, -4px);
-    } */
-
-    box-shadow: var(--shadow-large);
-    
-    &:hover {
-      box-shadow: var(--shadow-large);
-    }
-    
-    &:active {
-      box-shadow: var(--shadow-small);
-    }
-  }
+.quiz-option-button.mat-button-toggle-checked .mat-button-toggle-label-content {
+  background-color: var(--quiz-option-selected-bg) !important;
+  border-color: var(--quiz-option-selected-border) !important;
 }

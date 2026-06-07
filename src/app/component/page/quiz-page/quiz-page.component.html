@@ -14,7 +14,7 @@
               <div class="question-container">
                 <div class="question-content">
                   <span class="question-text">{{question.content}}</span>
-                  <p class="dimension">{{question.dimension}}</p>
+                  <!-- <p class="dimension">{{question.dimension}}</p> -->
                 </div>
                 <mat-button-toggle-group [formControlName]="'question' + question.id" 
                   class="quiz-option-group"
@@ -25,7 +25,7 @@
                     (mouseup)="onOptionClick(option)">
                     <div class="option-content">
                       <span class="option-text">{{option.content}}</span>
-                      <span class="option-subtext">{{option.context}}</span>
+                      <!-- <span class="option-subtext">{{option.context}}</span> -->
                     </div>
                   </mat-button-toggle>
                 </mat-button-toggle-group>
