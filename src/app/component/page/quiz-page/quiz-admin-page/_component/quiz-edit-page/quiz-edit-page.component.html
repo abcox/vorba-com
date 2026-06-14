@@ -1,0 +1,355 @@
+<div class="quiz-edit-container">
+	<div class="quiz-edit-header">
+    <div class="quiz-edit-header-left">
+      <button mat-stroked-button type="button" (click)="onCancel()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Quiz Admin
+      </button>
+    </div>
+
+    <div class="quiz-edit-header-center">
+      <h1>{{ headerTitle }}</h1>
+      <!-- <p *ngIf="quiz">ID: {{ quizId }} &nbsp;|&nbsp; {{ quiz.questions.length }} questions</p> -->
+    </div>
+
+    <div class="quiz-edit-header-right">
+      <button mat-raised-button color="primary" type="button" (click)="onSubmit()" [disabled]="quizForm.pristine || quizForm.invalid">
+        <mat-icon>save</mat-icon>
+        Save
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading" class="loading-state">
+    <mat-icon>hourglass_empty</mat-icon>
+    <p>Loading quiz...</p>
+  </div>
+
+  <!-- Error state -->
+  <div *ngIf="!loading && loadError" class="error-state">
+    <mat-icon color="warn">error_outline</mat-icon>
+    <p>{{ loadError }}</p>
+    <button mat-stroked-button (click)="onCancel()">Back to list</button>
+  </div>
+
+  <div *ngIf="!loading && !loadError && quiz" class="quiz-edit-content">
+    <mat-card class="edit-card">
+      <mat-card-content>
+        <form [formGroup]="quizForm" (ngSubmit)="onSubmit()" class="quiz-form">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" placeholder="Enter quiz title">
+            <mat-error *ngIf="quizForm.get('title')?.hasError('required')">Title is required</mat-error>
+            <mat-error *ngIf="quizForm.get('title')?.hasError('minlength')">At least 3 characters</mat-error>
+          </mat-form-field>
+        </form>
+
+        <section class="taxonomy-section">
+          <div class="taxonomy-header">
+            <div>
+              <div class="detail-label">Taxonomy</div>
+              <div class="taxonomy-subtitle">Define reusable dimensions and archetypes for questions and options.</div>
+            </div>
+          </div>
+
+          <div class="taxonomy-grid">
+            <div class="taxonomy-card">
+              <div class="taxonomy-card-title">Dimensions</div>
+              <div class="taxonomy-input-row">
+                <mat-form-field appearance="outline" class="taxonomy-input-field">
+                  <mat-label>New Dimension</mat-label>
+                  <input
+                    matInput
+                    [(ngModel)]="newDimension"
+                    [ngModelOptions]="{ standalone: true }"
+                    (keydown.enter)="addDimension()"
+                    placeholder="Ex: Leadership">
+                </mat-form-field>
+                <button mat-stroked-button type="button" (click)="addDimension()">
+                  <mat-icon>add</mat-icon>
+                  Add
+                </button>
+              </div>
+
+              <div class="taxonomy-tags" *ngIf="dimensions.length; else noDimensions">
+                <button
+                  class="taxonomy-tag"
+                  type="button"
+                  *ngFor="let dimension of dimensions; trackBy: trackDimension"
+                  (click)="removeDimension(dimension)">
+                  <span>{{ dimension }}</span>
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              <ng-template #noDimensions>
+                <div class="taxonomy-empty">No dimensions added yet.</div>
+              </ng-template>
+            </div>
+
+            <div class="taxonomy-card">
+              <div class="taxonomy-card-title">Archetypes</div>
+              <div class="taxonomy-input-row">
+                <mat-form-field appearance="outline" class="taxonomy-input-field">
+                  <mat-label>New Archetype</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    [(ngModel)]="newArchetype"
+                    [ngModelOptions]="{ standalone: true }"
+                    (keydown.enter)="addArchetype()"
+                    placeholder="Ex: 7">
+                </mat-form-field>
+                <button mat-stroked-button type="button" (click)="addArchetype()">
+                  <mat-icon>add</mat-icon>
+                  Add
+                </button>
+              </div>
+
+              <div class="taxonomy-tags" *ngIf="archetypes.length; else noArchetypes">
+                <button
+                  class="taxonomy-tag"
+                  type="button"
+                  *ngFor="let archetype of archetypes; trackBy: trackArchetype"
+                  (click)="removeArchetype(archetype)">
+                  <span>Archetype {{ archetype }}</span>
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              <ng-template #noArchetypes>
+                <div class="taxonomy-empty">No archetypes added yet.</div>
+              </ng-template>
+            </div>
+          </div>
+        </section>
+
+        <datalist id="dimension-options">
+          <option *ngFor="let dimension of dimensions" [value]="dimension"></option>
+        </datalist>
+
+        <datalist id="archetype-options">
+          <option *ngFor="let archetype of archetypes" [value]="archetype"></option>
+        </datalist>
+
+        <div class="questions-header-row">
+          <div class="questions-header-copy">
+            <mat-card-title>Questions ({{ quiz.questions.length }})</mat-card-title>
+            <!-- <mat-card-subtitle>{{ quiz.questions.length }} question(s) loaded</mat-card-subtitle> -->
+          </div>
+
+          <div class="questions-header-actions">
+            <button mat-stroked-button type="button" [disabled]="!hasQuestionChanges" (click)="saveQuestionChanges()">
+              <mat-icon>save</mat-icon>
+              Save Changes
+            </button>
+
+            <button mat-raised-button color="primary" type="button" (click)="addQuestion()">
+              <mat-icon>add</mat-icon>
+              Add question
+            </button>
+          </div>
+        </div>
+
+        <mat-accordion class="question-accordion" multi cdkDropList [cdkDropListData]="quiz.questions" (cdkDropListDropped)="dropQuestion($event)">
+          <mat-expansion-panel *ngFor="let q of quiz.questions; trackBy: trackQuestion" class="question-panel" cdkDrag #questionPanel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <div class="question-header-main" [class.question-header-main-expanded]="questionPanel.expanded">
+                  <div class="question-header-meta" *ngIf="!questionPanel.expanded">
+                    @if (!questionPanel.expanded) {
+                      <span class="question-order-slot" aria-label="Question order and reorder handle">
+                        <span class="question-order">Q{{ q.id }}</span>
+                        <button
+                          mat-icon-button
+                          type="button"
+                          class="drag-handle question-order-drag-handle"
+                          cdkDragHandle
+                          aria-label="Reorder question"
+                          (click)="$event.stopPropagation()">
+                          <mat-icon>drag_indicator</mat-icon>
+                        </button>
+                      </span>
+                    }
+                  </div>
+
+                  <div class="question-header-copy">
+                    @if (questionPanel.expanded) {
+                      <span class="question-expanded-title">Question {{ q.id }}</span>
+                    } @else {
+                        <span class="question-title">{{ q.content }}</span>
+                        <span class="question-dimension">{{ q.dimension }}</span>
+                    }
+                  </div>
+
+                  <div class="question-header-tools" *ngIf="!questionPanel.expanded">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      aria-label="Duplicate question"
+                      (click)="$event.stopPropagation(); duplicateQuestion(q.id)">
+                      <mat-icon>content_copy</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      color="warn"
+                      aria-label="Delete question"
+                      (click)="$event.stopPropagation(); deleteQuestion(q.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="question-panel-body">
+              <form class="question-edit-form" [formGroup]="questionForms[q.id]">
+                <div class="question-content-row">
+                  <mat-form-field appearance="outline" class="question-form-field question-content-body-field">
+                    <mat-label>Question</mat-label>
+                    <textarea matInput formControlName="content" rows="2" placeholder="Enter question text"></textarea>
+                  </mat-form-field>
+                </div>
+
+                <div class="question-dimension-row">
+                  <mat-form-field appearance="outline" class="question-form-field question-dimension-form-field">
+                    <mat-label>Dimension</mat-label>
+                    <mat-select formControlName="dimension">
+                      <mat-option *ngFor="let dimension of dimensions; trackBy: trackDimension" [value]="dimension">{{ dimension }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <div class="question-actions">
+                    <button mat-button type="button" (click)="duplicateQuestion(q.id)">
+                      <mat-icon>content_copy</mat-icon>
+                      Duplicate
+                    </button>
+                    <button mat-button color="warn" type="button" (click)="deleteQuestion(q.id)">
+                      <mat-icon>delete</mat-icon>
+                      Delete
+                    </button>
+                    <button mat-button type="button" (click)="questionPanel.close()">
+                      <mat-icon>expand_less</mat-icon>
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+                <div class="option-section-header">
+                  <div>
+                    <div class="detail-label">Options ({{ q.options.length }})</div>
+                    <!-- <div class="option-section-subtitle">{{ q.options.length }} option(s) configured</div> -->
+                  </div>
+
+                  <button mat-stroked-button type="button" (click)="addOption(q.id)">
+                    <mat-icon>add</mat-icon>
+                    Add option
+                  </button>
+                </div>
+
+                <mat-accordion class="option-accordion" multi cdkDropList [cdkDropListData]="q.options" (cdkDropListDropped)="dropOption(q.id, $event)">
+                  <mat-expansion-panel *ngFor="let option of q.options; trackBy: trackOption" class="option-panel" cdkDrag #optionPanel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <div class="option-header-main" [class.option-header-main-expanded]="optionPanel.expanded">
+                          <div class="option-header-meta" *ngIf="!optionPanel.expanded">
+                            <span class="option-order-slot" aria-label="Option order and reorder handle">
+                              <span class="option-order">O{{ option.id }}</span>
+                              <button
+                                mat-icon-button
+                                type="button"
+                                class="drag-handle option-order-drag-handle"
+                                cdkDragHandle
+                                aria-label="Reorder option"
+                                (click)="$event.stopPropagation()">
+                                <mat-icon>drag_indicator</mat-icon>
+                              </button>
+                            </span>
+                          </div>
+
+                          <div class="option-header-copy">
+                            @if (optionPanel.expanded) {
+                              <span class="option-expanded-title">Option {{ option.id }}</span>
+                            } @else {
+                              <span class="option-title">{{ option.content }}</span>
+                              <span class="option-archetype">Archetype {{ option.archetypeId }}</span>
+                            }
+                          </div>
+
+                          <div class="option-header-tools" *ngIf="!optionPanel.expanded">
+                            <button
+                              mat-icon-button
+                              type="button"
+                              aria-label="Duplicate option"
+                              (click)="$event.stopPropagation(); duplicateOption(q.id, option.id)">
+                              <mat-icon>content_copy</mat-icon>
+                            </button>
+                            <button
+                              mat-icon-button
+                              type="button"
+                              color="warn"
+                              aria-label="Delete option"
+                              (click)="$event.stopPropagation(); deleteOption(q.id, option.id)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div class="option-panel-body">
+                      <ng-container *ngIf="getOptionForm(q.id, option.id) as optionForm">
+                        <form class="option-edit-form" [formGroup]="optionForm">
+                          <div class="option-content-row">
+                            <mat-form-field appearance="outline" class="option-form-field option-content-body-field">
+                              <mat-label>Option Text</mat-label>
+                              <input matInput formControlName="content" placeholder="Enter option text">
+                            </mat-form-field>
+                          </div>
+
+                          <div class="option-meta-row">
+                            <mat-form-field appearance="outline" class="option-form-field option-archetype-form-field">
+                              <mat-label>Archetype</mat-label>
+                              <mat-select formControlName="archetypeId">
+                                <mat-option *ngFor="let archetype of archetypes; trackBy: trackArchetype" [value]="archetype">{{ archetype }}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+
+                            <div class="option-actions">
+                              <button mat-button type="button" (click)="duplicateOption(q.id, option.id)">
+                                <mat-icon>content_copy</mat-icon>
+                                Duplicate
+                              </button>
+                              <button mat-button color="warn" type="button" (click)="deleteOption(q.id, option.id)">
+                                <mat-icon>delete</mat-icon>
+                                Delete
+                              </button>
+                              <button mat-button type="button" (click)="optionPanel.close()">
+                                <mat-icon>expand_less</mat-icon>
+                                Close
+                              </button>
+                            </div>
+                          </div>
+
+                          <mat-form-field appearance="outline" class="option-form-field option-context-field">
+                            <mat-label>Context</mat-label>
+                            <textarea matInput formControlName="context" rows="2" placeholder="Enter option context"></textarea>
+                          </mat-form-field>
+                        </form>
+                      </ng-container>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+
+              <!-- <div class="question-summary-line">
+                <span class="detail-label">Quick preview</span>
+                <span class="summary-text">{{ getOptionSummary(q) }}</span>
+              </div> -->
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
