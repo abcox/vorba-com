@@ -105,6 +105,5 @@ model/workflowControllerDownloadFileReportJson200ResponseUsage.ts
 ng-package.json
 package.json
 param.ts
-provide-api.ts
 tsconfig.json
 variables.ts

@@ -50,13 +50,13 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let quiz">
                 <div class="action-buttons">
-                  <a (click)="editQuiz(quiz._id)">
+                  <a mat-button [routerLink]="['/admin/quiz/edit', quiz._id]">
                     Edit
                   </a>
-                  <a (click)="deleteQuiz(quiz)">
+                  <a mat-button (click)="deleteQuiz(quiz)">
                     Delete
                   </a>
-                  <a [routerLink]="['/quiz', { title: quiz.title }]"
+                  <a mat-button [routerLink]="['/quiz', { title: quiz.title }]"
                     target="_blank">
                     View
                   </a>

@@ -74,8 +74,7 @@ export class QuizAdminPageComponent implements OnInit {
   }
   
   editQuiz(quizId: string) {
-    // TODO: Navigate to quiz edit page
-    console.log('Edit quiz:', quizId);
+    this.router.navigate(['/admin/quiz/edit', quizId]);
   }
   
   deleteQuiz(quiz: QuizSummaryDto) {
