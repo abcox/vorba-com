@@ -41,5 +41,10 @@ export const adminRoutes: Routes = [
         path: 'quiz/edit/:id',
         component: QuizEditPageComponent,
         title: 'Quiz Edit'
+    },
+    {
+        path: 'quiz/new',
+        component: QuizEditPageComponent,
+        title: 'Quiz Create'
     }
 ];

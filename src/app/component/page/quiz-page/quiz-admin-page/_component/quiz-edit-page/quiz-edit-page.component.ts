@@ -40,6 +40,7 @@ export class QuizEditPageComponent implements OnInit {
   private notifyService = inject(NotifyService);
 
   quizId = '';
+  isCreateMode = false;
   loading = false;
   loadError = '';
   quiz: QuizDto | null = null;
@@ -63,13 +64,29 @@ export class QuizEditPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.quizId = this.route.snapshot.paramMap.get('id') ?? '';
+    this.isCreateMode = !this.quizId;
 
-    if (!this.quizId) {
-      this.router.navigate(['/admin/quiz']);
+    if (this.isCreateMode) {
+      this.initializeNewQuiz();
       return;
     }
 
     this.loadQuiz();
+  }
+
+  private initializeNewQuiz(): void {
+    this.loading = false;
+    this.loadError = '';
+    this.quiz = {
+      title: 'New Quiz',
+      questions: []
+    };
+    this.quizForm.patchValue({ title: this.quiz.title });
+    this.questionForms = {};
+    this.optionForms = {};
+    this.dimensions = [];
+    this.archetypes = [];
+    this.hasQuestionChanges = false;
   }
 
   private loadQuiz(): void {
@@ -97,13 +114,62 @@ export class QuizEditPageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.quizForm.invalid) {
+    if (this.quizForm.invalid || !this.quiz) {
       this.quizForm.markAllAsTouched();
       return;
     }
 
-    // TODO: connect save/update import flow
-    console.log('Save quiz draft:', this.quizId, this.quizForm.value);
+    this.saveQuestionChanges();
+
+    const payload: QuizDto = {
+      title: this.quizForm.get('title')?.value?.trim() || this.quiz.title,
+      questions: this.quiz.questions
+    };
+
+    this.loading = true;
+
+    if (this.isCreateMode) {
+      this.quizService.quizControllerCreateQuiz(JSON.stringify(payload)).subscribe({
+        next: (response) => {
+          if (response?.success === false) {
+            this.notifyService.error(response?.message ?? 'Failed to create quiz');
+            this.loading = false;
+            return;
+          }
+
+          this.notifyService.created();
+          this.loading = false;
+          this.router.navigate(['/admin/quiz']);
+        },
+        error: (err) => {
+          this.notifyService.error(err?.error?.message ?? err?.message ?? 'Failed to create quiz');
+          this.loading = false;
+        }
+      });
+
+      return;
+    }
+
+    this.quizService.quizControllerImportQuizFromJson(JSON.stringify(payload), 'true').subscribe({
+      next: (response) => {
+        if (response?.success === false) {
+          this.notifyService.error(response?.message ?? 'Failed to save quiz');
+          this.loading = false;
+          return;
+        }
+
+        this.quiz = {
+          ...this.quiz,
+          ...payload,
+        };
+        this.notifyService.saved();
+        this.loading = false;
+      },
+      error: (err) => {
+        this.notifyService.error(err?.error?.message ?? err?.message ?? 'Failed to save quiz');
+        this.loading = false;
+      }
+    });
   }
 
   onCancel(): void {

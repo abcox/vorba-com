@@ -69,8 +69,7 @@ export class QuizAdminPageComponent implements OnInit {
   }
 
   createNewQuiz() {
-    // TODO: Implement quiz creation
-    console.log('Create new quiz');
+    this.router.navigate(['/admin/quiz/new']);
   }
   
   editQuiz(quizId: string) {
