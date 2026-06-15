@@ -13,7 +13,9 @@
     </div>
 
     <div class="quiz-edit-header-right">
-      <button mat-raised-button color="primary" type="button" (click)="onSubmit()" [disabled]="quizForm.pristine || quizForm.invalid">
+      <button mat-raised-button color="primary" type="button"
+        (click)="onSubmit()"
+          [disabled]="loading || quizForm.invalid || (!isCreateMode && quizForm.pristine && !hasQuestionChanges)">
         <mat-icon>save</mat-icon>
         Save
       </button>

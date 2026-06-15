@@ -68,6 +68,10 @@ export class QuizEditPageComponent implements OnInit {
 
     if (this.isCreateMode) {
       this.initializeNewQuiz();
+      const sourceQuizId = this.route.snapshot.queryParamMap.get('from') ?? '';
+      if (sourceQuizId) {
+        this.loadQuizAsCopy(sourceQuizId);
+      }
       return;
     }
 
@@ -113,6 +117,43 @@ export class QuizEditPageComponent implements OnInit {
     });
   }
 
+  private loadQuizAsCopy(sourceQuizId: string): void {
+    this.loading = true;
+    this.loadError = '';
+
+    this.quizService.quizControllerGetQuizById(sourceQuizId).subscribe({
+      next: (response) => {
+        if (!response.success || !response.data) {
+          this.notifyService.error(response.message ?? 'Failed to load source quiz');
+          this.loading = false;
+          return;
+        }
+
+        const sourceQuiz = response.data;
+        const copiedQuestions = sourceQuiz.questions.map((question) => ({
+          ...question,
+          options: question.options.map((option) => ({ ...option }))
+        }));
+
+        this.quiz = {
+          title: `${sourceQuiz.title} (copy)`,
+          questions: copiedQuestions
+        };
+
+        this.quizForm.patchValue({ title: this.quiz.title });
+        this.initializeQuestionForms(this.quiz.questions);
+        this.initializeOptionForms(this.quiz.questions);
+        this.initializeTaxonomy(this.quiz.questions);
+        this.hasQuestionChanges = false;
+        this.loading = false;
+      },
+      error: (err) => {
+        this.notifyService.error(err?.error?.message ?? err?.message ?? 'Failed to load source quiz');
+        this.loading = false;
+      }
+    });
+  }
+
   onSubmit(): void {
     if (this.quizForm.invalid || !this.quiz) {
       this.quizForm.markAllAsTouched();
@@ -137,8 +178,14 @@ export class QuizEditPageComponent implements OnInit {
             return;
           }
 
+          const createdQuizId = response?.data?._id;
           this.notifyService.created();
           this.loading = false;
+          if (createdQuizId) {
+            this.router.navigate(['/admin/quiz/edit', createdQuizId]);
+            return;
+          }
+
           this.router.navigate(['/admin/quiz']);
         },
         error: (err) => {
@@ -150,7 +197,7 @@ export class QuizEditPageComponent implements OnInit {
       return;
     }
 
-    this.quizService.quizControllerImportQuizFromJson(JSON.stringify(payload), 'true').subscribe({
+    this.quizService.quizControllerUpdateQuizById(this.quizId, JSON.stringify(payload)).subscribe({
       next: (response) => {
         if (response?.success === false) {
           this.notifyService.error(response?.message ?? 'Failed to save quiz');

@@ -53,6 +53,9 @@
                   <a mat-button [routerLink]="['/admin/quiz/edit', quiz._id]">
                     Edit
                   </a>
+                  <a mat-button (click)="createFromQuiz(quiz._id)">
+                    Copy
+                  </a>
                   <a mat-button (click)="deleteQuiz(quiz)">
                     Delete
                   </a>

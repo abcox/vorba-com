@@ -16,6 +16,7 @@ import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { ConfirmDialogService } from '../../../dialog/confirm-dialog/confirm-dialog.service';
+import { NotifyService } from '@src/app/core/notify/notify.service';
 
 @Component({
   selector: 'app-quiz-admin-page',
@@ -43,6 +44,7 @@ export class QuizAdminPageComponent implements OnInit {
   private router = inject(Router);  
   private quizService = inject(QuizService);
   private confirmDialogService = inject(ConfirmDialogService);
+  private notifyService = inject(NotifyService);
   
   quizList: QuizSummaryDto[] = [];
   displayedColumns: string[] = ['title', 'questionCount', 'createdAt', 'actions'];
@@ -71,6 +73,12 @@ export class QuizAdminPageComponent implements OnInit {
   createNewQuiz() {
     this.router.navigate(['/admin/quiz/new']);
   }
+
+  createFromQuiz(quizId: string) {
+    this.router.navigate(['/admin/quiz/new'], {
+      queryParams: { from: quizId }
+    });
+  }
   
   editQuiz(quizId: string) {
     this.router.navigate(['/admin/quiz/edit', quizId]);
@@ -79,9 +87,21 @@ export class QuizAdminPageComponent implements OnInit {
   deleteQuiz(quiz: QuizSummaryDto) {
     const { _id, title } = quiz;
     this.confirmDialogService.confirmDelete(title).subscribe((result) => {
-      if (result) {
-        console.log('Delete quiz id:', _id);
+      if (!result) {
+        return;
       }
+
+      this.quizService.quizControllerDeleteQuiz(_id).subscribe({
+        next: () => {
+          this.notifyService.deleted();
+          this.loadQuizList();
+        },
+        error: (error) => {
+          const message = error?.error?.message ?? error?.message ?? 'Failed to delete quiz';
+          this.notifyService.error(message);
+          console.error('Error deleting quiz:', error);
+        }
+      });
     });
   }
   
