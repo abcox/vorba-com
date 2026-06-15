@@ -1,3 +1,7 @@
+:host {
+  --subtitle-color: color-mix(in srgb, var(--sys-on-surface) 72%, transparent);
+}
+
 .quiz-edit-container {
   padding: 24px;
   max-width: 1200px;
@@ -177,6 +181,7 @@
   gap: 2px;
   justify-content: center;
   min-width: 0;
+  overflow: hidden;
 }
 
 .question-expanded-title {
@@ -243,11 +248,15 @@
 }
 
 .question-title {
+  display: block;
   color: var(--sys-on-surface);
   font-weight: 500;
   min-width: 0;
   line-height: 1.25;
-  overflow-wrap: anywhere;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .question-accordion .mat-expansion-panel-header-title {
@@ -356,9 +365,9 @@
 .detail-label {
   margin-bottom: 6px;
   color: var(--sys-on-surface-variant);
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size: 22px;
+  //font-weight: 600;
+  //text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
@@ -622,16 +631,18 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 14px;
-  border: 1px solid var(--sys-outline-variant);
-  border-radius: 12px;
-  background-color: var(--sys-surface-container-low);
+  //padding: 14px;
+  //border: 1px solid var(--sys-outline-variant);
+  //border-radius: 12px;
+  //background-color: var(--sys-surface-container-low);
 }
 
 .taxonomy-subtitle {
   margin-top: 4px;
-  color: var(--sys-on-surface-variant);
+  color: var(--subtitle-color, var(--sys-on-surface-variant));
   font-size: 0.9rem;
+  font-weight: 100;
+  font-family: 'Roboto Flex', sans-serif;
 }
 
 .taxonomy-grid {
@@ -668,8 +679,9 @@
 .taxonomy-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 12px;
+  margin-top: 24px;
+  margin-bottom: 8px;
 }
 
 .taxonomy-tag {
@@ -715,7 +727,7 @@
 
 @media (max-width: 768px) {
   .quiz-edit-container {
-    padding: 16px;
+    padding: 0;
   }
 
   .quiz-edit-header {
