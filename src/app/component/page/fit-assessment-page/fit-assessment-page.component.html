@@ -1,0 +1,280 @@
+<div class="wizard-shell" [formGroup]="form">
+
+  <!-- Progress bar -->
+  <div class="wizard-progress" *ngIf="!submittedPayload()">
+    <div class="wizard-progress-bar"
+      [style.width.%]="(currentStepIndex() / (totalSteps() - 1)) * 100">
+    </div>
+  </div>
+
+  <!-- ── Submitted ──────────────────────────────────────────────────────── -->
+  <div class="wizard-done" *ngIf="submittedPayload() as payload">
+    <mat-icon class="done-icon">check_circle</mat-icon>
+    <h2>You're all set</h2>
+    <p>We'll follow up shortly. Here's what we captured:</p>
+    <pre>{{ payload | json }}</pre>
+  </div>
+
+  <ng-container *ngIf="!submittedPayload()">
+
+    <!-- ── Step: segment ──────────────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'segment'">
+      <p class="step-eyebrow">Step 1</p>
+      <h1 class="step-heading">Who are we working with?</h1>
+      <p class="step-sub">Pick the option that best describes who we will be working with.</p>
+      <div class="card-grid card-grid--choice card-grid--segment">
+        <button type="button" class="sel-card"
+          *ngFor="let card of segmentCards"
+          [class.selected]="isSelected('segment', card.value)"
+          (click)="pick('segment', card.value)">
+          <mat-icon class="sel-card-icon">{{ card.icon }}</mat-icon>
+          <span class="sel-card-label">{{ card.label }}</span>
+          <span class="sel-card-sub">{{ card.sublabel }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step: team-sizing (SMB / Enterprise only) ─────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'team-sizing'">
+      <p class="step-eyebrow">Team context</p>
+      <h1 class="step-heading">Tell us about your team structure.</h1>
+      <p class="step-sub">This shapes the engagement model and pricing tier.</p>
+      <div class="input-row">
+        <div class="input-block">
+          <label class="input-label">Number of teams</label>
+          <input class="wizard-input" type="number" min="1" formControlName="teamCount" placeholder="e.g. 3" />
+        </div>
+        <div class="input-block">
+          <label class="input-label">Average team size</label>
+          <input class="wizard-input" type="number" min="1" formControlName="averageTeamSize" placeholder="e.g. 8" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step: enterprise-intake ───────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'enterprise-intake'">
+      <p class="step-eyebrow">Enterprise</p>
+      <h1 class="step-heading">Briefly describe the initiative.</h1>
+      <p class="step-sub">Our team will prepare a custom quote based on scope and team size.</p>
+      <textarea class="wizard-textarea" formControlName="notes"
+        rows="5" placeholder="e.g. Platform modernisation across 4 engineering teams..."></textarea>
+    </div>
+
+    <!-- ── Step: problem-value ───────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'problem-value'">
+      <p class="step-eyebrow">Problem value</p>
+      <h1 class="step-heading">What is the estimated value of solving this?</h1>
+      <p class="step-sub">Think revenue protected, costs avoided, or strategic risk removed.</p>
+      <div class="card-grid card-grid--choice card-grid--problem-value">
+        <button type="button" class="sel-card"
+          *ngFor="let card of problemValueCards"
+          [class.selected]="isSelected('problemValueRange', card.value)"
+          (click)="pick('problemValueRange', card.value)">
+          <span class="sel-card-label">{{ card.label }}</span>
+          <span class="sel-card-sub">{{ card.sublabel }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step: value-band ──────────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'value-band'">
+      <p class="step-eyebrow">Impact category</p>
+      <h1 class="step-heading">What kind of problem are you solving?</h1>
+      <div class="card-grid card-grid--choice">
+        <button type="button" class="sel-card"
+          *ngFor="let card of valueBandCards"
+          [class.selected]="isSelected('valueBand', card.value)"
+          (click)="pick('valueBand', card.value)">
+          <span class="sel-card-badge">{{ card.value }}</span>
+          <span class="sel-card-label">{{ card.label }}</span>
+          <span class="sel-card-sub">{{ card.sublabel }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step: readiness ───────────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'readiness'">
+      <p class="step-eyebrow">Timeline</p>
+      <h1 class="step-heading">When do you need to act?</h1>
+      <div class="card-grid card-grid--choice">
+        <button type="button" class="sel-card"
+          *ngFor="let card of readinessCards"
+          [class.selected]="isSelected('readiness', card.value)"
+          (click)="pick('readiness', card.value)">
+          <span class="sel-card-label">{{ card.label }}</span>
+          <span class="sel-card-sub">{{ card.sublabel }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step: contact ─────────────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'contact'">
+      <p class="step-eyebrow">Contact</p>
+      <h1 class="step-heading">Where do we reach you?</h1>
+      <div class="contact-form">
+        <div class="input-block">
+          <label class="input-label">First name *</label>
+          <input class="wizard-input"
+            formControlName="firstName"
+            placeholder="Ada"
+            (blur)="form.controls.firstName.markAsTouched()" />
+          <span class="input-error" *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">Required</span>
+        </div>
+        <div class="input-block">
+          <label class="input-label">Work email *</label>
+          <input class="wizard-input"
+            formControlName="email"
+            type="email"
+            placeholder="ada@company.com"
+            (blur)="form.controls.email.markAsTouched()" />
+          <span class="input-error" *ngIf="form.controls.email.touched && form.controls.email.invalid">Valid email required</span>
+        </div>
+        <div class="input-block">
+          <label class="input-label">Phone <span class="input-optional">(optional)</span></label>
+          <input class="wizard-input"
+            formControlName="phone"
+            type="tel"
+            placeholder="+1 555 123 4567" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Step: path-choice ─────────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'path-choice'">
+      <p class="step-eyebrow">Your next step</p>
+      <h1 class="step-heading">How would you like to proceed?</h1>
+      <p class="step-sub">
+        Based on your answers we suggest
+        <strong>{{ recommendedPath() === 'book_paid' ? 'a paid discovery session' : recommendedPath() === 'waitlist' ? 'the workshop waitlist' : 'a free action plan' }}</strong>
+        — but any path is open to you.
+      </p>
+      <div class="card-grid card-grid--paths">
+        <button type="button" class="sel-card sel-card--path"
+          *ngFor="let card of pathCards"
+          [class.selected]="isSelected('selectedPath', card.value)"
+          [class.recommended]="card.value === recommendedPath()"
+          (click)="pick('selectedPath', card.value)">
+          <mat-icon class="sel-card-icon">{{ card.icon }}</mat-icon>
+          <span class="sel-card-text">
+            <span class="sel-card-label">{{ card.label }}</span>
+            <span class="sel-card-sub">{{ card.sublabel }}</span>
+          </span>
+          <span class="rec-badge" *ngIf="card.value === recommendedPath()">Recommended</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── Step: booking-options ─────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'booking-options'">
+      <p class="step-eyebrow">Session details</p>
+      <h1 class="step-heading">Choose your session length.</h1>
+      <div class="card-grid card-grid--choice">
+        <button type="button" class="sel-card"
+          *ngFor="let card of durationCards()"
+          [class.selected]="isSelected('durationMinutes', card.value)"
+          (click)="form.controls.durationMinutes.setValue(card.value)">
+          <span class="sel-card-label">{{ card.label }}</span>
+          <span class="sel-card-sub">{{ card.sublabel }}</span>
+        </button>
+      </div>
+
+      <h2 class="sub-heading">Payment preference</h2>
+      <div class="card-grid card-grid--choice">
+        <button type="button" class="sel-card"
+          *ngFor="let card of paymentModeCards"
+          [class.selected]="isSelected('paymentMode', card.value)"
+          (click)="form.controls.paymentMode.setValue(card.value)">
+          <span class="sel-card-label">{{ card.label }}</span>
+          <span class="sel-card-sub">{{ card.sublabel }}</span>
+        </button>
+      </div>
+
+      <div class="quote-chip" *ngIf="quoteSummary() as q">
+        <mat-icon>receipt_long</mat-icon>
+        {{ q.currency }} {{ q.amount }} — {{ q.dur }} min, {{ q.mode }}
+      </div>
+    </div>
+
+    <!-- ── Step: review ───────────────────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'review'">
+      <p class="step-eyebrow">Review</p>
+      <h1 class="step-heading">Looks good?</h1>
+      <div class="review-list">
+        <div class="review-row" *ngIf="form.controls.firstName.value">
+          <span class="review-key">Name</span>
+          <span class="review-val">{{ form.controls.firstName.value }}</span>
+        </div>
+        <div class="review-row">
+          <span class="review-key">Email</span>
+          <span class="review-val">{{ form.controls.email.value }}</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.phone.value">
+          <span class="review-key">Phone</span>
+          <span class="review-val">{{ form.controls.phone.value }}</span>
+        </div>
+        <div class="review-row">
+          <span class="review-key">Context</span>
+          <span class="review-val">{{ form.controls.segment.value }}</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.teamCount.value">
+          <span class="review-key">Teams</span>
+          <span class="review-val">{{ form.controls.teamCount.value }} × {{ form.controls.averageTeamSize.value }}</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.segment.value !== 'enterprise'">
+          <span class="review-key">Problem value</span>
+          <span class="review-val">{{ form.controls.problemValueRange.value }}</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.segment.value !== 'enterprise'">
+          <span class="review-key">Impact band</span>
+          <span class="review-val">{{ form.controls.valueBand.value }}</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.segment.value !== 'enterprise'">
+          <span class="review-key">Readiness</span>
+          <span class="review-val">{{ form.controls.readiness.value }}</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.segment.value !== 'enterprise'">
+          <span class="review-key">Path</span>
+          <span class="review-val">{{ form.controls.selectedPath.value }}</span>
+        </div>
+        <div class="review-row" *ngIf="quoteSummary() as q">
+          <span class="review-key">Checkout</span>
+          <span class="review-val">{{ q.currency }} {{ q.amount }} ({{ q.mode }})</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.notes.value">
+          <span class="review-key">Notes</span>
+          <span class="review-val">{{ form.controls.notes.value }}</span>
+        </div>
+      </div>
+
+      <label class="booking-checkbox">
+        <input type="checkbox" formControlName="wantsBooking" />
+        <span>Book a meeting to discuss my results</span>
+      </label>
+    </div>
+
+    <!-- ── Nav controls ───────────────────────────────────────────────────── -->
+    <div class="wizard-nav">
+      <button type="button" mat-button class="nav-back"
+        *ngIf="!isFirst()"
+        (click)="back()">
+        <mat-icon>arrow_back</mat-icon> Back
+      </button>
+
+      <span class="step-counter">{{ currentStepIndex() + 1 }} / {{ totalSteps() }}</span>
+
+      <button type="button" mat-flat-button color="primary" class="nav-next"
+        *ngIf="!isLast()"
+        [disabled]="!canAdvance()"
+        (click)="next()">
+        Next <mat-icon iconPositionEnd>arrow_forward</mat-icon>
+      </button>
+
+      <button type="button" mat-flat-button color="primary" class="nav-next"
+        *ngIf="isLast()"
+        (click)="submit()">
+        Submit <mat-icon iconPositionEnd>send</mat-icon>
+      </button>
+    </div>
+
+  </ng-container>
+</div>

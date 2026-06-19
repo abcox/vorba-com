@@ -1,0 +1,472 @@
+:host {
+  display: block;
+}
+
+// ── Shell ─────────────────────────────────────────────────────────────────
+.wizard-shell {
+  --shell-max-width: 1040px;
+  --shell-pad-inline: clamp(1rem, 3.2vw, 2.4rem);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--shell-pad-inline) 4rem;
+  width: min(100%, var(--shell-max-width));
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+// ── Progress bar ──────────────────────────────────────────────────────────
+.wizard-progress {
+  height: 3px;
+  background: color-mix(in srgb, var(--sys-primary, #2563eb) 20%, transparent);
+  width: 100%;
+  margin: 0 0 3rem;
+}
+
+.wizard-step,
+.wizard-nav,
+.wizard-done {
+  width: 100%;
+}
+
+.wizard-progress-bar {
+  height: 100%;
+  background: var(--sys-primary, #2563eb);
+  transition: width 380ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// ── Step wrapper ──────────────────────────────────────────────────────────
+.wizard-step {
+  flex: 1;
+  padding-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: step-in 220ms ease both;
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ── Step typography ───────────────────────────────────────────────────────
+.step-eyebrow {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sys-primary, #2563eb);
+}
+
+.step-heading {
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--sys-on-surface, #111);
+}
+
+.step-sub {
+  margin: 0;
+  color: color-mix(in srgb, var(--sys-on-surface, #111) 70%, transparent);
+  line-height: 1.55;
+}
+
+.sub-heading {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--sys-on-surface, #111);
+}
+
+// ── Selectable card grid ──────────────────────────────────────────────────
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.card-grid--choice {
+  --choice-min: 14.5rem;
+  --choice-max: 22rem;
+  --choice-pad-inline: clamp(1.35rem, 2.5vw, 1.9rem);
+  --choice-pad-block: clamp(0.9rem, 1.4vw, 1.2rem);
+  --choice-gap: clamp(0.75rem, 1.5vw, 1.1rem);
+  --choice-rail-pad: clamp(0.5rem, 1.8vw, 1.5rem);
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--choice-gap);
+  padding-inline: var(--choice-rail-pad);
+}
+
+.card-grid--choice .sel-card {
+  flex: 1 1 auto;
+  inline-size: max-content;
+  min-inline-size: min(100%, var(--choice-min));
+  max-inline-size: min(100%, var(--choice-max));
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-block: var(--choice-pad-block);
+  padding-inline: var(--choice-pad-inline);
+}
+
+.card-grid--choice .sel-card-icon {
+  margin-top: 0;
+}
+
+.card-grid--choice .sel-card-label,
+.card-grid--choice .sel-card-sub {
+  text-align: center;
+}
+
+.card-grid--segment {
+  --choice-min: 20.5rem;
+  --choice-max: 32rem;
+  --choice-pad-inline: clamp(2rem, 4vw, 3.25rem);
+  --choice-pad-block: clamp(0.95rem, 1.5vw, 1.3rem);
+  --choice-rail-pad: clamp(0.5rem, 1.8vw, 1.5rem);
+}
+
+.card-grid--segment .sel-card {
+  min-height: clamp(7.75rem, 11vw, 9.25rem);
+}
+
+.card-grid--paths {
+  grid-template-columns: 1fr;
+  padding-inline: clamp(0rem, 4vw, 3.5rem);
+}
+
+.card-grid--problem-value {
+  --choice-min: 14.5rem;
+  --choice-max: 19rem;
+  --choice-pad-inline: clamp(1.35rem, 2.5vw, 1.9rem);
+  --choice-pad-block: clamp(0.9rem, 1.4vw, 1.2rem);
+  --choice-rail-pad: clamp(0.5rem, 1.8vw, 1.5rem);
+}
+
+.sel-card {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: 1.5px solid color-mix(in srgb, var(--sys-outline, #64748b) 34%, transparent);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: var(--sys-surface-container-low, #fff);
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+  position: relative;
+  text-align: left;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--sys-primary, #2563eb) 60%, transparent);
+    background: color-mix(in srgb, var(--sys-primary, #2563eb) 5%, var(--sys-surface-container-low, #fff));
+  }
+
+  &.selected {
+    border-color: var(--sys-primary, #2563eb);
+    background: color-mix(in srgb, var(--sys-primary, #2563eb) 10%, var(--sys-surface-container-low, #fff));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sys-primary, #2563eb) 18%, transparent);
+  }
+
+  &.recommended {
+    border-style: solid;
+  }
+}
+
+.sel-card--path {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.15rem 1.25rem;
+}
+
+.sel-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+}
+
+.sel-card-icon {
+  color: var(--sys-primary, #2563eb);
+  font-size: 1.6rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.sel-card-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--sys-on-surface, #111);
+}
+
+.sel-card-sub {
+  font-size: 0.82rem;
+  color: color-mix(in srgb, var(--sys-on-surface, #111) 65%, transparent);
+  line-height: 1.4;
+}
+
+.sel-card-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--sys-primary, #2563eb);
+  background: color-mix(in srgb, var(--sys-primary, #2563eb) 12%, transparent);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  margin-bottom: 0.2rem;
+  align-self: flex-start;
+}
+
+.rec-badge {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--sys-primary, #2563eb);
+  background: color-mix(in srgb, var(--sys-primary, #2563eb) 14%, transparent);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+}
+
+// ── Contact form ──────────────────────────────────────────────────────────
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 30rem;
+}
+
+// ── Inputs ────────────────────────────────────────────────────────────────
+.input-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.input-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--sys-on-surface, #111) 75%, transparent);
+}
+
+.wizard-input {
+  all: unset;
+  box-sizing: border-box;
+  border: 1.5px solid color-mix(in srgb, var(--sys-outline, #64748b) 38%, transparent);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--sys-on-surface, #111);
+  background: var(--sys-surface-container-low, #fff);
+  transition: border-color 180ms ease;
+  width: 100%;
+
+  &:focus {
+    border-color: var(--sys-primary, #2563eb);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sys-primary, #2563eb) 16%, transparent);
+  }
+
+  &::placeholder { color: color-mix(in srgb, var(--sys-on-surface, #111) 38%, transparent); }
+}
+
+.wizard-textarea {
+  all: unset;
+  box-sizing: border-box;
+  border: 1.5px solid color-mix(in srgb, var(--sys-outline, #64748b) 38%, transparent);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: var(--sys-on-surface, #111);
+  background: var(--sys-surface-container-low, #fff);
+  transition: border-color 180ms ease;
+  width: 100%;
+  resize: vertical;
+  min-height: 120px;
+  font-family: inherit;
+}
+
+.input-error {
+  font-size: 0.78rem;
+  color: var(--sys-error, #dc2626);
+}
+
+.input-optional {
+  font-weight: 400;
+  color: color-mix(in srgb, var(--sys-on-surface, #111) 48%, transparent);
+}
+
+// ── Booking checkbox ────────────────────────────────────────────────────────
+.booking-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--sys-on-surface, #111);
+  margin-top: 1rem;
+
+  input[type='checkbox'] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: var(--sys-primary, #2563eb);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+}
+
+// ── Quote chip ────────────────────────────────────────────────────────────
+.quote-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sys-primary, #2563eb) 10%, transparent);
+  color: var(--sys-primary, #2563eb);
+  font-size: 0.9rem;
+  font-weight: 600;
+  align-self: flex-start;
+
+  mat-icon {
+    font-size: 1.1rem;
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
+
+// ── Review list ───────────────────────────────────────────────────────────
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid color-mix(in srgb, var(--sys-outline, #64748b) 30%, transparent);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--sys-outline, #64748b) 18%, transparent);
+
+  &:last-child { border-bottom: none; }
+}
+
+.review-key {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--sys-on-surface, #111) 60%, transparent);
+  white-space: nowrap;
+}
+
+.review-val {
+  font-size: 0.9rem;
+  color: var(--sys-on-surface, #111);
+  text-align: right;
+}
+
+// ── Nav controls ──────────────────────────────────────────────────────────
+.wizard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 0 0;
+  gap: 1rem;
+}
+
+.step-counter {
+  font-size: 0.82rem;
+  color: color-mix(in srgb, var(--sys-on-surface, #111) 55%, transparent);
+  white-space: nowrap;
+}
+
+.nav-back { opacity: 0.8; }
+
+.nav-next {
+  min-width: 120px;
+}
+
+// ── Done state ────────────────────────────────────────────────────────────
+.wizard-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.done-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  color: var(--sys-primary, #2563eb);
+}
+
+.wizard-done pre {
+  text-align: left;
+  background: color-mix(in srgb, var(--sys-surface-container-low, #fff) 90%, transparent);
+  border-radius: 10px;
+  padding: 1rem;
+  overflow: auto;
+  max-height: 280px;
+  font-size: 0.8rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 860px) {
+  .card-grid--choice {
+    --choice-rail-pad: clamp(0.35rem, 2vw, 0.85rem);
+  }
+
+  .card-grid--problem-value {
+    --choice-min: 13.5rem;
+    --choice-max: 18rem;
+  }
+
+  .wizard-shell {
+    --shell-pad-inline: clamp(0.55rem, 4vw, 0.9rem);
+  }
+}
+
+@media (min-width: 861px) and (max-width: 1180px) {
+  .card-grid--choice { --choice-rail-pad: clamp(0.45rem, 1.6vw, 1.1rem); }
+
+  .wizard-shell {
+    --shell-pad-inline: clamp(0.7rem, 2.2vw, 1rem);
+  }
+
+  .sel-card {
+    padding: 1rem 1.15rem;
+  }
+}

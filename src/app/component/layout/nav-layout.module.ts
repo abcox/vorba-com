@@ -16,6 +16,7 @@ import { InvoiceDetailComponent } from '../page/invoice-page/_component/invoice-
 import { GooglePageComponent } from '../page/google-page/google-page.component';
 import { OfferPageComponent } from '../page/offer-page/offer-page.component';
 import { ReleasePageComponent } from '../page/release-page/release-page.component';
+import { FitAssessmentPageComponent } from '../page/fit-assessment-page/fit-assessment-page.component';
 import { quizRoutes } from '../page/quiz-page/quiz.module';
 
 export const DEFAULT_ENTRY = 'home';
@@ -35,6 +36,7 @@ export const navRoutes: Routes = [
       { path: 'about/team', component: TeamPageComponent },
       { path: 'services', component: ServicePageComponent },
       { path: 'offers', component: OfferPageComponent },
+      { path: 'fit-assessment', component: FitAssessmentPageComponent },
       { path: 'release', component: ReleasePageComponent },
       { path: 'payment', component: PaymentPageComponent },
       { path: 'invoice/new', component: InvoicePageComponent },
