@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
-import { PaymentFormComponent } from '../../forms/payment-form';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PaymentService } from '@file-service-api/v1/api/api';
+import { PaymentExperienceComponent } from '@src/app/module/payment/component/payment-experience/payment-experience.component';
 
 @Component({
     standalone: true,
-    imports: [PaymentFormComponent],
+    imports: [PaymentExperienceComponent],
   selector: 'app-payment-page',
   templateUrl: './payment-page.component.html',
   styleUrls: ['./payment-page.component.scss']

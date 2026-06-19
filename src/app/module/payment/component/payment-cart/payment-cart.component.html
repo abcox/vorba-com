@@ -1,0 +1,25 @@
+<section class="payment-panel">
+  <header class="payment-panel__header">
+    <h2>Cart</h2>
+    <p>Review the items selected for checkout before payment is confirmed.</p>
+  </header>
+
+  <div class="payment-list">
+    @for (item of items(); track item.id || item.label) {
+      <article class="payment-list__item">
+        <div>
+          <h3>{{ item.label }}</h3>
+          @if (item.description) {
+            <p>{{ item.description }}</p>
+          }
+        </div>
+        <div class="payment-list__meta">
+          @if (item.quantity) {
+            <span>Qty {{ item.quantity }}</span>
+          }
+          <strong>{{ formatAmount(item.amount, item.currency) }}</strong>
+        </div>
+      </article>
+    }
+  </div>
+</section>

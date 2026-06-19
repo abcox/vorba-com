@@ -1,0 +1,33 @@
+<section class="payment-panel">
+  <header class="payment-panel__header">
+    <h2>Checkout</h2>
+    <p>Totals stay editable until checkout is initialized and payment begins.</p>
+  </header>
+
+  <dl class="payment-totals">
+    <div>
+      <dt>Subtotal</dt>
+      <dd>{{ formatAmount(summary().subtotal, summary().currency) }}</dd>
+    </div>
+    @if (summary().discount) {
+      <div>
+        <dt>Discount</dt>
+        <dd>-{{ formatAmount(summary().discount ?? 0, summary().currency) }}</dd>
+      </div>
+    }
+    @if (summary().tax) {
+      <div>
+        <dt>Tax</dt>
+        <dd>{{ formatAmount(summary().tax ?? 0, summary().currency) }}</dd>
+      </div>
+    }
+    <div class="payment-totals__total">
+      <dt>Total</dt>
+      <dd>{{ formatAmount(summary().total, summary().currency) }}</dd>
+    </div>
+  </dl>
+
+  @if (summary().note) {
+    <p class="payment-panel__note">{{ summary().note }}</p>
+  }
+</section>

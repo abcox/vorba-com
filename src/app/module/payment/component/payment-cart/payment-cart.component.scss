@@ -1,0 +1,51 @@
+.payment-panel {
+  padding: 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.payment-panel__header {
+  margin-bottom: 1rem;
+}
+
+.payment-panel__header h2 {
+  margin: 0 0 0.25rem;
+}
+
+.payment-panel__header p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.72);
+}
+
+.payment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.payment-list__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.payment-list__item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.payment-list__item h3,
+.payment-list__item p {
+  margin: 0;
+}
+
+.payment-list__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  white-space: nowrap;
+}

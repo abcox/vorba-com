@@ -1,1 +1,1 @@
-export * from './payment-form.component';
+export * from '../../../module/payment/component/payment-form/payment-form.component';

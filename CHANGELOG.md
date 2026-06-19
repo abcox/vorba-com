@@ -11,8 +11,11 @@ All notable changes to this project will be documented in this file.
 - Dedicated offer page data model for easier future content updates.
 - Header navigation entry and offers flyout content linking into offer page sections.
 - New /release page to display client and API runtime metadata, replacing the earlier dialog-based approach.
+- Payment and checkout implementation plan documentation under `src/app/module/payment/README.md`, covering public checkout-init flow, catalog governance, and fit-assessment integration phases.
+- Payment checkout issue checklist under `src/app/module/payment/ISSUE_CHECKLIST.md` with sequenced backend/frontend work items, dependencies, and acceptance criteria.
 
 ### Changed
+- Refactored payment UI into a reusable payment feature area under `src/app/module/payment`, keeping the hosted payment page as a thin route adapter and adding reusable cart and checkout views.
 - Updated quiz start-page copy to focus messaging on the MVP-to-sustainable product development transition.
 - Restyled quiz start-page form and typography to align with active theme tokens, with focused dark-contrast adjustments.
 - Refined quiz start-page light-contrast styling to better align heading and form readability with the active theme.

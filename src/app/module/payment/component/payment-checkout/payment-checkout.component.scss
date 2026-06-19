@@ -1,0 +1,47 @@
+.payment-panel {
+  padding: 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.payment-panel__header {
+  margin-bottom: 1rem;
+}
+
+.payment-panel__header h2 {
+  margin: 0 0 0.25rem;
+}
+
+.payment-panel__header p,
+.payment-panel__note {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.72);
+}
+
+.payment-totals {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.payment-totals div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.payment-totals dt,
+.payment-totals dd {
+  margin: 0;
+}
+
+.payment-totals__total {
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  font-weight: 600;
+}
+
+.payment-panel__note {
+  margin-top: 1rem;
+}

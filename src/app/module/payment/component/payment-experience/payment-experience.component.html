@@ -1,0 +1,18 @@
+<section class="payment-experience">
+  @if (hasCart()) {
+    <app-payment-cart [items]="cartItems()"></app-payment-cart>
+  }
+
+  @if (hasCheckout()) {
+    <app-payment-checkout [summary]="checkoutSummary()!"></app-payment-checkout>
+  }
+
+  @if (errorMessage()) {
+    <section class="payment-experience__state">
+      <p>{{ errorMessage() }}</p>
+      <p>Example: <code>{{ paymentRouteExample() }}</code></p>
+    </section>
+  } @else {
+    <app-payment-form [heading]="title()" [intent]="intent()"></app-payment-form>
+  }
+</section>
