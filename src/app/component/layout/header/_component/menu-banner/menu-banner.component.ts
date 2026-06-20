@@ -7,13 +7,14 @@ import { MenuToggleComponent } from "../menu-toggle/menu-toggle.component";
 import { MenuDialogComponent } from "../menu-dialog/menu-dialog.component";
 import { DeviceService } from "@src/app/services/device.service";
 import { MenuItem } from "../menu-list/menu-list.component";
+import { PaymentCartStatusComponent } from '@src/app/module/payment/component/payment-cart-status/payment-cart-status.component';
 //import { MenuItem } from "@src/app/app.routes"
 
 @Component({
   selector: 'app-menu-banner',
   standalone: true,
   imports: [LogoComponent, CommonModule, MatButtonModule, RouterModule,
-    MenuToggleComponent, MenuDialogComponent
+        MenuToggleComponent, MenuDialogComponent, PaymentCartStatusComponent
   ],
   templateUrl: './menu-banner.component.html',
   styleUrl: './menu-banner.component.scss'
@@ -41,6 +42,7 @@ export class MenuBannerComponent {
         }
         return list;
     });
+    cartCount = computed(() => this.getCartItemCountFromStorage());
 
     constructor() {
         //this.selectedMenuItem.set(this.menuList()[0]);
@@ -63,6 +65,35 @@ export class MenuBannerComponent {
 
     navigateHome() {
         this.router.navigate(['/']);
+    }
+
+    private getCartItemCountFromStorage(): number {
+        const keys = ['payment-cart-items', 'paymentCartItems', 'paymentCheckoutDraft'];
+
+        for (const key of keys) {
+            const raw = localStorage.getItem(key);
+            if (!raw) {
+                continue;
+            }
+
+            try {
+                const parsed = JSON.parse(raw) as unknown;
+                if (Array.isArray(parsed)) {
+                    return parsed.length;
+                }
+
+                if (parsed && typeof parsed === 'object') {
+                    const maybeItems = (parsed as { items?: unknown }).items;
+                    if (Array.isArray(maybeItems)) {
+                        return maybeItems.length;
+                    }
+                }
+            } catch {
+                // Ignore malformed localStorage payloads.
+            }
+        }
+
+        return 0;
     }
         
     private scheduleDialogVisibility(menuItem?: MenuItem | undefined) {

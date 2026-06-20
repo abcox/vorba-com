@@ -1,0 +1,9 @@
+<a
+  class="cart-status"
+  [routerLink]="checkoutLink()"
+  aria-label="Open cart and checkout">
+  <mat-icon>shopping_cart</mat-icon>
+  @if (itemCount() > 0) {
+    <span class="cart-status__badge">{{ itemCount() }}</span>
+  }
+</a>

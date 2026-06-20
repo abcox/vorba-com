@@ -34,7 +34,11 @@
         <app-menu-toggle></app-menu-toggle>
         <app-menu-dialog [menuList]="menuList()"></app-menu-dialog>
     </div>
-    <div class="flex flex-end">
+    <div class="flex flex-end header-actions">
+        <app-payment-cart-status
+            [itemCount]="cartCount()"
+            [checkoutLink]="'/payment'">
+        </app-payment-cart-status>
         <button
             mat-flat-button
             color="primary"
