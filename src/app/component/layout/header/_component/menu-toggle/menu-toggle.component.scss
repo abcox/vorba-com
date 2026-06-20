@@ -1,0 +1,61 @@
+:host {
+	display: inline-flex;
+}
+
+.burger {
+	--burger-line-color: var(--app-accent, var(--sys-primary));
+	--burger-transition: 0.28s ease-in-out;
+
+	cursor: pointer;
+	box-sizing: border-box;
+	width: 40px;
+	height: 40px;
+	padding: 6px 3px;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	display: grid;
+	place-items: center;
+	position: relative;
+
+	.burger-icon {
+		display: block;
+		width: 28px;
+		height: 28px;
+	}
+
+	.burger-line {
+		stroke: var(--burger-line-color);
+		stroke-width: 3;
+		stroke-linecap: round;
+		transform-box: fill-box;
+		transform-origin: center;
+		transition: transform var(--burger-transition), opacity var(--burger-transition),
+			stroke var(--burger-transition);
+	}
+
+	&:hover,
+	&:focus-visible {
+		background: color-mix(in srgb, var(--burger-line-color) 12%, transparent);
+		outline: none;
+	}
+}
+
+.burger.open .burger-line-top {
+	transform: translateY(8px) rotate(45deg);
+}
+
+.burger.open .burger-line-middle {
+	opacity: 0;
+	transform: scaleX(0.6);
+}
+
+.burger.open .burger-line-bottom {
+	transform: translateY(-8px) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.burger .burger-line {
+		transition: none;
+	}
+}

@@ -1,1 +1,15 @@
-<mat-icon data-testid="menu-toggle-button" (click)="toggleMenu()">menu</mat-icon>
+<button
+	type="button"
+	class="burger"
+	data-testid="menu-toggle-button"
+	[class.open]="menuOpen()"
+	[attr.aria-expanded]="menuOpen()"
+	aria-controls="header-menu-dialog"
+	[attr.aria-label]="menuOpen() ? 'Close menu' : 'Open menu'"
+	(click)="toggleMenu()">
+	<svg class="burger-icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+		<line class="burger-line burger-line-top" x1="4" y1="8" x2="28" y2="8"></line>
+		<line class="burger-line burger-line-middle" x1="4" y1="16" x2="28" y2="16"></line>
+		<line class="burger-line burger-line-bottom" x1="4" y1="24" x2="28" y2="24"></line>
+	</svg>
+</button>
