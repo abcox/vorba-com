@@ -1,6 +1,6 @@
 # file-service-api-v1@10.5.0
 
-A file service supporting local and Azure Blob Storage  Build Source: local  Build ID: local  Build Time (UTC): 2026-06-15T02:54:31.244Z  Service Version: 0.0.1
+A file service supporting local and Azure Blob Storage  Build Source: local  Build ID: local  Build Time (UTC): 2026-06-20T04:32:25.926Z  Service Version: 0.0.1
 
 The version of the OpenAPI document: 0.0.1
 

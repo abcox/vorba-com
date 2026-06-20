@@ -44,6 +44,13 @@ model/calendarEventDeleteBatchPostRequestDto.ts
 model/calendarEventPatchConferenceRequestDto.ts
 model/calendarEventPatchDetailRequestDto.ts
 model/calendarEventPatchRequestDto.ts
+model/checkoutDraftCreateRequestDto.ts
+model/checkoutDraftResponseDto.ts
+model/checkoutDraftUpdateRequestDto.ts
+model/checkoutInitRequestDto.ts
+model/checkoutInitResponseDto.ts
+model/checkoutLineItemDto.ts
+model/checkoutStatusResponseDto.ts
 model/contactAddressDto.ts
 model/contactEmailDto.ts
 model/contactGroupDto.ts
@@ -75,6 +82,9 @@ model/pdfResponseDto.ts
 model/personEmailAddressDto.ts
 model/personNameDto.ts
 model/productCreateDto.ts
+model/publicCatalogItemDto.ts
+model/publicCatalogPriceDto.ts
+model/publicCatalogResponseDto.ts
 model/quizDto.ts
 model/quizQuestionDto.ts
 model/quizQuestionOptionDto.ts
