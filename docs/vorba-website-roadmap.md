@@ -72,3 +72,42 @@ Example hero tones:
 #### Notes
 - This section is intentionally scoped to home page copy and CTA alignment.
 - Execute after the current quiz styling iteration is complete.
+
+## Reliability Backlog
+
+### App-Wide API Health Monitoring (Near-Term)
+Goal: Ensure users are clearly informed when APIs are unavailable and prevent broken interaction flows.
+
+Tasks:
+- Add a centralized client health service that tracks backend availability (file-service and other required APIs).
+- Add a global out-of-service modal pattern (similar to sign-in/session-timeout) that blocks user progression while required APIs are down.
+- Ensure modal supports automatic recovery: dismiss only after health checks succeed.
+- Add UI state indicators for "healthy", "degraded", and "out-of-service".
+
+Success criteria:
+- When API connectivity drops, users see a clear blocking state and cannot continue into broken operations.
+- When API connectivity returns, the app recovers without page reload.
+
+### API Recycle / File-Watcher Restart Investigation (Near-Term)
+Goal: Reduce avoidable backend restarts during local development and understand current recycle triggers.
+
+Tasks:
+- Identify why backend restarts are being triggered during file-watch.
+- Capture which files/folders trigger restarts and whether this is expected (generated files, logs, temp files, config copies, etc.).
+- Adjust watch configuration or ignore patterns to reduce unnecessary recycle loops.
+
+Success criteria:
+- Local API watch-mode remains stable during normal UI and config workflow.
+- Restart events are predictable and tied to intentional source edits.
+
+### Offline Mode (Long-Term)
+Goal: Provide graceful operation when backend connectivity is unavailable.
+
+Tasks:
+- Define a supported offline experience and scope (read-only vs queued writes).
+- Add a persistent "Offline Mode" indicator with clear capability messaging.
+- Define synchronization strategy for reconnect scenarios.
+
+Success criteria:
+- Users can understand current connectivity state and what actions are available.
+- Reconnect behavior is explicit and reliable.

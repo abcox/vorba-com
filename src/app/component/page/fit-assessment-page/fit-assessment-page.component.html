@@ -20,14 +20,126 @@
     <!-- ── Step: segment ──────────────────────────────────────────────────── -->
     <div class="wizard-step" *ngIf="currentStep() === 'segment'">
       <p class="step-eyebrow">Step 1</p>
-      <h1 class="step-heading">Who are we working with?</h1>
-      <p class="step-sub">Pick the option that best describes who we will be working with.</p>
-      <div class="card-grid card-grid--choice card-grid--segment">
+      <h1 class="step-heading">Let's begin.</h1>
+      <p class="step-sub">What is the general scale of work?</p>
+      <div class="card-grid card-grid--choice card-grid--segment" *ngIf="!form.controls.segment.value">
         <button type="button" class="sel-card"
           *ngFor="let card of segmentCards"
           [class.selected]="isSelected('segment', card.value)"
-          (click)="pick('segment', card.value)">
+          (click)="pick('segment', card.value, false)">
           <mat-icon class="sel-card-icon">{{ card.icon }}</mat-icon>
+          <span class="sel-card-label">{{ card.label }}</span>
+          <span class="sel-card-sub">{{ card.sublabel }}</span>
+        </button>
+      </div>
+
+      <ng-container *ngIf="form.controls.segment.value; else segmentFormDefaultTemplate">
+        <ng-container [ngSwitch]="form.controls.segment.value">
+          <ng-container *ngSwitchCase="'individual'" [ngTemplateOutlet]="segmentFormForIndividualTemplate"></ng-container>
+          <ng-container *ngSwitchCase="'smb'" [ngTemplateOutlet]="segmentFormForSmbTemplate"></ng-container>
+          <ng-container *ngSwitchCase="'enterprise'" [ngTemplateOutlet]="segmentFormForEnterpriseTemplate"></ng-container>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #segmentFormDefaultTemplate>
+        <div class="segment-form-panel segment-form-panel--default">
+          <p class="step-sub">Choose a segment to continue.</p>
+        </div>
+      </ng-template>
+
+      <ng-template #segmentFormForIndividualTemplate>
+        <div class="segment-form-panel">
+          <p class="step-sub">Who should we contact?</p>
+          <mat-radio-group class="segment-radio-group" formControlName="segment" aria-label="Choose segment">
+            <mat-radio-button value="individual">Individual</mat-radio-button>
+            <mat-radio-button value="smb">SMB</mat-radio-button>
+            <mat-radio-button value="enterprise">Enterprise</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="contact-form">
+            <mat-form-field appearance="outline" class="contact-field">
+              <mat-label>Contact name</mat-label>
+              <input matInput
+                formControlName="firstName"
+                placeholder="Ada Lovelace"
+                (blur)="form.controls.firstName.markAsTouched()" />
+              <mat-error *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">Required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #segmentFormForSmbTemplate>
+        <div class="segment-form-panel">
+          <p class="step-sub">Who should we contact about this SMB?</p>
+          <mat-radio-group class="segment-radio-group" formControlName="segment" aria-label="Choose segment">
+            <mat-radio-button value="individual">Individual</mat-radio-button>
+            <mat-radio-button value="smb">SMB</mat-radio-button>
+            <mat-radio-button value="enterprise">Enterprise</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="contact-form">
+            <mat-form-field appearance="outline" class="contact-field">
+              <mat-label>Contact name</mat-label>
+              <input matInput
+                formControlName="firstName"
+                placeholder="Ada Lovelace"
+                (blur)="form.controls.firstName.markAsTouched()" />
+              <mat-error *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">Required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="contact-field">
+              <mat-label>Organization name</mat-label>
+              <input matInput
+                formControlName="organizationName"
+                placeholder="Acme Co." />
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template #segmentFormForEnterpriseTemplate>
+        <div class="segment-form-panel">
+          <p class="step-sub">Who should we contact for enterprise intake?</p>
+          <mat-radio-group class="segment-radio-group" formControlName="segment" aria-label="Choose segment">
+            <mat-radio-button value="individual">Individual</mat-radio-button>
+            <mat-radio-button value="smb">SMB</mat-radio-button>
+            <mat-radio-button value="enterprise">Enterprise</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="contact-form">
+            <mat-form-field appearance="outline" class="contact-field">
+              <mat-label>Contact name</mat-label>
+              <input matInput
+                formControlName="firstName"
+                placeholder="Ada Lovelace"
+                (blur)="form.controls.firstName.markAsTouched()" />
+              <mat-error *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">Required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="contact-field">
+              <mat-label>Organization name</mat-label>
+              <input matInput
+                formControlName="organizationName"
+                placeholder="Acme Group" />
+              <mat-hint>Optional</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- ── Step: individual-service ─────────────────────────────────────── -->
+    <div class="wizard-step" *ngIf="currentStep() === 'individual-service'">
+      <p class="step-eyebrow">Service preference</p>
+      <h1 class="step-heading">What type of support are you looking for?</h1>
+      <p class="step-sub">Pick the option that best matches how you want to engage.</p>
+      <div class="card-grid card-grid--choice card-grid--problem-value">
+        <button type="button" class="sel-card"
+          *ngFor="let card of individualServiceCards"
+          [class.selected]="isSelected('individualService', card.value)"
+          (click)="pickIndividualService(card.value)">
           <span class="sel-card-label">{{ card.label }}</span>
           <span class="sel-card-sub">{{ card.sublabel }}</span>
         </button>
@@ -63,11 +175,11 @@
     <!-- ── Step: problem-value ───────────────────────────────────────────── -->
     <div class="wizard-step" *ngIf="currentStep() === 'problem-value'">
       <p class="step-eyebrow">Problem value</p>
-      <h1 class="step-heading">What is the estimated value of solving this?</h1>
-      <p class="step-sub">Think revenue protected, costs avoided, or strategic risk removed.</p>
+      <h1 class="step-heading">{{ problemValueHeading() }}</h1>
+      <p class="step-sub">{{ problemValueSubheading() }}</p>
       <div class="card-grid card-grid--choice card-grid--problem-value">
         <button type="button" class="sel-card"
-          *ngFor="let card of problemValueCards"
+          *ngFor="let card of problemValueCards()"
           [class.selected]="isSelected('problemValueRange', card.value)"
           (click)="pick('problemValueRange', card.value)">
           <span class="sel-card-label">{{ card.label }}</span>
@@ -112,30 +224,33 @@
       <p class="step-eyebrow">Contact</p>
       <h1 class="step-heading">Where do we reach you?</h1>
       <div class="contact-form">
-        <div class="input-block">
-          <label class="input-label">First name *</label>
-          <input class="wizard-input"
+        <mat-form-field appearance="outline" class="contact-field">
+          <mat-label>First name</mat-label>
+          <input matInput
             formControlName="firstName"
             placeholder="Ada"
             (blur)="form.controls.firstName.markAsTouched()" />
-          <span class="input-error" *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">Required</span>
-        </div>
-        <div class="input-block">
-          <label class="input-label">Work email *</label>
-          <input class="wizard-input"
+          <mat-error *ngIf="form.controls.firstName.touched && form.controls.firstName.invalid">Required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="contact-field">
+          <mat-label>Work email</mat-label>
+          <input matInput
             formControlName="email"
             type="email"
             placeholder="ada@company.com"
             (blur)="form.controls.email.markAsTouched()" />
-          <span class="input-error" *ngIf="form.controls.email.touched && form.controls.email.invalid">Valid email required</span>
-        </div>
-        <div class="input-block">
-          <label class="input-label">Phone <span class="input-optional">(optional)</span></label>
-          <input class="wizard-input"
+          <mat-error *ngIf="form.controls.email.touched && form.controls.email.invalid">Valid email required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="contact-field">
+          <mat-label>Phone</mat-label>
+          <input matInput
             formControlName="phone"
             type="tel"
             placeholder="+1 555 123 4567" />
-        </div>
+          <mat-hint>Optional</mat-hint>
+        </mat-form-field>
       </div>
     </div>
 
@@ -220,15 +335,19 @@
           <span class="review-key">Teams</span>
           <span class="review-val">{{ form.controls.teamCount.value }} × {{ form.controls.averageTeamSize.value }}</span>
         </div>
-        <div class="review-row" *ngIf="form.controls.segment.value !== 'enterprise'">
+        <div class="review-row" *ngIf="form.controls.segment.value === 'individual' && individualServiceLabel()">
+          <span class="review-key">Service preference</span>
+          <span class="review-val">{{ individualServiceLabel() }}</span>
+        </div>
+        <div class="review-row" *ngIf="form.controls.segment.value === 'smb'">
           <span class="review-key">Problem value</span>
           <span class="review-val">{{ form.controls.problemValueRange.value }}</span>
         </div>
-        <div class="review-row" *ngIf="form.controls.segment.value !== 'enterprise'">
+        <div class="review-row" *ngIf="form.controls.segment.value === 'smb'">
           <span class="review-key">Impact band</span>
           <span class="review-val">{{ form.controls.valueBand.value }}</span>
         </div>
-        <div class="review-row" *ngIf="form.controls.segment.value !== 'enterprise'">
+        <div class="review-row" *ngIf="form.controls.segment.value === 'smb'">
           <span class="review-key">Readiness</span>
           <span class="review-val">{{ form.controls.readiness.value }}</span>
         </div>

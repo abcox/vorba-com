@@ -143,6 +143,25 @@
   min-height: clamp(7.75rem, 11vw, 9.25rem);
 }
 
+.segment-form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.segment-form-panel--default {
+  align-items: center;
+}
+
+.segment-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
 .card-grid--paths {
   grid-template-columns: 1fr;
   padding-inline: clamp(0rem, 4vw, 3.5rem);
@@ -254,7 +273,13 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  width: 100%;
   max-width: 30rem;
+  margin-inline: auto;
+}
+
+.contact-field {
+  width: 100%;
 }
 
 // ── Inputs ────────────────────────────────────────────────────────────────

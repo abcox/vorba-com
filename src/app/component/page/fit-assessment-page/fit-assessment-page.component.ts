@@ -10,16 +10,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { Subject, take } from 'rxjs';
 
 type Segment = 'individual' | 'smb' | 'enterprise';
 type ValueBand = 'B1' | 'B2' | 'B3';
+type IndividualServiceChoice = 'coaching_mentoring' | 'discussion_forum' | 'free_offerings';
+type ProblemValueChoice = 'ind_helpful' | 'ind_gain' | 'ind_major' | 'ind_critical' | 'smb_under_100k' | 'smb_100k_500k' | 'smb_500k_2m' | 'smb_over_2m' | 'ent_100k' | 'ent_1m' | 'ent_10m' | 'ent_100m_plus';
 type PathChoice = 'book_paid' | 'waitlist' | 'free_plan';
 type PaymentMode = 'deposit' | 'full';
 type StepId =
   | 'segment'
+  | 'individual-service'
   | 'team-sizing'
   | 'problem-value'
   | 'value-band'
@@ -36,8 +40,14 @@ interface DurationPricing {
   full: number;
 }
 
+interface ProblemValueCard {
+  value: ProblemValueChoice;
+  label: string;
+  sublabel: string;
+}
+
 const STEPS_BY_SEGMENT: Record<Segment, StepId[]> = {
-  individual: ['segment', 'problem-value', 'value-band', 'readiness', 'contact', 'path-choice', 'review'],
+  individual: ['segment', 'individual-service', 'path-choice', 'review'],
   smb:        ['segment', 'team-sizing', 'problem-value', 'value-band', 'readiness', 'contact', 'path-choice', 'review'],
   enterprise: ['segment', 'enterprise-intake', 'contact', 'review'],
 };
@@ -53,6 +63,7 @@ const STEPS_BY_SEGMENT: Record<Segment, StepId[]> = {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatRadioModule,
   ],
   templateUrl: './fit-assessment-page.component.html',
   styleUrl: './fit-assessment-page.component.scss',
@@ -88,12 +99,45 @@ export class FitAssessmentPageComponent implements OnDestroy {
     { value: 'enterprise', icon: 'corporate_fare', label: 'Enterprise',  sublabel: 'Multi-team / large programs' },
   ];
 
-  protected readonly problemValueCards = [
-    { value: '100k',  label: '$100k',   sublabel: 'Localized impact' },
-    { value: '1m',    label: '$1M',     sublabel: 'Departmental scope' },
-    { value: '10m',   label: '$10M',    sublabel: 'Business-unit scope' },
-    { value: '100m+', label: '$100M+',  sublabel: 'Organisation-wide' },
-  ];
+  protected readonly problemValueCardsBySegment: Record<Segment, ProblemValueCard[]> = {
+    individual: [
+      { value: 'ind_helpful',  label: 'Helpful improvement',           sublabel: 'Nice-to-have and beneficial' },
+      { value: 'ind_gain',     label: 'Meaningful productivity gain',  sublabel: 'Saves notable time and effort' },
+      { value: 'ind_major',    label: 'Major business/career leverage',sublabel: 'Material upside for outcomes' },
+      { value: 'ind_critical', label: 'Critical blocker removal',      sublabel: 'Urgent issue limiting progress' },
+    ],
+    smb: [
+      { value: 'smb_under_100k', label: 'Under $100k',    sublabel: 'Localized impact' },
+      { value: 'smb_100k_500k',  label: '$100k to $500k', sublabel: 'Team-level impact' },
+      { value: 'smb_500k_2m',    label: '$500k to $2M',   sublabel: 'Business-critical impact' },
+      { value: 'smb_over_2m',    label: 'Over $2M',       sublabel: 'Company-wide impact' },
+    ],
+    enterprise: [
+      { value: 'ent_100k',      label: '$100k',   sublabel: 'Localized impact' },
+      { value: 'ent_1m',        label: '$1M',     sublabel: 'Departmental scope' },
+      { value: 'ent_10m',       label: '$10M',    sublabel: 'Business-unit scope' },
+      { value: 'ent_100m_plus', label: '$100M+',  sublabel: 'Organisation-wide' },
+    ],
+  };
+
+  protected readonly problemValueHeading = computed(() => {
+    const seg = (this.formValue().segment || 'individual') as Segment;
+    return seg === 'individual'
+      ? 'What impact would solving this have for you?'
+      : 'Over the next 12 months, what is the approximate business impact of solving this?';
+  });
+
+  protected readonly problemValueSubheading = computed(() => {
+    const seg = (this.formValue().segment || 'individual') as Segment;
+    return seg === 'individual'
+      ? 'Consider time saved, stress reduced, and momentum gained.'
+      : 'Think revenue protected, costs avoided, or strategic risk reduced.';
+  });
+
+  protected readonly problemValueCards = computed(() => {
+    const seg = (this.formValue().segment || 'individual') as Segment;
+    return this.problemValueCardsBySegment[seg];
+  });
 
   protected readonly valueBandCards: Array<{ value: ValueBand; label: string; sublabel: string }> = [
     { value: 'B1', label: 'Local optimisation',  sublabel: 'Low revenue / risk impact' },
@@ -113,6 +157,12 @@ export class FitAssessmentPageComponent implements OnDestroy {
     { value: 'free_plan',  icon: 'bolt',            label: 'Free action plan',        sublabel: 'Tailored next steps delivered to your inbox' },
   ];
 
+  protected readonly individualServiceCards: Array<{ value: IndividualServiceChoice; label: string; sublabel: string }> = [
+    { value: 'coaching_mentoring', label: 'Coaching or mentoring', sublabel: 'One-on-one guidance and practical support' },
+    { value: 'discussion_forum',   label: 'Join discussion forum', sublabel: 'Learn with peers and exchange proven approaches' },
+    { value: 'free_offerings',     label: 'Free offerings',         sublabel: 'Start with resources and self-serve guidance' },
+  ];
+
   protected readonly durationCards = computed(() => {
     const seg = (this.form.controls.segment.value || 'individual') as Segment;
     return this.pricingMatrix[seg].map(p => ({
@@ -130,10 +180,12 @@ export class FitAssessmentPageComponent implements OnDestroy {
   // ── Form ──────────────────────────────────────────────────────────────────
   protected readonly form = this.fb.group({
     firstName:        ['', [Validators.required]],
+    organizationName: [''],
     email:            ['', [Validators.required, Validators.email]],
     phone:            [''],
-    segment:          ['individual' as Segment,   [Validators.required]],
-    problemValueRange:['1m',                      [Validators.required]],
+    segment:          [null as Segment | null,    [Validators.required]],
+    individualService:[null as IndividualServiceChoice | null, [Validators.required]],
+    problemValueRange:[null as ProblemValueChoice | null, [Validators.required]],
     valueBand:        ['B2' as ValueBand,          [Validators.required]],
     readiness:        ['quarter',                 [Validators.required]],
     teamCount:        [null as number | null],
@@ -172,11 +224,12 @@ export class FitAssessmentPageComponent implements OnDestroy {
   private readonly formValue = toSignal(this.form.valueChanges, { initialValue: this.form.value });
 
   protected readonly steps = computed<StepId[]>(() => {
-    const seg = (this.form.controls.segment.value || 'individual') as Segment;
+    const v = this.formValue(); // reactive dependency on form changes
+    const seg = (v.segment || 'individual') as Segment;
     const steps = [...STEPS_BY_SEGMENT[seg]];
     // insert booking-options after path-choice when paid path is chosen
     const pathIdx = steps.indexOf('path-choice');
-    if (pathIdx !== -1 && this.form.controls.selectedPath.value === 'book_paid') {
+    if (pathIdx !== -1 && v.selectedPath === 'book_paid') {
       steps.splice(pathIdx + 1, 0, 'booking-options');
     }
     return steps;
@@ -195,9 +248,10 @@ export class FitAssessmentPageComponent implements OnDestroy {
     const v = this.formValue(); // reactive — re-runs on every form change
     const f = this.form.controls;
     switch (step) {
-      case 'segment':          return !!v.segment;
+      case 'segment':          return !!v.segment && f.firstName.valid;
+      case 'individual-service': return !!v.individualService;
       case 'team-sizing':      return Number(v.teamCount) > 0 && Number(v.averageTeamSize) > 0;
-      case 'problem-value':    return !!v.problemValueRange;
+      case 'problem-value':    return this.problemValueCards().some(card => card.value === v.problemValueRange);
       case 'value-band':       return !!v.valueBand;
       case 'readiness':        return !!v.readiness;
       case 'contact':          return f.firstName.valid && f.email.valid;
@@ -211,7 +265,12 @@ export class FitAssessmentPageComponent implements OnDestroy {
 
   // ── Recommendation ────────────────────────────────────────────────────────
   protected readonly recommendedPath = computed<PathChoice>(() => {
-    const { segment, valueBand, readiness } = this.form.getRawValue();
+    const { segment, valueBand, readiness, individualService } = this.form.getRawValue();
+    if (segment === 'individual') {
+      if (individualService === 'coaching_mentoring') return 'book_paid';
+      if (individualService === 'discussion_forum') return 'waitlist';
+      if (individualService === 'free_offerings') return 'free_plan';
+    }
     if (segment === 'enterprise')                              return 'book_paid';
     if (valueBand === 'B3' && readiness !== 'later')           return 'book_paid';
     if (valueBand === 'B2')                                    return 'free_plan';
@@ -253,6 +312,19 @@ export class FitAssessmentPageComponent implements OnDestroy {
 
   protected isSelected(controlName: keyof typeof this.form.controls, value: unknown): boolean {
     return this.form.controls[controlName].value === value;
+  }
+
+  protected readonly individualServiceLabel = computed(() => {
+    const selected = this.formValue().individualService;
+    return this.individualServiceCards.find(card => card.value === selected)?.label ?? null;
+  });
+
+  protected pickIndividualService(value: IndividualServiceChoice): void {
+    this.form.controls.individualService.setValue(value);
+    if (value === 'coaching_mentoring') this.form.controls.selectedPath.setValue('book_paid');
+    if (value === 'discussion_forum') this.form.controls.selectedPath.setValue('waitlist');
+    if (value === 'free_offerings') this.form.controls.selectedPath.setValue('free_plan');
+    this.next();
   }
 
   protected submit(): void {
