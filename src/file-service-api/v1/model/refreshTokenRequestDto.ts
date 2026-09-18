@@ -14,5 +14,13 @@ export interface RefreshTokenRequestDto {
      * Refresh token
      */
     refreshToken: string;
+    /**
+     * Optional admin-only override for access token lifetime (seconds) when minting a new token pair
+     */
+    experimentalAccessTokenDurationSeconds?: number;
+    /**
+     * Optional admin-only override for refresh token lifetime (seconds) when minting a new token pair
+     */
+    experimentalRefreshTokenDurationSeconds?: number;
 }
 

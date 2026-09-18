@@ -18,6 +18,7 @@ api/pDF.service.ts
 api/payment.service.ts
 api/people.service.ts
 api/quiz.service.ts
+api/scheduler.service.ts
 api/submitUserQuizResults.service.ts
 api/user.service.ts
 api/userQuizResults.service.ts
