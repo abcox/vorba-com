@@ -15,7 +15,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router, RouterModule } from '@angular/router';
 import { UserService, UserDto } from '@file-service-api/v1';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { Theme, ThemeService } from '@src/app/services/theme.service';
 import { ConfirmDialogService } from '@src/app/component/dialog/confirm-dialog';
 
 @Component({
@@ -42,7 +41,6 @@ import { ConfirmDialogService } from '@src/app/component/dialog/confirm-dialog';
   styleUrl: './user-admin-page.component.scss'
 })
 export class UserAdminPageComponent implements OnInit {
-  private themeService = inject(ThemeService);
   private router = inject(Router);
   private confirmDialog = inject(ConfirmDialogService);
   
@@ -52,8 +50,6 @@ export class UserAdminPageComponent implements OnInit {
   displayedUserColumns: string[] = [/* 'username',  */'email', 'name', 'isActive', 'isAdmin', 'roles', 'lastLoginAt', 'actions'];
   
   ngOnInit() {
-    this.themeService.setTheme(Theme.Dark);
-
     // user management
     this.loadUserList();
   }

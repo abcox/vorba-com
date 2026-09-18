@@ -1,0 +1,312 @@
+<section class="profile-page">
+    <div class="profile-shell">
+        <div class="actions">
+            <a mat-stroked-button routerLink="/admin/user">
+                <mat-icon>admin_panel_settings</mat-icon>
+                Back to Admin
+            </a>
+            <button mat-flat-button color="warn" (click)="signOut()">
+                <mat-icon>logout</mat-icon>
+                Sign Out
+            </button>
+        </div>
+
+        <header class="profile-header">
+            <h1>Profile</h1>
+            <p>Account and identity context for your current signed-in session.</p>
+        </header>
+
+        <mat-accordion class="profile-accordion" multi>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Profile Card</mat-panel-title>
+                    <mat-panel-description>Account identity and social context</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <article class="profile-card-shell">
+                    <app-profile-card></app-profile-card>
+                </article>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Theme</mat-panel-title>
+                    <mat-panel-description>Contrast, color swatch, and font presets</mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="token-panel">
+                    <section class="token-section">
+                        <div class="section-title-row">
+                            <h3>Appearance</h3>
+                        </div>
+
+                        <p class="token-note">
+                            These controls use the same theme settings as the menu dialog and apply to the whole app experience.
+                        </p>
+
+                        <div class="theme-config-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">Theme Contrast</span>
+                                <div class="inactivity-toggle-wrap">
+                                    <span class="toggle-state-label">{{ themeContrastLabel }}</span>
+                                    <mat-slide-toggle
+                                        [checked]="isLightThemeSelected"
+                                        color="primary"
+                                        (change)="toggleTheme()">
+                                    </mat-slide-toggle>
+                                </div>
+                            </div>
+
+                            <label class="config-field">
+                                <span class="summary-label">Theme Color</span>
+                                <select
+                                    class="config-input"
+                                    [ngModel]="selectedSwatch"
+                                    (ngModelChange)="setSwatch($event)">
+                                    @for (option of swatchOptions; track option.value) {
+                                        <option [value]="option.value">{{ option.label }}</option>
+                                    }
+                                </select>
+                            </label>
+
+                            <label class="config-field">
+                                <span class="summary-label">Font</span>
+                                <select
+                                    class="config-input"
+                                    [ngModel]="selectedFont"
+                                    (ngModelChange)="setFont($event)">
+                                    @for (option of fontOptions; track option.value) {
+                                        <option [value]="option.value">{{ option.label }}</option>
+                                    }
+                                </select>
+                            </label>
+
+                            <div class="summary-item font-preview-card">
+                                <span class="summary-label">Font Preview</span>
+                                <p class="font-preview-text">The quick brown fox jumps over the lazy dog 0123456789</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Session</mat-panel-title>
+                    <mat-panel-description>Idle configuration, runtime state, and token details</mat-panel-description>
+                    <div class="token-panel-header-actions">
+                        <button
+                            mat-stroked-button
+                            type="button"
+                            (click)="$event.stopPropagation(); copyBearerToken()">
+                            <mat-icon>content_copy</mat-icon>
+                            Copy Bearer Token
+                        </button>
+                    </div>
+                </mat-expansion-panel-header>
+
+                <div class="token-panel">
+                    <section class="token-section">
+                        <div class="section-title-row">
+                            <h3>Inactivity notice</h3>
+                            <div class="inactivity-toggle-wrap">
+                                <span class="toggle-state-label">{{ sessionInactivityState.enabled ? 'Enabled' : 'Disabled' }}</span>
+                                <mat-slide-toggle
+                                    [checked]="sessionInactivityState.enabled"
+                                    color="primary"
+                                    (change)="toggleInactivityNotice($event.checked)">
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+                        <div class="inactivity-config-grid">
+                            <label class="config-field">
+                                <span class="summary-label">Total Idle Time</span>
+                                <input
+                                    class="config-input"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    [value]="sessionInactivityState.config?.inactivityWarningSeconds ?? 0"
+                                    (change)="updateInactivityWarningSeconds($any($event.target).valueAsNumber)" />
+                            </label>
+                            <label class="config-field">
+                                <span class="summary-label">Warning Countdown</span>
+                                <input
+                                    class="config-input"
+                                    type="number"
+                                    min="0"
+                                    step="1"
+                                    [value]="sessionInactivityState.config?.warningCountdownSeconds ?? 0"
+                                    (change)="updateWarningCountdownSeconds($any($event.target).valueAsNumber)" />
+                            </label>
+                            <div class="summary-item">
+                                <span class="summary-label">Elapsed Idle Time</span>
+                                <span class="summary-value">{{ sessionInactivityState.elapsedIdleSeconds ?? 'n/a' }}{{ sessionInactivityState.elapsedIdleSeconds !== undefined ? 's' : '' }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Remaining Idle Time</span>
+                                <span class="summary-value">{{ sessionInactivityState.remainingIdleSeconds ?? 'n/a' }}{{ sessionInactivityState.remainingIdleSeconds !== undefined ? 's' : '' }}</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="token-section">
+                        <div class="section-title-row">
+                            <h3>Token</h3>
+                            <div class="token-panel-header-actions">
+                                <button
+                                    mat-stroked-button
+                                    type="button"
+                                    [disabled]="isRefreshingToken"
+                                    (click)="refreshAccessToken()">
+                                    <mat-icon>refresh</mat-icon>
+                                    {{ isRefreshingToken ? 'Refreshing...' : 'Refresh Token' }}
+                                </button>
+                                <button
+                                    *ngIf="isAdminUser"
+                                    mat-flat-button
+                                    color="primary"
+                                    type="button"
+                                    [disabled]="isExperimentRefreshingToken"
+                                    (click)="refreshTokenWithInputDurations()">
+                                    <mat-icon>tune</mat-icon>
+                                    {{ isExperimentRefreshingToken ? 'Applying...' : 'Refresh With Input Durations' }}
+                                </button>
+                            </div>
+                        </div>
+                    <p class="token-note">
+                        Review both access and refresh token expiries. Access refresh is triggered proactively and on demand (401/manual/startup).
+                    </p>
+
+                    <p class="token-note">
+                        Access token is sent on API calls and should be short-lived. Refresh token is long-lived and used only to mint a new access token.
+                    </p>
+                    <p *ngIf="isAdminUser" class="token-note">
+                        Admin experiment: use the button above to mint a new token pair using the input durations.
+                    </p>
+
+                    <div *ngIf="isAdminUser" class="inactivity-config-grid">
+                        <label class="config-field">
+                            <span class="summary-label">Access Token Duration (seconds)</span>
+                            <input
+                                class="config-input"
+                                type="number"
+                                min="1"
+                                max="2592000"
+                                step="1"
+                                [value]="accessTokenDurationSeconds"
+                                (change)="updateAccessTokenDurationSeconds($any($event.target).valueAsNumber)" />
+                        </label>
+                        <label class="config-field">
+                            <span class="summary-label">Refresh Token Duration (seconds)</span>
+                            <input
+                                class="config-input"
+                                type="number"
+                                min="1"
+                                max="2592000"
+                                step="1"
+                                [value]="refreshTokenDurationSeconds"
+                                (change)="updateRefreshTokenDurationSeconds($any($event.target).valueAsNumber)" />
+                        </label>
+                    </div>
+
+                    <div class="inactivity-config-grid">
+                        <label class="config-field">
+                            <span class="summary-label">Proactive Refresh Lead (seconds)</span>
+                            <input
+                                class="config-input"
+                                type="number"
+                                min="1"
+                                max="300"
+                                step="1"
+                                [value]="proactiveRefreshLeadSeconds"
+                                (change)="updateProactiveRefreshLeadSeconds($any($event.target).valueAsNumber)" />
+                        </label>
+                    </div>
+
+                    <ng-container *ngIf="tokenDetails as details; else noTokenState">
+                        <div class="token-summary-grid">
+                            <div class="summary-item">
+                                <span class="summary-label">Subject</span>
+                                <span class="summary-value">{{ details.subject }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Issued At</span>
+                                <span class="summary-value">{{ details.issuedAt ? (details.issuedAt | date: 'medium') : 'n/a' }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Access Expires At</span>
+                                <span class="summary-value">{{ details.accessExpiresAt ? (details.accessExpiresAt | date: 'medium') : 'n/a' }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Access Time Remaining</span>
+                                <span class="summary-value">{{ details.accessTimeRemaining }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Simulated Access Expires At</span>
+                                <span class="summary-value">{{ details.simulatedAccessExpiresAt ? (details.simulatedAccessExpiresAt | date: 'medium') : 'n/a' }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Simulated Access Remaining</span>
+                                <span class="summary-value">{{ details.simulatedAccessTimeRemaining }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Refresh Expires At</span>
+                                <span class="summary-value">{{ details.refreshExpiresAt ? (details.refreshExpiresAt | date: 'medium') : 'n/a' }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Refresh Time Remaining</span>
+                                <span class="summary-value">{{ details.refreshTimeRemaining }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Simulated Refresh Expires At</span>
+                                <span class="summary-value">{{ details.simulatedRefreshExpiresAt ? (details.simulatedRefreshExpiresAt | date: 'medium') : 'n/a' }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Simulated Refresh Remaining</span>
+                                <span class="summary-value">{{ details.simulatedRefreshTimeRemaining }}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Estimated Access Refresh Cycles</span>
+                                <span class="summary-value">{{ details.estimatedRefreshCycles ?? 'n/a' }}</span>
+                            </div>
+                        </div>
+
+                        <section class="token-section">
+                            <h3>Roles</h3>
+                            <div *ngIf="details.roles.length; else noRoles" class="pill-list">
+                                <span class="pill" *ngFor="let role of details.roles">{{ role }}</span>
+                            </div>
+                            <ng-template #noRoles>
+                                <p class="empty-state">No role claims found in the token payload.</p>
+                            </ng-template>
+                        </section>
+
+                        <section class="token-section">
+                            <h3>Claims</h3>
+                            <div *ngIf="details.claims.length; else noClaims" class="claims-list">
+                                <div class="claim-row" *ngFor="let claim of details.claims">
+                                    <span class="claim-key">{{ claim.key }}</span>
+                                    <code class="claim-value">{{ claim.value }}</code>
+                                </div>
+                            </div>
+                            <ng-template #noClaims>
+                                <p class="empty-state">No additional claims found beyond standard JWT fields.</p>
+                            </ng-template>
+                        </section>
+
+                        <section class="token-section">
+                            <h3>Raw Payload</h3>
+                            <pre class="payload-block">{{ details.rawPayload | json }}</pre>
+                        </section>
+                    </ng-container>
+
+                    <ng-template #noTokenState>
+                        <p class="empty-state">No bearer token is currently available. Sign in first.</p>
+                    </ng-template>
+                    </section>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</section>

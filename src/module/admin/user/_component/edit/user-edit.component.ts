@@ -12,7 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService, UserDto, UpdateUserDto } from '@file-service-api/v1';
-import { Theme, ThemeService } from '@src/app/services/theme.service';
+import { ThemeService } from '@src/app/services/theme.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -47,7 +47,6 @@ export class UserEditComponent implements OnInit {
   userId: string = '';
 
   ngOnInit() {
-    this.themeService.setTheme(Theme.Dark);
     this.initForm();
     this.loadUser();
   }
@@ -75,7 +74,7 @@ export class UserEditComponent implements OnInit {
     this.userService.userControllerGetUserById(this.userId).subscribe({
       next: (response: UserDto) => {
         this.user = response;
-        this.userForm.patchValue(this.user);
+        this.userForm.patchValue(this.normalizeUserResponse(response));
         this.loading = false;
       },
       error: (error) => {
@@ -90,7 +89,7 @@ export class UserEditComponent implements OnInit {
   onSubmit() {
     if (this.userForm.valid && this.userId) {
       this.saving = true;
-      const updateData: UpdateUserDto = this.userForm.value;
+      const updateData: UpdateUserDto = this.normalizeUpdatePayload(this.userForm.value);
 
       this.userService.userControllerUpdateUser(this.userId, updateData).subscribe({
         next: (response) => {
@@ -126,5 +125,27 @@ export class UserEditComponent implements OnInit {
 
   get availableRoles(): string[] {
     return ['admin', 'user', 'moderator', 'auditor', 'developer', 'supervisor'];
+  }
+
+  private normalizeUserResponse(user: UserDto): Partial<UserDto> {
+    const roles = Array.from(new Set(user.roles ?? []));
+    const isAdmin = user.isAdmin || roles.includes('admin');
+
+    return {
+      ...user,
+      isAdmin,
+      roles: isAdmin ? Array.from(new Set([...roles, 'admin'])) : roles.filter((role) => role !== 'admin'),
+    };
+  }
+
+  private normalizeUpdatePayload(value: UpdateUserDto): UpdateUserDto {
+    const roles = Array.from(new Set(value.roles ?? []));
+    const isAdmin = value.isAdmin ?? roles.includes('admin');
+
+    return {
+      ...value,
+      isAdmin,
+      roles: isAdmin ? Array.from(new Set([...roles, 'admin'])) : roles.filter((role) => role !== 'admin'),
+    };
   }
 }

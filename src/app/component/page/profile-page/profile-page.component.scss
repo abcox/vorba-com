@@ -1,0 +1,257 @@
+.profile-page {
+  padding: clamp(1rem, 3vw, 2rem) 1rem 2rem;
+  font-family: var(--app-font-family);
+}
+
+.profile-page .mat-expansion-panel-header,
+.profile-page .mat-expansion-panel-header .mat-content,
+.profile-page .mat-expansion-panel-body,
+.profile-page .mat-mdc-button,
+.profile-page .mdc-button__label,
+.profile-page .summary-item,
+.profile-page .summary-label,
+.profile-page .summary-value,
+.profile-page .config-input,
+.profile-page .token-note,
+.profile-page .claim-key,
+.profile-page .claim-value,
+.profile-page .empty-state,
+.profile-page .pill,
+.profile-page .toggle-state-label {
+  font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
+}
+
+.profile-shell {
+  width: min(100%, 960px);
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.3vw, 1.8rem);
+  color: var(--app-accent);
+}
+
+.profile-header p {
+  margin: 0.35rem 0 0;
+  color: var(--app-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.profile-accordion {
+  display: grid;
+  gap: 1rem;
+}
+
+.token-panel-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding-right: 0.75rem;
+}
+
+.token-panel-header-actions button {
+  margin-right: 0.25rem;
+}
+
+.profile-card-shell,
+.token-panel {
+  border: 1px solid color-mix(in srgb, var(--app-edge) 78%, transparent);
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--app-card) 88%, var(--app-surface));
+  padding: 1rem;
+}
+
+.token-note {
+  margin: 0 0 1rem;
+  color: var(--app-muted);
+}
+
+.token-summary-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-bottom: 1rem;
+}
+
+.inactivity-config-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin-bottom: 1rem;
+}
+
+.theme-config-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin-bottom: 1rem;
+}
+
+.theme-config-grid .summary-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.font-preview-card {
+  grid-column: 1 / -1;
+}
+
+.font-preview-text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  color: var(--app-text);
+}
+
+.config-field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.config-input {
+  width: 100%;
+  border: 1px solid color-mix(in srgb, var(--app-edge) 60%, transparent);
+  border-radius: 0.65rem;
+  padding: 0.75rem 0.85rem;
+  background: color-mix(in srgb, var(--app-surface) 96%, transparent);
+  color: inherit;
+  font: inherit;
+}
+
+.config-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--app-accent) 55%, transparent);
+  outline-offset: 1px;
+}
+
+.summary-item {
+  border: 1px solid color-mix(in srgb, var(--app-edge) 60%, transparent);
+  border-radius: 0.65rem;
+  padding: 0.85rem;
+  background: color-mix(in srgb, var(--app-surface) 90%, transparent);
+}
+
+.summary-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--app-accent) 68%, var(--app-muted));
+  margin-bottom: 0.35rem;
+}
+
+.summary-value {
+  display: block;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.theme-config-grid .summary-value {
+  color: var(--app-accent);
+}
+
+.token-section {
+  margin-top: 1rem;
+}
+
+.token-section h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--app-accent);
+}
+
+.section-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-title-row h3 {
+  margin: 0;
+}
+
+.inactivity-toggle-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.toggle-state-label {
+  font-size: 0.875rem;
+  color: var(--app-muted);
+  margin-right: 0.2rem;
+}
+
+.inactivity-toggle-wrap .mat-mdc-slide-toggle {
+  margin-left: 0.2rem;
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--app-edge) 60%, transparent);
+  background: color-mix(in srgb, var(--app-surface) 92%, transparent);
+  font-size: 0.875rem;
+}
+
+.claims-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.claim-row {
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--app-edge) 55%, transparent);
+  border-radius: 0.65rem;
+  padding: 0.75rem;
+  background: color-mix(in srgb, var(--app-surface) 94%, transparent);
+}
+
+.claim-key {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--app-accent-alt) 52%, var(--app-muted));
+}
+
+.claim-value,
+.payload-block {
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.payload-block {
+  border-radius: 0.65rem;
+  padding: 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--app-edge) 55%, transparent);
+  background: color-mix(in srgb, var(--app-surface) 96%, transparent);
+}
+
+.empty-state {
+  margin: 0;
+  color: var(--app-muted);
+  font-style: italic;
+}

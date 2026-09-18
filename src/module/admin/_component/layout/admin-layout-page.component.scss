@@ -1,27 +1,58 @@
 :host {
-  --admin-primary-color: #1976d2;
-  --admin-secondary-color: #424242;
-  --admin-accent-color: #ff4081;
   --admin-background-color: #fafafa;
   --admin-surface-color: #fff;
   --admin-text-primary: #212121;
   --admin-text-secondary: #757575;
   --admin-border-color: #e0e0e0;
-  --admin-hover-color: rgba(25, 118, 210, 0.04);
-  --admin-active-color: rgba(25, 118, 210, 0.08);
+  --admin-primary-color: #b319d2;
+  --admin-accent-color: #ff4081;
+
+  display: block;
+}
+
+.theme-scope-admin {
+  --sys-background: var(--admin-background-color, #fafafa);
+  --sys-surface: var(--admin-surface-color, #fff);
+  --sys-surface-container: color-mix(in srgb, var(--sys-surface) 94%, #edf2ff);
+  --sys-surface-container-low: color-mix(in srgb, var(--sys-surface) 88%, #f8fafc);
+  --sys-surface-container-high: color-mix(in srgb, var(--sys-surface) 82%, #e2e8f0);
+  --sys-surface-container-highest: color-mix(in srgb, var(--sys-surface) 78%, #cbd5e1);
+  --sys-on-surface: var(--admin-text-primary, #212121);
+  --sys-on-surface-variant: var(--admin-text-secondary, #757575);
+  --sys-outline: var(--admin-border-color, #e0e0e0);
+  --sys-outline-variant: color-mix(in srgb, var(--sys-outline) 70%, transparent);
+  --admin-effective-primary: var(--admin-primary-color, var(--app-accent, var(--sys-primary)));
+  --sys-on-primary: #fff;
+  --admin-effective-tertiary: var(--admin-accent-color, var(--app-accent-alt, var(--sys-tertiary)));
+  --sys-error: #d32f2f;
+  --background-color: var(--sys-background);
+  --text-color: var(--sys-on-surface);
+  --primary-color: var(--admin-effective-primary);
+  --on-primary-color: var(--sys-on-primary);
+  --error-color: var(--sys-error);
+  --mdc-dialog-container-color: var(--sys-surface-container);
+  --mdc-outlined-card-container-color: var(--sys-surface);
+  --mdc-elevated-card-container-color: var(--sys-surface);
+  --mdc-outlined-card-outline-color: var(--sys-outline-variant);
+  --mat-card-title-text-color: var(--sys-on-surface);
+  --mat-card-subtitle-text-color: var(--sys-on-surface-variant);
+  
+  /* gradient */
+  --admin-gradient: linear-gradient(135deg, var(--admin-effective-primary), color-mix(in srgb, var(--admin-effective-primary) 55%, var(--admin-effective-tertiary)));
 }
 
 .admin-layout-container {
   height: 100vh;
-  background-color: var(--admin-background-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .admin-drawer {
   width: 280px;
   min-width: 280px;
   max-width: 280px;
-  background-color: var(--admin-surface-color);
-  border-right: 1px solid var(--admin-border-color);
+  background-color: var(--sys-surface);
+  border-right: 1px solid var(--sys-outline);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -30,28 +61,28 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 16px;
-  border-bottom: 1px solid var(--admin-border-color);
-  background: linear-gradient(135deg, var(--admin-primary-color), var(--admin-secondary-color));
+  border-bottom: 1px solid var(--sys-outline);
+  background: var(--admin-gradient);
   color: white;
-  
+
   .admin-header-content {
     display: flex;
     align-items: center;
     gap: 12px;
-    
+
     .admin-icon {
       font-size: 28px;
       width: 28px;
       height: 28px;
     }
-    
+
     .admin-title {
       h4 {
         margin: 0;
         font-size: 18px;
         font-weight: 600;
       }
-      
+
       .user-role {
         font-size: 12px;
         opacity: 0.8;
@@ -60,10 +91,10 @@
       }
     }
   }
-  
+
   .close-button {
     color: white;
-    
+
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -74,23 +105,23 @@
   display: flex;
   flex-direction: column;
   height: calc(100% - 80px);
-  
+
   .nav-section {
     flex: 1;
     padding: 16px 0;
-    
+
     .nav-section-title {
       margin: 0 16px 12px 16px;
       font-size: 12px;
       font-weight: 600;
-      color: var(--admin-text-secondary);
+      color: var(--sys-on-surface-variant);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
   }
-  
+
   .drawer-footer {
-    border-top: 1px solid var(--admin-border-color);
+    border-top: 1px solid var(--sys-outline);
     padding: 8px 0;
   }
 }
@@ -105,42 +136,42 @@
   cursor: pointer;
   transition: all 0.2s ease;
   text-decoration: none;
-  color: var(--admin-text-primary);
-  
+  color: var(--sys-on-surface);
+
   &:hover {
-    background-color: var(--admin-hover-color);
+    background-color: color-mix(in srgb, var(--admin-effective-primary) 6%, transparent);
     transform: translateX(4px);
   }
-  
+
   &.active {
-    background-color: var(--admin-active-color);
-    color: var(--admin-primary-color);
+    background-color: color-mix(in srgb, var(--admin-effective-primary) 12%, transparent);
+    color: var(--admin-effective-primary);
     font-weight: 500;
-    
+
     mat-icon {
-      color: var(--admin-primary-color);
+      color: var(--admin-effective-primary);
     }
   }
-  
+
   mat-icon {
-    color: var(--admin-text-secondary);
+    color: var(--sys-on-surface-variant);
     width: 20px;
     height: 20px;
   }
-  
+
   .nav-item-content {
     display: flex;
     flex-direction: column;
     flex: 1;
-    
+
     .nav-label {
       font-size: 14px;
       font-weight: 500;
     }
-    
+
     .nav-description {
       font-size: 11px;
-      color: var(--admin-text-secondary);
+      color: var(--sys-on-surface-variant);
       margin-top: 2px;
       line-height: 1.2;
     }
@@ -148,7 +179,7 @@
 }
 
 .admin-content {
-  background-color: var(--admin-background-color);
+  background-color: var(--background-color);
 }
 
 .admin-toolbar {
@@ -157,30 +188,30 @@
   align-items: center;
   padding: 0 16px;
   height: 64px;
-  background-color: var(--admin-surface-color);
-  border-bottom: 1px solid var(--admin-border-color);
+  background-color: var(--sys-surface);
+  border-bottom: 1px solid var(--sys-outline);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
+
   .toolbar-left {
     display: flex;
     align-items: center;
     gap: 16px;
-    
+
     .menu-button {
-      color: var(--admin-text-primary);
-      
+      color: var(--sys-on-surface);
+
       &:hover {
-        background-color: var(--admin-hover-color);
+        background-color: color-mix(in srgb, var(--admin-effective-primary) 6%, transparent);
       }
     }
-    
+
     .page-title {
       font-size: 18px;
       font-weight: 500;
-      color: var(--admin-text-primary);
+      color: var(--sys-on-surface);
     }
   }
-  
+
   .toolbar-right {
     display: flex;
     align-items: center;
@@ -190,64 +221,57 @@
 
 .content {
   padding: 24px;
-  min-height: calc(100vh - 128px); // Account for header and footer
-  background-color: var(--admin-background-color);
+  min-height: calc(100vh - 128px);
+  background-color: var(--background-color);
 }
 
 @media (max-width: 280px) {
-    .admin-drawer {
-      width: 100%;
-      min-width: 100%;
-      max-width: 100%;
-    }
+  .admin-drawer {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
 }
 
-// Responsive design
 @media (max-width: 640px) {
-  .admin-drawer {
-    /* width: 100%;
-    min-width: 100%;
-    max-width: 100%; */
-  }
-  
   .drawer-content-item {
     padding: 16px;
     margin: 0 8px 8px 8px;
-    
+
     .nav-item-content {
       .nav-description {
-        display: none; // Hide descriptions on mobile for cleaner look
+        display: none;
       }
     }
   }
-  
+
   .content {
     padding: 16px;
   }
 }
 
-// Dark theme support
-@media (prefers-color-scheme: dark) {
-  :host {
-    --admin-background-color: #121212;
-    --admin-surface-color: #1e1e1e;
-    --admin-text-primary: #fff;
-    --admin-text-secondary: #b0b0b0;
-    --admin-border-color: #333;
-    --admin-hover-color: rgba(255, 255, 255, 0.05);
-    --admin-active-color: rgba(255, 255, 255, 0.1);
-  }
+:host-context(body.dark-theme) .theme-scope-admin {
+  --sys-background: #121212;
+  --sys-surface: #1e1e1e;
+  --sys-surface-container: #222;
+  --sys-surface-container-low: #1a1a1a;
+  --sys-surface-container-high: #2a2a2a;
+  --sys-surface-container-highest: #323232;
+  --sys-on-surface: #fff;
+  --sys-on-surface-variant: #b0b0b0;
+  --sys-outline: #333;
+  --sys-outline-variant: #404040;
+  --mdc-dialog-container-color: var(--sys-surface-container);
 }
 
-// Development controls (hidden by default)
 .dev-controls {
   position: fixed;
   bottom: 16px;
   right: 16px;
-  background-color: var(--admin-surface-color);
-  border: 1px solid var(--admin-border-color);
+  background-color: var(--sys-surface);
+  border: 1px solid var(--sys-outline);
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 1000;
-} 
+}

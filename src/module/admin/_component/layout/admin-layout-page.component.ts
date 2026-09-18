@@ -4,8 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { Component, inject, viewChild } from '@angular/core';
-import { HeaderComponent } from '../../../../app/component/layout/header/header.component';
-import { FooterComponent } from '../../../../app/component/layout/footer/footer.component';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { DrawerMode, LayoutService } from '../../../../app/component/layout/_service/layout.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -20,8 +18,6 @@ import { AuthService } from '../../../../app/core/auth/auth.service';
   standalone: true,
   imports: [
     CommonModule,
-    FooterComponent,
-    HeaderComponent,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
@@ -100,7 +96,7 @@ export class AdminLayoutPageComponent {
   }
 
   // Admin-specific methods
-  onNavItemClick(item: any) {
+  onNavItemClick(item: { route: string }) {
     console.log(`Navigating to: ${item.route}`);
     this.toggleDrawer(); // Close drawer after navigation on mobile
   }

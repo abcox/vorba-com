@@ -15,7 +15,7 @@
 
 body.theme-swatch-classic {
   --app-accent: #0f766e;
-  --app-accent-alt: #f97316;
+  --app-accent-alt: #e3c322; // f97316
   --mdc-text-button-label-text-color: var(--app-text);
 }
 
@@ -35,7 +35,7 @@ body.light-theme.theme-swatch-classic {
 
 body.dark-theme.theme-swatch-classic {
   --app-accent: #34d399;
-  --app-accent-alt: #fb923c;
+  --app-accent-alt: #f6dd62; // fb923c
   // Legacy bridges
   --primary-color: var(--app-accent);
   --on-primary-color: var(--app-surface);

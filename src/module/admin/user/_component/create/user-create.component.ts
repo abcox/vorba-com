@@ -12,7 +12,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { UserService, UserDto } from '@file-service-api/v1';
-import { Theme, ThemeService } from '@src/app/services/theme.service';
+import { ThemeService } from '@src/app/services/theme.service';
 
 @Component({
   selector: 'app-user-create',
@@ -34,7 +34,6 @@ import { Theme, ThemeService } from '@src/app/services/theme.service';
   styleUrl: './user-create.component.scss'
 })
 export class UserCreateComponent implements OnInit {
-  private themeService = inject(ThemeService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private userService = inject(UserService);
@@ -43,7 +42,6 @@ export class UserCreateComponent implements OnInit {
   creating = false;
 
   ngOnInit() {
-    this.themeService.setTheme(Theme.Dark);
     this.initForm();
   }
 

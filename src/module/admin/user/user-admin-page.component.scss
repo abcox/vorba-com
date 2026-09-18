@@ -5,6 +5,18 @@
   min-height: 100vh;
   background-color: var(--sys-surface);
   color: var(--sys-on-surface);
+  font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
+}
+
+.admin-container .mat-mdc-button,
+.admin-container .mdc-button__label,
+.admin-container .mat-expansion-panel,
+.admin-container .mat-mdc-card,
+.admin-container .mat-mdc-card-title,
+.admin-container .mat-mdc-card-subtitle,
+.admin-container .mat-mdc-header-cell,
+.admin-container .mat-mdc-cell {
+  font-family: var(--app-font-family, var(--font-family-primary, 'Segoe UI', sans-serif));
 }
 
 .admin-header {
@@ -15,9 +27,10 @@
   padding: 16px 0;
   border-bottom: 2px solid var(--sys-outline);
 
-  h1 {
+  h1,
+  h3 {
     margin: 0;
-    color: var(--sys-on-surface);
+    color: var(--app-accent);
     font-size: 2rem;
     font-weight: 600;
   }
@@ -134,11 +147,11 @@
 
     &.mat-checked {
       .mat-slide-toggle-bar {
-        background-color: var(--sys-primary);
+        background-color: var(--app-accent);
       }
 
       .mat-slide-toggle-thumb {
-        background-color: var(--sys-primary);
+        background-color: var(--app-accent);
       }
     }
   }
@@ -152,8 +165,8 @@
     letter-spacing: 0.5px;
 
     &.admin {
-      background-color: var(--sys-tertiary-container);
-      color: var(--sys-on-tertiary-container);
+      background-color: color-mix(in srgb, var(--app-accent-alt) 20%, var(--sys-surface));
+      color: var(--app-accent-alt);
     }
 
     &.user {
@@ -178,7 +191,7 @@
     gap: 8px;
 
     a {
-      color: var(--sys-primary);
+      color: var(--app-accent);
       text-decoration: underline;
 
       &:hover {

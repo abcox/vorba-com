@@ -41,27 +41,25 @@
     border-radius: 8px;
   }
 
-  .mat-card-header {
+  .mat-mdc-card-header {
     background-color: var(--sys-surface-container);
     border-radius: 8px 8px 0 0;
-    padding: 16px 24px;
-    margin: -24px -24px 24px -24px;
 
-    .mat-card-title {
+    .mat-mdc-card-title {
       margin: 0;
       color: var(--sys-on-surface);
       font-size: 1.5rem;
       font-weight: 600;
     }
 
-    .mat-card-subtitle {
+    .mat-mdc-card-subtitle {
       margin: 4px 0 0 0;
       color: var(--sys-on-surface-variant);
     }
   }
 
-  .mat-card-content {
-    padding: 24px;
+  .mat-mdc-card-content {
+    margin: 24px 0;
   }
 }
 
@@ -230,7 +228,7 @@
 
     .user-edit-actions {
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: left;
     }
   }
 }

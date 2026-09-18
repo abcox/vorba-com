@@ -98,7 +98,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedUserColumns;"></tr>
           </table>
 
-          <div *ngIf="userList?.length === 0" class="no-data">
+          <div *ngIf="userList.length === 0" class="no-data">
             <mat-icon>people</mat-icon>
             <p>No users found.</p>
           </div>
