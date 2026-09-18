@@ -8,6 +8,8 @@ import { MenuDialogComponent } from "../menu-dialog/menu-dialog.component";
 import { DeviceService } from "@src/app/services/device.service";
 import { MenuItem } from "../menu-list/menu-list.component";
 import { PaymentCartStatusComponent } from '@src/app/module/payment/component/payment-cart-status/payment-cart-status.component';
+import { AuthService } from '@src/app/core/auth/auth.service';
+import { DialogService } from '@src/app/component/dialog/dialog.service';
 //import { MenuItem } from "@src/app/app.routes"
 
 @Component({
@@ -22,6 +24,10 @@ import { PaymentCartStatusComponent } from '@src/app/module/payment/component/pa
 export class MenuBannerComponent {
     private router = inject(Router);
     private deviceService = inject(DeviceService);
+    private authService = inject(AuthService);
+    private dialogService = inject(DialogService);
+    
+    readonly isAuthenticated = this.authService.isAuthenticated;
     
     isMobile = this.deviceService.isMobile;
     menuList = signal<MenuItem[]>([
@@ -65,6 +71,10 @@ export class MenuBannerComponent {
 
     navigateHome() {
         this.router.navigate(['/']);
+    }
+
+    openSignInDialog(): void {
+        this.dialogService.openGeneralLoginDialog(this.router.url).subscribe();
     }
 
     private getCartItemCountFromStorage(): number {

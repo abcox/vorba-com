@@ -12,6 +12,10 @@ import { DeviceService } from '@src/app/services/device.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltip, MatTooltipModule } from "@angular/material/tooltip";
 import { FontPreset, FontService } from '@src/app/services/font.service';
+import {
+  adminGuard,
+  MenuDisplayContext,
+} from '@src/app/core/auth/menu-display.guard';
 
 @Component({
   selector: 'app-menu-dialog',
@@ -49,12 +53,12 @@ export class MenuDialogComponent implements AfterViewInit {
   }
 
   menuListForDisplay = computed(() => {
-    const menuItems = [...this.menuItems()];
+    const menuItems = this.filterVisibleItems([...this.menuItems()]);
 
     if (this.isMobile()) {
       // add menuList items to start of the list, and then a divider
       menuItems.unshift(
-        ...this.menuList(),
+        ...this.filterVisibleItems(this.menuList()),
         { type: 'divider' } as MenuItem
       );
     }
@@ -82,7 +86,13 @@ export class MenuDialogComponent implements AfterViewInit {
       {
         label: 'User admin',
         routerLink: '/admin/user',
-        icon: 'group'
+        icon: 'group',
+        canDisplay: [adminGuard()],
+      },
+      {
+        label: 'Profile',
+        routerLink: '/profile',
+        icon: 'person',
       },
       {
         label: 'Sign out',
@@ -132,5 +142,26 @@ export class MenuDialogComponent implements AfterViewInit {
 
   closeMenu() {
     this.menuService.closeMenu();
+  }
+
+  private filterVisibleItems(menuItems: MenuItem[]): MenuItem[] {
+    const context: MenuDisplayContext = {
+      isAuthenticated: this.authService.isAuthenticated(),
+      isAdmin: this.authService.isAdmin(),
+      roles: this.authService.user()?.roles ?? [],
+    };
+
+    return menuItems.filter((menuItem) => this.canDisplayMenuItem(menuItem, context));
+  }
+
+  private canDisplayMenuItem(
+    menuItem: MenuItem,
+    context: MenuDisplayContext,
+  ): boolean {
+    if (!menuItem.canDisplay || menuItem.canDisplay.length === 0) {
+      return true;
+    }
+
+    return menuItem.canDisplay.every((guard) => guard(context));
   }
 }

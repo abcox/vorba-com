@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NgTemplateOutlet } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MenuDisplayGuard } from '@src/app/core/auth/menu-display.guard';
 /* import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
@@ -17,6 +18,7 @@ export interface MenuItem {
   template?: TemplateRef<unknown>;
   templateContext?: Record<string, unknown>;
   action?: () => void;
+  canDisplay?: MenuDisplayGuard[];
 }
 
 @Component({

@@ -10,6 +10,10 @@ export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
   const authService = inject(AuthService);
   const dialogService = inject(DialogService);
   const router = inject(Router);
+  const isRefreshRequest = request.url.includes('/api/auth/refresh');
+  const requiresAuthenticatedAuthRoute = request.url.includes(
+    '/api/auth/refresh/admin-experiment',
+  );
 
   // Get token from auth service
   const token = authService.token();
@@ -19,7 +23,7 @@ export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
   // todo: make this configurable or refactor to a better approach
   const routeSegmentsWhitelist = ['/public/', '/auth/', '/invoice/', '/payment/'];
   for (const segment of routeSegmentsWhitelist) {
-    if (request.url.includes(segment)) {
+    if (request.url.includes(segment) && !requiresAuthenticatedAuthRoute) {
       console.log(`AuthInterceptor - segment (${segment}) whitelisted, skipping auth header validation (i.e. token may not exist)`);
       return next(request);
     }
@@ -42,6 +46,11 @@ export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
       console.log('AuthInterceptor - error:', error.status, error.message);
       
       if (error.status === 401) {
+        if (isRefreshRequest) {
+          console.log('AuthInterceptor - refresh endpoint returned 401, letting caller handle refresh failure');
+          return throwError(() => error);
+        }
+
         // Token expired or invalid - try refresh first
         console.log('AuthInterceptor - 401 error, attempting token refresh');
         
@@ -88,6 +97,16 @@ export const AuthInterceptor: HttpInterceptorFn = (request, next) => {
       } else if (error.status === 403) {
         // Forbidden - user doesn't have permission
         console.log('AuthInterceptor - 403 error, insufficient permissions');
+
+        if (isRefreshRequest) {
+          console.log('AuthInterceptor - refresh endpoint returned 403, letting caller handle refresh failure');
+          return throwError(() => error);
+        }
+
+        if (requiresAuthenticatedAuthRoute) {
+          return throwError(() => error);
+        }
+
         authService.logout();
         router.navigate(['/']);
       }

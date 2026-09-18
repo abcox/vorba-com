@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, finalize, shareReplay, switchMap } from 'rxjs/operators';
 import { 
   IdelSessionConfigDto,
   AuthService as AuthApiService, 
@@ -15,6 +15,11 @@ import {
   UserDto
 } from '@file-service-api/v1';
 import { NotifyService } from '../notify/notify.service';
+
+interface ExperimentalRefreshTokenRequestDto extends RefreshTokenRequestDto {
+  experimentalAccessTokenDurationSeconds?: number;
+  experimentalRefreshTokenDurationSeconds?: number;
+}
 
 export interface AuthState {
   user: UserDto | null;
@@ -52,6 +57,8 @@ export class AuthService {
   private readonly USER_KEY = 'auth_user';
   private readonly REMEMBER_ME_KEY = 'auth_remember_me';
   private readonly ACTIVITY_CONFIG_KEY = 'auth_activity_config';
+  private readonly PROACTIVE_REFRESH_LEAD_SECONDS_KEY =
+    'auth_proactive_refresh_lead_seconds';
 
   // Reactive state management
   private readonly _authState = signal<AuthState>({
@@ -78,6 +85,12 @@ export class AuthService {
 
   // Behavior subject for components that need observables
   private readonly _authStateSubject = new BehaviorSubject<AuthState>(this._authState());
+  private refreshInFlight$: Observable<boolean> | null = null;
+  private proactiveRefreshTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly DEFAULT_PROACTIVE_REFRESH_LEAD_SECONDS = 10;
+  private readonly MIN_PROACTIVE_REFRESH_LEAD_SECONDS = 1;
+  private readonly MAX_PROACTIVE_REFRESH_LEAD_SECONDS = 300;
+  private proactiveRefreshLeadSeconds = this.getStoredProactiveRefreshLeadSeconds();
 
   constructor() {
     this.initializeAuthState();
@@ -106,25 +119,61 @@ export class AuthService {
           isAdmin: user.isAdmin,
           tokenExpiry
         });
-        
-        // Restore activity config if available
-        if (activityConfig) {
-          console.log('⚙️ AuthService: Restoring activity config from storage:', activityConfig);
-          this.activityConfig.set({...activityConfig/* , warningCountdownSeconds: 300 */ });
-        } else {
-          console.log('⚠️ AuthService: No stored activity config found, using defaults');
-          // Set default activity config — 0 = disabled (no idle timeout)
-          this.activityConfig.set({
-            inactivityWarningSeconds: 0,
-            warningCountdownSeconds: 0,
-          });
-        }
+        this.restoreActivityConfig(activityConfig);
+        this.scheduleProactiveRefresh();
       } else {
-        // Token expired - clear everything
-        console.log('🚨 AuthService: Stored token is expired, clearing session');
-        this.clearStoredData();
+        if (!refreshToken) {
+          // Expired access token without refresh token fallback
+          console.log('🚨 AuthService: Stored token is expired and no refresh token exists, clearing session');
+          this.clearStoredData();
+          return;
+        }
+
+        // Keep user context while trying startup refresh.
+        this.updateAuthState({
+          user,
+          token,
+          refreshToken,
+          isAuthenticated: true,
+          isAdmin: user.isAdmin,
+          tokenExpiry,
+        });
+        this.restoreActivityConfig(activityConfig);
+
+        console.log('♻️ AuthService: Access token expired at startup, attempting refresh token recovery');
+        this.refreshAccessToken().subscribe((success) => {
+          if (!success) {
+            console.log('🚨 AuthService: Startup token recovery failed, clearing session');
+            this.clearStoredData();
+            this.updateAuthState({
+              user: null,
+              token: null,
+              refreshToken: null,
+              isAuthenticated: false,
+              isAdmin: false,
+              tokenExpiry: null,
+            });
+            this.activityConfig.set(null);
+            this.clearProactiveRefreshTimer();
+          }
+        });
       }
     }
+  }
+
+  private restoreActivityConfig(activityConfig: IdelSessionConfigDto | null): void {
+    if (activityConfig) {
+      console.log('⚙️ AuthService: Restoring activity config from storage:', activityConfig);
+      this.activityConfig.set({ ...activityConfig /* , warningCountdownSeconds: 300 */ });
+      return;
+    }
+
+    console.log('⚠️ AuthService: No stored activity config found, using defaults');
+    // Set default activity config — 0 = disabled (no idle timeout)
+    this.activityConfig.set({
+      inactivityWarningSeconds: 0,
+      warningCountdownSeconds: 0,
+    });
   }
 
   /**
@@ -138,7 +187,7 @@ export class AuthService {
 
     return this.authApiService.authControllerLogin(loginRequest).pipe(
       map((response: UserLoginResponse) => {
-        if (!response.success || !response.token) {
+        if (!response.success || !response.token || !response.refreshToken || !response.user) {
           throw new Error(response.message || 'Login failed');
         }
 
@@ -148,24 +197,25 @@ export class AuthService {
         }
 
         // Store tokens and user data
-        this.storeTokens(response.token, (response as any).refreshToken || '');
+        this.storeTokens(response.token, response.refreshToken);
         this.storeUser(response.user);
 
         // Update auth state
         this.updateAuthState({
           user: response.user,
           token: response.token,
-          refreshToken: (response as any).refreshToken || null,
+          refreshToken: response.refreshToken,
           isAuthenticated: true,
           isAdmin: response.user?.isAdmin ?? false,
           tokenExpiry: this.getTokenExpiryFromToken(response.token)
         });
+        this.scheduleProactiveRefresh();
 
         // Pass activity configuration to activity service
-        if ((response as any).activityConfig) {
-          console.log('⚙️ AuthService: Setting activity config from login response:', (response as any).activityConfig);
-          this.activityConfig.set((response as any).activityConfig);
-          this.storeActivityConfig((response as any).activityConfig);
+        if (response.activityConfig) {
+          console.log('⚙️ AuthService: Setting activity config from login response:', response.activityConfig);
+          this.activityConfig.set(response.activityConfig);
+          this.storeActivityConfig(response.activityConfig);
         } else {
           console.log('⚠️ AuthService: No activity config in login response');
         }
@@ -187,30 +237,29 @@ export class AuthService {
     return this.authApiService.authControllerRegister(request).pipe(
       map((response: UserRegistrationResponse) => {
         console.log('authControllerRegister response', response);
-        if (!response.success) {
+        if (!response.success || !response.token || !response.refreshToken || !response.user) {
           throw new Error(response.message || 'Registration failed');
         }
 
         // Auto-login after successful registration
-        if (response.token && response.user) {
-          this.storeTokens(response.token, (response as any).refreshToken || '');
-          this.storeUser(response.user);
+        this.storeTokens(response.token, response.refreshToken);
+        this.storeUser(response.user);
 
-          this.updateAuthState({
-            user: response.user,
-            token: response.token,
-            refreshToken: (response as any).refreshToken || null,
-            isAuthenticated: true,
-            isAdmin: response.user.isAdmin,
-            tokenExpiry: this.getTokenExpiryFromToken(response.token)
-          });
-        }
+        this.updateAuthState({
+          user: response.user,
+          token: response.token,
+          refreshToken: response.refreshToken,
+          isAuthenticated: true,
+          isAdmin: response.user.isAdmin,
+          tokenExpiry: this.getTokenExpiryFromToken(response.token)
+        });
+        this.scheduleProactiveRefresh();
 
         // Pass activity configuration to activity service
-        if ((response as any).activityConfig) {
-          console.log('⚙️ AuthService: Setting activity config from register response:', (response as any).activityConfig);
-          this.activityConfig.set((response as any).activityConfig);
-          this.storeActivityConfig((response as any).activityConfig);
+        if (response.activityConfig) {
+          console.log('⚙️ AuthService: Setting activity config from register response:', response.activityConfig);
+          this.activityConfig.set(response.activityConfig);
+          this.storeActivityConfig(response.activityConfig);
         } else {
           console.log('⚠️ AuthService: No activity config in register response');
         }
@@ -228,38 +277,147 @@ export class AuthService {
    * Refresh access token using refresh token
    */
   refreshAccessToken(): Observable<boolean> {
-    const currentRefreshToken = this.refreshToken();
+    return this.refreshAccessTokenInternal();
+  }
+
+  refreshAccessTokenWithDurations(
+    accessTokenDurationSeconds: number,
+    refreshTokenDurationSeconds: number,
+  ): Observable<boolean> {
+    if (!this.isAdmin()) {
+      return of(false);
+    }
+
+    return this.refreshAccessTokenInternal({
+      accessTokenDurationSeconds,
+      refreshTokenDurationSeconds,
+    });
+  }
+
+  private refreshAccessTokenInternal(overrides?: {
+    accessTokenDurationSeconds?: number;
+    refreshTokenDurationSeconds?: number;
+  }): Observable<boolean> {
+    if (this.refreshInFlight$) {
+      return this.refreshInFlight$;
+    }
+
+    const currentRefreshToken = this.refreshToken() || this.getStoredRefreshToken();
     if (!currentRefreshToken) {
       return of(false);
     }
 
-    const refreshTokenRequest: RefreshTokenRequestDto = {
-      refreshToken: currentRefreshToken
+    const refreshTokenRequest: ExperimentalRefreshTokenRequestDto = {
+      refreshToken: currentRefreshToken,
+      experimentalAccessTokenDurationSeconds:
+        overrides?.accessTokenDurationSeconds,
+      experimentalRefreshTokenDurationSeconds:
+        overrides?.refreshTokenDurationSeconds,
     };
 
-    return this.authApiService.authControllerRefreshToken(refreshTokenRequest).pipe(
-      map((response: RefreshTokenResponseDto) => {
-        if (response.success && response.accessToken) {
-          // Store new access token
-          this.storeToken(response.accessToken);
-          
-          // Update auth state with new token
+    const refreshRequest$ = overrides
+      ? this.authApiService.authControllerRefreshTokenAdminExperiment(
+          refreshTokenRequest,
+        )
+      : this.authApiService.authControllerRefreshToken(refreshTokenRequest);
+
+    this.refreshInFlight$ = refreshRequest$.pipe(
+      switchMap((response: RefreshTokenResponseDto) => {
+        if (response.success && response.accessToken && response.refreshToken) {
+          this.storeTokens(response.accessToken, response.refreshToken);
+
           const tokenExpiry = this.getTokenExpiryFromToken(response.accessToken);
-          this.updateAuthState({
-            ...this._authState(),
-            token: response.accessToken,
-            tokenExpiry
-          });
-          
-          return true;
+          const tokenRoles = this.getRolesFromToken(response.accessToken);
+          const currentUser = this._authState().user;
+          const isAdminFromToken = tokenRoles.includes('admin');
+
+          if (!currentUser?.email) {
+            this.updateAuthState({
+              ...this._authState(),
+              user: currentUser
+                ? {
+                    ...currentUser,
+                    roles: tokenRoles.length ? tokenRoles : currentUser.roles,
+                    isAdmin: isAdminFromToken,
+                  }
+                : currentUser,
+              token: response.accessToken,
+              refreshToken: response.refreshToken,
+              isAuthenticated: true,
+              isAdmin: isAdminFromToken,
+              tokenExpiry,
+            });
+            this.scheduleProactiveRefresh();
+            return of(true);
+          }
+
+          return this.userService.userControllerGetUserByEmail(currentUser.email).pipe(
+            map((userResponse) => {
+              const refreshedUser = userResponse.success && userResponse.data
+                ? {
+                    ...userResponse.data,
+                    roles: tokenRoles.length
+                      ? tokenRoles
+                      : userResponse.data.roles,
+                    isAdmin: isAdminFromToken,
+                  }
+                : currentUser;
+
+              if (refreshedUser) {
+                this.storeUser(refreshedUser);
+              }
+
+              this.updateAuthState({
+                ...this._authState(),
+                user: refreshedUser,
+                token: response.accessToken,
+                refreshToken: response.refreshToken,
+                isAuthenticated: true,
+                isAdmin: isAdminFromToken,
+                tokenExpiry,
+              });
+              this.scheduleProactiveRefresh();
+
+              return true;
+            }),
+            catchError((userError) => {
+              console.error('AuthService: Failed to re-sync user after refresh:', userError);
+
+              this.updateAuthState({
+                ...this._authState(),
+                user: currentUser
+                  ? {
+                      ...currentUser,
+                      roles: tokenRoles.length ? tokenRoles : currentUser.roles,
+                      isAdmin: isAdminFromToken,
+                    }
+                  : currentUser,
+                token: response.accessToken,
+                refreshToken: response.refreshToken,
+                isAuthenticated: true,
+                isAdmin: isAdminFromToken,
+                tokenExpiry,
+              });
+              this.scheduleProactiveRefresh();
+
+              return of(true);
+            })
+          );
         }
-        return false;
+
+        return of(false);
       }),
       catchError((error) => {
         console.error('Token refresh failed:', error);
         return of(false);
-      })
+      }),
+      finalize(() => {
+        this.refreshInFlight$ = null;
+      }),
+      shareReplay(1),
     );
+
+    return this.refreshInFlight$;
   }
 
   /**
@@ -267,6 +425,7 @@ export class AuthService {
    */
   logout(): void {
     console.log('🔐 AuthService: Logging out');
+    this.clearProactiveRefreshTimer();
     this.clearStoredData();
     this.updateAuthState({
       user: null,
@@ -278,6 +437,40 @@ export class AuthService {
     });
     this.activityConfig.set(null);
     this.router.navigate(['/']);
+  }
+
+  /**
+   * Update the stored inactivity notice configuration.
+   */
+  setActivityConfig(config: IdelSessionConfigDto | null): void {
+    this.activityConfig.set(config);
+
+    const storage = this.getRememberMe() ? localStorage : sessionStorage;
+    storage.removeItem(this.ACTIVITY_CONFIG_KEY);
+
+    if (config) {
+      this.storeActivityConfig(config);
+    }
+  }
+
+  /**
+   * Enable the inactivity notice using default durations.
+   */
+  enableDefaultActivityConfig(): void {
+    this.setActivityConfig({
+      inactivityWarningSeconds: 600,
+      warningCountdownSeconds: 300,
+    });
+  }
+
+  /**
+   * Disable inactivity notice monitoring.
+   */
+  disableActivityConfig(): void {
+    this.setActivityConfig({
+      inactivityWarningSeconds: 0,
+      warningCountdownSeconds: 0,
+    });
   }
 
   /**
@@ -295,12 +488,17 @@ export class AuthService {
         if (response.success && response.data) {
           this.storeUser(response.data);
           const tokenExpiry = this.getTokenExpiryFromToken(token);
+          const tokenRoles = this.getRolesFromToken(token);
           this.updateAuthState({
-            user: response.data,
+            user: {
+              ...response.data,
+              roles: tokenRoles.length ? tokenRoles : response.data.roles,
+              isAdmin: tokenRoles.includes('admin'),
+            },
             token,
             refreshToken: this.getStoredRefreshToken(),
             isAuthenticated: true,
-            isAdmin: response.data.isAdmin,
+            isAdmin: tokenRoles.includes('admin'),
             tokenExpiry
           });
           return true;
@@ -319,6 +517,23 @@ export class AuthService {
    */
   getTokenExpiry(): Date | null {
     return this.tokenExpiry();
+  }
+
+  getProactiveRefreshLeadSeconds(): number {
+    return this.proactiveRefreshLeadSeconds;
+  }
+
+  setProactiveRefreshLeadSeconds(seconds: number): void {
+    const safeSeconds = this.clampProactiveRefreshLeadSeconds(seconds);
+    this.proactiveRefreshLeadSeconds = safeSeconds;
+
+    const storage = this.getRememberMe() ? localStorage : sessionStorage;
+    storage.setItem(
+      this.PROACTIVE_REFRESH_LEAD_SECONDS_KEY,
+      safeSeconds.toString(),
+    );
+
+    this.scheduleProactiveRefresh();
   }
 
   /**
@@ -362,7 +577,8 @@ export class AuthService {
   /**
    * Reset password with token
    */
-  resetPassword(token: string, newPassword: string): Observable<boolean> {
+  resetPassword(token: string, _newPassword: string): Observable<boolean> {
+    void _newPassword;
     // TODO: Implement password reset API call
     // This would typically call a backend endpoint like:
     // return this.authApiService.authControllerResetPassword({ token, newPassword }).pipe(...)
@@ -408,6 +624,78 @@ export class AuthService {
   private updateAuthState(newState: AuthState): void {
     this._authState.set(newState);
     this._authStateSubject.next(newState);
+  }
+
+  private scheduleProactiveRefresh(): void {
+    this.clearProactiveRefreshTimer();
+
+    const expiry = this.tokenExpiry();
+    const refreshToken = this.refreshToken() || this.getStoredRefreshToken();
+
+    if (!expiry || !refreshToken || !this.isAuthenticated()) {
+      return;
+    }
+
+    const refreshInMs =
+      expiry.getTime() -
+      Date.now() -
+      this.proactiveRefreshLeadSeconds * 1000;
+    const delayMs = Math.max(0, refreshInMs);
+
+    this.proactiveRefreshTimer = setTimeout(() => {
+      if (!this.isAuthenticated()) {
+        return;
+      }
+
+      this.refreshAccessToken().subscribe((success) => {
+        if (!success) {
+          console.log('⚠️ AuthService: Proactive token refresh failed; keeping current session until the access token is actually rejected');
+        }
+      });
+    }, delayMs);
+  }
+
+  private clearProactiveRefreshTimer(): void {
+    if (!this.proactiveRefreshTimer) {
+      return;
+    }
+
+    clearTimeout(this.proactiveRefreshTimer);
+    this.proactiveRefreshTimer = null;
+  }
+
+  private getStoredProactiveRefreshLeadSeconds(): number {
+    const localValue = localStorage.getItem(
+      this.PROACTIVE_REFRESH_LEAD_SECONDS_KEY,
+    );
+    const sessionValue = sessionStorage.getItem(
+      this.PROACTIVE_REFRESH_LEAD_SECONDS_KEY,
+    );
+    const rawValue = localValue || sessionValue;
+
+    if (!rawValue) {
+      return this.DEFAULT_PROACTIVE_REFRESH_LEAD_SECONDS;
+    }
+
+    const parsedValue = Number.parseInt(rawValue, 10);
+    if (!Number.isFinite(parsedValue)) {
+      return this.DEFAULT_PROACTIVE_REFRESH_LEAD_SECONDS;
+    }
+
+    return this.clampProactiveRefreshLeadSeconds(parsedValue);
+  }
+
+  private clampProactiveRefreshLeadSeconds(seconds: number): number {
+    if (!Number.isFinite(seconds)) {
+      return this.DEFAULT_PROACTIVE_REFRESH_LEAD_SECONDS;
+    }
+
+    const roundedSeconds = Math.floor(seconds);
+
+    return Math.min(
+      this.MAX_PROACTIVE_REFRESH_LEAD_SECONDS,
+      Math.max(this.MIN_PROACTIVE_REFRESH_LEAD_SECONDS, roundedSeconds),
+    );
   }
 
   private storeTokens(token: string, refreshToken: string): void {
@@ -511,6 +799,27 @@ export class AuthService {
       return new Date(payload.exp * 1000);
     } catch {
       return null;
+    }
+  }
+
+  private getRolesFromToken(token: string): string[] {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1])) as Record<string, unknown>;
+      const rawRoles = payload['roles'];
+      if (Array.isArray(rawRoles)) {
+        return Array.from(new Set(rawRoles.filter((role): role is string => typeof role === 'string' && role.length > 0)));
+      }
+
+      if (typeof rawRoles === 'string') {
+        return rawRoles
+          .split(',')
+          .map((role) => role.trim())
+          .filter(Boolean);
+      }
+
+      return [];
+    } catch {
+      return [];
     }
   }
 }

@@ -30,15 +30,27 @@
             >
         }
     </div>
-    <div class="right-side mr-10">
-        <app-menu-toggle></app-menu-toggle>
-        <app-menu-dialog [menuList]="menuList()"></app-menu-dialog>
-    </div>
+    @if(isAuthenticated()) {
+        <div class="right-side mr-10">
+            <app-menu-toggle></app-menu-toggle>
+            <app-menu-dialog [menuList]="menuList()"></app-menu-dialog>
+        </div>
+    } @else {
+        <button mat-flat-button color="primary"
+            class="action-button mr-3"
+            type="button"
+            (click)="openSignInDialog()"
+            aria-label="Login">
+            Sign In
+        </button>
+    }
     <div class="flex flex-end header-actions">
-        <app-payment-cart-status
-            [itemCount]="cartCount()"
-            [checkoutLink]="'/payment'">
-        </app-payment-cart-status>
+        @if (cartCount() > 0) {
+            <app-payment-cart-status
+                [itemCount]="cartCount()"
+                [checkoutLink]="'/payment'">
+            </app-payment-cart-status>
+        }
         <button
             mat-flat-button
             color="primary"

@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed, effect } from '@angular/core';
+import { DestroyRef, Injectable, inject, signal, computed, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { 
   Idle,
@@ -12,6 +12,7 @@ import {
 import { Keepalive } from '@ng-idle/keepalive';
 import { AuthService } from '../auth/auth.service';
 import { DialogService } from '../../component/dialog/dialog.service';
+import { IdelSessionConfigDto } from '@file-service-api/v1';
 
 export interface SessionConfig {
   idleTime: number; // seconds
@@ -20,10 +21,20 @@ export interface SessionConfig {
   warningTime: number; // seconds before timeout to show warning
 }
 
+export interface SessionInactivityState {
+  enabled: boolean;
+  config: IdelSessionConfigDto | null;
+  totalIdleSeconds: number | undefined;
+  elapsedIdleSeconds: number | undefined;
+  remainingIdleSeconds: number | undefined;
+  stateLabel: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
+  private readonly destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private authService = inject(AuthService);
   private dialogService = inject(DialogService);
@@ -41,11 +52,15 @@ export class SessionService {
   });
   public readonly sessionState = this._sessionState.asReadonly();
 
+  private readonly _now = signal(Date.now());
+
   // Initialization trigger signal
   private _initTrigger = signal(0);
 
   // Dialog state tracking
   private _warningDialogShown = signal(false);
+  private readonly _inactivityNoticeEnabled = signal(false);
+  private readonly _inactivityNoticeInitialized = signal(false);
 
   // Computed signals
   public readonly isSessionActive = computed(() => {
@@ -60,7 +75,51 @@ export class SessionService {
     return this.sessionState().timeUntilTimeout;
   });
 
+  public readonly inactivityNoticeState = computed<SessionInactivityState>(() => {
+    const config = this.authService.activityConfig();
+    const sessionState = this.sessionState();
+    const enabled = this._inactivityNoticeEnabled();
+    const totalIdleSeconds = config?.inactivityWarningSeconds;
+
+    if (!enabled) {
+      return {
+        enabled: false,
+        config,
+        totalIdleSeconds,
+        elapsedIdleSeconds: undefined,
+        remainingIdleSeconds: undefined,
+        stateLabel: 'disabled',
+      };
+    }
+
+    const elapsedIdleSeconds = Math.max(0, Math.floor((this._now() - sessionState.lastActivity) / 1000));
+    const remainingIdleSeconds = Math.max(0, (totalIdleSeconds ?? 0) - elapsedIdleSeconds);
+
+    return {
+      enabled: true,
+      config,
+      totalIdleSeconds,
+      elapsedIdleSeconds,
+      remainingIdleSeconds,
+      stateLabel: sessionState.isTimedOut
+        ? 'timed out'
+        : sessionState.isWarning
+          ? 'inactivity notice'
+          : sessionState.isIdle
+            ? 'idle'
+            : 'active',
+    };
+  });
+
   constructor() {
+    const nowTimer = setInterval(() => {
+      this._now.set(Date.now());
+    }, 1000);
+
+    this.destroyRef.onDestroy(() => {
+      clearInterval(nowTimer);
+    });
+
     this.setupEffects();
     
     // Trigger initial check for authenticated state
@@ -78,6 +137,8 @@ export class SessionService {
   initializeSession(config: SessionConfig): void {
     console.log('🔧 SessionService: Initializing with config:', config);
 
+    this.stopMonitoring();
+
     // Validate config values
     const idleTime = Math.max(1, config.idleTime || 60); // Minimum 1 second
     const timeout = Math.max(0, config.timeout ?? 30); // 0 means immediate timeout on idle
@@ -88,7 +149,7 @@ export class SessionService {
     // Set idle timeout (when user becomes idle)
     this.idle.setIdle(idleTime);
     
-    // Set timeout (when to show warning)
+    // Set timeout (countdown after the inactivity notice is shown)
     this.idle.setTimeout(timeout);
     
     // Set keepalive ping interval
@@ -111,31 +172,34 @@ export class SessionService {
     this.idle.onIdleStart.subscribe(() => {
       console.log('😴 User is now idle');
 
-      if (this.getTimeout() === 0) {
-        console.log('⏰ Direct timeout configured (0 countdown) - timing out now');
-        this._sessionState.update(state => ({
-          ...state,
-          isIdle: true,
-          isWarning: false,
-          isTimedOut: true,
-          timeUntilTimeout: 0
-        }));
+      this._sessionState.update(state => ({
+        ...state,
+        isIdle: true,
+        isWarning: true,
+        timeUntilTimeout: this.getTimeout(),
+      }));
 
-        this.handleSessionTimeout();
-        return;
+      if (!this._warningDialogShown()) {
+        this.showTimeoutWarning(this.getTimeout());
       }
-
-      this._sessionState.update(state => ({ ...state, isIdle: true }));
     });
 
     // When user becomes active again
     this.idle.onIdleEnd.subscribe(() => {
       console.log('🎯 User is active again');
-      this._sessionState.update(state => ({ 
-        ...state, 
-        isIdle: false, 
+      this.extendSession();
+    });
+
+    // Reset the tracked idle clock on any user interrupt
+    this.idle.onInterrupt.subscribe(() => {
+      console.log('🟢 SessionService: User activity interrupt detected');
+      this._sessionState.update(state => ({
+        ...state,
+        lastActivity: Date.now(),
+        isIdle: false,
         isWarning: false,
-        lastActivity: Date.now() 
+        isTimedOut: false,
+        timeUntilTimeout: 0,
       }));
     });
 
@@ -147,11 +211,6 @@ export class SessionService {
         isWarning: true,
         timeUntilTimeout: countdown 
       }));
-      
-      // Show warning dialog only once
-      if (!this._warningDialogShown()) {
-        this.showTimeoutWarning(countdown);
-      }
     });
 
     // When timeout occurs
@@ -220,6 +279,7 @@ export class SessionService {
       ...state, 
       isIdle: false,
       isWarning: false,
+      isTimedOut: false,
       lastActivity: Date.now(),
       timeUntilTimeout: 0
     }));
@@ -255,8 +315,36 @@ export class SessionService {
       ...state,
       isIdle: false,
       isWarning: false,
-      isTimedOut: false
+      isTimedOut: false,
+      timeUntilTimeout: 0
     }));
+  }
+
+  /**
+   * Enable or disable inactivity notice monitoring.
+   */
+  setInactivityNoticeEnabled(enabled: boolean): void {
+    this._inactivityNoticeInitialized.set(true);
+    this._inactivityNoticeEnabled.set(enabled);
+
+    if (enabled) {
+      const config = this.authService.activityConfig();
+      if (!config || !config.inactivityWarningSeconds || !config.warningCountdownSeconds) {
+        this.authService.enableDefaultActivityConfig();
+      }
+    }
+  }
+
+  /**
+   * Update the editable inactivity notice configuration.
+   */
+  setInactivityNoticeConfig(config: IdelSessionConfigDto): void {
+    this.authService.setActivityConfig(config);
+
+    if (!this._inactivityNoticeInitialized()) {
+      this._inactivityNoticeEnabled.set(config.inactivityWarningSeconds > 0);
+      this._inactivityNoticeInitialized.set(true);
+    }
   }
 
   /**
@@ -300,18 +388,23 @@ export class SessionService {
       const isAuthenticated = this.authService.isAuthenticated();
       const isGuest = this.authService.isGuest();
       const initTrigger = this._initTrigger(); // Read trigger to make effect reactive
+      const inactivityEnabled = this._inactivityNoticeEnabled();
       
-      console.log('🔍 SessionService: Auth state check', { isAuthenticated, initTrigger });
+      console.log('🔍 SessionService: Auth state check', { isAuthenticated, initTrigger, inactivityEnabled });
       
       if (!isAuthenticated) {
         console.log('🚫 SessionService: User is not authenticated. Stopping session monitoring');
         this.stopMonitoring();
+        this._inactivityNoticeEnabled.set(false);
+        this._inactivityNoticeInitialized.set(false);
         return;
       }
 
       if (isGuest) {
         console.log('🚫 SessionService: User is guest. Stopping session monitoring');
         this.stopMonitoring();
+        this._inactivityNoticeEnabled.set(false);
+        this._inactivityNoticeInitialized.set(false);
         return;
       }
 
@@ -320,14 +413,21 @@ export class SessionService {
       if (!config) {
         console.log('⚠️ SessionService: No config available for authenticated user. Stopping session monitoring');
         this.stopMonitoring();
+        this._inactivityNoticeEnabled.set(false);
+        this._inactivityNoticeInitialized.set(false);
         return;
+      }
+
+      if (!this._inactivityNoticeInitialized()) {
+        this._inactivityNoticeEnabled.set((config.inactivityWarningSeconds ?? 0) > 0);
+        this._inactivityNoticeInitialized.set(true);
       }
 
       console.log('✅ SessionService: Initializing session with config');
 
-      // 0 inactivity warning means disabled (infinite / no idle timeout)
-      if (!config.inactivityWarningSeconds) {
-        console.log('⏭️ SessionService: Idle timeout disabled (inactivity warning is 0). Stopping monitoring.');
+      // disabled means we keep the editable config but do not monitor
+      if (!this._inactivityNoticeEnabled() || !config.inactivityWarningSeconds) {
+        console.log('⏭️ SessionService: Idle timeout disabled. Stopping monitoring.');
         this.stopMonitoring();
         return;
       }
@@ -338,6 +438,15 @@ export class SessionService {
         ping: 30, // 30 seconds
         warningTime: 60 // Show warning 60 seconds before timeout
       });
+
+      this._sessionState.update(state => ({
+        ...state,
+        lastActivity: Date.now(),
+        timeUntilTimeout: 0,
+        isIdle: false,
+        isWarning: false,
+        isTimedOut: false,
+      }));
     }, { allowSignalWrites: true });
   }
 
