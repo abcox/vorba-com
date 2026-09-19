@@ -1,6 +1,4 @@
 import { Routes } from "@angular/router";
-import { QuizAdminPageComponent } from "@src/app/component/page/quiz-page/quiz-admin-page/quiz-admin-page.component";
-import { QuizEditPageComponent } from "@src/app/component/page/quiz-page/quiz-admin-page/_component/quiz-edit-page/quiz-edit-page.component";
 import { UserAdminPageComponent } from "./user/user-admin-page.component";
 import { UserEditComponent } from "./user/_component/edit/user-edit.component";
 import { UserCreateComponent } from "./user/_component/create/user-create.component";
@@ -34,17 +32,6 @@ export const adminRoutes: Routes = [
     },
     {
         path: 'quiz',
-        component: QuizAdminPageComponent,
-        title: 'Quiz Admin'
-    },
-    {
-        path: 'quiz/edit/:id',
-        component: QuizEditPageComponent,
-        title: 'Quiz Edit'
-    },
-    {
-        path: 'quiz/new',
-        component: QuizEditPageComponent,
-        title: 'Quiz Create'
+        loadChildren: () => import('@src/module/survey/survey.module').then((m) => m.surveyAdminRoutes)
     }
 ];

@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 import { QuizService, QuizSummaryDto } from '@file-service-api/v1';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
-import { ConfirmDialogService } from '../../../dialog/confirm-dialog/confirm-dialog.service';
+import { ConfirmDialogService } from '@src/app/component/dialog/confirm-dialog/confirm-dialog.service';
 import { NotifyService } from '@src/app/core/notify/notify.service';
 
 @Component({

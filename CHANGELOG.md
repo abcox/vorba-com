@@ -15,9 +15,11 @@ All notable changes to this project will be documented in this file.
 - Payment checkout issue checklist under `src/app/module/payment/ISSUE_CHECKLIST.md` with sequenced backend/frontend work items, dependencies, and acceptance criteria.
 - Admin panel drawer action to copy the active bearer token for local Swagger and API testing.
 - Reliability backlog entries in roadmap for app-wide API health monitoring modal, local API file-watch recycle investigation, and future offline-mode support.
+- New survey feature route module under `src/module/survey`, providing a lazy-loaded boundary for public `/quiz` and admin `/admin/quiz` routes.
 
 ### Changed
 - Refactored payment UI into a reusable payment feature area under `src/app/module/payment`, keeping the hosted payment page as a thin route adapter and adding reusable cart and checkout views.
+- Relocated quiz feature implementation files under `src/module/survey/feature` and routed public/admin quiz flows through the survey module boundary.
 - Updated quiz start-page copy to focus messaging on the MVP-to-sustainable product development transition.
 - Restyled quiz start-page form and typography to align with active theme tokens, with focused dark-contrast adjustments.
 - Refined quiz start-page light-contrast styling to better align heading and form readability with the active theme.

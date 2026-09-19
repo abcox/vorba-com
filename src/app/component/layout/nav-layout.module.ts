@@ -17,7 +17,6 @@ import { GooglePageComponent } from '../page/google-page/google-page.component';
 import { OfferPageComponent } from '../page/offer-page/offer-page.component';
 import { ReleasePageComponent } from '../page/release-page/release-page.component';
 import { FitAssessmentPageComponent } from '../page/fit-assessment-page/fit-assessment-page.component';
-import { quizRoutes } from '../page/quiz-page/quiz.module';
 
 export const DEFAULT_ENTRY = 'home';
 
@@ -43,7 +42,10 @@ export const navRoutes: Routes = [
       { path: 'invoice/list', component: InvoiceListViewComponent },
       { path: 'invoice/:id/detail', component: InvoiceDetailComponent },
       { path: 'google/sandbox', component: GooglePageComponent },
-      { path: 'quiz', children: quizRoutes },
+      {
+        path: 'quiz',
+        loadChildren: () => import('@src/module/survey/survey.module').then((m) => m.surveyRoutes)
+      },
       { path: '', pathMatch: 'full', redirectTo: DEFAULT_ENTRY }
     ]
   }
