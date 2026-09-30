@@ -43,6 +43,10 @@ export interface UserRegistrationResponse {
     /**
      * Registered user information
      */
-    user: UserDto;
+    user: UserDto | null;
+    /**
+     * Whether the email requires authentication instead of registration
+     */
+    requiresAuthentication?: boolean;
 }
 

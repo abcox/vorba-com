@@ -233,10 +233,13 @@ export class AuthService {
   /**
    * Register new user
    */
-  register(request: UserRegistrationRequest): Observable<boolean> {
+  register(request: UserRegistrationRequest): Observable<UserRegistrationResponse> {
     return this.authApiService.authControllerRegister(request).pipe(
       map((response: UserRegistrationResponse) => {
         console.log('authControllerRegister response', response);
+        if (response.requiresAuthentication) {
+          return response;
+        }
         if (!response.success || !response.token || !response.refreshToken || !response.user) {
           throw new Error(response.message || 'Registration failed');
         }
@@ -264,7 +267,7 @@ export class AuthService {
           console.log('⚠️ AuthService: No activity config in register response');
         }
 
-        return true;
+        return response;
       }),
       catchError((error) => {
         console.error('Registration error:', error);
@@ -331,78 +334,29 @@ export class AuthService {
           const currentUser = this._authState().user;
           const isAdminFromToken = tokenRoles.includes('admin');
 
-          if (!currentUser?.email) {
-            this.updateAuthState({
-              ...this._authState(),
-              user: currentUser
-                ? {
-                    ...currentUser,
-                    roles: tokenRoles.length ? tokenRoles : currentUser.roles,
-                    isAdmin: isAdminFromToken,
-                  }
-                : currentUser,
-              token: response.accessToken,
-              refreshToken: response.refreshToken,
-              isAuthenticated: true,
-              isAdmin: isAdminFromToken,
-              tokenExpiry,
-            });
-            this.scheduleProactiveRefresh();
-            return of(true);
+          const refreshedUser = currentUser
+            ? {
+                ...currentUser,
+                roles: tokenRoles.length ? tokenRoles : currentUser.roles,
+                isAdmin: isAdminFromToken,
+              }
+            : currentUser;
+
+          if (refreshedUser) {
+            this.storeUser(refreshedUser);
           }
 
-          return this.userService.userControllerGetUserByEmail(currentUser.email).pipe(
-            map((userResponse) => {
-              const refreshedUser = userResponse.success && userResponse.data
-                ? {
-                    ...userResponse.data,
-                    roles: tokenRoles.length
-                      ? tokenRoles
-                      : userResponse.data.roles,
-                    isAdmin: isAdminFromToken,
-                  }
-                : currentUser;
-
-              if (refreshedUser) {
-                this.storeUser(refreshedUser);
-              }
-
-              this.updateAuthState({
-                ...this._authState(),
-                user: refreshedUser,
-                token: response.accessToken,
-                refreshToken: response.refreshToken,
-                isAuthenticated: true,
-                isAdmin: isAdminFromToken,
-                tokenExpiry,
-              });
-              this.scheduleProactiveRefresh();
-
-              return true;
-            }),
-            catchError((userError) => {
-              console.error('AuthService: Failed to re-sync user after refresh:', userError);
-
-              this.updateAuthState({
-                ...this._authState(),
-                user: currentUser
-                  ? {
-                      ...currentUser,
-                      roles: tokenRoles.length ? tokenRoles : currentUser.roles,
-                      isAdmin: isAdminFromToken,
-                    }
-                  : currentUser,
-                token: response.accessToken,
-                refreshToken: response.refreshToken,
-                isAuthenticated: true,
-                isAdmin: isAdminFromToken,
-                tokenExpiry,
-              });
-              this.scheduleProactiveRefresh();
-
-              return of(true);
-            })
-          );
+          this.updateAuthState({
+            ...this._authState(),
+            user: refreshedUser,
+            token: response.accessToken,
+            refreshToken: response.refreshToken,
+            isAuthenticated: true,
+            isAdmin: isAdminFromToken,
+            tokenExpiry,
+          });
+          this.scheduleProactiveRefresh();
+          return of(true);
         }
 
         return of(false);

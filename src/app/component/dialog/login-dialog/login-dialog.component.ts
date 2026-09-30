@@ -18,6 +18,7 @@ export interface LoginDialogData {
   returnUrl?: string;
   message?: string;
   requireAdmin?: boolean;
+  email?: string;
 }
 
 export interface LoginDialogResult {
@@ -75,7 +76,7 @@ export class LoginDialogComponent implements OnInit, AfterViewInit {
 
   private initForm(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [this.data.email || '', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       rememberMe: [false]
     });

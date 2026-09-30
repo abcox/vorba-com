@@ -374,3 +374,23 @@ app-quiz-start-page .quiz-form mat-checkbox.mat-mdc-checkbox .mat-internal-form-
 app-quiz-start-page .quiz-form mat-checkbox.mat-mdc-checkbox .mdc-form-field {
     color: var(--quiz-start-form-text-color) !important;
 }
+
+.returning-user-action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.25rem;
+    margin-top: -0.75rem;
+    color: var(--quiz-start-form-muted-color);
+    font-size: 0.9rem;
+
+    button {
+        min-height: 2rem;
+        height: auto;
+        margin-top: 0;
+        padding: 0 0.5rem;
+        color: var(--accent-color, var(--app-accent));
+        font-size: 0.9rem;
+        letter-spacing: normal;
+    }
+}

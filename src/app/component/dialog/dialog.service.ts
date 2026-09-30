@@ -45,10 +45,11 @@ export class DialogService {
   /**
    * Open login dialog for general authentication
    */
-  openGeneralLoginDialog(returnUrl?: string, message?: string): Observable<LoginDialogResult> {
+  openGeneralLoginDialog(returnUrl?: string, message?: string, email?: string): Observable<LoginDialogResult> {
     return this.openLoginDialog({
       returnUrl,
-      message: message || 'Please sign in to continue.'
+      message: message || 'Please sign in to continue.',
+      email
     });
   }
 

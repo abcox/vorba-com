@@ -8,12 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { AuthService } from '@src/app/core/auth/auth.service';
-import { environment } from '@src/environments/environment';
+import { DialogService } from '@src/app/component/dialog/dialog.service';
 import { UserRegistrationRequest } from '@file-service-api/v1';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { throwError } from 'rxjs';
 import { NotifyService } from '@src/app/core/notify/notify.service';
 
 @Component({
@@ -36,6 +36,7 @@ import { NotifyService } from '@src/app/core/notify/notify.service';
 })
 export class QuizStartPageComponent {
   private authService = inject(AuthService);
+  private dialogService = inject(DialogService);
   private notifyService = inject(NotifyService);
   quizForm: FormGroup;
   loading = signal(false);
@@ -76,20 +77,31 @@ export class QuizStartPageComponent {
         catchError((error) => {
           console.error('register error', error);
           this.notifyService.error('Failed to register. Please try again.');
-          return of(false);
+          return throwError(() => error);
         })
-      ).subscribe((success) => {
-        console.log('register success', success);
-        if (success) {
-          // TODO: fix this by making "Quiz 1" in local cosmos db (emulator)
-          if (environment.production) {
-            this.router.navigate(['/quiz', '1'], { queryParams: { title: 'Quiz 1' } });
-          } else {
-            this.router.navigate(['/quiz', '2'], { queryParams: { title: 'Quiz 2' } });
-          }
+      ).subscribe((response) => {
+        console.log('register response', response);
+        if (response.requiresAuthentication) {
+          this.openSignIn();
+          return;
+        }
+        if (response.success) {
+          // TODO: we need a way to dynamically determine the next quiz ID based on the user's progress, or
+          // some GUID that we can specify whereby a user is clicking on a link and going to the url with a parameter having this ID ?
+          this.router.navigate(['/quiz', '1'], { queryParams: { title: 'Quiz 1' } });
         }
         this.loading.set(false);
       });
     }
+  }
+
+  openSignIn(): void {
+    const email = this.quizForm.get('email')?.value?.trim();
+
+    this.dialogService.openGeneralLoginDialog(
+      '/quiz/start',
+      'Sign in to continue with your survey.',
+      email
+    ).subscribe();
   }
 }

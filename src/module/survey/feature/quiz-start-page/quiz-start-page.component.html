@@ -42,6 +42,13 @@
                     </mat-error>
                 </mat-form-field>
 
+                <div class="returning-user-action">
+                    <span>Already started a survey?</span>
+                    <button mat-button type="button" (click)="openSignIn()">
+                        Sign in
+                    </button>
+                </div>
+
                 <mat-checkbox formControlName="subscribeNewsletter" class="w-full">
                     Subscribe to our newsletter for updates and insights
                 </mat-checkbox>
