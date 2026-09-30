@@ -1,7 +1,9 @@
 <div class="confirm-dialog-container">
   <div class="dialog-header">
     <div class="header-content">
-      <mat-icon class="dialog-icon" [class]="confirmColor">{{ icon }}</mat-icon>
+      <span class="dialog-icon" [ngClass]="confirmColor">
+        <mat-icon>{{ icon }}</mat-icon>
+      </span>
       <h2 class="dialog-title">{{ title }}</h2>
     </div>
     <button mat-icon-button class="close-button" (click)="onClose()" matTooltip="Close">

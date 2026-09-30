@@ -24,11 +24,16 @@
   }
 
   .dialog-icon {
-    font-size: 28px;
-    width: 28px;
-    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 44px;
+    font-size: 24px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    padding: 8px;
+    padding: 0;
+    line-height: 1;
     background-color: var(--sys-primary-container);
     color: var(--sys-on-primary-container);
 
@@ -123,10 +128,10 @@
     }
 
     .dialog-icon {
-      font-size: 24px;
-      width: 24px;
-      height: 24px;
-      padding: 6px;
+      flex-basis: 40px;
+      font-size: 22px;
+      width: 40px;
+      height: 40px;
     }
   }
 
