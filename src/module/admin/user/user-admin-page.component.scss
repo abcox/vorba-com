@@ -190,13 +190,8 @@
     display: flex;
     gap: 8px;
 
-    a {
-      color: var(--app-accent);
-      text-decoration: underline;
-
-      &:hover {
-        opacity: 0.6;
-      }
+    .delete-action {
+      color: var(--app-warn, #f44336);
     }
   }
 //#endregion User management specific styles

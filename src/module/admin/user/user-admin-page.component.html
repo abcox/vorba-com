@@ -17,7 +17,7 @@
     <!-- User Management Section -->
     <mat-card class="management-card">
       <mat-card-header>
-        <mat-card-title>User Management</mat-card-title>
+        <mat-card-title>User management</mat-card-title>
         <mat-card-subtitle>Manage user accounts and permissions</mat-card-subtitle>
       </mat-card-header>      
       <mat-card-content>
@@ -37,7 +37,7 @@
 
             <!-- Name Column -->
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Full Name</th>
+              <th mat-header-cell *matHeaderCellDef>Full name</th>
               <td mat-cell *matCellDef="let user">{{ user.name || 'N/A' }}</td>
             </ng-container>
 
@@ -75,7 +75,7 @@
 
             <!-- Last Login Column -->
             <ng-container matColumnDef="lastLoginAt">
-              <th mat-header-cell *matHeaderCellDef>Last Login</th>
+              <th mat-header-cell *matHeaderCellDef>Last login</th>
               <td mat-cell *matCellDef="let user">{{ user.lastLoginAt ? (user.lastLoginAt | date:'short') : 'Never' }}</td>
             </ng-container>
 
@@ -84,12 +84,19 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let user">
                 <div class="action-buttons">
-                  <a [routerLink]="['/admin/user/edit', user.id]">
+                  <button
+                    mat-button
+                    type="button"
+                    [routerLink]="['/admin/user/edit', user.id]">
                     Edit
-                  </a>
-                  <a (click)="deleteUser(user.id)">
+                  </button>
+                  <button
+                    mat-button
+                    type="button"
+                    class="delete-action"
+                    (click)="deleteUser(user.id)">
                     Delete
-                  </a>
+                  </button>
                 </div>
               </td>
             </ng-container>
