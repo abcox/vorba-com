@@ -1,0 +1,123 @@
+<main class="human-needs-page">
+  <ng-container *ngIf="!showResults(); else resultsView">
+    <section class="assessment" aria-labelledby="assessment-title">
+      <header class="assessment-header">
+        <p class="assessment-kicker">HUMAN NEEDS ASSESSMENT</p>
+        <h1 id="assessment-title">6 Human Needs</h1>
+        <div class="progress-meta">
+          <span>
+            {{ previewIndex() !== null ? 'Go to question' : 'Question' }} {{ (previewIndex() ?? currentIndex()) + 1 }} of {{ questions.length }}
+            @if (previewIndex() !== null) {
+              &mdash; {{ questions[previewIndex()!].prompt }}
+            }
+          </span>
+          <span>{{ progressPercent() | number: '1.0-0' }}%</span>
+        </div>
+        <div class="question-scrubber">
+          <div
+            class="progress-track"
+            role="progressbar"
+            aria-label="Assessment completion"
+            [attr.aria-valuenow]="answeredCount()"
+            [attr.aria-valuemin]="0"
+            [attr.aria-valuemax]="questions.length">
+            <span class="progress-fill" [style.width.%]="progressPercent()"></span>
+          </div>
+          <input
+            class="question-range"
+            type="range"
+            min="1"
+            step="1"
+            [max]="lastReachableIndex() + 1"
+            [value]="(previewIndex() ?? currentIndex()) + 1"
+            [disabled]="lastReachableIndex() === 0"
+            [style.width]="'calc(24px + (100% - 24px) * ' + scrubberPercent() / 100 + ')'"
+            aria-label="Review question"
+            [attr.aria-valuetext]="'Question ' + ((previewIndex() ?? currentIndex()) + 1) + ' of ' + questions.length"
+            (input)="previewQuestion($event)"
+            (change)="reviewQuestion($event)">
+        </div>
+      </header>
+
+      <section class="question-panel" aria-live="polite">
+        <p class="question-index">QUESTION {{ currentQuestion().id }}</p>
+        <h2 #questionHeading tabindex="-1">{{ currentQuestion().prompt }}</h2>
+        <fieldset class="answer-options">
+          <legend class="visually-hidden">Your response</legend>
+          <label
+            *ngFor="let option of answerOptions"
+            class="answer-option"
+            [class.selected]="currentAnswer() === option.id">
+            <input
+              type="radio"
+              [name]="'human-needs-' + currentQuestion().id"
+              [value]="option.id"
+              [checked]="currentAnswer() === option.id"
+              (change)="selectAnswer(option.id)">
+            <span class="answer-label">{{ option.label }}</span>
+            <span class="answer-check" [class.visible]="currentAnswer() === option.id" aria-hidden="true">
+              <mat-icon>check</mat-icon>
+            </span>
+          </label>
+        </fieldset>
+      </section>
+
+      <nav class="question-navigation" aria-label="Question navigation">
+        <button
+          type="button"
+          class="nav-button previous-button"
+          [disabled]="currentIndex() === 0"
+          (click)="previousQuestion()">
+          Back
+        </button>
+        <span class="navigation-count">{{ currentIndex() + 1 }} / {{ questions.length }}</span>
+        <button
+          type="button"
+          class="nav-button next-button"
+          [disabled]="!currentAnswer()"
+          (click)="nextQuestionOrShowResults()">
+          {{ currentIndex() === questions.length - 1 ? 'View results' : 'Next' }}
+        </button>
+      </nav>
+    </section>
+  </ng-container>
+
+  <ng-template #resultsView>
+    <section class="results" aria-labelledby="results-title" aria-live="polite">
+      <header class="results-header">
+        <p class="assessment-kicker">HUMAN NEEDS</p>
+        <h1 id="results-title">Your results</h1>
+        <p class="overall-score">
+          <strong>{{ scores().total }} <span>/ {{ scores().maxTotal }}</span></strong>
+          <span>{{ totalPercent() | number: '1.0-0' }}% overall</span>
+        </p>
+      </header>
+
+      <ol class="vector-results">
+        <li *ngFor="let result of rankedResults()" class="vector-result">
+          <div class="vector-result-meta">
+            <h2>{{ result.vector.label }}</h2>
+            <span>{{ result.score }} / {{ result.maxScore }} · {{ result.percentage | number: '1.0-0' }}%</span>
+          </div>
+          <div class="score-track" [attr.aria-label]="result.vector.label + ' score'">
+            <span class="score-fill" [style.width.%]="result.percentage"></span>
+          </div>
+        </li>
+      </ol>
+
+      <div class="results-actions">
+        <button type="button" class="nav-button restart-button" (click)="startOver()">
+          Start over
+        </button>
+        <button
+          type="button"
+          class="nav-button export-button"
+          (click)="downloadResults()"
+          aria-label="Export results as JSON">
+          <mat-icon aria-hidden="true">download</mat-icon>
+          <span>Export results (JSON)</span>
+        </button>
+      </div>
+    </section>
+  </ng-template>
+</main>

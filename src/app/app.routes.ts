@@ -54,6 +54,11 @@ export const routes: Routes = [
         canActivate: [authGuard({ redirectTo: '/' })]
     },
     {
+        path: 'human-needs',
+        loadChildren: () => import('@src/feature/marketing/funnel/quiz/human-needs/human-needs.routes')
+            .then((module) => module.humanNeedsRoutes)
+    },
+    {
         path: '**',
         redirectTo: DEFAULT_ENTRY,
         pathMatch: 'full'
