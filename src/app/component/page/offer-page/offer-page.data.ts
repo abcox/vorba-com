@@ -68,7 +68,7 @@ export const OFFER_PAGE_CONTENT: OfferPageContent = {
         'Handoff and process improvement recommendations',
         'Prioritized implementation roadmap'
       ],
-      rate: '$22,000 - $48,000 flat fee',
+      rate: 'Call for pricing', // '$22,000 - $48,000 flat fee',
       typicalFit: [
         'Teams under growth pressure with recurring operational friction',
         'Organizations with cross-functional misalignment and unclear ownership'
