@@ -52,7 +52,7 @@ export const OFFER_PAGE_CONTENT: OfferPageContent = {
         'Priority opportunities list',
         'Recommended 30-day plan'
       ],
-      rate: '$8,500 - $15,000 flat fee',
+      rate: 'Call for pricing', // '$8,500 - $15,000 flat fee',
       typicalFit: [
         'Teams needing fast clarity before a larger systems engagement',
         'Leaders who need a practical execution plan, not a long strategy cycle'
@@ -83,7 +83,7 @@ export const OFFER_PAGE_CONTENT: OfferPageContent = {
         'Issue triage and prioritization',
         'Ongoing operating-system refinements'
       ],
-      rate: '$6,500 - $18,000 per month',
+      rate: 'Call for pricing', // '$6,500 - $18,000 per month',
       minimumTerm: 'Suggested minimum term: 3 months',
       typicalFit: [
         'Teams that need recurring guidance as execution evolves',
@@ -95,17 +95,17 @@ export const OFFER_PAGE_CONTENT: OfferPageContent = {
     {
       name: 'Workshop Facilitation',
       description: 'Leadership or cross-functional alignment workshops.',
-      rate: '$2,000 - $5,000 per workshop'
+      rate: 'Call for pricing', // '$2,000 - $5,000 per workshop'
     },
     {
       name: 'Process Mapping Deep Dive',
       description: 'Detailed mapping of selected workflow and handoff areas.',
-      rate: '$3,500 - $9,000 per module'
+      rate: 'Call for pricing', // '$3,500 - $9,000 per module'
     },
     {
       name: 'KPI and Operating Cadence Design',
       description: 'KPI framework and review cadence setup.',
-      rate: '$4,000 - $12,000 one-time'
+      rate: 'Call for pricing', // '$4,000 - $12,000 one-time'
     }
   ],
   discounts: [
